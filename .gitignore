@@ -1,0 +1,54 @@
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# =============== #
+# Project Folders #
+# =============== #
+audio/*
+css/*
+effects/*
+fonts/*
+icon/*
+img/*
+!img/AABS/*
+!img/charactersAA/*
+movies/*
+save/*
+RAW/*
+js/libs/*
+
+# =============== #
+# Plugins Files #
+# =============== #
+
+js/rmmz_core.js
+js/rmmz_managers.js
+js/rmmz_objects.js
+js/rmmz_scenes.js
+js/rmmz_sprites.js
+js/rmmz_windows.js
+js/plugins/Alpha_ABSZ_Libs/_CFCompiled
+js/plugins/debug.log
+
+
+# =============== #
+# Project Files   #
+# =============== #
+
+package.json
+Game.rmmzproject
+index.html
+webProject.bat
+package.json
+*.lnk
+*.rar

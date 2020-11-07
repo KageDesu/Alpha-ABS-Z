@@ -1,0 +1,45 @@
+ [PLUGIN_COMMANDS:MV:LITE]
+ * Plugin Commands: (MV ONLY!)
+ *      OpenMapInventory - open map inventory
+ *      MapUserChest - open map player storage chest
+ *      VisualChest NAME - open visual chest, where NAME - chest name
+ *          * VisualChest SomeChest * (for example)
+ *      VisualChestStored NAME - open visual chest and keep items
+ *      VisaulChestStored NAME TYPE - open visual chest that can keep only specific items types
+ *          * VisaulChestStored Ammunition Ammo|Grenade * (for example)
+ *          * You can use multiple types, separating them by | (no spaces)
+ *          * Use Note <aItemType:TYPE> to set TYPE for Item
+[/]
+
+ [PLUGIN_COMMANDS:MZ:PRO]
+ * Plugin Commands: (MV ONLY!)
+ *      OpenMapInventory - open map inventory
+ *      MapUserChest - open map player storage chest
+ *      VisualChest NAME - open visual chest, where NAME - chest name
+ *          * VisualChest SomeChest * (for example)
+ *      VisualChestStored NAME - open visual chest and keep items
+ *      VisaulChestStored NAME TYPE - open visual chest that can keep only specific items types
+ *          * VisaulChestStored Ammunition Ammo|Grenade * (for example)
+ *          * You can use multiple types, separating them by | (no spaces)
+ *          * Use Note <aItemType:TYPE> to set TYPE for Item
+[/]
+
+ [PLUGIN_COMMANDS:MZ:ALL]
+ * Plugin Commands: (MV ONLY!)
+ *      OpenMapInventory - open map inventory
+ *      MapUserChest - open map player storage chest
+ *      VisualChest NAME - open visual chest, where NAME - chest name
+ *          * VisualChest SomeChest * (for example)
+ *      VisualChestStored NAME - open visual chest and keep items
+ *      VisaulChestStored NAME TYPE - open visual chest that can keep only specific items types
+ *          * VisaulChestStored Ammunition Ammo|Grenade * (for example)
+ *          * You can use multiple types, separating them by | (no spaces)
+ *          * Use Note <aItemType:TYPE> to set TYPE for Item
+[/]
+
+
+Галочка - Lite или Pro, MZ или MV
+
+CMD:RPG:VER
+
+%PLUGIN_COMMANDS%

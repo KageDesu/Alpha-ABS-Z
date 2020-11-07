@@ -1,0 +1,21 @@
+@param Test
+
+@param HPGauge:struct
+@type struct<LActorGauge>
+@default
+@desc
+
+
+@param xAnimations:structA
+@text Animations
+@type struct<LAnimaX>[]
+@default
+@desc TODO:
+
+@param fonts:strA
+@text Fonts
+@type text[]
+@default ["AABS_0","AABS_1"]
+@desc TODO:
+
+
