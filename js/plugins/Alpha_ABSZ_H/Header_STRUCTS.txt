@@ -246,7 +246,7 @@
  * @text X
  * @type text
  * @default 0
- * @desc Number or script (example: Graphis.width / 2)
+ * @desc Number or script (example: Graphics.width / 2)
  *
  * @param y:e
  * @text Y

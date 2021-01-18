@@ -37,8 +37,15 @@ class AAEntity
     # * HELPERS
     # -----------------------------------------------------------------------
     isMyEnemy: (aaEntity) ->
-        return aaEntity.teamId() != @teamId() if aaEntity?
+        return false unless aaEntity?
+        return false unless aaEntity.isActive()
+        return aaEntity.teamId() != @teamId()
         return false
+
+    # * Эти поля используются для опеределения типа дочернего класса
+    isPlayer: -> false
+    isAlly: -> false
+    isEnemy: -> false
 
     # * TARGET
     # -----------------------------------------------------------------------

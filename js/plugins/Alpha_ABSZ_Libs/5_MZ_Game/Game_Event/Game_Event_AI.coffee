@@ -7,19 +7,6 @@ do ->
     #@[DEFINES]
     _ = Game_Event::
 
-    #@[ALIAS]
-    ALIAS__update = _.update
-    _.update = ->
-        ALIAS__update.call(@)
-        @_updateAnimX() if @isAnimX()
-
-    # * Система анимации XAnima
-    # -----------------------------------------------------------------------
-    do ->
-        
-        return
-    # -----------------------------------------------------------------------
-    
 
     return
 # ■ END Game_Event.coffee

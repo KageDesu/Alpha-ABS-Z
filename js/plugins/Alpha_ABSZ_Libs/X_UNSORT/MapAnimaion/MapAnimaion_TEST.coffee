@@ -37,7 +37,13 @@ do ->
             @_linkSprite.bitmap = new Bitmap(20, 20)
             #@_linkSprite.bitmap.fillAll()
             @addChild @_linkSprite
-            @_linkSprite.move 100, 100
+            #@_linkSprite.move 100, 100
+            @_linkSprite.x = $gamePlayer.screenX()
+            @_linkSprite.y = $gamePlayer.screenY()
+        else
+            @_linkSprite.x = $gamePlayer.screenX()
+            @_linkSprite.y = $gamePlayer.screenY()
+
         sprite = new Sprite_AnimationLoop()
         sprite.targetObjects = []
         animation = $dataAnimations[130]
@@ -62,9 +68,10 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
-        @_linkSprite?.move TouchInput
-        if $gameTemp._proj?
-            $gameTemp._proj.apply(@_linkSprite)
+        #@_linkSprite?.move TouchInput
+        @_linkSprite?.y += 4
+        #if $gameTemp._proj?
+        #    $gameTemp._proj.apply(@_linkSprite)
             #@__looped.setRotation(0, 0, $gameTemp._proj.getCurrentRotation())
 
     #TODO: animationShouldMirror - надо определять кто где находится?? - но это не для карты

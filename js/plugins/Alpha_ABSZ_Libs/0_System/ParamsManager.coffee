@@ -19,7 +19,8 @@ do ->
         uiData: (tag) ->
             switch tag
                 when "hpGauge"
-                    null # * В классе Sprite_ActorStateGauge прописаны настройки HP как стандартные
+                    # * В классе Sprite_ActorStateGauge прописаны настройки HP как стандартные
+                    AA.Sprite_ActorStateGauge::defaultParams()
                 when "mpGauge"
                     {
                         visible: true,
@@ -67,6 +68,87 @@ do ->
                         gauge: {
                             visible: true
                             fill: "Player_TPGauge",
+                            foreground: ""
+                            mask: ""
+                            backColor: "#000000".toCss()
+                            backOpacity: 160
+                            vertical: false
+                        }
+                    }
+                when "miniHpGauge1"
+                    {
+                        visible: true,
+                        position: { x: 0, y: 0 },
+                        label: null,
+                        labelMargins: { x: 0, y: 0 },
+                        isCanBeEdited: false,
+                        isHideWithMessage: false,
+                        text: {
+                            visible: false
+                            size: { w: 100, h: 20 }
+                            alignment: "left"
+                            font: { face: "AABS_0", size: 13, italic: false }
+                            margins: { x: 10, y: 0 }
+                            outline: { color: null, width: 2 }
+                            textColor: "#edead8".toCss()
+                        }
+                        gauge: {
+                            visible: true
+                            fill: "Event_HPGauge",
+                            foreground: ""
+                            mask: ""
+                            backColor: "#000000".toCss()
+                            backOpacity: 160
+                            vertical: false
+                        }
+                    }
+                when "miniHpGauge2"
+                    {
+                        visible: true,
+                        position: { x: 0, y: 0 },
+                        label: null,
+                        labelMargins: { x: 0, y: 0 },
+                        isCanBeEdited: false,
+                        isHideWithMessage: false,
+                        text: {
+                            visible: false
+                            size: { w: 100, h: 20 }
+                            alignment: "left"
+                            font: { face: "AABS_0", size: 13, italic: false }
+                            margins: { x: 10, y: 0 }
+                            outline: { color: null, width: 2 }
+                            textColor: "#edead8".toCss()
+                        }
+                        gauge: {
+                            visible: true
+                            fill: "Event_HPGauge2",
+                            foreground: ""
+                            mask: ""
+                            backColor: "#000000".toCss()
+                            backOpacity: 160
+                            vertical: false
+                        }
+                    }
+                when "miniHpGauge3"
+                    {
+                        visible: true,
+                        position: { x: 0, y: 0 },
+                        label: "Event_HPGauge3_Label",
+                        labelMargins: { x: -20, y: 0 },
+                        isCanBeEdited: false,
+                        isHideWithMessage: false,
+                        text: {
+                            visible: false
+                            size: { w: 100, h: 20 }
+                            alignment: "left"
+                            font: { face: "AABS_0", size: 13, italic: false }
+                            margins: { x: 10, y: 0 }
+                            outline: { color: null, width: 2 }
+                            textColor: "#edead8".toCss()
+                        }
+                        gauge: {
+                            visible: true
+                            fill: "Event_HPGauge3",
                             foreground: ""
                             mask: ""
                             backColor: "#000000".toCss()

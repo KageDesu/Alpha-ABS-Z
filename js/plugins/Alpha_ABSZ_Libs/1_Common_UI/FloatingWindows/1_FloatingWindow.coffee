@@ -2,6 +2,8 @@
 
 do ->
 
+#TODO: Может написать автофон как в стандартных окнах? Чтобы по пикселям растягивал гаринцы
+
     class FloatingWindow extends KDCore.Sprite
         constructor: (@mainParent, @backgroundImage, @headerImage) ->
             super()
@@ -112,6 +114,7 @@ do ->
             @_dragging = true
             return
 
+        #TODO из пойнт
         _.getDeltaXY = ->
             dx = TouchInput.x - @x
             dy = TouchInput.y - @y
@@ -134,6 +137,7 @@ do ->
             return false unless @_headerSpr?
             return @_headerSpr.isContainsPoint(TouchInput)
 
+        #TODO: из Utils
         _._isNewMousePositionOnScreen = ->
             { x, y } = TouchInput
             maxW = Graphics.width

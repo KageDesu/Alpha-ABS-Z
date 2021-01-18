@@ -35,6 +35,23 @@ do ->
         ALIAS__stop.call(@)
         @_aaUI?.terminate()
         return
+
+    #@[ALIAS]
+    ALIAS__update = _.update
+    _.update = ->
+        ALIAS__update.call(@)
+        #@aaUpdateMapScroolByMouse()
+
+    #@[ALIAS]
+    ALIAS__onMapTouch = _.onMapTouch
+    # * Сохранение алиаса, чтобы использовать в другом файле
+    _.ALIAS__onMapTouch = ALIAS__onMapTouch
+    _.onMapTouch = ->
+        return if AA.UI.IsUITouched()
+        if AA.isABS()
+            @onMapTouchAA()
+        else
+            ALIAS__onMapTouch.call(@)
     
     return
 # ■ END Scene_Map.coffee

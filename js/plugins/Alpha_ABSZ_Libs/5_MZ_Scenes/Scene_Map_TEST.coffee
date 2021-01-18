@@ -140,8 +140,8 @@ do ->
         if @proj?
             @proj.apply(@_projectile)
             @proj.setEndPoint(TouchInput.toPoint().convertToMap())
-            #if @proj.isDisposed()
-            #    @proj.dispose()
+            if @proj.isDisposed()
+                @proj.dispose()
 
     #@[ALIAS]
     ALIAS__stop = _.stop
@@ -153,10 +153,15 @@ do ->
 
 
         popUpItem = new AA.Sprite_PopTreasureItem()
-        item = $dataWeapons.sample()
+        data = [$dataWeapons, $dataArmors, $dataItems]
+        item = data.sample().sample()
+        while !item? || !String.any(item.name) || item.iconIndex <= 0
+            item = data.sample().sample()
         popUpItem.setItem item, KDCore.SDK.rand(1, 6)
 
-        char = $gamePlayer.AASprite()
+        char = SceneManager._scene._spriteset.findTargetSprite($gameMap.event(12))
+        #char = $gamePlayer.AASprite()
+
         # * Если нету, создаём
         unless char.aaTreasurePopEngine?
             char.aaTreasurePopEngine = new AA.PopTreasureController(char, null)
@@ -175,6 +180,7 @@ do ->
 
 window.StartProjectile = (x, y) ->
     p = $gamePlayer
+    #debugger
     p2 = TouchInput.toPoint().convertToMap()
     SceneManager._scene._startProjectile(p.x, p.y, p2.x, p2.y)
 
@@ -183,3 +189,8 @@ window.testPopUp = ->
     #SceneManager._scene._testPopUp()
     #SceneManager._scene._testPopUp()
     #SceneManager._scene._testPopUp()
+
+window.testPopUp2 = ->
+    SceneManager._scene._testPopUp()
+    SceneManager._scene._testPopUp()
+    SceneManager._scene._testPopUp()

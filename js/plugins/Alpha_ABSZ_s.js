@@ -14,6 +14,8 @@ AA.warning = function(e, msg) {
     KDCore.warning(e, msg);
 };
 
+AA.w = (e, mgs) => AA.warning(e, mgs);
+
 AA.link = function (library) {
     this[library.name] = library;
 };

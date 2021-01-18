@@ -7,12 +7,12 @@
 // * LIBRARY WITH MZ AND MZ SUPPORT
 //! {OUTER FILE}
 
-//?rev 28.10.20
+//?rev 24.12.20
 var KDCore;
 
 KDCore = KDCore || {};
 
-KDCore.Version = '2.3.5';
+KDCore.Version = '2.4.4';
 
 KDCore.LIBS = KDCore.LIBS || {};
 
@@ -182,6 +182,9 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
       sh = bitmap.height;
     }
     this.blt(bitmap, 0, 0, bitmap.width, bitmap.height, x, y, sw, sh);
+  };
+  Bitmap.prototype.drawInMe = function(bitmap) {
+    return Bitmap.prototype.drawOnMe(bitmap, 0, 0, this.width, this.height);
   };
   Bitmap.prototype.drawTextFull = function(text, position = 'center') {
     return this.drawText(text, 0, 0, this.width, this.height, position);
@@ -912,6 +915,7 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
             break;
           case "bool":
           case "b":
+          case "e":
             return eval(item);
           case "struct":
           case "s":
@@ -970,6 +974,10 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
         return "[" + this._x + " ; " + this._y + "]";
       }
 
+      isSame(anotherPoint) {
+        return this.x === anotherPoint.x && this.y === anotherPoint.y;
+      }
+
       convertToCanvas() {
         return new Point(Graphics.pageToCanvasX(this._x), Graphics.pageToCanvasY(this._y));
       }
@@ -1013,6 +1021,13 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
 
       simple() {
         return new PIXI.Point(this.x, this.y);
+      }
+
+      delta(point) {
+        var dx, dy;
+        dx = point.x - this._x;
+        dy = point.y - this._y;
+        return new KDCore.Point(dx, dy);
       }
 
       static _getEmpty() {
@@ -1162,6 +1177,17 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
     _.jsonPos = function(jsonPosition) {
       return _.convertPositionPointFromJSON(jsonPosition);
     };
+    _.jsonPosXY = function(jsonPosition) {
+      var e, x, y;
+      try {
+        ({x, y} = jsonPosition);
+        return new KDCore.Point(eval(x), eval(y));
+      } catch (error1) {
+        e = error1;
+        console.warn('Utils.jsonPosXY', e);
+        return KDCore.Point.Empty;
+      }
+    };
     _.getVar = function(id) {
       return $gameVariables.value(id);
     };
@@ -1227,6 +1253,27 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
         console.warn(e);
         return seconds;
       }
+    };
+    _.isPointInScreen = function(point, margin = 10) {
+      var maxH, maxW, screenMargin, x, y;
+      ({x, y} = point);
+      maxW = Graphics.width;
+      maxH = Graphics.height;
+      // * Граница от краёв экрана
+      screenMargin = margin;
+      if (x < screenMargin) {
+        return false;
+      }
+      if (y < screenMargin) {
+        return false;
+      }
+      if (x > (maxW - screenMargin)) {
+        return false;
+      }
+      if (y > (maxH - screenMargin)) {
+        return false;
+      }
+      return true;
     };
     // * Ассинхронная загрузка изображения, возвращает bitmap, когда загружен
     // * Пример использования loadImageAsync(a, b).then(метод)
@@ -2067,7 +2114,11 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
     }
 
     isActive() {
-      return this.visible === true;
+      if (this.parent != null) {
+        return this.parent.visible === true && this.visible === true;
+      } else {
+        return this.visible === true;
+      }
     }
 
     isDisabled() {
@@ -2100,6 +2151,18 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
       return !this.isDisabled();
     }
 
+    refreshState(isEnable = true) {
+      if (isEnable === true) {
+        if (this.isDisabled()) {
+          this.enable();
+        }
+      } else {
+        if (this.isEnabled()) {
+          this.disable();
+        }
+      }
+    }
+
     disable() {
       this._disabled = true;
       return this._setImageState(2);
@@ -2127,7 +2190,7 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
     // ■ ButtonM Implementation
     //╒═════════════════════════════════════════════════════════════════════════╛
     //---------------------------------------------------------------------------
-    var _, alias_SM_isAnyButtonPressed;
+    var _, alias_SM_isAnyButtonPressed, alias_SM_onMapLoaded;
     //@[DEFINES]
     _ = KDCore.ButtonM.prototype;
     _._loadBitmaps = function(filename, isFull = false, sourceFolder = null) {
@@ -2212,7 +2275,9 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
       if (this._isTriggered === true) {
         if (TouchInput.isReleased()) {
           this._isTriggered = false;
-          this.click();
+          if (this.isMouseIn()) {
+            this.click();
+          }
         }
       }
     };
@@ -2232,6 +2297,7 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
       }
     };
     // * Теперь при нажатии на любую кнопку, игрок не будет ходить по карте
+
     //@[ALIAS]
     alias_SM_isAnyButtonPressed = Scene_Map.prototype.isAnyButtonPressed;
     Scene_Map.prototype.isAnyButtonPressed = function() {
@@ -2241,10 +2307,38 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
         return alias_SM_isAnyButtonPressed.call(this);
       }
     };
+    //@[ALIAS]
+    alias_SM_onMapLoaded = Scene_Map.prototype.onMapLoaded;
+    Scene_Map.prototype.onMapLoaded = function() {
+      $gameTemp.kdButtonUnderMouse = null;
+      return alias_SM_onMapLoaded.call(this);
+    };
   })();
   // ■ END ButtonM Implementation
   //---------------------------------------------------------------------------
 
+    // * Button Mini User - класс с определением файла каждого состояния отдельно
+  // * Принимает теже аргументы, только заместо имени файла, три изображения (имени)
+  // ? states = { main, hover, disabled }
+  KDCore.ButtonMU = class ButtonMU extends KDCore.ButtonM {
+    constructor() {
+      super(...arguments);
+    }
+
+    //$[OVER]
+    _loadBitmaps(states, isFull = true, sourceFolder = null) {
+      var getterFunc;
+      getterFunc = this._getGetter(sourceFolder);
+      this._bitmaps.push(getterFunc(states.main));
+      this._bitmaps.push(getterFunc(states.hover));
+      // * Optional 03
+      if (String.any(states.disabled)) {
+        this._bitmaps.push(getterFunc(states.disabled));
+      }
+    }
+
+  };
+  
   //@[EXTENSION TO GLOBAL]
   //------------------------------------------------------------------------------
   KDCore.SDK = SDK;
@@ -2271,13 +2365,29 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
   //--------------------------------------------------------------------------------
   // MV TouchInput Extension =======================================================
   //--------------------------------------------------------------------------------
+
+  // * Для совместимости MV и MZ
+  //TouchInput.getMousePosition = -> new KDCore.Point(TouchInput.x, TouchInput.y)
+  TouchInput.toMapPoint = function() {
+    return this.toPoint().convertToMap();
+  };
   //?SMouse better alternative
   (function() {
-    var alias_TIOMM;
+    var alias_SM_processMapTouch, alias_TIOMM;
     if (KDCore.isMZ()) {
       return;
     }
     
+    // * Для ButtonM
+    //@[ALIAS]
+    alias_SM_processMapTouch = Scene_Map.prototype.processMapTouch;
+    Scene_Map.prototype.processMapTouch = function() {
+      if ($gameTemp.kdButtonUnderMouse != null) {
+
+      } else {
+        return alias_SM_processMapTouch.call(this);
+      }
+    };
     //@[ALIAS]
     alias_TIOMM = TouchInput._onMouseMove;
     TouchInput._onMouseMove = function(event) {
@@ -2300,3 +2410,6 @@ console.warn("XDev KDCore is loaded " + KDCore.Version);
 
 // ■ END KDCore.coffee
 //---------------------------------------------------------------------------
+//$[OVER]
+//TouchInput.getMousePosition = ->
+//    new KDCore.Point(TouchInput._x, TouchInput._y)

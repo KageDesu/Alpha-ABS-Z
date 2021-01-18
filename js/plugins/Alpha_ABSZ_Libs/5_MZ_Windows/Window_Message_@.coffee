@@ -13,6 +13,7 @@ do ->
         ALIAS__startMessage.call(@)
         AA.UI.onGameMessageStart()
         
+    #TODO: Тут мерцание происходит. Как быть? Timeout?
     #@[ALIAS]
     ALIAS__terminateMessage = _.terminateMessage
     _.terminateMessage = ->

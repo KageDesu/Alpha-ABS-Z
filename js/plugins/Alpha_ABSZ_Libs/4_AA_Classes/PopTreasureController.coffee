@@ -15,7 +15,7 @@ do ->
             margins: { x: 0, y: -60 }
             opacityStep: 10,
             moveStep: 1,
-            stayTime: 50
+            stayTime: 80
             dyBetweenLines: 20
         }
 
