@@ -105,7 +105,7 @@ do ->
         @addChild @_projectile
 
 
-        @flWindow = new AA.FloatingWindow(@)
+        @flWindow = new AA.FloatingWindow(@, 220, 300)
 
         btn.button.addClickHandler () => @flWindow.open()
 

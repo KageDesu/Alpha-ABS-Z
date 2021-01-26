@@ -22,7 +22,7 @@ do ->
         @uiSet?.onGameMessageEnd()
 
     # * Когда было нажатие мышки на какой-либо UI элемент
-    _.IsUITouched = -> false
+    _.isUITouched = -> false
 
     # * Основной интерфейс Spriteset_UI
     # -----------------------------------------------------------------------
@@ -37,6 +37,26 @@ do ->
 
     # -----------------------------------------------------------------------
 
+
+    # * Обработка левой кнопки мыши на карте
+    # -----------------------------------------------------------------------
+    do ->
+
+        # * Есть ли действие, которое должно
+        _.isExistMapCancelAction = -> !@isSelectedCircleVisible()
+
+        # * Есть ли действие, которое должно быть выполнено по нажатию левой кнопки мыши на карте
+        # * Возвращает true, если действие выполнено
+        _.performCancelActionOnMap = ->
+            if @isSelectedCircleVisible()
+                @resetTargetSelection()
+                return true
+            return false
+
+        return
+
+    # -----------------------------------------------------------------------
+
     # * Цель игрока
     # -----------------------------------------------------------------------
     do ->
@@ -46,6 +66,9 @@ do ->
         _.selectTargetOnMap = (char) -> @selectedCircle?.setTarget char
 
         _.resetTargetSelection = -> _.selectTargetOnMap(null)
+
+        #TODO: Либо проверять спрайт либо есть ли цель у игрока (TargetManager)
+        _.isSelectedCircleVisible = -> @selectedCircle?.visible == true
 
     # -----------------------------------------------------------------------
 

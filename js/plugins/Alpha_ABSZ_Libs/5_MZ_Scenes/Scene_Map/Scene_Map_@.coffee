@@ -40,19 +40,28 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
-        #@aaUpdateMapScroolByMouse()
+        #@aaUpdateMapScroolByMouse() #TODO: доработать скролл (взять из AABS MV)
 
     #@[ALIAS]
     ALIAS__onMapTouch = _.onMapTouch
     # * Сохранение алиаса, чтобы использовать в другом файле
     _.ALIAS__onMapTouch = ALIAS__onMapTouch
     _.onMapTouch = ->
-        return if AA.UI.IsUITouched()
+        return if AA.UI.isUITouched()
         if AA.isABS()
             @onMapTouchAA()
         else
             ALIAS__onMapTouch.call(@)
     
+    #@[ALIAS]
+    ALIAS__updateCallMenu = _.updateCallMenu
+    _.updateCallMenu = ->
+        if TouchInput.isCancelled()
+            if AA.UI.performCancelActionOnMap()
+                # * Если действие выполненно, то не надо вызывать меню
+                return
+        ALIAS__updateCallMenu.call(@)
+
     return
 # ■ END Scene_Map.coffee
 #---------------------------------------------------------------------------

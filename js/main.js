@@ -68,6 +68,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Boot.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_Scroll_DEV.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Title.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_UIEditor_@.js"
@@ -79,6 +80,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_XAnima.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_PopTreasureItem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SelectedCircle.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_TilingFrame.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_0.js"
@@ -227,6 +229,9 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
 
 
 

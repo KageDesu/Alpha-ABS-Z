@@ -5,14 +5,14 @@ do ->
 #TODO: Может написать автофон как в стандартных окнах? Чтобы по пикселям растягивал гаринцы
 
     class FloatingWindow extends KDCore.Sprite
-        constructor: (@mainParent, @backgroundImage, @headerImage) ->
+        constructor: (@mainParent, @windowW, @windowH) ->
             super()
             @backgroundImage = "windowBackground" unless @backgroundImage?
             @headerImage = "windowHeader" unless @headerImage?
             # * Окно всегда закрыто
             @visible = false
             @_initFloatingSystem()
-            @_loadBackground()
+            @_loadWindowFrame()
             @_createContent()
             return
 
@@ -162,16 +162,24 @@ do ->
     # -----------------------------------------------------------------------
     do ->
         
-        _._loadBackground = ->
-            KDCore.Utils.loadImageAsync(@rootImageFolder(), @backgroundImage)
-                .then(@_createParts.bind(@))
+        _._loadWindowFrame = ->
+            KDCore.Utils.loadImageAsync(@rootImageFolder(), "windowFrame")
+                .then(@_createWindow.bind(@))
 
-        _._createParts = (@bitmap) ->
+        _._createWindow = (frameImage) ->
+            @bitmap = new Bitmap(@windowW, @windowH)
+            @wFrame = new AA.Sprite_TilingFrame(@windowW, @windowH, frameImage)
+            @addChild @wFrame
+            @_createParts()
+            return
+        
+        _._createParts = () ->
             @_createHeader()
             @_createCloseButton()
             @_moveToStartPosition()
             return
 
+        #TODO:  Тут остановился, написать TilingHeader (strip Линию)
         _._createHeader = ->
             if String.any(@headerImage)
                 @_headerSpr = KDCore.Sprite.FromImg @headerImage, @rootImageFolder()
