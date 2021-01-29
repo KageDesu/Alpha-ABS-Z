@@ -7,8 +7,6 @@ do ->
     class FloatingWindow extends KDCore.Sprite
         constructor: (@mainParent, @windowW, @windowH) ->
             super()
-            @backgroundImage = "windowBackground" unless @backgroundImage?
-            @headerImage = "windowHeader" unless @headerImage?
             # * Окно всегда закрыто
             @visible = false
             @_initFloatingSystem()
@@ -22,7 +20,7 @@ do ->
 
         isOpen: -> @isActive()
 
-        isDraggable: -> @_headerSpr? && @isOpen()
+        isDraggable: -> @_headerSpr.visible is true && @isOpen()
 
         setCloseHandler: -> (@_closeHandler)
 
@@ -31,6 +29,16 @@ do ->
         setDraggingHandler: -> (@_dragHandler)
 
         setDragEndHandler: -> (@_dragEndHandler)
+
+        hideHeader: -> #TODO:
+
+        hideCloseButton: -> #TODO:
+
+        # * Сдвиг заголовка по X, чтобы рамку не задевал
+        headerMarginX: -> 2
+
+        # * Сдвиг заголовка по Y, чтобы рамку не задевал
+        headerMarginY: -> 0
 
         # * Стандартная позиция кнопки "закрыть"
         closeButtonPosition: -> { x: @width - 24, y: 4 }
@@ -54,6 +62,10 @@ do ->
             @_updateMouseCheckThread()
             @_updateDragging()
             return
+
+        # * Добавить спрайт на специальный слой контента
+        addContent: (sprite) ->
+            @_contentLayer.addChild(sprite)
 
     AA.link FloatingWindow
     return
@@ -174,27 +186,45 @@ do ->
             return
         
         _._createParts = () ->
-            @_createHeader()
+            @_createLayers()
+            @_loadHeader()
             @_createCloseButton()
             @_moveToStartPosition()
             return
 
-        #TODO:  Тут остановился, написать TilingHeader (strip Линию)
-        _._createHeader = ->
-            if String.any(@headerImage)
-                @_headerSpr = KDCore.Sprite.FromImg @headerImage, @rootImageFolder()
-                @addChild @_headerSpr
-            else
-                @_updateDragging = -> # * EMPTY
+        # * Слои нужны, так как изображения загружаються асинхронно
+        _._createLayers = ->
+            @_contentLayer = new Sprite()
+            @_headerLayer = new Sprite()
+            @_closeButtonLayer = new Sprite()
+            @addChild @_contentLayer
+            @addChild @_headerLayer
+            @addChild @_closeButtonLayer
+
+        _._loadHeader = ->
+            KDCore.Utils.loadImageAsync(@rootImageFolder(), "headerLine")
+                .then(@_createHeader.bind(@))
+
+        _._createHeader = (headerLineImage) ->
+            w = @windowW - (@headerMarginX() * 2)
+            @_headerSpr =
+                new AA.Sprite_TilingLine(w, headerLineImage.height, headerLineImage)
+            @_headerSpr.x = @headerMarginX()
+            @_headerSpr.y = @headerMarginY()
+            @_headerLayer.addChild @_headerSpr
+            # * Сдвигаем контент, чтобы было начало под заголовком
+            @_contentLayer.y += headerLineImage.height + @headerMarginY()
             return
 
         _._createCloseButton = ->
             @_closeButton = new KDCore.ButtonM("windowCloseButton", false, @rootImageFolder())
-            @addChild @_closeButton
+            @_closeButtonLayer.addChild @_closeButton
             @_closeButton.move @closeButtonPosition()
             @_closeButton.addClickHandler @_closeButtonClick.bind(@)
+            return
 
         # * Наследники создают свои элементы в этом методе
+        # * Есть специальный метод addContent()
         _._createContent = -> # * EMPTY
 
 
