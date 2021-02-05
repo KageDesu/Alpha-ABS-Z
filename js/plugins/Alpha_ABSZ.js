@@ -31,6 +31,20 @@
  * 
 
 
+ * @command ABSEventSettings
+ * @text ABS Enemy Configurate
+ * @desc Configurate enemy ABS parameters for this certaint event
+ * 
+ * @arg deadSwitch
+ * @text Dead Switch
+ * @type select
+ * @option A
+ * @option B
+ * @option C
+ * @option D 
+ * @default D
+ * @desc What self.switch will be turn ON when enemy is dead and turn OFF when is revive (alive)
+ * 
  * 
 
 
@@ -283,7 +297,7 @@
  * @text X
  * @type text
  * @default 0
- * @desc Number or script (example: Graphis.width / 2)
+ * @desc Number or script (example: Graphics.width / 2)
  *
  * @param y:e
  * @text Y

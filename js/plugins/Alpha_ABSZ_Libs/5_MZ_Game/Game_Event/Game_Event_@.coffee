@@ -29,9 +29,7 @@ do ->
         ALIAS__setupPage = _.setupPage
         _.setupPage = ->
             ALIAS__setupPage.call(@)
-            #TODO: Проверка, если был Entity, но теперь нету
-            if @aaIsABSEventPage()
-                @_initMembersABS()
+            @aaCheckABSEventState()
 
         #@[ALIAS]
         ALIAS__clearPageSettings = _.clearPageSettings
