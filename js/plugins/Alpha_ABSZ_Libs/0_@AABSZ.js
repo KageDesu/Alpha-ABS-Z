@@ -1,5 +1,9 @@
-var AA = {};
-AA.Utils = {};
+var Imported = Imported || {};
+Imported.Alpha_ABSZ = true;
+
+if(!Imported.Alpha_Core) {
+    alert("Alpha ABSZ require Alpha_@Core plugin!");
+}
 
 // * Если карта (Scene_Map) и включён режим АБС
 AA.isABS = function() {
@@ -8,14 +12,4 @@ AA.isABS = function() {
 
 AA.isMap = function() {
     return AA.System.isMap();
-};
-
-AA.warning = function(e, msg) {
-    KDCore.warning(e, msg);
-};
-
-AA.w = (e, mgs) => AA.warning(e, mgs);
-
-AA.link = function (library) {
-    this[library.name] = library;
 };

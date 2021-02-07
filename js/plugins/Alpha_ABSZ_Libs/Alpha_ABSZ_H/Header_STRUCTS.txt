@@ -105,7 +105,7 @@
  * @param label
  * @text Label
  * @type file
- * @dir img/AABS/
+ * @dir img/Alpha/
  * @require 1
  * @default
  * @desc Label image for gauge, optional
@@ -146,7 +146,7 @@
  * @param fill
  * @text Fill Image
  * @type file
- * @dir img/AABS/
+ * @dir img/Alpha/
  * @require 1
  * @default
  * @desc Gaguge fill image, required!
@@ -154,7 +154,7 @@
  * @param foreground
  * @text Foreground Image
  * @type file
- * @dir img/AABS/
+ * @dir img/Alpha/
  * @require 1
  * @default
  * @desc Image above gauge fill, optional
@@ -162,7 +162,7 @@
  * @param mask
  * @text Mask Image
  * @type file
- * @dir img/AABS/
+ * @dir img/Alpha/
  * @require 1
  * @default
  * @desc Whole gauge image mask, optional

@@ -15,22 +15,10 @@ const scriptUrls = [
      "js/rmmz_sprites.js",
      "js/rmmz_windows.js",
      "js/plugins.js"
+,"js/plugins/Alpha_ABSZ_Libs/@@_Alpha_@Core_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/0_@AABSZ.js"
-,"js/plugins/Alpha_ABSZ_Libs/0_KDCore.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASystem.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_Changer.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_FloatingWindow.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_Sprite_UIElement.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_UIElementController.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_Sprite_UIButton.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_Sprite_UIFace.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_Sprite_UIGauge.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_Sprite_UIIcon.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_Sprite_UIImage.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_Sprite_UIRect.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_Sprite_UIText.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_Sprite_UITextWithBack.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyBattler.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyModelData.js"
@@ -84,8 +72,6 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_XAnima.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_PopTreasureItem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SelectedCircle.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_TilingFrame.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_TilingLine.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_0.js"
@@ -234,6 +220,34 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
