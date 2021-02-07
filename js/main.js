@@ -34,7 +34,6 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyBattler.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyModelData.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEventSettingParser.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEventSettingsParser.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAMapEntitiesSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAMapProjectile.js"
@@ -59,12 +58,15 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_System.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Troop_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/GaugeController.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Guard.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/ImageManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/MapAnimaion_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Math.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/NoteParser_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/ParamsManager.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Parser.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/PopTreasureController.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Base.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Boot.js"
@@ -232,6 +234,13 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 

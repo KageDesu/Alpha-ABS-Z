@@ -7,6 +7,14 @@ do ->
     #@[DEFINES]
     _ = Game_Map::
 
+    # * Когда карта загружена, происходит активация ABS событий
+    _.initABS = () ->
+        e.initABS() for e in @eventsAA()
+
+    # * Все ABS события на карте
+    _.eventsAA = () -> @events().filter (e) -> e.isABS()
+
+    # * ABS события в указанной точке
     _.eventsXyAA = (x, y) ->
         try
             return @eventsXy(x, y).filter (e) -> e.isActive()

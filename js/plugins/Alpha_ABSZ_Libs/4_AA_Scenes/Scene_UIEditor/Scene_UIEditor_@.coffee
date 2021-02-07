@@ -38,13 +38,13 @@ do ->
         resetElement: (element) ->
             element.reset("position")
             user = $gameSystem.aaGetUserUISettings()
-            user.set element.tag, "setPosition", null
+            user.set element.tag, "resetPosition"
 
         # * Сохранить позицию элемента
         saveElementPosition: (element) ->
             user = $gameSystem.aaGetUserUISettings()
             { x, y } = element
-            user.set element.tag, "resetPosition"
+            user.set element.tag, "setPosition", [x, y]
             return
 
         elements: -> @uiSpriteset.elements

@@ -1,26 +1,20 @@
-# * Функции парсинга комментариев события для настройки ABS события
-AA.Utils.EParser = ->
+# * Вспомогательные функции проверки данных и настроек АБС
+AA.Utils.Guard = ->
 
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ AA.Utils.EParser
+# ■ GUARD.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = AA.Utils.EParser
+    _ = AA.Utils.Guard
 
-    _.getABSEventId = (list) ->
+    # * Этот метод проверит, можно ли создать АБС событие с этимм врагом из БД
+    _.isProperEnemyIdForABSEvent = (enemyId) ->
+        return $dataEnemies[enemyId]? and String.any($dataEnemies[enemyId].name)
 
-    _.isComplexABSEvent = (list) ->
-
-    _.getABSSettings = (list) ->
-
-    _.isHaveABSCommandSettings = (list) ->
-
-    _.getABSSettingsFromCommnad = (list) ->
-    
     return
-# ■ END AA.Utils.EParser
-#---------------------------------------------------------------------------
 
+# ■ END GUARD.coffee
+#---------------------------------------------------------------------------

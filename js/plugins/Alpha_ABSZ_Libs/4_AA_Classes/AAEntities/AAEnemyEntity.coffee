@@ -2,7 +2,6 @@
 class AAEnemyEntity extends AAEntity
     constructor: (@eventId) ->
         super()
-        
 
     # * Группа у них 1, как и у стандартных врагов, чтобы враги их игнорировали
     teamId: -> 1
@@ -17,17 +16,12 @@ class AAEnemyEntity extends AAEntity
     model: -> @aaModel
 
     initABS: ->
-        super()
-        #TODO: enemyId from?
-
-        #TODO: Этот тут временно для показа
-
-        modelId = 10
-
-        if @eventId == 2
-            modelId = 11
-        else if @eventId == 3
-            modelId = 12
-
-        @aaBattler = new AAEnemyBattler(modelId)
-        @aaModel = new AAEnemyModelData(modelId)
+        unless @model()?
+            super()
+            # * Инициализация системы в первый раз
+            @aaModel = new AAEnemyModelData(@eventId)
+            @aaBattler = new AAEnemyBattler(@aaModel.enemyId)
+        else
+            # * Повторная инициализация (например после выхода из меню)
+            #TODO: resume ABS
+        return

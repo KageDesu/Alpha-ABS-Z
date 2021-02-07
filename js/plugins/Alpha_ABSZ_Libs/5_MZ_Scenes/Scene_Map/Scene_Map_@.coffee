@@ -17,8 +17,8 @@ do ->
     #@[ALIAS]
     ALIAS__onMapLoaded = _.onMapLoaded
     _.onMapLoaded = ->
-        AA.System.onMapSceneLoaded()
         ALIAS__onMapLoaded.call(@)
+        AA.System.onMapSceneLoaded()
 
     #@[ALIAS]
     # * Создаём интерфейс боевой системы

@@ -51,6 +51,7 @@ do ->
 
         _.isMap = -> $gameTemp._isMapScene is true
 
+        #TODO: Может пауза и не нужна
         _.pauseABS = -> $gameTemp._isABSOnPause = true
 
         _.resumeABS = -> $gameTemp._isABSOnPause = false
@@ -70,14 +71,14 @@ do ->
         _.onGameDataLoaded = ->
             # * По умлочанию, система всегда активированна
             $gameSystem._isABS = true
-            #TODO: Сброс АБС
+            #TODO: Сброс АБС системы (например игрок вышел из карты на титульник)
 
-        # * Сцена карты загрузилась
+        # * Сцена карты загрузилась (или попали на сцену из меню, или Transfer)
         _.onMapSceneLoaded = ->
             if @isPaused()
                 @resumeABS()
             else
-                # * Возможно игрок отключил систему, поэтому проверяем
+                # * Возможно игрок отключил систему, поэтому проверяем isABS()
                 @startABS() if @isABS()
 
         # * Новая карта (Data)
@@ -106,7 +107,7 @@ do ->
 
         _.initEnteties = ->
             $gamePlayer.initABS()
-            #$gameTroop.initABS()
+            $gameTroop.initABS()
 
         return
     # -----------------------------------------------------------------------

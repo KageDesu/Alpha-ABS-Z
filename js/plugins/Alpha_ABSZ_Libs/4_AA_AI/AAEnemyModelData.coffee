@@ -4,8 +4,11 @@
 #@[STORABLE]
 #@[GLOBAL]
 class AAEnemyModelData
-    constructor: (@enemyId) ->
-        if @enemyId == 11
+    constructor: (@eventId) ->
+        @enemyId = @eventSettings().getEnemyId()
+        @_initBaseParameters()
+
+        ###if @enemyId == 11
             @selectionVisible = true
             @selectionColor = "#FF00FF"
             @selectionOffset = [0, -10]
@@ -21,7 +24,26 @@ class AAEnemyModelData
             @selectionImage = "targetSelectedBigSquare"
 
             @miniHpGaugeStyle = "miniHpGauge3"
-            @miniHPGaugeOffset = [-12, -58]
-
+            @miniHPGaugeOffset = [-12, -58]###
 
     #TODO: Игрок должен иметь возмможность менять значения во время игры
+
+    eventSettings: -> $gameMap.event(@eventId).aaEventSettings
+
+    #╒═════════════════════════════════════════════════════════════════════════╛
+    # ■ PRIVATE.coffee
+    #╒═════════════════════════════════════════════════════════════════════════╛
+    #---------------------------------------------------------------------------
+    do ->
+    
+        #@[DEFINES]
+        _ = AAEnemyModelData::
+    
+        _._initBaseParameters = ->
+            #TODO: Остановился тут, базовые настройки врага
+            #TODO: Лучше сразу перейти на реализацию АИ логики
+
+        
+        return
+    # ■ END PRIVATE
+    #---------------------------------------------------------------------------

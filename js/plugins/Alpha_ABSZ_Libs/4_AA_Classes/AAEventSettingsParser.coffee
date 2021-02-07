@@ -10,24 +10,21 @@ do ->
             @absParameters = [] # * ABS параметры
             @param = null # * Параметр плагина (MZ)
             @mainLine = "" # * <ABS:X>
-            @parsedParams = [] # * Значения параметров на замену
+            @parsedParams = [] # * Финальные значения параметров на замену
             @_pasreEventList(list)
             @_parseABSParamsSequence()
             @_parseParams()
-            #console.info @list
-            #console.info @param
-            console.info @parsedParams
+            @_parsePluginCommand()
             return
-
-        #TODO: парсинг из команды плагина
 
         isHaveExtraParameters: -> @parsedParams.length > 0
 
-        getABSEventId: ->
-            param = @_extractABSParameter(@mainLine)
+        getEnemyId: ->
+            param = AA.Utils.Parser.extractABSParameter(@mainLine)
             return 0 unless param?
             return param[1]
         
+        # * Извлечает из списка команд только комменатрии или определённую команду плагина
         _pasreEventList: (list) ->
             for line in list
                 continue unless line?
@@ -37,6 +34,7 @@ do ->
                     @param = line
             return
 
+        # * Собирает все строки с АБС параметрами от <ABS> до </ABS>
         _parseABSParamsSequence: ->
             @absParameters = []
             @mainLine = @list.find (l) -> l.contains('<ABS')
@@ -49,10 +47,11 @@ do ->
                 @absParameters.push(@list[i])
             return
 
+        # * Парсинг всех параметров из строк в структуру (имя: значение)
         _parseParams: () ->
             return if @absParameters.length == 0
             for param in @absParameters
-                pair = @_extractABSParameter(param)
+                pair = AA.Utils.Parser.extractABSParameter(param)
                 continue unless pair?
                 # * Пропускаем ещё один ABS параметр, если был добавлен
                 #TODO: Можно делать проверку при передаче данных на Model
@@ -62,16 +61,16 @@ do ->
                     @parsedParams.push(pair)
             return
 
-        _extractABSParameter: (line) ->
-            match = line.match(/<*(\w+)\s*:\s*([\w\d]+)>*/i)
-            if match?
-                name = match[1]
-                value = match[2]
-                value = parseInt(value) if isFinite(value)
-                return [name, value]
-            else
-                return null
-
+        # * Извлекает параметры из команды плагина
+        _parsePluginCommand: () ->
+            return unless  @param?
+            return unless KDCore.isMZ()
+            params = @param.parameters[3]
+            return unless params?
+            for k, v of params
+                p = [k, AA.Utils.Parser.convertParameterValue(v)]
+                @parsedParams.push(p)
+            return
 
     AA.link AAEventSettingsParser
     return

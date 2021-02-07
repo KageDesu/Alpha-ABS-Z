@@ -45,6 +45,13 @@
  * @default D
  * @desc What self.switch will be turn ON when enemy is dead and turn OFF when is revive (alive)
  * 
+ * @arg viewRadius
+ * @text  View Range
+ * @type number
+ * @min 1
+ * @max 50
+ * @default 12
+ * @desc Enemy view radius
  * 
 
 
