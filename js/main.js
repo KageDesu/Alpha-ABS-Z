@@ -18,7 +18,12 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/@@_Alpha_@Core_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/0_@AABSZ.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEntity.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASystem.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AATimer.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AAInstantSkill_0.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsSet.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_BattlerAASkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyBattler.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyModelData.js"
@@ -29,6 +34,8 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AATargetsManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAUI.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/BuffIconsController.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Diagonal_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_BattlerBase_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_@.js"
@@ -49,10 +56,9 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Troop_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/GaugeController.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Guard.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/ImageManager.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/ImageManager_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/MapAnimaion_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Math.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/NoteParser_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/ParamsManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Parser.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/PopTreasureController.js"
@@ -220,6 +226,21 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

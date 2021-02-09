@@ -7,6 +7,9 @@ class AAEnemyModelData
     constructor: (@eventId) ->
         @enemyId = @eventSettings().getEnemyId()
         @_initBaseParameters()
+        #TODO: Применение настроек из БД ?
+        # Делать редактор или нет?
+        #TODO: Применение настроек из события
 
         ###if @enemyId == 11
             @selectionVisible = true

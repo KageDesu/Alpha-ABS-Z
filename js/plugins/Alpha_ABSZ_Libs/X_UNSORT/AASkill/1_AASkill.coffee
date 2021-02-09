@@ -1,22 +1,21 @@
+# * Класс АБС навыка (дейсвтия), может быть спелл или предмет
+
+#@[STORABLE]
+class AASkill
+    constructor: (@type, @id, @isItem = false) ->
+        
+
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_Party.coffee
+# ■ AASkill.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_Party::
+    _ = AASkill::
 
-    #@[ALIAS]
-    ALIAS__gainItem = _.gainItem
-    _.gainItem = (item, amount, includeEquip) ->
-        ALIAS__gainItem.call(@, ...arguments)
-        return if amount <= 0
-        container = @itemContainer(item)
-        return unless container?
-        #TODO: Менеджер PopUp Treasure
-        #SceneManager._scene._testPopUp()
 
+    
     return
-# ■ END Game_Party.coffee
+# ■ END AASkill.coffee
 #---------------------------------------------------------------------------

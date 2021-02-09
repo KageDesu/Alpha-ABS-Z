@@ -1,22 +1,20 @@
+# * Класс хранит набор АБС навыков (и предметов) для Battler
+#@[STORABLE]
+class AASkillsSet
+    constructor: () ->
+        
+
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_Party.coffee
+# ■ AASkillsSet.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_Party::
+    _ = AASkillsSet::
 
-    #@[ALIAS]
-    ALIAS__gainItem = _.gainItem
-    _.gainItem = (item, amount, includeEquip) ->
-        ALIAS__gainItem.call(@, ...arguments)
-        return if amount <= 0
-        container = @itemContainer(item)
-        return unless container?
-        #TODO: Менеджер PopUp Treasure
-        #SceneManager._scene._testPopUp()
 
+    
     return
-# ■ END Game_Party.coffee
+# ■ END AASkillsSet.coffee
 #---------------------------------------------------------------------------

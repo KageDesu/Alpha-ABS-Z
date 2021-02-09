@@ -69,6 +69,8 @@ do ->
 
         # * Главное меню (или Scene_Boot)
         _.onGameDataLoaded = ->
+            # * Парсим (читаем) АБС параметры в БД
+            AA.Utils.Parser.processABSSkillsNotetags()
             # * По умлочанию, система всегда активированна
             $gameSystem._isABS = true
             #TODO: Сброс АБС системы (например игрок вышел из карты на титульник)
