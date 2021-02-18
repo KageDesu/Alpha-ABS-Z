@@ -20,7 +20,11 @@
  * @default ["AABS_0","AABS_1"]
  * @desc TODO:
  * 
- * 
+ * @param inputSettings:struct
+ * @text Input Settings
+ * @type struct<LInputSettings>
+ * @default
+ * @desc Input and keybingind settings
  * 
 
 
@@ -49,6 +53,16 @@
 
 
  */
+/*~struct~LInputSettings:
+
+@param moveType
+@type select
+@option WASD and Arrows
+@option Arrows only
+@default WASD and Arrows
+@desc Keyboard keys for character movement
+
+*/
 /*~struct~LActorGauge:
  * @param visible:bool
  * @text Is Visible?

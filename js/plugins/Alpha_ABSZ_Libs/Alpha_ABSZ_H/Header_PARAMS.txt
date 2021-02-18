@@ -11,4 +11,8 @@
 @default ["AABS_0","AABS_1"]
 @desc TODO:
 
-
+@param inputSettings:struct
+@text Input Settings
+@type struct<LInputSettings>
+@default
+@desc Input and keybingind settings

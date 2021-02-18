@@ -19,6 +19,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/@@_PKD_AnimaX_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/0_@AABSZ.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEntity.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAInput.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASystem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AATimer.js"
@@ -220,6 +221,7 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
 
 
 

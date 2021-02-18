@@ -19,9 +19,14 @@ do ->
         _.initSystem = ->
             "INIT ABS SYSTEM".p()
             @loadParameters()
+            @applyParameters()
 
         _.loadParameters = ->
             AA.PP = new AA.ParamsManager()
+
+        # * В зависимости от параметров, добавление новых методов
+        _.applyParameters = ->
+            AA.Input.init(AA.PP.getParam('inputSettings'))
 
         _.loadFonts = ->
             return unless AA.PP?

@@ -1,3 +1,14 @@
+/*~struct~LInputSettings:
+
+@param moveType
+@text Movement
+@type select
+@option WASD and Arrows
+@option Arrows only
+@default WASD and Arrows
+@desc Keyboard keys for character movement
+
+*/
 /*~struct~LActorGauge:
  * @param visible:bool
  * @text Is Visible?
