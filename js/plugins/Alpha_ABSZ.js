@@ -14,13 +14,6 @@
  * @default
  * @desc
  * 
- * 
- * @param xAnimations:structA
- * @text Animations
- * @type struct<LAnimaX>[]
- * @default
- * @desc TODO:
- * 
  * @param fonts:strA
  * @text Fonts
  * @type text[]
@@ -56,91 +49,6 @@
 
 
  */
-/*~struct~LAnimaX:
- * @param id
- * @text ID
- * @default
- * @desc TODO:
- * 
- * @param base:s
- * @text Base
- * @type struct<LAnimaXSet>
- * @default
- * @desc TODO:
- * 
- * @param inBattle:s
- * @text In Battle
- * @type struct<LAnimaXSet>
- * @default
- * @desc TODO:
- * 
- * @param actions:structA
- * @text Actions
- * @type struct<LAnimaXAction>[]
- * @default
- * @desc TODO:
-*/
-/*~struct~LAnimaXSet:
- * @param move:s
- * @text Movement
- * @type struct<LAnimaXParameters>
- * @default
- * @desc TODO:
- * 
- * @param idle:s
- * @text Idle
- * @type struct<LAnimaXParameters>
- * @default
- * @desc TODO:
- * 
- * @param moveToIdleDelay:i
- * @text Idle Delay
- * @type number
- * @default 30
- * @min 0
- * @desc TODO:
-*/
-/*~struct~LAnimaXAction:
- * @param name
- * @text Action Name
- * @default Action
- * @desc TODO:
- * 
- * @param animation:s
- * @text Settings
- * @type struct<LAnimaXParameters>
- * @default
- * @desc TODO:
-*/
-/*~struct~LAnimaXParameters:
- * @param isOneDirection:b
- * @text One Direction?
- * @type boolean
- * @default false
- * @desc TODO:
- * 
- * @param frames:i
- * @text Frames Count
- * @type number
- * @default 3
- * @min 1
- * @desc TODO:
- * 
- * @param speed:i
- * @text Speed
- * @type number
- * @default 15
- * @min 1
- * @desc TODO:
- * 
- * @param expandFirstFrame:i
- * @text Repeat first frame times
- * @type number
- * @default 0
- * @min 0
- * @max 100
- * @desc TODO:
-*/
 /*~struct~LActorGauge:
  * @param visible:bool
  * @text Is Visible?
@@ -163,7 +71,7 @@
  * @param label
  * @text Label
  * @type file
- * @dir img/AABS/
+ * @dir img/Alpha/
  * @require 1
  * @default
  * @desc Label image for gauge, optional
@@ -204,7 +112,7 @@
  * @param fill
  * @text Fill Image
  * @type file
- * @dir img/AABS/
+ * @dir img/Alpha/
  * @require 1
  * @default
  * @desc Gaguge fill image, required!
@@ -212,7 +120,7 @@
  * @param foreground
  * @text Foreground Image
  * @type file
- * @dir img/AABS/
+ * @dir img/Alpha/
  * @require 1
  * @default
  * @desc Image above gauge fill, optional
@@ -220,7 +128,7 @@
  * @param mask
  * @text Mask Image
  * @type file
- * @dir img/AABS/
+ * @dir img/Alpha/
  * @require 1
  * @default
  * @desc Whole gauge image mask, optional

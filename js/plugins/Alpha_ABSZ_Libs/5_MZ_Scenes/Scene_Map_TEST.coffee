@@ -126,14 +126,10 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
-        if Input.isRepeated("a")
-            $gamePlayer.testX() if $gamePlayer.canMove()
-        if Input.isTriggered("d")
-            $gamePlayer.testX2() if $gamePlayer.canMove()
-        if Input.isTriggered("f")
-            $gamePlayer.switchToXAnimaState('inBattle')
-        if Input.isTriggered("r")
-            $gamePlayer.resetXAnimaState()
+
+        #if Input.isTriggered 'a'
+        #    $gamePlayer.startAnimaXCustomAction('Attack', false, false)
+
         @buffs.update()
         @changer?.update()
         @proj?.update()

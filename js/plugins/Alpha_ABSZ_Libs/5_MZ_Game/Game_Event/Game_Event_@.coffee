@@ -11,7 +11,6 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
-        @_updateAnimX() if @isAnimX()
 
     # * Система анимации XAnima
     # -----------------------------------------------------------------------

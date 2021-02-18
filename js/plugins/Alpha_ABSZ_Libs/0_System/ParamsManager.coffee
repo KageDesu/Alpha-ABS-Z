@@ -11,7 +11,11 @@ do ->
             console.info(@params) #TODO: test
             "===================".p()
 
-        xAnimations: -> @getParam("xAnimations", [])
+        xAnimations: ->
+            if Imported.PKD_AnimaX is true
+                return PKD_ANIMAX.Animations
+            else
+                return []
 
         # * Стандартные: ["AABS_0","AABS_1"]
         fonts: -> @getParam("fonts", [])
@@ -172,10 +176,7 @@ do ->
     _ = AA.ParamsManager::
 
     _._prepareParameters = ->
-        # * Конвертируем список действий анимаций в упрощённый вид (сжатый)
-        for animaX in @xAnimations()
-            animaX.actions = XAnimaTools.convertActionsFromParameters animaX.actions
-        return
+        #TODO: Может и не надо этот метод, раньше тут был конверт анимаций
 
     return
 # ■ END PRIVATE.coffee

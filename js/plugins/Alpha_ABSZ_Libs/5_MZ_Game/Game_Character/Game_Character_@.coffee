@@ -7,13 +7,6 @@ do ->
     #@[DEFINES]
     _ = Game_Character::
 
-    #@[ALIAS]
-    ALIAS__initMembers = _.initMembers
-    _.initMembers = ->
-        ALIAS__initMembers.call(@)
-        @_initMembersAnimaX()
-
-    
     return
 # ■ END Game_Character.coffee
 #---------------------------------------------------------------------------

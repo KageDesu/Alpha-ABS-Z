@@ -5,13 +5,6 @@
 @default
 @desc
 
-
-@param xAnimations:structA
-@text Animations
-@type struct<LAnimaX>[]
-@default
-@desc TODO:
-
 @param fonts:strA
 @text Fonts
 @type text[]

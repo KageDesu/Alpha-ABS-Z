@@ -22,20 +22,11 @@ do ->
     ALIAS__refresh = _.refresh
     _.refresh = ->
         ALIAS__refresh.call(@)
-
-        #TODO: Получение из Note, подготовка параметров
-
-        animaX = XAnimaTools.getXAnimaParamsForState('base', 'Reid')
-        @initAnimaX "Reid", animaX
-        animaXStateTest = XAnimaTools.getXAnimaParamsForState('inBattle', 'Reid')
-        @registerAnimaXState 'inBattle', animaXStateTest
         return
 
     #@[ALIAS]
     ALIAS__canMove = _.canMove
     _.canMove = ->
-        # * Дополнительная проверка анимации, т.к. Game_Player перекрывает метод canMove из Character_Base
-        return false if @isAnimXIsBusy()
         canMove = ALIAS__canMove.call(@)
         if canMove && @isABS()
             return @AABattler().canMove()
@@ -43,11 +34,9 @@ do ->
             return canMove
 
     #@[ALIAS]
-    ALIAS__update = _.update
-    _.update = (sceneActive) ->
-        ALIAS__update.call(@, sceneActive)
-        if sceneActive
-            @_updateAnimX() if @isAnimX()
+    #ALIAS__update = _.update
+    #_.update = (sceneActive) ->
+    #    ALIAS__update.call(@, sceneActive)
 
     
     return

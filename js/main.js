@@ -16,6 +16,7 @@ const scriptUrls = [
      "js/rmmz_windows.js",
      "js/plugins.js"
 ,"js/plugins/Alpha_ABSZ_Libs/@@_Alpha_@Core_TEST.js"
+,"js/plugins/Alpha_ABSZ_Libs/@@_PKD_AnimaX_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/0_@AABSZ.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill.js"
@@ -40,10 +41,9 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_BattlerBase_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_AA.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_XAnima.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_AnimaX.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_CharacterBase_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_CharacterBase_AA.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_CharacterBase_XAnima.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AI.js"
@@ -51,7 +51,6 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_AA.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_System.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Troop_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/GaugeController.js"
@@ -75,7 +74,6 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_ActorStateGauge.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_ActorStateIcon.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_@.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_XAnima.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_PopTreasureItem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SelectedCircle.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map.js"
@@ -87,10 +85,6 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UISet_ActorGauges.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UserUISettings.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Window_Message_@.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/XAnima.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/XAnimaSet.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/XAnimaSetController.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/XAnimaTools.js"
 ];
 const effekseerWasmUrl = "js/libs/effekseer.wasm";
 
@@ -226,6 +220,18 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
