@@ -55,12 +55,95 @@
  */
 /*~struct~LInputSettings:
 
+@param mouseAction
+@text Left Mouse Click
+@type select
+@option Attack Only
+@option Movement Only
+@option Combined
+@default Attack Only
+@desc TODO: wiki page?
+
+@param targetSelect
+@text Target Select
+@type select
+@option Left Mouse Button
+@option Right Mouse Button
+@default Right Mouse Button
+@desc TODO:
+
+@param targetReset:b
+@text Target reset (RMB)
+@type boolean
+@on Yes
+@off No
+@default true
+@desc Always reset target by right mouse click?
+
+@param menuByRightClick:b
+@text Open Menu (RMB)
+@type boolean
+@on Yes
+@off No
+@default false
+@desc Open menu by right mouse click?
+
+
 @param moveType
+@text Movement
 @type select
 @option WASD and Arrows
 @option Arrows only
 @default WASD and Arrows
 @desc Keyboard keys for character movement
+
+@param rotateType
+@text Rotate by Cntrl
+@type select
+@option Toward Target
+@option Toward Mouse
+@option Target Or Mouse
+@default Toward Target
+@desc TODO:
+
+@param keybingind
+@text Key Bindings
+
+@param kbAttack
+@text Attack
+@parent keybingind
+@default E
+@desc TODO:
+
+@param kbDefense
+@text Defense
+@parent keybingind
+@default F
+@desc TODO:
+
+@param kbSelectTarget
+@text Next Target
+@parent keybingind
+@default Q
+@desc TODO:
+
+@param kbResetTarget
+@text Reset Target
+@parent keybingind
+@default Z
+@desc TODO:
+
+@param kbReload
+@text Reload
+@parent keybingind
+@default R
+@desc TODO:
+
+@param kbCommandMenu
+@text Commands
+@parent keybingind
+@default C
+@desc TODO:
 
 */
 /*~struct~LActorGauge:

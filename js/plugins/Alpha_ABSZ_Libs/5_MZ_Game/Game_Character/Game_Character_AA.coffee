@@ -7,7 +7,8 @@ do ->
     #@[DEFINES]
     _ = Game_Character::
 
-    
+    _.aaTurnTowardTouchInput = ->
+        @turnTowardCharacter(TouchInput.toMapPoint())
 
     return
 # ■ END Game_Character.coffee

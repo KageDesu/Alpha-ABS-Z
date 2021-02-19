@@ -5,8 +5,6 @@ AA.Input = ->
 # * Кнопки управления
 AA.IKey = ->
 
-    #TODO: ТУТ ОСТАНОВИЛСЯ, УПРАВЛЕНИЕ МЫШКА
-
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ IMPLEMENTATION.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
@@ -16,6 +14,13 @@ do ->
     #@[DEFINES]
     _ = AA.Input
 
+    # * Always reset target by right mouse click?
+    _.isResetTargetOnRMB = -> @settings.targetReset is true
+
+    # * Open menu by right mouse click?
+    _.isOpenMenuByRMB = -> @settings.menuByRightClick is true
+
+
     _.init = (@settings) ->
         @applyInputSettings()
         @applyKeybindings()
@@ -23,11 +28,14 @@ do ->
 
     # * Загружает данные с настроек плагина
     _.applyKeybindings = ->
-        #TODO: from plugin settings
+        # * WASD нельзя переопределить из параметров
         @_asignKeyForAASymbol("ML", "a")
         @_asignKeyForAASymbol("MR", "d")
         @_asignKeyForAASymbol("MU", "w")
         @_asignKeyForAASymbol("MD", "s")
+
+        #TODO: Other keybinginds from parameters
+
         return
         
     _._asignKeyForAASymbol = (symbol, key) ->
@@ -53,6 +61,8 @@ do ->
 
     _.applyInputSettings = ->
         @_applyMoveType()
+        @_applyTouchMode()
+        @_applyTargetSelectMode()
     
     _._applyMoveType = ->
         mt = @settings.moveType
@@ -78,6 +88,22 @@ do ->
         # * Переопределяет методы Input
         Input._signX = signXAA
         Input._signY = signYAA
+        return
+
+    # * Режим нажатия левой кнопки мыши
+    _._applyTouchMode = ->
+        _.TouchMode = 0 # * Attack only
+        action = @settings.mouseAction
+        if action.contains('Movement')
+            _.TouchMode = 1
+        else if action.contains('Combined')
+            _.TouchMode = 2
+        return
+
+    _._applyTargetSelectMode = ->
+        _.TargetSelectClick = 0 # * right
+        if @settings.targetSelect.contains('Left')
+            _.TargetSelectClick = 1 # * left
         return
 
     return

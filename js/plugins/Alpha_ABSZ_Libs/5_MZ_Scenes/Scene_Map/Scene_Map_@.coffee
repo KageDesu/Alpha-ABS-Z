@@ -40,6 +40,7 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
+        @aaUpdatePlayerInput()
         #@aaUpdateMapScroolByMouse() #TODO: доработать скролл (взять из AABS MV)
 
     #@[ALIAS]
@@ -57,9 +58,11 @@ do ->
     ALIAS__updateCallMenu = _.updateCallMenu
     _.updateCallMenu = ->
         if TouchInput.isCancelled()
-            if AA.UI.performCancelActionOnMap()
+            #if AA.UI.performCancelActionOnMap()
+            if @onMapCancelTouchAA()
                 # * Если действие выполненно, то не надо вызывать меню
                 return
+        #TODO: Меню не вызывается если isMoving, также сделать если игрок в действии (анимация, удар)
         ALIAS__updateCallMenu.call(@)
 
     return

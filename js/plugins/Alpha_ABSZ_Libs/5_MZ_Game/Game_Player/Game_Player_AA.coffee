@@ -8,7 +8,7 @@ do ->
     _ = Game_Player::
 
     # * Можно ли управлять? (движение, навыки и всё в этом роде)
-    _.canBeControlled = -> true
+    _.canBeControlled = -> @isActive()
 
     
 
