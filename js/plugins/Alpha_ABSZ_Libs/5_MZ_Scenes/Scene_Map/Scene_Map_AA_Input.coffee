@@ -13,8 +13,35 @@ do ->
         #@aaUpdatePlayerInput()
         #@aaUpdateCommonInput()
     
+    _.aaUpdatePlayerInput = ->
+        @aaUpdatePlayerInput_Rotation()
+        @aaUpdatePlayerInput_ActionKeys()
 
-    
+    #TODO: Возможно стоит вынести методы на Game_Player, сами обработки, так как проврок много
+
+    _.aaUpdatePlayerInput_ActionKeys = ->
+        #TODO:  Тут остановился, кнопки атака, сброс цели и т.д.
+
+    _.aaUpdatePlayerInput_Rotation = ->
+        return unless $gamePlayer.canBeControlled()
+        # * Чтобы не поворачивался во время анимации
+        return unless $gamePlayer.canMove()
+        if Input.isPressed(AA.IKey.ROT)
+            switch AA.Input.RotateType
+                when 2
+                    rotateTarget = TouchInput.toMapPoint()
+                when 1
+                    #TODO: target
+                    rotateTarget = window.__selected
+                else
+                    #TODO: target
+                    if window.__selected?
+                        rotateTarget = window.__selected
+                    else
+                        rotateTarget = TouchInput.toMapPoint()
+            if rotateTarget?
+                $gamePlayer.turnTowardCharacter(rotateTarget)
+        return
 
     # * Обработка нажатия мыши (Touch) на карте (Левой)
     # -----------------------------------------------------------------------

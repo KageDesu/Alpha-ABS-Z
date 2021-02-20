@@ -73,7 +73,7 @@
 @desc TODO:
 
 @param targetReset:b
-@text Target reset (RMB)
+@text Target Reset (RMB)
 @type boolean
 @on Yes
 @off No
@@ -98,13 +98,14 @@
 @desc Keyboard keys for character movement
 
 @param rotateType
-@text Rotate by Cntrl
+@text Rotatation
 @type select
-@option Toward Target
-@option Toward Mouse
-@option Target Or Mouse
-@default Toward Target
-@desc TODO:
+@option Target
+@option Mouse
+@option Both
+@option None
+@default Target
+@desc When Rotate key pressed, rotate player toward...(None - no rotation)
 
 @param keybingind
 @text Key Bindings
@@ -143,6 +144,12 @@
 @text Commands
 @parent keybingind
 @default C
+@desc TODO:
+
+@param kbRotate
+@text Rotate
+@parent keybingind
+@default Control
 @desc TODO:
 
 */

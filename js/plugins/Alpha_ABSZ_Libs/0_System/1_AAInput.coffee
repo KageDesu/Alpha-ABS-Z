@@ -33,14 +33,22 @@ do ->
         @_asignKeyForAASymbol("MR", "d")
         @_asignKeyForAASymbol("MU", "w")
         @_asignKeyForAASymbol("MD", "s")
-
-        #TODO: Other keybinginds from parameters
-
+        @_asignDefaultActionsKeys()
         return
         
     _._asignKeyForAASymbol = (symbol, key) ->
         key = @convertUnsafeKey(key)
         AA.IKey[symbol] = key
+        return
+
+    _._asignDefaultActionsKeys = ->
+        @_asignKeyForAASymbol("ATK", @settings.kbAttack)
+        @_asignKeyForAASymbol("DEF", @settings.kbDefense)
+        @_asignKeyForAASymbol("TRS", @settings.kbSelectTarget)
+        @_asignKeyForAASymbol("TRR", @settings.kbResetTarget)
+        @_asignKeyForAASymbol("REL", @settings.kbReload)
+        @_asignKeyForAASymbol("CMD", @settings.kbCommandMenu)
+        @_asignKeyForAASymbol("ROT", @settings.kbRotate)
         return
 
     # * Проверка на кнопки, которые переопределены RPG Maker'ом и не будут работать так
@@ -63,6 +71,7 @@ do ->
         @_applyMoveType()
         @_applyTouchMode()
         @_applyTargetSelectMode()
+        @_applyRotateType()
     
     _._applyMoveType = ->
         mt = @settings.moveType
@@ -105,6 +114,19 @@ do ->
         if @settings.targetSelect.contains('Left')
             _.TargetSelectClick = 1 # * left
         return
+
+    _._applyRotateType = ->
+        _.RotateType = 0 # * None
+        if @settings.rotateType.contains("Target")
+            _.RotateType = 1
+        else if @settings.rotateType.contains("Mouse")
+            _.RotateType = 2
+        else if @settings.rotateType.contains("Both")
+            _.RotateType = 3 # * Mouse (or target)
+        if _.RotateType is 0
+            Scene_Map::aaUpdatePlayerInput_Rotation = -> # * EMPTY
+        return
+
 
     return
 # ■ END IMPLEMENTATION.coffee
