@@ -1,1 +1,0 @@
-Класс FloatingWindow -  поменять задний фон на новый TilingFrame спрайт!!!

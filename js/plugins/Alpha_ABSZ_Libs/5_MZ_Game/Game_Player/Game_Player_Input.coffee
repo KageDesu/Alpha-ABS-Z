@@ -13,6 +13,11 @@ do ->
         console.log ("Attack")
         #TODO: test only
         @startAnimaXAA_Attack()
+
+    _.aaPerformDefense = ->
+        #TODO: NOT IMPLEMENTED
+
+    
     
     return
 # ■ END Game_Player.coffee

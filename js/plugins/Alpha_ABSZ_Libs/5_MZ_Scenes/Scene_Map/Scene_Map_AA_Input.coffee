@@ -10,20 +10,33 @@ do ->
     # * Пользовательский ввод (управление ABS и игроком)
     # -----------------------------------------------------------------------
     _.aaUpdatePlayerInput = ->
-        #@aaUpdatePlayerInput()
-        #@aaUpdateCommonInput()
+        @aaUpdatePlayerInput()
+        @aaUpdateCommonInput()
     
     _.aaUpdatePlayerInput = ->
+        return unless $gamePlayer.canBeControlled()
         @aaUpdatePlayerInput_Rotation()
         @aaUpdatePlayerInput_ActionKeys()
 
     #TODO: Возможно стоит вынести методы на Game_Player, сами обработки, так как проврок много
 
     _.aaUpdatePlayerInput_ActionKeys = ->
-        #TODO:  Тут остановился, кнопки атака, сброс цели и т.д.
+        if Input.isTriggered(AA.IKey.ATK)
+            $gamePlayer.aaPerformAttack()
+            return
+        if Input.isTriggered(AA.IKey.DEF)
+            $gamePlayer.aaPerformDefense()
+            return
+        if Input.isTriggered(AA.IKey.REL)
+            #TODO: reload firearm
+            return
+        if Input.isTriggered(AA.IKey.CMD)
+            #TODO: AI command menu
+            return
+        # AA.EV.Subcribe(PlayerTarget, () -> )
+        # AA.EV.Call(PlayerTarget)
 
     _.aaUpdatePlayerInput_Rotation = ->
-        return unless $gamePlayer.canBeControlled()
         # * Чтобы не поворачивался во время анимации
         return unless $gamePlayer.canMove()
         if Input.isPressed(AA.IKey.ROT)
@@ -42,6 +55,16 @@ do ->
             if rotateTarget?
                 $gamePlayer.turnTowardCharacter(rotateTarget)
         return
+
+    _.aaUpdateCommonInput = ->
+        if Input.isTriggered(AA.IKey.TRS)
+            #TODO: Nearest or next target select
+            return
+        if Input.isTriggered(AA.IKey.TRR)
+            #TODO: Reset target
+            @_aaResetPlayerTarget()
+            return
+        
 
     # * Обработка нажатия мыши (Touch) на карте (Левой)
     # -----------------------------------------------------------------------
