@@ -24,7 +24,7 @@ do ->
     _.init = (@settings) ->
         @applyInputSettings()
         @applyKeybindings()
-        "INIT ABS INPUT".p()
+        "INIT ABS INPUT SUB SYSTEM".p()
 
     # * Загружает данные с настроек плагина
     _.applyKeybindings = ->

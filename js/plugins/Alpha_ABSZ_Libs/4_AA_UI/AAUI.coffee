@@ -12,6 +12,7 @@ do ->
     _ = AA.UI
 
     _.setUI = (@uiSet) ->
+        @_subscribeForEvents()
 
     # * Когда появляется окно с сообщением
     _.onGameMessageStart = ->
@@ -35,39 +36,42 @@ do ->
 
         _.show = -> @uiSet?.show()
 
-    # -----------------------------------------------------------------------
-
-
-    # * Обработка левой кнопки мыши на карте
-    # -----------------------------------------------------------------------
-    do ->
-
-        # * Есть ли действие, которое должно быть выполнено по нажатию левой кнопки мыши на карте
-        # * Возвращает true, если действие выполнено
-        _.performCancelActionOnMap = ->
-            if @isSelectedCircleVisible()
-                @resetTargetSelection()
-                return true
-            return false
-
-        return
+        # * Если какой-либо UI элемент обрабатывает нажатие курсора, то true
+        _.isAnyUIElementTouchProcess = -> false
 
     # -----------------------------------------------------------------------
+
 
     # * Цель игрока
     # -----------------------------------------------------------------------
     do ->
-        # * Круг под выбранной целью
+        # * Круг под выбранной целью (установить спрайт круга)
         _.setSelectedCircle = (@selectedCircle) ->
 
+        # * Выбрать цель на карте
         _.selectTargetOnMap = (char) -> @selectedCircle?.setTarget char
 
+        # * Сбросить выбор цели на карте
         _.resetTargetSelection = -> _.selectTargetOnMap(null)
 
         #TODO: Либо проверять спрайт либо есть ли цель у игрока (TargetManager)
         _.isSelectedCircleVisible = -> @selectedCircle?.visible == true
 
     # -----------------------------------------------------------------------
+
+    # * Обработка АБС событий
+    # -----------------------------------------------------------------------
+    do ->
+
+        _._subscribeForEvents = ->
+            AA.EV.subscribeFor("PlayerTarget", @gev_onPlayerTargetChanged)
+
+        # * Когда цель игрока была изменена
+        _.gev_onPlayerTargetChanged = ->
+            "PLAYER TARGET CHANGED".p()
+            AA.UI.selectTargetOnMap($gamePlayer.AATarget())
+
+        return
 
     return
 # ■ END AA.UI.coffee

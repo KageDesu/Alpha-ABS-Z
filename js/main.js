@@ -19,6 +19,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/@@_PKD_AnimaX_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/0_@AABSZ.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEntity.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAGEvents.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAInput.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASystem.js"
@@ -30,6 +31,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyModelData.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEventSettingsParser.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAGEvent.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAMapEntitiesSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAMapProjectile.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAPlayerEntity.js"
@@ -223,6 +225,10 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
 
 
 

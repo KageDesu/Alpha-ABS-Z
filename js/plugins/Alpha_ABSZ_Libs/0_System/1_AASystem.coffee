@@ -18,6 +18,7 @@ do ->
         #TODO: * Лог свой для сообщений версий
         _.initSystem = ->
             "INIT ABS SYSTEM".p()
+            AA.EV.init()
             @loadParameters()
             @applyParameters()
 

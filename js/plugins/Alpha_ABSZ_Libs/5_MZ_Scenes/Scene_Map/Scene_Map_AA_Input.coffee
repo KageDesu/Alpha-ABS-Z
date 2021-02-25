@@ -123,11 +123,11 @@ do ->
             
         _.aaOnClickOnABSCharacter = (char) ->
             try
-                #TODO: debug only
-                window.__selected = char
+                $gamePlayer.aaTrySetTarget(char)
+                #? DEBUG ONLY
+                #TODO: ТУТ ОСТАНОВИЛСЯ
+                window.__selected = char #if AA.isDEV()
                 "SELECTED ON MAP".p(char.AABattler().name()) if char?
-                #AATargetsManager.setPlayerTarget char
-                AA.UI.selectTargetOnMap(char)
             catch e
                 AA.w e
 
@@ -137,7 +137,9 @@ do ->
 
         # * Если вернуть true - то меню НЕ будет показано
         _.onMapCancelTouchAA = ->
-            #TODO: тут проверки на открытые окна (инвентарь и т.д.)
+            # * инвернтарь, Hot бар и т.д.
+            if AA.UI.isAnyUIElementTouchProcess()
+                return true
             return @_targetSelectionCancelTouch()
 
         # * Обработка выбора или сброса целей на правую кнопку мыши
@@ -196,10 +198,8 @@ do ->
 
         # * Сбросить цель игрока
         _._aaResetPlayerTarget = ->
-            #TODO: reset target
-            #! Временный метод!!!
+            $gamePlayer.aaTrySetTarget(null)
             window.__selected = null
-            AA.UI.performCancelActionOnMap()
 
     return
 # ■ END Scene_Map.coffee

@@ -10,3 +10,8 @@ class AAPlayerEntity extends AAEntity
     character: -> $gamePlayer
 
     battler: -> $gameParty.leader()
+
+    setTarget: (target) ->
+        super(target)
+        AA.EV.call("PlayerTarget")
+        return

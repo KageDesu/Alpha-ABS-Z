@@ -49,8 +49,8 @@ class AAEntity
 
     # * TARGET
     # -----------------------------------------------------------------------
-    setTarget: (target) -> if target? then @_target = target else @resetTarget()
-    resetTarget: -> @_target = null
+    setTarget: (target) -> @_target = target
+    resetTarget: -> @setTarget(null)
     getTarget: -> @_target
     isHasTarget: -> @getTarget()?
     

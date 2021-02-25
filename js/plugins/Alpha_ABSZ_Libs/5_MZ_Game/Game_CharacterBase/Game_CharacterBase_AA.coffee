@@ -36,6 +36,19 @@ do ->
             return false unless character?
             return false unless character.isABS()
             @AAEntity().isMyEnemy(character.AAEntity())
+
+        _.AATarget = -> @AAEntity()?.getTarget()
+
+        # * Попытка установить активную цель
+        _.aaTrySetTarget = (target) ->
+            if @aaIsValidTargetToSet(target)
+                @AAEntity()?.setTarget(target)
+                return true
+            return false
+        
+        # * Этот метод лучше переопределять у Game_Event и Game_Player
+        _.aaIsValidTargetToSet = (target) -> false
+
     # -----------------------------------------------------------------------
 
 
