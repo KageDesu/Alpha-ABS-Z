@@ -1,27 +1,19 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_Player.coffee
+# ■ Game_Battler.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_Player::
+    _ = Game_Battler::
 
-    _.aaPerformAttack = ->
-        return unless $gamePlayer.isActive()
-        return unless $gamePlayer.canBeControlled()
-        console.log ("Attack")
-        aaSkill = @AABattler().getAttackAASkill()
-        if @isCanPerformAASkill(aaSkill)
-            @executeAASkill(aaSkill)
+    #@[ALIAS]
+    ALIAS__initMembers = _.initMembers
+    _.initMembers = ->
+        ALIAS__initMembers.call(@)
+        @initAASkillsSet()
         return
-        #@startAnimaXAA_Attack()
-
-    _.aaPerformDefense = ->
-        #TODO: NOT IMPLEMENTED
-
-    
     
     return
-# ■ END Game_Player.coffee
+# ■ END Game_Battler.coffee
 #---------------------------------------------------------------------------

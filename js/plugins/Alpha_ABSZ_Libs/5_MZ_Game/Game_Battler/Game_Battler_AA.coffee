@@ -1,27 +1,25 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_Player.coffee
+# ■ Game_Battler.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_Player::
+    _ = Game_Battler::
 
-    _.aaPerformAttack = ->
-        return unless $gamePlayer.isActive()
-        return unless $gamePlayer.canBeControlled()
-        console.log ("Attack")
-        aaSkill = @AABattler().getAttackAASkill()
-        if @isCanPerformAASkill(aaSkill)
-            @executeAASkill(aaSkill)
+    _.initAASkillsSet = ->
+        @aaSkillsSet = new AASkillsSet()
+
+    _.getAttackAASkill = ->
+    
+    # * Установить ABS навык для выполнения (задать текущее действие)
+    _.prepareAASkillForExecuting = (aaSkill) ->
+        @makeActions()
+        #TODO: if item, setItem, isSkill set Skill
+        #см. ABS MV -> Game_Player.js строка 593
+        @action(0).setSkill(aaSkill.id)
         return
-        #@startAnimaXAA_Attack()
 
-    _.aaPerformDefense = ->
-        #TODO: NOT IMPLEMENTED
-
-    
-    
     return
-# ■ END Game_Player.coffee
+# ■ END Game_Battler.coffee
 #---------------------------------------------------------------------------

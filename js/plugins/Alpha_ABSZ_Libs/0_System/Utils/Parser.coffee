@@ -40,7 +40,7 @@ do ->
             for param in paramsRaw
                 data.params.push(_.extractABSParameter(param)) #ACore
             item.AASkillData = data
-            console.info item.AASkillData
+            #console.info item.AASkillData
         catch e
             AA.w e
 

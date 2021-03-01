@@ -1,27 +1,20 @@
+# * Глабольный менеджер с основными методами для АБС боя
+
+AABattleManager = ->
+
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_Player.coffee
+# ■ IMPLEMENTATION.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_Player::
+    _ = AABattleManager
 
-    _.aaPerformAttack = ->
-        return unless $gamePlayer.isActive()
-        return unless $gamePlayer.canBeControlled()
-        console.log ("Attack")
-        aaSkill = @AABattler().getAttackAASkill()
-        if @isCanPerformAASkill(aaSkill)
-            @executeAASkill(aaSkill)
-        return
-        #@startAnimaXAA_Attack()
+    # * Может ли user использовать навык aaSkill в данный момент (имея активную цель target или null)
+    _.canUseAASkillNow = (user, aaSkill, target) -> true
 
-    _.aaPerformDefense = ->
-        #TODO: NOT IMPLEMENTED
 
-    
-    
     return
-# ■ END Game_Player.coffee
+# ■ END IMPLEMENTATION.coffee
 #---------------------------------------------------------------------------

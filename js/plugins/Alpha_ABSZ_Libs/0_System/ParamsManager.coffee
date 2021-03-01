@@ -7,9 +7,7 @@ do ->
         constructor: () ->
             super("Test")
             @_prepareParameters()
-            "PLUGIN PARAMETERS".p()
-            console.info(@params) #TODO: test
-            "===================".p()
+            return
 
         xAnimations: ->
             if Imported.PKD_AnimaX is true

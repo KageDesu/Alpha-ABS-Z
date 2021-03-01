@@ -28,6 +28,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AAInstantSkill_0.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_BattlerAASkillsSet.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AABattleManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyBattler.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyModelData.js"
@@ -42,6 +43,8 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Diagonal_TEST.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_BattlerBase_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_AA.js"
@@ -226,6 +229,9 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
 
 
 

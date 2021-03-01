@@ -10,6 +10,7 @@ do ->
     # * Можно ли управлять? (движение, навыки и всё в этом роде)
     _.canBeControlled = -> @isActive()
 
+    #TODO:?
     # * Проверка цели (см. Game_CharacterBase_AA)
     _.aaIsValidTargetToSet = (target) -> true
 
