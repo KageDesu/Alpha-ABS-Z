@@ -19,7 +19,6 @@ do ->
         @aaUpdatePlayerInput_ActionKeys()
 
     #TODO: Возможно стоит вынести методы на Game_Player, сами обработки, так как проврок много
-
     _.aaUpdatePlayerInput_ActionKeys = ->
         if Input.isTriggered(AA.IKey.ATK)
             $gamePlayer.aaPerformAttack()
@@ -33,8 +32,7 @@ do ->
         if Input.isTriggered(AA.IKey.CMD)
             #TODO: AI command menu
             return
-        # AA.EV.Subcribe(PlayerTarget, () -> )
-        # AA.EV.Call(PlayerTarget)
+        return
 
     _.aaUpdatePlayerInput_Rotation = ->
         # * Чтобы не поворачивался во время анимации
@@ -44,12 +42,10 @@ do ->
                 when 2
                     rotateTarget = TouchInput.toMapPoint()
                 when 1
-                    #TODO: target
-                    rotateTarget = window.__selected
+                    rotateTarget = $gamePlayer.AATarget()
                 else
-                    #TODO: target
-                    if window.__selected?
-                        rotateTarget = window.__selected
+                    if $gamePlayer.aaIsHaveTarget()
+                        rotateTarget = $gamePlayer.AATarget()
                     else
                         rotateTarget = TouchInput.toMapPoint()
             if rotateTarget?
@@ -92,9 +88,8 @@ do ->
         _._combinedTouchProcess = ->
             char = @aaGetABSEntityInPosition(TouchInput.toMapPoint())
             if char?
-                #TODO: if char == player target
                 # * Если цель == цели игрока, то действие
-                if char == window.__selected
+                if char == $gamePlayer.AATarget()
                     # * Если ещё раз нажал на цель, если вне радиуса, то идти к цели
                     # * Если цель в радиусе атаки (и уже выбрана), то бить
                     console.log("CHECK ACTION, action or go")
@@ -125,9 +120,9 @@ do ->
             try
                 $gamePlayer.aaTrySetTarget(char)
                 #? DEBUG ONLY
-                #TODO: ТУТ ОСТАНОВИЛСЯ
-                window.__selected = char #if AA.isDEV()
-                "SELECTED ON MAP".p(char.AABattler().name()) if char?
+                if AA.isDEV()
+                    window.__selected = char
+                    "SELECTED ON MAP".p(char.AABattler().name()) if char?
             catch e
                 AA.w e
 
@@ -152,7 +147,7 @@ do ->
                 # * Если надо сбрасывать цель на RMB
                 if AA.Input.isResetTargetOnRMB()
                     # * Если цель выбрана
-                    if window.__selected?
+                    if $gamePlayer.aaIsHaveTarget()
                         @_aaResetPlayerTarget()
                         return true # * Не вызываем меню
                     else
@@ -178,7 +173,7 @@ do ->
                 unless char?
                     # * Если нету, то сброс цели
                     # * Используется условие, чтобы не вызывать меню если цель только была сброшена
-                    if window.__selected?
+                    if $gamePlayer.aaIsHaveTarget()
                         @_aaResetPlayerTarget()
                         return true
                     # * Иначе, если и не было, то будет вызвано меню (если стоит опция)
@@ -188,7 +183,7 @@ do ->
             # * Если надо показывать меню по RMB
             if AA.Input.isOpenMenuByRMB()
                 # * Если цель была выбрана, то не показывать меню
-                if window.__selected?
+                if $gamePlayer.aaIsHaveTarget()
                     return true
                 else
                     # * Если нет (была сброшена, то показать)
@@ -197,9 +192,7 @@ do ->
                 return true # * Не показываем меню
 
         # * Сбросить цель игрока
-        _._aaResetPlayerTarget = ->
-            $gamePlayer.aaTrySetTarget(null)
-            window.__selected = null
+        _._aaResetPlayerTarget = -> @aaOnClickOnABSCharacter(null)
 
     return
 # ■ END Scene_Map.coffee

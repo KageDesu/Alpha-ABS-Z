@@ -49,6 +49,9 @@ do ->
         # * Этот метод лучше переопределять у Game_Event и Game_Player
         _.aaIsValidTargetToSet = (target) -> false
 
+        # * Есть ли активная цель?
+        _.aaIsHaveTarget = -> @AATarget()?
+
     # -----------------------------------------------------------------------
 
 

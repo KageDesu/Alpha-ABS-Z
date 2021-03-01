@@ -24,6 +24,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASystem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AATimer.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_DevSymbol_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AAInstantSkill_0.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_BattlerAASkillsSet.js"
@@ -225,6 +226,8 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
 
 
 
