@@ -11,6 +11,8 @@ class AAEntity
         @_target = null
         @_inBattle = false
         @_dead = false
+        # * Состояние
+        @_state = null
 
     # * UPDATE
     # -----------------------------------------------------------------------

@@ -59,17 +59,39 @@ do ->
 
     # -----------------------------------------------------------------------
 
+    # * Выбор зоны применения навыка на карте
+    # -----------------------------------------------------------------------
+    do ->
+        # * Установить спрайт зоны поражаения навыка
+        _.setSkillImpactSelector = (@skillSelector) ->
+
+        # * Активировать зону поражения (показать спрайт)
+        _.activateSkillImpactSelector = (aaSkill) ->
+            @skillSelector?.activate(aaSkill)
+
+        _.resetSkillImpactSelector = -> @skillSelector?.deactivate()
+
+    # -----------------------------------------------------------------------
+
     # * Обработка АБС событий
     # -----------------------------------------------------------------------
     do ->
 
         _._subscribeForEvents = ->
             AA.EV.subscribeFor("PlayerTarget", @gev_onPlayerTargetChanged)
+            AA.EV.subscribeFor("PlayerChangeState", @gev_onPlayerStateChanged)
 
         # * Когда цель игрока была изменена
         _.gev_onPlayerTargetChanged = ->
             "PLAYER TARGET CHANGED".p()
             AA.UI.selectTargetOnMap($gamePlayer.AATarget())
+
+        # * Когда статус (поведения, действия) игрока меняется
+        _.gev_onPlayerStateChanged = ->
+            if $gamePlayer.isInSkillTargetingState()
+                AA.UI.activateSkillImpactSelector($gamePlayer._activeAASkill)
+            else
+                AA.UI.resetSkillImpactSelector()
 
         return
 

@@ -7,13 +7,6 @@ do ->
     #@[DEFINES]
     _ = Spriteset_Map::
 
-    #@[ALIAS]
-    ALIAS__createTilemap = _.createTilemap
-    _.createTilemap = ->
-        ALIAS__createTilemap.call(@)
-        @aaCreateExtraMapDownLayer()
-        @aaCreateSelectedCircle()
-    
     # * Дополнительный слой под персонажами, но на карте (тайлах)
     # -----------------------------------------------------------------------
     do ->
@@ -34,6 +27,12 @@ do ->
             AA.UI.setSelectedCircle @_aaSelectedCircle
             return
 
+        #TODO: Может над персонажами?
+        _.aaCreateSkillImpactSelector = ->
+            @_aaSkillImpactSelector = new AA.Sprite_SkillImpactSelector()
+            @_aaLayer01.addChild @_aaSkillImpactSelector
+            AA.UI.setSkillImpactSelector @_aaSkillImpactSelector
+            return
 
         return
     # -----------------------------------------------------------------------

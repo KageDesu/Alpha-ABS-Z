@@ -39,6 +39,7 @@ do ->
 
     _._initABSGEvents = ->
         @events.push(new AA.GEvent("PlayerTarget"))
+        @events.push(new AA.GEvent("PlayerChangeState"))
 
 
     return

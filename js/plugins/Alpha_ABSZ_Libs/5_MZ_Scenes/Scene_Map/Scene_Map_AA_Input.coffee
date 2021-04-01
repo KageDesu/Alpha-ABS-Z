@@ -66,6 +66,10 @@ do ->
     # -----------------------------------------------------------------------
     do ->
         _.onMapTouchAA = ->
+            # * Если игрок в режиме выбора зоны навыка, то активация навыка
+            if $gamePlayer.isInSkillTargetingState()
+                $gamePlayer.onSkillTargetSelected()
+                return
             # * Стоит выбор целей на левую кнопку мыши (общий)
             if AA.Input.TargetSelectClick is 1
                 # * Тут выбор цели на левую кнопку мыши игнорируется (он и так есть)
