@@ -40,6 +40,7 @@ do ->
     _._initABSGEvents = ->
         @events.push(new AA.GEvent("PlayerTarget"))
         @events.push(new AA.GEvent("PlayerChangeState"))
+        @events.push(new AA.GEvent("PlayerSkillSelector"))
 
 
     return

@@ -84,6 +84,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_ActorStateGauge.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_ActorStateIcon.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_PopTreasureItem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SelectedCircle.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillImpactSelector.js"
@@ -232,6 +233,8 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
 
 
 

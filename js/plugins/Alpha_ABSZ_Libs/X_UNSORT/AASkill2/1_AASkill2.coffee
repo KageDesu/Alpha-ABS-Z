@@ -12,6 +12,10 @@
 #@[STORABLE]
 class AASkill2
     constructor: (@databaseId) ->
+        @radius = 2
+        @color = "#FF22AA"
+        @image = null
+        @opacity = 200
     
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AASkill2.coffee

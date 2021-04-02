@@ -79,7 +79,8 @@ do ->
 
         _._subscribeForEvents = ->
             AA.EV.subscribeFor("PlayerTarget", @gev_onPlayerTargetChanged)
-            AA.EV.subscribeFor("PlayerChangeState", @gev_onPlayerStateChanged)
+            #AA.EV.subscribeFor("PlayerChangeState", @gev_onPlayerStateChanged)
+            AA.EV.subscribeFor("PlayerSkillSelector", @gev_onPlayerSkillSelector)
 
         # * Когда цель игрока была изменена
         _.gev_onPlayerTargetChanged = ->
@@ -88,8 +89,11 @@ do ->
 
         # * Когда статус (поведения, действия) игрока меняется
         _.gev_onPlayerStateChanged = ->
+            
+
+        _.gev_onPlayerSkillSelector = ->
             if $gamePlayer.isInSkillTargetingState()
-                AA.UI.activateSkillImpactSelector($gamePlayer._activeAASkill)
+                AA.UI.activateSkillImpactSelector($gamePlayer.activeAASkill())
             else
                 AA.UI.resetSkillImpactSelector()
 

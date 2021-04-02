@@ -1,27 +1,29 @@
 do ->
-    
-    #TODO: Когда любой АИ персонаж попадает в "зону" выбора, он должен подсвечиваться whiten
 
     class Sprite_SkillImpactSelector extends KDCore.Sprite
         constructor: () ->
             super()
             @anchor.set(0.5)
             @visible = false
-            @bitmap = new Bitmap(48, 48)
-            @opacity = 200
-            @fillAll()
+            return
             
-        activate: (aaSkill) ->
+        activate: (@aaSkill) ->
+            @targetsCollectThread = new KDCore.TimedUpdate(10, @_refreshTargets.bind(@))
             @visible = true
-            #TODO: redraw depends on skill (radius, image?, color)
+            @_applyStyle(@aaSkill)
         
         deactivate: ->
+            @targetsCollectThread = null
+            @_refreshTargets()
+            @aaSkill = null
             @visible = false
+            return
 
         update: ->
             super()
             return unless @visible
             @move TouchInput
+            @targetsCollectThread?.update()
 
     AA.link Sprite_SkillImpactSelector
     return
@@ -35,6 +37,34 @@ do ->
     #@[DEFINES]
     _ = AA.Sprite_SkillImpactSelector::
 
+    # * Отрисовка зонвы выбора в зависимости от параметров навыка
+    _._applyStyle = ({ radius, color, image, opacity }) ->
+        @_applyRadius(radius)
+        @_applyColor(color)
+        @_applyImage(image)
+        @opacity = opacity
+        return
+
+    _._applyRadius = (radius) ->
+        if radius <= 0
+            @bitmap = new Bitmap(0, 0)
+        else
+            @bitmap = new Bitmap(radius * $gameMap.tileWidth(), radius * $gameMap.tileHeight())
+        return
+
+    _._applyColor = (color) ->
+        @bitmap.fillAll color.toCss()
+
+    _._applyImage = (image) ->
+        return unless String.any(image)
+        @bitmap = ImageManager.loadPicture(image)
+        return
+
+    #TODO: Это должно быть на игроке!!!
+    _._refreshTargets = ->
+        $gameTemp._aaSkillSelectorTargets =
+            AATargetsManager.collectTargetsForSkillInPoint(@aaSkill, TouchInput)
+        return
 
 
 # ■ END PRIVATE.coffee

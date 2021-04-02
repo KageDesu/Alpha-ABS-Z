@@ -26,6 +26,7 @@ do ->
         console.log("Activate test AA Skill")
         skill = new AASkill2(302)
         @_activeAASkill = skill
+        AATargetsManager.collectTargetsForSkillInPoint(skill, TouchInput)
         # * Переводим игрока в режим выбора (активации навыка) точки для навыка на карте
         @_setAAStateToSelectSkillTarget()
         #TODO: impact skill in that map point

@@ -12,6 +12,8 @@ do ->
 
     _.isInSkillTargetingState = -> @aaState == 'skill'
 
+    _.activeAASkill = -> @_activeAASkill
+
     #TODO:?
     # * Проверка цели (см. Game_CharacterBase_AA)
     _.aaIsValidTargetToSet = (target) -> true
@@ -19,6 +21,8 @@ do ->
     # * Когда игрок выбрал зону поражения навыка на карте (нажал левую кнопку мыши)
     _.onSkillTargetSelected = ->
         "SKILL ZONE SELECTED".p()
+        console.info $gameTemp._aaSkillSelectorTargets
+        $gameTemp._aaSkillSelectorTargets = null
         console.log(TouchInput.toMapPoint())
         # * Сбрасываем состояние?
         @_resetAAState()
@@ -34,12 +38,14 @@ do ->
         _._setAAStateToSelectSkillTarget = ->
             # * Наверное должно быт в AAEntity!!! Так как у ботов тоже будет этот параметр
             @aaState = 'skill'
-            AA.EV.call("PlayerChangeState")
+            AA.EV.call("PlayerSkillSelector")
+            #AA.EV.call("PlayerChangeState")
             #TODO: rise event -> Scene_Map pick event and change mode to select map zone
 
         _._resetAAState = ->
             @aaState = null
-            AA.EV.call("PlayerChangeState")
+            AA.EV.call("PlayerSkillSelector")
+            #AA.EV.call("PlayerChangeState")
 
         return
     # -----------------------------------------------------------------------
