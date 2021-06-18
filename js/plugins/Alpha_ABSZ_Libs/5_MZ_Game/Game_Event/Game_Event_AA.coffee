@@ -27,6 +27,7 @@ do ->
                 if enemyId > 0
                     if AA.Utils.Guard.isProperEnemyIdForABSEvent(enemyId)
                         @aaEventSettings = new AA.AAEventSettingsParser(@list())
+                        console.info @aaEventSettings
                         return true
                     else
                         AA.w "Enemy ID " + enemyId + " not exists in DB or not have a name"

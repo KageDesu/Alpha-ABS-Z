@@ -11,7 +11,9 @@ do ->
             @param = null # * Параметр плагина (MZ)
             @mainLine = "" # * <ABS:X>
             @parsedParams = [] # * Финальные значения параметров на замену
+            @absParameters = [] # * Параметры АБС найденные в событии (промежуточные)
             @_pasreEventList(list)
+            @_parseABSParamsBase()
             @_parseABSParamsSequence()
             @_parseParams()
             @_parsePluginCommand()
@@ -34,9 +36,19 @@ do ->
                     @param = line
             return
 
+        # * Собирает параметры в базовом представлении < > (как в оригинале)
+        _parseABSParamsBase: ->
+            for l in @list
+                continue unless l?
+                param = AA.Utils.Parser.extractABSParameter(l)
+                continue unless param?
+                # * Не добавляем ABS, он идёт отдельно
+                continue if param[0] == 'ABS'
+                @parsedParams.push(param)
+            return
+
         # * Собирает все строки с АБС параметрами от <ABS> до </ABS>
         _parseABSParamsSequence: ->
-            @absParameters = []
             @mainLine = @list.find (l) -> l.contains('<ABS')
             endElement = @list.find (l) -> l.contains('</ABS>')
             return unless endElement?
