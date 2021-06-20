@@ -23,6 +23,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAInput.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill2.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill2MapAction.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASystem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AATimer.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_DevSymbol_TEST.js"
@@ -56,6 +57,8 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AI.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AASkills.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_AA.js"
@@ -81,6 +84,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_UIEditor_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_UIEditor_0.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_UIEditor_Mouse.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_AAMapSkill2Projectile.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_ActorStateGauge.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_ActorStateIcon.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_@.js"
@@ -90,6 +94,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillImpactSelector.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AASkills.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_0.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_ActorUI.js"
@@ -233,6 +238,11 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
 
 
 

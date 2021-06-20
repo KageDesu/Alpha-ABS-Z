@@ -23,9 +23,14 @@ do ->
         "SKILL ZONE SELECTED".p()
         console.info $gameTemp._aaSkillSelectorTargets
         $gameTemp._aaSkillSelectorTargets = null
-        console.log(TouchInput.toMapPoint())
+        @startPerformAASkill(TouchInput.toMapPoint())
         # * Сбрасываем состояние?
         @_resetAAState()
+
+    _.startPerformAASkill = (point) ->
+        "START PERFORM AA SKILL ON MAP".p()
+        console.log(point)
+        $gameMap.startAASkill(@activeAASkill(), @, point)
 
     # * Основные (приватные) методы АБС
     # -----------------------------------------------------------------------

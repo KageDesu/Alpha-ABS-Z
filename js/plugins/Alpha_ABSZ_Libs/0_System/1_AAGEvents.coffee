@@ -42,6 +42,10 @@ do ->
         @events.push(new AA.GEvent("PlayerChangeState"))
         @events.push(new AA.GEvent("PlayerSkillSelector"))
 
+        @events.push(new AA.GEvent("MapSkillsRequestsClean"))
+
+        return
+
 
     return
 # ■ END EVENTS.coffee

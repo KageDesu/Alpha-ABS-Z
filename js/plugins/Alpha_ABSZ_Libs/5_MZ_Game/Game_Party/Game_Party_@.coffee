@@ -1,17 +1,21 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ MATH.coffee
+# ■ Game_Party.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = AA.Utils.Math
-    AP = KDCore.Point
+    _ = Game_Party::
 
-    # * Алтернативный метод, расчитаный на более быстрое вычисление (без создания Point)
-    # * Используется в проверке коллизий Map AA Skills Projectiles
-    _.getXYDistance = (x1, y1, x2, y2) -> Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
-
+    #TODO: Пока только игрок может быть (АБС)
+    #TODO: Добавить игнорирование членов группы с пустыми именами (частая ошибка новичков)
+    #@[ALIAS]
+    ALIAS__setupStartingMembers = _.setupStartingMembers
+    _.setupStartingMembers = ->
+        ALIAS__setupStartingMembers.call(@)
+        @_actors = [@_actors.first()]
+        return
+    
     return
-# ■ END MATH.coffee
+# ■ END Game_Party.coffee
 #---------------------------------------------------------------------------
