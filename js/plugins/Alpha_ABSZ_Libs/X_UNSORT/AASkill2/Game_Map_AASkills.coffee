@@ -22,9 +22,8 @@ do ->
     _.startAASkill = (aaSkill, subject, targetPoint) ->
         return unless aaSkill?
         #TODO: Возможно не надо полный навык хранить, а только ID из базы
-        mapSkill = new AASkill2MapAction(aaSkill)
-        mapSkill.setSubject subject
-        mapSkill.setTargetPoint targetPoint
+        mapSkill = new AASkill2MapAction(aaSkill, subject, targetPoint)
+        subject.turnTowardCharacter(targetPoint) if aaSkill.isInPoint()
         @_registerNewAASkill(mapSkill)
         return
 
@@ -37,7 +36,7 @@ do ->
                 break
         @_aaMapSkills[index] = skill
         "PROJECTILE REGISTRED ON MAP".p(index)
-        SceneManager._scene._spriteset.aaCreateNewMapSkill(index)
+        $gameMap.spriteset().aaCreateNewMapSkill(index)
         return
 
     

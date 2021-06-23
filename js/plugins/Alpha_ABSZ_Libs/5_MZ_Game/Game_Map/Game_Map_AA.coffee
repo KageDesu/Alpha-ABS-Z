@@ -20,7 +20,10 @@ do ->
             return @eventsXy(x, y).filter (e) -> e.isActive()
         catch e
             AA.w e
-    
+
+    # * Возвращяет спрайтсет карты (!Надо проверять сцену сперва)
+    _.spriteset = () -> SceneManager._scene._spriteset
+
     return
 # ■ END Game_Map.coffee
 #---------------------------------------------------------------------------

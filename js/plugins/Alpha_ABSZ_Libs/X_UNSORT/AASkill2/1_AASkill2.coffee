@@ -64,7 +64,7 @@ do ->
         @radius = 2
         @range = 8
         #facing dir 0, point 1
-        @direction = 1
+        @direction = 0
         @vSpeed = 3
 
     # * Настройки поведения на карте

@@ -194,7 +194,7 @@ do ->
         @opacity = 0
         "HIT".p()
         console.info(target)
-        #TODO: Play Animation
+        #TODO: Play Animation (MAP or TARGETS?) Always map ?
         #TODO: Do Common Action
         #TODO: Do ABS Action
         return

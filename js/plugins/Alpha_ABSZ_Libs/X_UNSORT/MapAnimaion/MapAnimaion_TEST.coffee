@@ -8,14 +8,20 @@ do ->
     _ = Spriteset_Base::
 
     # * Запустить анимацию в точке на карте
-    _.aaCreateAnimationOnMap = (mapX, mapY, request) ->
-        animation = $dataAnimations[1]
+    _.aaCreateAnimationOnMap = (mapX, mapY, animationId) ->
+        animation = $dataAnimations[animationId]
+        unless animation?
+            KDCore.warning("Animation with ID " + animationId + " not found!")
+            return
         # * Конвертируем точку карты в точку экрана
         point = new KDCore.Point(mapX, mapY)
         point = point.convertToScreen()
         # * Спрайт родитель
         animationTarget = new Sprite()
         animationTarget.move point
+        # * Если не задан параметр alignBottom, то поднимаем на центр
+        unless animation.alignBottom
+            animationTarget.y -= $gameMap.tileWidth() / 2
         mirror = false
         delay = 0
         # * Спрайт анимации
@@ -28,6 +34,7 @@ do ->
         @_effectsContainer.addChild sprite
         @_animationSprites.push sprite
         # * Родитель анимации надо добавить на Spriteset
+        #TODO: [IDEA] Тут надо в зависимости от уровня анимации, ниже или выше персонажей
         @addChild animationTarget
         return
     

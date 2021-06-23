@@ -3,13 +3,15 @@
 
 #@[STORABLE]
 class AASkill2MapAction
-    constructor: (@aaSkill2) ->
+    constructor: (@aaSkill2, subject, point) ->
         # * Эти значения меняются из Sprite_AAMapSkill2Projectile
         @x = 0
         @y = 0
         @totalFlyTime = @_calculateFlyTime()
+        @setSubject(subject)
+        @setTargetPoint(point)
         return
-        
+
     setSubject: (subject) ->
         @subject = null
         return unless subject.isABS()
@@ -25,6 +27,8 @@ class AASkill2MapAction
         return
 
     setTargetPoint: (point) ->
+        point = @preparePoint(point) if @subject?
+        console.info(point)
         if point instanceof Game_Character
             point = point.toPoint()
         # * Точки на экране
@@ -33,6 +37,19 @@ class AASkill2MapAction
         # * Точки на карте
         @tX = point.x
         @tY = point.y
+        return
+
+    preparePoint: (point) ->
+        if @aaSkill2.isInPoint()
+            return point
+        else
+            # * По направлению персонажа (face direction)
+            subject = @getSubject()
+            if subject._diagonalDir? and subject._diagonalDir isnt false
+                direction = subject._diagonalDir
+            else
+                direction = subject.direction()
+            return AA.Utils.Math.getProjectilePointByDirection(subject.toPoint(), direction)
         return
 
     isSubjectIsPlayer: -> @subject == 0
@@ -62,6 +79,8 @@ class AASkill2MapAction
     isHaveRegion: (regionId) -> false
 
     isHaveTerrain: (terrainTag) -> false
+
+    isCanHitPoint: () -> @aaSkill2.isInPoint()
 
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AASkill2MapAction.coffee

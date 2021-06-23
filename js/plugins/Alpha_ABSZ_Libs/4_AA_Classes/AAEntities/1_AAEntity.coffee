@@ -34,7 +34,7 @@ class AAEntity
 
     battler: ->
 
-    sprite: -> SceneManager._scene._spriteset.findTargetSprite(@character())
+    sprite: -> $gameMap.spriteset().findTargetSprite(@character())
 
     # * HELPERS
     # -----------------------------------------------------------------------

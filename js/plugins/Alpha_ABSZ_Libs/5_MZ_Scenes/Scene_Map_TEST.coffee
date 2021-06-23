@@ -155,7 +155,7 @@ do ->
             item = data.sample().sample()
         popUpItem.setItem item, KDCore.SDK.rand(1, 6)
 
-        char = SceneManager._scene._spriteset.findTargetSprite($gameMap.event(12))
+        char = $gameMap.spriteset().findTargetSprite($gameMap.event(12))
         #char = $gamePlayer.AASprite()
 
         # * Если нету, создаём
