@@ -27,7 +27,7 @@
 
 #@[STORABLE]
 class AASkill2
-    constructor: (@databaseId) ->
+    constructor: (@databaseId, @isItem = false) ->
         @initMain()
         @initOnMapSettings()
         @initSelector()

@@ -8,9 +8,16 @@ do ->
     _ = Game_Event::
 
     #@[ALIAS]
+    ALIAS__initMembers = _.initMembers
+    _.initMembers = ->
+        ALIAS__initMembers.call(@)
+        @aaInitExtraParams()
+
+    #@[ALIAS]
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
+
 
     # * Система анимации XAnima
     # -----------------------------------------------------------------------
@@ -29,6 +36,8 @@ do ->
         _.setupPage = ->
             ALIAS__setupPage.call(@)
             @aaCheckABSEventState()
+            @aaCheckExtraParams()
+            return
 
         #@[ALIAS]
         ALIAS__clearPageSettings = _.clearPageSettings

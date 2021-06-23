@@ -125,19 +125,19 @@ do ->
             @onHit($gamePlayer)
             return
         # * Для оптимизации, считаем один раз тут, а не в каждом методе
-        tx = Math.floor(@skill.x / $gameMap.tileWidth())
-        ty = Math.floor(@skill.y / $gameMap.tileWidth())
-        map = @_checkHitMap(tx, ty)
+        x = Math.floor(@skill.x / $gameMap.tileWidth())
+        y = Math.floor(@skill.y / $gameMap.tileWidth())
+        map = @_checkHitMap(x, y)
         if map is true
             "MAP OBSTCL HIT".p()
-            @onHit(null)
+            @onHit({ x, y })
             return
-        point = @_checkHitPoint(tx, ty)
+        point = @_checkHitPoint(x, y)
         if point is true
             "POINT HIT".p()
-            @onHit(null)
+            @onHit({ x, y })
             return
-        event = @_checkHitEvent(tx, ty)
+        event = @_checkHitEvent(x, y)
         if event?
             "EVENT HIT".p()
             @onHit(event)
@@ -153,6 +153,7 @@ do ->
 
     # * Когда достиг точки на карте (указанной как цель)
     _._checkHitPoint = (tx, ty) ->
+        return false unless @skill.isCanHitPoint()
         return @skill.tX == tx and @skill.tY == ty
 
     # * Когда препятсвие на карте (Регион или Terrain)

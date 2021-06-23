@@ -57,6 +57,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AI.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_ExtraAAParams.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AASkills.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_@.js"
@@ -240,4 +241,5 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
 

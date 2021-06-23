@@ -11,6 +11,7 @@ do ->
     # * Для навыков (навыки, оружие, предметы)
     _.processABSSkillsNotetags = ->
         _.checkInitialAttackABSSkill()
+        #TODO: Оружие не имеет своих ABS параметров, только ссылка на НАВЫК
         for db in [$dataSkills, $dataWeapons, $dataItems]
             for item in db
                 # * Если <ABS> нету, то пропускаем
@@ -28,6 +29,7 @@ do ->
             AA.cre e, 'Something wrong with Attack skill [1] settings'
         return
 
+    #TODO: Переделать под Skill2
     _.processABSSkillParamsInItem = (item) ->
         return unless item.meta?.ABS?
         try
@@ -76,6 +78,17 @@ do ->
             AA.w e
             return []
         return result
+
+    # * Извлекает из строки (линии) имя параметра и его значение
+    # * Учитывается сложный параметр (массив или строка)
+    _.extractABSParameterAny = (line) ->
+        match = line.match(/<*(\w+)\s*:\s*([\d,\w\s*]+)>*/i)
+        if match?
+            name = match[1]
+            value = match[2]
+            return [name, value]
+        else
+            return null
 
     return
 

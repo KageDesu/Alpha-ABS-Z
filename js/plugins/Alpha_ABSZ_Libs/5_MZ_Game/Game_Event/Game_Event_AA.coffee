@@ -37,6 +37,7 @@ do ->
 
         _._initMembersABS = ->
             @aaEntity = new AAEnemyEntity(@eventId())
+            return
 
         return
     # -----------------------------------------------------------------------
