@@ -82,6 +82,8 @@ class AASkill2MapAction
 
     isCanHitPoint: () -> @aaSkill2.isInPoint()
 
+    isNoContact: () -> @aaSkill2.isNoContact()
+
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AASkill2MapAction.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛

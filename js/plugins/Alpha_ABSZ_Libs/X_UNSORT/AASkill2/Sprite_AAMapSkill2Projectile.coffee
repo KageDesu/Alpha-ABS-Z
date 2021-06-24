@@ -113,6 +113,11 @@ do ->
             @opacity -= 40
             if @opacity <= 0
                 @_ended = true
+                # * Если навык без контактный и его "время" закончено, он должен сработать всё равно
+                if @_hasHit is false and @skill.isNoContact()
+                    x = Math.floor(@skill.x / $gameMap.tileWidth())
+                    y = Math.floor(@skill.y / $gameMap.tileWidth())
+                    @onHit({ x, y })
                 AA.EV.call("MapSkillsRequestsClean")
         else
             @_framesBeforeStartFadeToEnd -= 1
@@ -186,8 +191,9 @@ do ->
     # * Блокирует ли событие Projectile ?
     _.isEventIsObstacle = (event) ->
         return false if event._erased
-        #TODO: projBlock types
-        #return false if event.
+        return true unless event._aaMapSkillVectorBlockList?
+        return false if event._aaMapSkillVectorBlockList.isEmpty()
+        return !event._aaMapSkillVectorBlockList.contains(@skill.id())
         return @isSameMapLevel(event._priorityType)
 
     _.onHit = (target) ->
@@ -195,9 +201,7 @@ do ->
         @opacity = 0
         "HIT".p()
         console.info(target)
-        #TODO: Play Animation (MAP or TARGETS?) Always map ?
-        #TODO: Do Common Action
-        #TODO: Do ABS Action
+        AABattleActionsManager.onMapSkillAction(target, @skill)
         return
     
     return

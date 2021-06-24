@@ -2,14 +2,19 @@
 # ■ Game_Event.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
+
+# * Данные параметры отвечают за блокирование или
+# * эффекты влияния Vector навыков на обычные (и АБС) события
+
+# * Список: vectorOffset:X, vectorAction:[]\<>, vectorBlock:[]\all\no
+
 do ->
 
     #@[DEFINES]
     _ = Game_Event::
 
     _.aaInitExtraParams = ->
-        @_aaMapSkillVectorBlock = 0
-        @_aaMapSkillVectorBlockList = []
+        @_aaMapSkillVectorBlockList = null
         @_aaMapSkillVectorAction = false
         @_aaMapSkillVectorOffset = 0
         return
@@ -20,7 +25,7 @@ do ->
         return unless @page()?
         @_aaExtractVectorOffsetParam()
         @_aaExtractVectorActions()
-        #TODO: BLOCK REGIONS
+        @_aaExtractVectorBlockList()
         return
     
     _._aaExtractVectorOffsetParam = ->
@@ -33,6 +38,7 @@ do ->
         catch e
             AA.warning e
 
+    #TODO: Пока не реализованы действия на событиях
     _._aaExtractVectorActions = ->
         try
             vectorAction = KDCore.Utils.getEventCommentValue("vectorAction", @list())
@@ -40,10 +46,24 @@ do ->
             if vectorAction.contains(":")
                 param = AA.Utils.Parser.extractABSParameterAny(vectorAction)
                 if param?
-                    @_aaMapSkillVectorAction = param[1].split(",").map((i) -> parseInt(i.trim()))
+                    @_aaMapSkillVectorAction = AA.Utils.Parser.convertArrayFromParameter(param[1])
             else
                 @_aaMapSkillVectorAction = [] # * All
-            console.info(@_aaMapSkillVectorAction)
+        catch e
+            AA.warning e
+        return
+
+    _._aaExtractVectorBlockList = ->
+        try
+            vectorBlockList = KDCore.Utils.getEventCommentValue("vectorBlock", @list())
+            return unless vectorBlockList?
+            param = AA.Utils.Parser.extractABSParameterAny(vectorBlockList)
+            if param[1] == "no"
+                @_aaMapSkillVectorBlockList = []
+            else if param[1] == "all"
+                @_aaMapSkillVectorBlockList = null
+            else
+                @_aaMapSkillVectorBlockList = AA.Utils.Parser.convertArrayFromParameter(param[1])
         catch e
             AA.warning e
         return

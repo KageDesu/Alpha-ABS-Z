@@ -32,6 +32,12 @@ class AASkill2
         @initOnMapSettings()
         @initSelector()
     
+    animationId: -> @dbItem().animationId
+
+    dbItem: ->
+        db = if @isItem is true then $dataItems else $dataSkills
+        db[@databaseId]
+
     # * Надо выбирать зону поражения для навыка
     isNeedSelectZone: -> @isInPoint() and @range > 0
 
@@ -41,7 +47,7 @@ class AASkill2
     # * Направление - в точку
     isInPoint: -> @direction == 1
 
-    #TODO: noContact and contactOnly
+    isNoContact: -> @noContact > 0
 
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AASkill2.coffee
@@ -56,8 +62,6 @@ do ->
 
     # события, которые могут пропускать через себя Proj, но выполнять действия
 
-    #special ID - skill ID
-
     # * Основные АБС параметры навыка
     _.initMain = ->
         # * Область поражения (0 - Х)
@@ -66,12 +70,15 @@ do ->
         #facing dir 0, point 1
         @direction = 0
         @vSpeed = 3
+        return
 
     # * Настройки поведения на карте
     _.initOnMapSettings = ->
         @z = 3
         @img = "bullet0(8,5)"
-        @hitOffset = $gameMap.tileWidth() * 0.5
+        @hitOffset = $gameMap.tileWidth() * 0.5 #24
+        # * Если 1, то навык срабатывает в конце своего пути в любом случае
+        @noContact = 1
         return
 
     # * Параметры селектора на карте
