@@ -57,6 +57,9 @@ do ->
 
         _.isMap = -> $gameTemp._isMapScene is true
 
+        #TODO: Это надо или нет?
+        _.isABSBattle = -> @isMap() and @isABS()
+
         #TODO: Может пауза и не нужна
         _.pauseABS = -> $gameTemp._isABSOnPause = true
 
@@ -115,7 +118,7 @@ do ->
 
         _.initEnteties = ->
             $gamePlayer.initABS()
-            $gameTroop.initABS()
+            $gameMap.initABS()
 
         return
     # -----------------------------------------------------------------------

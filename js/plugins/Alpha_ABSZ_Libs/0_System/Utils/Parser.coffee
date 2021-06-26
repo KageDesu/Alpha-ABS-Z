@@ -10,7 +10,6 @@ do ->
 
     # * Для навыков (навыки, оружие, предметы)
     _.processABSSkillsNotetags = ->
-        _.checkInitialAttackABSSkill()
         #TODO: Оружие не имеет своих ABS параметров, только ссылка на НАВЫК
         for item in $dataSkills
             continue unless item?
@@ -18,14 +17,18 @@ do ->
         for item in $dataItems
             continue unless item?
             _.processABSSkillParamsInItem(item, true)
+        _.checkInitialAttackABSSkill()
         return
     
     # * Навык атаки всегда должен быть АБС 0
     _.checkInitialAttackABSSkill = ->
         try
             attackSkill = $dataSkills[1]
+            # * Если игрок не настроил навык Атаки, то применим стандартные настройки
             unless attackSkill.meta.ABS?
                 attackSkill.meta.ABS = true
+                attackSkill.AASkill = new AASkill2(1, false)
+                attackSkill.AASkill.applyDefaultAttack001()
         catch e
             AA.cre e, 'Something wrong with Attack skill [1] settings'
         return

@@ -13,6 +13,9 @@
 
 # * Пока новый навык не умеет следовать за целью (возможно введу потом)
 
+#TODO: АБС навыки могут быть и в обычной битве тоже, т.е. используется два вида настроек
+#TODO: Нужен специальный коммент <hideOutsideABS:1>
+#TODO: Навыки с ABS всегда есть на карте и в бою, а вот без ABS - нет на карте
 
 #@[STORABLE]
 class AASkill2
@@ -20,6 +23,9 @@ class AASkill2
         @initMain()
         @initOnMapSettings()
         @initSelector()
+        @initOtherSettings()
+        @initAnimationSettings()
+        return
     
     # * Установить набор параметров из Note (принимает массив пар: имя - значение)
     setNoteParameters: (params) ->
@@ -50,10 +56,17 @@ class AASkill2
 
     # * Приминить стандартные настройки навыка 001 Атака
     applyDefaultAttack001: ->
+        # * Ближний бой перед собой (контактный только)
+        @radius = 1
+        @range = 1
+        @direction = 0
+        @speed = 0
+        @noContact = 0
+        @skillImg = ""
+        return
 
 
     #TODO: splash damage (от каждой цели считается ещё доп. цели)
-    #TODO: friendly fire
 
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AASkill2.coffee
@@ -70,10 +83,10 @@ do ->
     # * Основные АБС параметры навыка
     _.initMain = ->
         # * Область поражения (1 - Х)
-        @radius = 1
-        @range = 1#4
-        #facing dir 0, point 1
-        @direction = 0
+        @radius = 3
+        @range = 4#4
+        #facing dir 0, point select 1
+        @direction = 1
         @speed = 0#3
         return
 
@@ -84,7 +97,7 @@ do ->
         @hitOffset = $gameMap.tileWidth() * 0.6
         # * Если 1, то навык срабатывает в конце своего пути в любом случае
         # * Если 0, то навык, не достигнув цели, просто изчезнет
-        @noContact = 0
+        @noContact = 1
         return
 
     # * Параметры селектора на карте
@@ -93,6 +106,14 @@ do ->
         @selectorImg = null
         @selectorOpacity = 200
 
+    # * Дополнительные настройки навыка
+    _.initOtherSettings = ->
+        @hideOutsideABS = 0
+        @friendlyEffect = 0 #TODO:
+
+    # * Настройки анимации xAnima
+    _.initAnimationSettings = ->
+        #TODO: delay before skill apply
     
     return
 # ■ END AASkill2.coffee

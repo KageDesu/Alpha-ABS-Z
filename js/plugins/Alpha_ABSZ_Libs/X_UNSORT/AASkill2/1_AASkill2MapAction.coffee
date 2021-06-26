@@ -12,6 +12,8 @@ class AASkill2MapAction
         @setTargetPoint(point)
         return
 
+    #TODO: Хранение врагов и персонажей посмотреть в АНЕТ и вынети в Утилс
+
     setSubject: (subject) ->
         @subject = null
         return unless subject.isABS()
