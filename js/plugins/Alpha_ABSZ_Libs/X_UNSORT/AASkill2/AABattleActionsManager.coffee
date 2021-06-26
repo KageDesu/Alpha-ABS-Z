@@ -45,7 +45,9 @@ do ->
         return unless KDCore.Utils.isSceneMap()
         try
             if animationId? and animationId > 0
-                $gameMap.spriteset().aaCreateAnimationOnMap(x, y, animationId)
+                #TODO: FIX: двигается с экраном!!!
+                #$gameMap.spriteset().aaCreateAnimationOnMap(x, y, animationId)
+                $gameMap.aaRequestMapAnimation(x, y, animationId)
         catch e
             KDCore.warning("playAnimationOnMap", e)
         return

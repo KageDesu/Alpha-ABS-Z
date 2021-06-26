@@ -5,39 +5,8 @@
 do ->
 
     #@[DEFINES]
-    _ = Spriteset_Base::
+    _ = Spriteset_Map::
 
-    # * Запустить анимацию в точке на карте
-    _.aaCreateAnimationOnMap = (mapX, mapY, animationId) ->
-        animation = $dataAnimations[animationId]
-        unless animation?
-            KDCore.warning("Animation with ID " + animationId + " not found!")
-            return
-        # * Конвертируем точку карты в точку экрана
-        point = new KDCore.Point(mapX, mapY)
-        point = point.convertToScreen()
-        # * Спрайт родитель
-        animationTarget = new Sprite()
-        animationTarget.move point
-        # * Если не задан параметр alignBottom, то поднимаем на центр
-        unless animation.alignBottom
-            animationTarget.y -= $gameMap.tileWidth() / 2
-        mirror = false
-        delay = 0
-        # * Спрайт анимации
-        sprite = new Sprite_Animation()
-        targetSprites = [animationTarget]
-        # * Нужны чтобы вызвать метод endAnimation - если он есть, при удалении анимации
-        sprite.targetObjects = []
-        # * Настройка
-        sprite.setup targetSprites, animation, mirror, delay, null
-        @_effectsContainer.addChild sprite
-        @_animationSprites.push sprite
-        # * Родитель анимации надо добавить на Spriteset
-        #TODO: [IDEA] Тут надо в зависимости от уровня анимации, ниже или выше персонажей
-        @addChild animationTarget
-        return
-    
     _.aaCreateLinkedAnimation = () ->
         unless @_linkSprite?
             @_linkSprite = new Sprite()

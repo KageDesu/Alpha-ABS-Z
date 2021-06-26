@@ -15,10 +15,6 @@ do ->
             @_aaLayer01 = new Sprite()
             @_aaLayer01.z = 1
             @_tilemap.addChild @_aaLayer01
-            # * Чтобы каждый кадр не считать, создадим переменные
-            @__tw = $gameMap.tileWidth()
-            @__tw2 = @__tw / 2
-            @__th = $gameMap.tileHeight()
             return
 
         _.aaCreateSelectedCircle = ->
@@ -36,6 +32,46 @@ do ->
 
         return
     # -----------------------------------------------------------------------
+
+    # * Анимация на карте
+    # -----------------------------------------------------------------------
+    do ->
+
+        #TODO: Через GEvent событие? (оптимизация)
+        _.aaRefreshMapAnimation = ->
+            if $gameMap.aaIsMapAnimationRequested()
+                @aaSetupMapAnimation($gameMap.aaMapAnimation)
+                $gameMap.aaMapAnimation = null
+            else
+                @aaClearMapAnimations()
+            return
+
+        _.aaSetupMapAnimation = (animationRequest) ->
+            return unless animationRequest?
+            { x, y, animationId } = animationRequest
+            animation = $dataAnimations[animationId]
+            unless animation?
+                KDCore.warning("Animation with ID " + animationId + " not found!")
+                return
+            # * Создаём временного персонажа как координата карты
+            tempChar = new Game_Character()
+            tempChar.setPosition(x, y)
+            spr = new Sprite_Character(tempChar)
+            @_aaMapAnimationSprites.push(spr)
+            @_characterSprites.push(spr)
+            @_effectsContainer.addChild spr
+            AABattleActionsManager.playAnimationOnCharacter(tmp, animationId)
+            return
+
+        # * Очистка анимаций карты
+        _.aaClearMapAnimations = () ->
+            return if @_aaMapAnimationSprites.length == 0
+            # * Если нет никаких анимаций на карте, то удаляем всех созданных "временных" персонажей для анимаций
+            if @_animationSprites.length == 0
+                @_aaMapAnimationSprites = []
+            return
+
+        return
 
     return
 # ■ END Spriteset_Map.coffee

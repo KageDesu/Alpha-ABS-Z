@@ -7,6 +7,10 @@ do ->
     #@[DEFINES]
     _ = Game_Map::
 
+    # * Инициализация переменных ABS
+    _.initABSMembers = ->
+        @aaMapAnimation = null
+
     # * Когда карта загружена, происходит активация ABS событий
     _.initABS = () ->
         e.initABS() for e in @eventsAA()
@@ -23,6 +27,13 @@ do ->
 
     # * Возвращяет спрайтсет карты (!Надо проверять сцену сперва)
     _.spriteset = () -> SceneManager._scene._spriteset
+
+    _.aaIsMapAnimationRequested = () -> @aaMapAnimation?
+
+    _.aaRequestMapAnimation = (x, y, animationId) ->
+        return if animationId <= 0
+        @aaMapAnimation = { x, y, animationId }
+        return
 
     return
 # ■ END Game_Map.coffee

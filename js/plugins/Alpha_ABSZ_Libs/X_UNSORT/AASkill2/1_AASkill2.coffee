@@ -66,7 +66,7 @@ do ->
     _.initMain = ->
         # * Область поражения (0 - Х)
         @radius = 2
-        @range = 8
+        @range = 4
         #facing dir 0, point 1
         @direction = 0
         @vSpeed = 3
@@ -76,7 +76,7 @@ do ->
     _.initOnMapSettings = ->
         @z = 3
         @img = "bullet0(8,5)"
-        @hitOffset = $gameMap.tileWidth() * 0.5 #24
+        @hitOffset = $gameMap.tileWidth() * 0.6
         # * Если 1, то навык срабатывает в конце своего пути в любом случае
         @noContact = 1
         return

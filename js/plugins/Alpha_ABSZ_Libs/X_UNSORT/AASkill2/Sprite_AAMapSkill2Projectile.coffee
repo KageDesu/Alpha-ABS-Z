@@ -9,6 +9,8 @@ class Sprite_AAMapSkill2Projectile extends Sprite
         @_setupImage()
         @_setupDirection()
         @_collisionDetectionThread = new KDCore.TimedUpdate(2, @_checkCollision.bind(@))
+        @_updatePosition()
+        @_updateFrame() if @_frames?
         return
 
     # * Навыв завершён (достиг цели или расстояния)
