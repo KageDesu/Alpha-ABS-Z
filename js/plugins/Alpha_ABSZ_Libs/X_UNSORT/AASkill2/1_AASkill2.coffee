@@ -1,18 +1,10 @@
 # * Класс АБС навыка (дейсвтия), может быть спелл или предмет
 # * Содержки настройки навыка
-# * Новая версия
+# * Новая версия - не требует целей
 
 
 # * Не требует цели совсем
-# * Базируется на 4х основных парметрах
-
-
-# * Базовое представление
-# * 1 Активация, 2 выбор зоны применения, 3 эффект в зоне
-
-
-
-# * 4 основных параметра:
+# * Базируется на 4х основных парметрах:
 # Расстояние (0 или X)
 # Область поражения (1 или Radius (square))
 # Направление (direction or point(cursor))
@@ -21,9 +13,6 @@
 
 # * Пока новый навык не умеет следовать за целью (возможно введу потом)
 
-#TODO: Засунуть этот класс прямо к навыку $dataSkills[1].absSkill() -> этот класс
-
-#TODO: DIRECTION SHOOT
 
 #@[STORABLE]
 class AASkill2
@@ -32,6 +21,11 @@ class AASkill2
         @initOnMapSettings()
         @initSelector()
     
+    # * Установить набор параметров из Note (принимает массив пар: имя - значение)
+    setNoteParameters: (params) ->
+        @[p[0]] = p[1] for p in params
+        return
+        
     animationId: -> @dbItem().animationId
 
     dbItem: ->
@@ -42,12 +36,24 @@ class AASkill2
     isNeedSelectZone: -> @isInPoint() and @range > 0
 
     # * Нет "полёта", приминение сразу в точке (зоне поражения)
-    isInstantSpeed: -> @vSpeed <= 0
+    isInstant: -> @speed <= 0
 
     # * Направление - в точку
     isInPoint: -> @direction == 1
 
     isNoContact: -> @noContact > 0
+
+    # * Поражает только одну цель
+    isSingleTargetArea: -> @radius <= 1
+
+    isSelfAction: -> @range <= 0 and @isInstant()
+
+    # * Приминить стандартные настройки навыка 001 Атака
+    applyDefaultAttack001: ->
+
+
+    #TODO: splash damage (от каждой цели считается ещё доп. цели)
+    #TODO: friendly fire
 
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AASkill2.coffee
@@ -59,33 +65,33 @@ do ->
     _ = AASkill2::
 
     #custom action common ev,  switch, var (на любые события с Note)
-
     # события, которые могут пропускать через себя Proj, но выполнять действия
 
     # * Основные АБС параметры навыка
     _.initMain = ->
-        # * Область поражения (0 - Х)
-        @radius = 2
-        @range = 4
+        # * Область поражения (1 - Х)
+        @radius = 1
+        @range = 1#4
         #facing dir 0, point 1
         @direction = 0
-        @vSpeed = 3
+        @speed = 0#3
         return
 
     # * Настройки поведения на карте
     _.initOnMapSettings = ->
         @z = 3
-        @img = "bullet0(8,5)"
+        @skillImg = "bullet0(8,5)"
         @hitOffset = $gameMap.tileWidth() * 0.6
         # * Если 1, то навык срабатывает в конце своего пути в любом случае
-        @noContact = 1
+        # * Если 0, то навык, не достигнув цели, просто изчезнет
+        @noContact = 0
         return
 
     # * Параметры селектора на карте
     _.initSelector = ->
-        @color = "#FF22AA"
-        @image = null
-        @opacity = 200
+        @selectorColor = "#FF22AA"
+        @selectorImg = null
+        @selectorOpacity = 200
 
     
     return

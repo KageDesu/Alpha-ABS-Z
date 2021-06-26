@@ -37,11 +37,12 @@ do ->
     # -----------------------------------------------------------------------
     do ->
 
+        #TODO: Учёт позиционированния анимации ??? (см. в редакторе alignBottom)
+
         #TODO: Через GEvent событие? (оптимизация)
         _.aaRefreshMapAnimation = ->
             if $gameMap.aaIsMapAnimationRequested()
-                @aaSetupMapAnimation($gameMap.aaMapAnimation)
-                $gameMap.aaMapAnimation = null
+                @aaSetupMapAnimation($gameMap.aaMapAnimations.shift())
             else
                 @aaClearMapAnimations()
             return
@@ -60,7 +61,7 @@ do ->
             @_aaMapAnimationSprites.push(spr)
             @_characterSprites.push(spr)
             @_effectsContainer.addChild spr
-            AABattleActionsManager.playAnimationOnCharacter(tmp, animationId)
+            AABattleActionsManager.playAnimationOnCharacter(tempChar, animationId)
             return
 
         # * Очистка анимаций карты

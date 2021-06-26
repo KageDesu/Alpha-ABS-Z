@@ -11,19 +11,47 @@ do ->
     #@[DEFINES]
     _ = AABattleActionsManager
 
-    # * Когда Vector на карте попал в цель или точку
-    _.onMapSkillAction = (target, mapSkill) ->
+    _.startAASkill = (aaSkill, subject, targetPoint) ->
+        return unless aaSkill?
+        if aaSkill.isSelfAction()
+            "SELF ACTION".p()
+            #TODO: Не будет работать
+            @applySkillAction(subject, subject, aaSkill)
+        else if aaSkill.isInstant()
+            "INSTANT ACTION".p()
+            # * Надо получить точку по направлению
+            unless aaSkill.isInPoint()
+                nextPoint = subject
+                direction = subject.direction()
+                for i in [1..aaSkill.range]
+                    nextPoint = AA.Utils.Math.getProjectilePointByDirection(nextPoint, direction)
+                    target = AATargetsManager.getTargetInPoint(subject, aaSkill, nextPoint)
+                    # * Если цели нет, просто передаём точку на карте (для NoContact навыков)
+                    target = nextPoint unless target?
+                    @applySkillAction(subject, target, aaSkill)
+            else
+                @applySkillAction(subject, targetPoint, aaSkill)
+        else
+            $gameMap.startAASkill(AASkill, subject, targetPoint)
+        return
+    
+    _.startNonProjectileAASkill = () ->
+
+    _.startProjectileAASkill = () ->
+
+    # * Выполнение действия АБС навыка на карте или Entity
+    _.applySkillAction = (subject, target, absSkill) ->
         try
-            "onMapSkillAction".p()
-            absSkill = mapSkill.aaSkill2
+            "applySkillAction".p()
             if target instanceof Game_Character
                 @playAnimationOnCharacter(target, absSkill.animationId())
-                #TODO: calculate damage radius (if need) and apply damage effect for all in radius (and on target)
             else
-                if absSkill.isNoContact()
-                    { x, y } = target
-                    @playAnimationOnMap(x, y, absSkill.animationId())
-                    #TODO: calculate damage radius and apply damage effect for all in radius
+                # * Если навык требует контакт, то нет никаких эффектов
+                return unless absSkill.isNoContact()
+                { x, y } = target
+                @playAnimationOnMap(x, y, absSkill.animationId())
+            targets = AATargetsManager.collectTargtesForSkill(absSkill, target)
+            @performBattleAction(subject, absSkill, targets)
             #TODO: Do Common Action (Выполнение обычных действий на событиях или персонажах)
         catch e
             AA.w e
@@ -45,13 +73,24 @@ do ->
         return unless KDCore.Utils.isSceneMap()
         try
             if animationId? and animationId > 0
-                #TODO: FIX: двигается с экраном!!!
-                #$gameMap.spriteset().aaCreateAnimationOnMap(x, y, animationId)
                 $gameMap.aaRequestMapAnimation(x, y, animationId)
         catch e
             KDCore.warning("playAnimationOnMap", e)
         return
 
+    # * ======================================================================
+    # * BATTLE ACTION LOGIC
+
+    _.performBattleAction = (subject, skill, targets) ->
+        "PERFORM BATTLE ACTION".p()
+        "SUB".p()
+        console.info(subject)
+        "SKILL".p()
+        console.info(skill)
+        "TARG".p()
+        console.info(targets)
+        #TODO: Урон и прочие рассчёты действия
+        return
 
     return
 # ■ END IMPLEMENTATION.coffee

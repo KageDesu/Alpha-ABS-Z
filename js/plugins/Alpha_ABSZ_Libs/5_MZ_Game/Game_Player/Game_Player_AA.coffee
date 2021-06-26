@@ -12,7 +12,11 @@ do ->
 
     _.isInSkillTargetingState = -> @aaState == 'skill'
 
-    _.activeAASkill = -> @_activeAASkill
+    _.activeAASkill = ->
+        if @_activeAASkillId > 0
+            return $dataSkills[@_activeAASkillId].AASkill
+        else
+            return null
 
     #TODO:?
     # * Проверка цели (см. Game_CharacterBase_AA)
@@ -28,9 +32,14 @@ do ->
         @_resetAAState()
 
     _.startPerformAASkill = (point) ->
-        "START PERFORM AA SKILL ON MAP".p()
         console.log(point)
-        $gameMap.startAASkill(@activeAASkill(), @, point)
+        skill = @activeAASkill()
+        @turnTowardCharacter(point) if skill.isInPoint()
+        #TODO: temp
+        #TODO: animation delay before action is executed (in skill settings)
+        $gamePlayer.startAnimaXAA_Attack()
+        AABattleActionsManager.startAASkill(skill, @, point)
+        return
 
     # * Основные (приватные) методы АБС
     # -----------------------------------------------------------------------

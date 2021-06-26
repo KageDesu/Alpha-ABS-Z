@@ -152,6 +152,7 @@ do ->
 
     # * Когда достиг игрока
     _._checkHitPlayer = ->
+        #TODO: friendlyfier is 1
         return false if @skill.isSubjectIsPlayer()
         dist = AA.Utils.Math.getXYDistance(
             $gamePlayer.screenX(), $gamePlayer.screenY() - $gameTemp.aaProjYOff, @x, @y
@@ -203,7 +204,7 @@ do ->
         @opacity = 0
         "HIT".p()
         console.info(target)
-        AABattleActionsManager.onMapSkillAction(target, @skill)
+        AABattleActionsManager.applySkillAction(@skill.getSubject(), target, @skill.aaSkill)
         return
     
     return

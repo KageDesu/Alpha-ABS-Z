@@ -48,7 +48,7 @@ do ->
             @_aaUpdateSelectionBlend = ->
         else
             #TODO: Один раз цвет конвертировать и сохранять в $gameTemp
-            @_aaSelectBlendColor = KDCore.Color.FromHex($gamePlayer.activeAASkill().color)
+            @_aaSelectBlendColor = KDCore.Color.FromHex($gamePlayer.activeAASkill().selectorColor)
             arr = [...@_aaSelectBlendColor.ARR]
             arr[3] = 150
             console.info arr

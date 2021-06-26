@@ -23,7 +23,6 @@ do ->
         return unless aaSkill?
         #TODO: Возможно не надо полный навык хранить, а только ID из базы
         mapSkill = new AASkill2MapAction(aaSkill, subject, targetPoint)
-        subject.turnTowardCharacter(targetPoint) if aaSkill.isInPoint()
         @_registerNewAASkill(mapSkill)
         return
 

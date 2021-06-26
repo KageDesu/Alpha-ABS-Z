@@ -38,11 +38,11 @@ do ->
     _ = AA.Sprite_SkillImpactSelector::
 
     # * Отрисовка зонвы выбора в зависимости от параметров навыка
-    _._applyStyle = ({ radius, color, image, opacity }) ->
+    _._applyStyle = ({ radius, selectorColor, selectorImg, selectorOpacity }) ->
         @_applyRadius(radius)
-        @_applyColor(color)
-        @_applyImage(image)
-        @opacity = opacity
+        @_applyColor(selectorColor)
+        @_applyImage(selectorImg)
+        @opacity = selectorOpacity
         return
 
     _._applyRadius = (radius) ->
@@ -63,7 +63,7 @@ do ->
     #TODO: Это должно быть на игроке!!!
     _._refreshTargets = ->
         $gameTemp._aaSkillSelectorTargets =
-            AATargetsManager.collectTargetsForSkillInPoint(@aaSkill, TouchInput)
+            AATargetsManager.collectTargetsForSkillInMapPoint(@aaSkill, TouchInput.toMapPoint())
         return
 
 

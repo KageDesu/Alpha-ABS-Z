@@ -11,12 +11,41 @@ do ->
     #@[DEFINES]
     _ = AATargetsManager
 
-    # * Собирает все возможные цели для навыка в точке
-    _.collectTargetsForSkillInPoint = (aaSkill, point) ->
+    # * Используется для определения цели для Instant NoProjectile Direction навыков
+    # * Проверка точки на наличие целей для навыка
+    _.getTargetInPoint = (subject, aaSkill, point) ->
+        #TODO: в зависимости от subject и aaSkill
+        events = @_collectEventsInPoints([point])
+        return events[0]
+
+    # * Собрать цели для навыка (Projectile)
+    _.collectTargtesForSkill = (absSkill, point) ->
+        #TODO: фильтры целей разные
+        # * Например в зависимости от Subject и friendly fire
+        return @collectTargetsForSkillInMapPoint(absSkill, point)
+
+    # * Собирает все возможные цели для навыка в точке карты
+    # * (Лучше использовать этот метод для определения целей)
+    _.collectTargetsForSkillInMapPoint = (aaSkill, point) ->
         return [] unless aaSkill?
         return [] unless point?
         targets = []
-        #TODO: radius == 1, ignore square
+        if point instanceof Game_Character and aaSkill.isSingleTargetArea()
+            targets = [point]
+        else
+            if aaSkill.isSingleTargetArea()
+                targets = $gameMap.eventsXyAA(point.x, point.y)
+            else
+                kdPoint = new KDCore.Point(point.x, point.y)
+                targets = @collectTargetsForSkillInScreenPoint(aaSkill, kdPoint.convertToScreen())
+        return targets
+
+    # * Собирает все возможные цели для навыка в точке экрана
+    # * (Используется для сбора событий в радиусе)
+    _.collectTargetsForSkillInScreenPoint = (aaSkill, point) ->
+        return [] unless aaSkill?
+        return [] unless point?
+        targets = []
         # * Сформировать квадрат выбора
         searchMapPoints = @_createSquarePoints(aaSkill.radius, point)
         #console.info(searchMapPoints)

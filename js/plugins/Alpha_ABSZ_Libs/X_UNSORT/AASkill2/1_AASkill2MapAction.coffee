@@ -3,7 +3,7 @@
 
 #@[STORABLE]
 class AASkill2MapAction
-    constructor: (@aaSkill2, subject, point) ->
+    constructor: (@aaSkill, subject, point) ->
         # * Эти значения меняются из Sprite_AAMapSkill2Projectile
         @x = 0
         @y = 0
@@ -40,7 +40,7 @@ class AASkill2MapAction
         return
 
     preparePoint: (point) ->
-        if @aaSkill2.isInPoint()
+        if @aaSkill.isInPoint()
             return point
         else
             # * По направлению персонажа (face direction)
@@ -64,25 +64,25 @@ class AASkill2MapAction
             #$gamePlayer.follwers(index)
             return null
 
-    id: -> @aaSkill2.databaseId
+    id: -> @aaSkill.databaseId
 
-    zLevel: -> @aaSkill2.z
+    zLevel: -> @aaSkill.z
 
-    image: -> @aaSkill2.img
+    image: -> @aaSkill.skillImg
 
-    hitOffset: -> @aaSkill2.hitOffset
+    hitOffset: -> @aaSkill.hitOffset
 
-    speed: -> @aaSkill2.vSpeed
+    speed: -> @aaSkill.speed
 
-    hitAnimation: -> 3
-
+    #TODO:
     isHaveRegion: (regionId) -> false
 
+    #TODO:
     isHaveTerrain: (terrainTag) -> false
 
-    isCanHitPoint: () -> @aaSkill2.isInPoint()
+    isCanHitPoint: () -> @aaSkill.isInPoint()
 
-    isNoContact: () -> @aaSkill2.isNoContact()
+    isNoContact: () -> @aaSkill.isNoContact()
 
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AASkill2MapAction.coffee
@@ -105,8 +105,12 @@ do ->
         return Number(value * tw + tw / 2)
     
     # * Дистанцию полёта определяем по времени, а не по дистанции
-    _._calculateFlyTime = -> 120
-
+    _._calculateFlyTime = ->
+        if @aaSkill.range <= 0 || @speed() <= 0
+            return 10
+        else
+            dist = @aaSkill.range * $gameMap.tileWidth() + $gameMap.tileWidth() / 2
+            return dist / @speed()
 
     return
 # ■ END AASkill2MapAction.coffee

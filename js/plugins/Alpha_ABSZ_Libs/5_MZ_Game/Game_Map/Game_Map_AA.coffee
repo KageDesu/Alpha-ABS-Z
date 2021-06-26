@@ -9,7 +9,7 @@ do ->
 
     # * Инициализация переменных ABS
     _.initABSMembers = ->
-        @aaMapAnimation = null
+        @aaMapAnimations = []
 
     # * Когда карта загружена, происходит активация ABS событий
     _.initABS = () ->
@@ -28,11 +28,11 @@ do ->
     # * Возвращяет спрайтсет карты (!Надо проверять сцену сперва)
     _.spriteset = () -> SceneManager._scene._spriteset
 
-    _.aaIsMapAnimationRequested = () -> @aaMapAnimation?
+    _.aaIsMapAnimationRequested = () -> @aaMapAnimations.length > 0
 
     _.aaRequestMapAnimation = (x, y, animationId) ->
         return if animationId <= 0
-        @aaMapAnimation = { x, y, animationId }
+        @aaMapAnimations.push({ x, y, animationId })
         return
 
     return
