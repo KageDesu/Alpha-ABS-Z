@@ -1,27 +1,28 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_Battler.coffee
+# ■ Game_ActionResult.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_Battler::
+    _ = Game_ActionResult::
 
-    #TODO: Это может и не нужно уже
-
-    _.initAASkillsSet = ->
-        @aaSkillsSet = new AASkillsSet()
-
-    _.getAttackAASkill = ->
-    
-    # * Установить ABS навык для выполнения (задать текущее действие)
-    _.prepareAASkillForExecuting = (aaSkill) ->
-        @makeActions()
-        #TODO: if item, setItem, isSkill set Skill
-        #см. ABS MV -> Game_Player.js строка 593
-        @action(0).setSkill(aaSkill.id)
+    #@[ALIAS]
+    ALIAS__clear = _.clear
+    _.clear = ->
+        ALIAS__clear.call(@)
+        @_lastAASkill = null
         return
 
+    _.setUsedAASkill = (aaSkill) ->
+        @_lastAASkill = AA.Utils.packAASkill(aaSkill)
+
+    _.getUsedAASkill = ->
+        if @_lastAASkill?
+            return AA.Utils.unpackAASkill(@_lastAASkill)
+        else
+            return null
+        
     return
-# ■ END Game_Battler.coffee
+# ■ END Game_ActionResult.coffee
 #---------------------------------------------------------------------------

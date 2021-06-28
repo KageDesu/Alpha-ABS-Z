@@ -26,19 +26,42 @@ do ->
     _.onSkillTargetSelected = ->
         "SKILL ZONE SELECTED".p()
         console.info $gameTemp._aaSkillSelectorTargets
-        $gameTemp._aaSkillSelectorTargets = null
         @startPerformAASkill(TouchInput.toMapPoint())
+        $gameTemp._aaSkillSelectorTargets = null
         # * Сбрасываем состояние?
         @_resetAAState()
 
+    #TODO: Этот метод надо выносить на Game_Character
     _.startPerformAASkill = (point) ->
         console.log(point)
         skill = @activeAASkill()
         @turnTowardCharacter(point) if skill.isInPoint()
         #TODO: temp
-        #TODO: animation delay before action is executed (in skill settings)
+        #TODO: skill animation (if exists)
+        #TODO: Если есть Action skill, then skill action
+        #TODO: if exists special action in spell then special (if have)
+        #TODO: or nothing
         $gamePlayer.startAnimaXAA_Attack()
-        AABattleActionsManager.startAASkill(skill, @, point)
+        # * Стоит ограничение для безопасности
+        if skill.actionStartDelay > 0 and skill.actionStartDelay <= 60
+            @setupDelayedAASkill(skill, point)
+        else
+            AABattleActionsManager.startAASkill(skill, @, point)
+        return
+
+    _.setupDelayedAASkill = (skill, point) ->
+        @aaDelayedSkillActions.push(
+            [skill.actionStartDelay, AA.Utils.packAASkill(skill), AA.Utils.packAAPoint(point)]
+        )
+        return
+
+    _._aaUpdateDelayedSkillActions = ->
+        for action in @aaDelayedSkillActions
+            if action[0]-- <= 0
+                skill = AA.Utils.unpackAASkill(action[1])
+                point = AA.Utils.unpackAAPoint(action[2])
+                AABattleActionsManager.startAASkill(skill, @, point)
+                @aaDelayedSkillActions.delete(action)
         return
 
     # * Основные (приватные) методы АБС
@@ -48,6 +71,8 @@ do ->
         _._initMembersABS = ->
             @aaEntity = new AAPlayerEntity()
             @aaState = null # * Свободное состояние (нулевое)
+            # * Набор навыков с задержкой
+            @aaDelayedSkillActions = []
 
         _._setAAStateToSelectSkillTarget = ->
             # * Наверное должно быт в AAEntity!!! Так как у ботов тоже будет этот параметр
@@ -60,6 +85,10 @@ do ->
             @aaState = null
             AA.EV.call("PlayerSkillSelector")
             #AA.EV.call("PlayerChangeState")
+
+        _._aaUpdateABS = (sceneActive) ->
+            if sceneActive is true
+                @_aaUpdateDelayedSkillActions()
 
         return
     # -----------------------------------------------------------------------

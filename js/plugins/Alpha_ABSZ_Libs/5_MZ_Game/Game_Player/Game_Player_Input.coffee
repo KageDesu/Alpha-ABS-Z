@@ -30,8 +30,8 @@ do ->
 
         if @activeAASkill().isNeedSelectZone()
             # * Сбор целей сразу в точке где сейчас курсор
-            AATargetsManager.collectTargetsForSkillInMapPoint(
-                @activeAASkill(), TouchInput.toMapPoint()
+            AATargetsManager.collectTargetsForSkillInScreenPoint(
+                @activeAASkill(), TouchInput #.toMapPoint()
             )
             @_setAAStateToSelectSkillTarget()
         else

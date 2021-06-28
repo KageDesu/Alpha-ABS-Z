@@ -89,7 +89,68 @@ do ->
         console.info(skill)
         "TARG".p()
         console.info(targets)
-        #TODO: Урон и прочие рассчёты действия
+        return unless subject?
+        return unless skill?
+        try
+            action = new Game_ActionAA(subject, skill)
+            return unless action.isValid()
+            @_startAction(action, targets)
+            @_endAction(action)
+        catch e
+            KDCore.warning("performBattleAction", e)
+        return
+
+    _._startAction = (action, targets) ->
+        try
+            # * Вызов общих событий навыка (предмета)
+            #TODO: Вызов общих событий AASkill ???
+            action.applyGlobal()
+            @_invokeAction(t, action) for t in targets
+        catch e
+            KDCore.warning("_startAction", e)
+        return
+
+    _._invokeAction = (target, action) ->
+        try
+            #TODO: repeats time?
+            action.apply(target)
+            #TODO: CE on Use
+            #TODO: Impulse?
+            @_onActionResult(target, action)
+        catch e
+            KDCore.warning("_invokeAction", e)
+        return
+            
+    _._onActionResult = (target, action) ->
+        try
+            battler = target.AABattler()
+            return unless battler.result().used
+            @_actionResultOnDamage(target)
+            #TODO: set aaSkill ID to result (for parameters like damage pop up styleid)
+            battler.startDamagePopup()
+            action.subject().startDamagePopup()
+            #TODO: onActionOnMe
+            #battler.onActionOnMe(action)
+        catch e
+            KDCore.warning("_onActionResult", e)
+        return
+
+    _._actionResultOnDamage = (target) ->
+        try
+            #TODO: Надо это или нет?
+        catch e
+            KDCore.warning("_actionResultOnDamage", e)
+        return
+
+    #TODO: Надо каждую секунду вызывать battler.onTurnEnd ???
+
+    _._endAction = (action) ->
+        try
+            battler = action.subject()
+            #TODO: performActionEnd - пустой метод, может не надо его вызывать?
+            battler.onAllActionsEnd()
+        catch e
+            KDCore.warning("_endAction", e)
         return
 
     return

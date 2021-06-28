@@ -12,25 +12,15 @@ class AASkill2MapAction
         @setTargetPoint(point)
         return
 
-    #TODO: Хранение врагов и персонажей посмотреть в АНЕТ и вынети в Утилс
-
     setSubject: (subject) ->
-        @subject = null
+        @packedSubject = null
         return unless subject.isABS()
-        if subject == $gamePlayer
-            @subject = 0
-        else if subject instanceof Game_Event
-            @subject = subject.eventId()
-        #else # * PARTY MEMBER
-            # < 0 ?
-        #    @subject = 1000 +
-        #TODO: party member subject
+        @packedSubject = AA.Utils.packAAEntity(subject)
         @_initStartPoint()
         return
 
     setTargetPoint: (point) ->
-        point = @preparePoint(point) if @subject?
-        console.info(point)
+        point = @preparePoint(point) if @packedSubject?
         if point instanceof Game_Character
             point = point.toPoint()
         # * Точки на экране
@@ -54,17 +44,9 @@ class AASkill2MapAction
             return AA.Utils.Math.getProjectilePointByDirection(subject.toPoint(), direction)
         return
 
-    isSubjectIsPlayer: -> @subject == 0
+    isSubjectIsPlayer: -> @packedSubject? and @packedSubject.type is 0
 
-    getSubject: ->
-        if @subject == 0
-            return $gamePlayer
-        else if @subject > 0
-            return $gameMap.event(@subject)
-        else
-            #TODO: PARTY MEMBERS
-            #$gamePlayer.follwers(index)
-            return null
+    getSubject: -> AA.Utils.unpackAAEntity(@packedSubject)
 
     id: -> @aaSkill.databaseId
 

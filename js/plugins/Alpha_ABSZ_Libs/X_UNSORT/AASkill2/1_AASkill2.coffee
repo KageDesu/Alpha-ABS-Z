@@ -27,6 +27,16 @@ class AASkill2
         @initAnimationSettings()
         return
     
+    # * Восстановить класс навыка из сохранённого ID (распаковка)
+    @FromStoreId: (storeId) ->
+        if storeId[1] == true
+            return $dataItems[storeId[0]].AASkill
+        else
+            return $dataSkills[storeId[0]].AASkill
+
+    # * ID для хранения навыка, чтобы не хранить весь класс (упаковка)
+    storeId: -> [@databaseId, @isItem]
+
     # * Установить набор параметров из Note (принимает массив пар: имя - значение)
     setNoteParameters: (params) ->
         @[p[0]] = p[1] for p in params
@@ -98,6 +108,7 @@ do ->
         # * Если 1, то навык срабатывает в конце своего пути в любом случае
         # * Если 0, то навык, не достигнув цели, просто изчезнет
         @noContact = 1
+        @popUpStyleId = "" # * Default
         return
 
     # * Параметры селектора на карте
@@ -110,9 +121,11 @@ do ->
     _.initOtherSettings = ->
         @hideOutsideABS = 0
         @friendlyEffect = 0 #TODO:
+        @opponentsEffect = 1 # * Еффект на противоположную команду
 
     # * Настройки анимации xAnima
     _.initAnimationSettings = ->
+        @actionStartDelay = 10
         #TODO: delay before skill apply
     
     return

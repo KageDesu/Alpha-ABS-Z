@@ -36,6 +36,26 @@ do ->
             AA.UI.hide()
         catch e
             KDCore.warning e
+
+    _.showPopUpOnChar = (charId, styleId, value, isVariable) ->
+        try
+            return unless KDCore.Utils.isSceneMap()
+            value = $gameVariables.value(value) if value > 0 && isVariable is true
+            if charId == 0
+                char = $gamePlayer
+            else
+                char = $gameMap.event(charId)
+            settings = AA.PP.getPopUpDamageSettings(styleId)
+            unless settings?
+                AA.w "PopUp settings with ID " + styleId + " not found!"
+            else
+                Sprite_AADamagePopUpItem.CreateOnCharacter(char, settings, value)
+            return
+        catch e
+            KDCore.warning e
+
+    #TODO: show on map point, show on screen point
+
     
     return
 # ■ END IMPLEMENTATION.coffee

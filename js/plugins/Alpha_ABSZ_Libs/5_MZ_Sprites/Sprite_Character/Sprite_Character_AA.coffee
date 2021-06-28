@@ -9,13 +9,23 @@ do ->
 
     _.isPlayer = -> $gamePlayer.AAEntity().sprite() == @
 
+    _.isABSEntity = -> @_character? and @_character.isABS() and @_character.AABattler()?
+
     #TODO: this two methods
 
     _.isAllyParty = -> false
 
     _.isEnemy = -> false
 
-
+    _._aaUpdateDamagePopUps = ->
+        return unless @isABSEntity()
+        b = @_character.AABattler()
+        return unless b.isDamagePopupRequested()
+        data = AADamagePopUpFactory.createDamagePopUpData(b)
+        Sprite_AADamagePopUpItem.CreateOnCharacter(@_character, data.settings, data.value) if data?
+        b.clearDamagePopup()
+        b.clearResult()
+        return
 
     # * Если спрайт в зоне навыка, то подсвечивать его
     #?DYNAMIC

@@ -15,6 +15,13 @@ do ->
         return
 
     #@[ALIAS]
+    ALIAS__createUpperLayer = _.createUpperLayer
+    _.createUpperLayer = ->
+        @aaCreateExtraMapUpLayer()
+        @aaCreateDamagePopUpLayer()
+        ALIAS__createUpperLayer.call(@)
+
+    #@[ALIAS]
     ALIAS__createTilemap = _.createTilemap
     _.createTilemap = ->
         ALIAS__createTilemap.call(@)

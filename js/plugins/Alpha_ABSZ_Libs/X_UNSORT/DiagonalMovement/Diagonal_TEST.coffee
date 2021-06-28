@@ -47,7 +47,7 @@ do ->
     ALIAS__realMoveSpeed = _.realMoveSpeed
     _.realMoveSpeed = ->
         speed = ALIAS__realMoveSpeed.call(@)
-        return if @_diagonalDir then speed * 0.9 else speed
+        return if @_diagonalDir then speed * 0.8 else speed
 
     #$[OVER]
     _.moveDiagonally = (horz, vert) ->

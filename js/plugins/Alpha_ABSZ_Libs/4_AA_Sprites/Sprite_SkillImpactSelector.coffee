@@ -63,7 +63,8 @@ do ->
     #TODO: Это должно быть на игроке!!!
     _._refreshTargets = ->
         $gameTemp._aaSkillSelectorTargets =
-            AATargetsManager.collectTargetsForSkillInMapPoint(@aaSkill, TouchInput.toMapPoint())
+            #AATargetsManager.collectTargetsForSkillInMapPoint(@aaSkill, TouchInput.toMapPoint())
+            AATargetsManager.collectTargetsForSkillInScreenPoint(@aaSkill, TouchInput)
         return
 
 

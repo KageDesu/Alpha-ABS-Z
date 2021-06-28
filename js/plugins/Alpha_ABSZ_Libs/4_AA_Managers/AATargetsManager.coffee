@@ -20,7 +20,12 @@ do ->
 
     # * Собрать цели для навыка (Projectile)
     _.collectTargtesForSkill = (absSkill, point) ->
+        # * Точные цели селектора, если мнгновенный навык
+        # * (только для игрока)
+        if absSkill.isInstant() && $gameTemp._aaSkillSelectorTargets?
+            return $gameTemp._aaSkillSelectorTargets
         #TODO: фильтры целей разные
+        #.isActive()
         # * Например в зависимости от Subject и friendly fire
         return @collectTargetsForSkillInMapPoint(absSkill, point)
 

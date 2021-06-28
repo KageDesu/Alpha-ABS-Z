@@ -34,9 +34,10 @@ do ->
             return canMove
 
     #@[ALIAS]
-    #ALIAS__update = _.update
-    #_.update = (sceneActive) ->
-    #    ALIAS__update.call(@, sceneActive)
+    ALIAS__update = _.update
+    _.update = (sceneActive) ->
+        ALIAS__update.call(@, sceneActive)
+        @_aaUpdateABS(sceneActive)
 
     
     return

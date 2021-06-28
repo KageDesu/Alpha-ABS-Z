@@ -161,6 +161,37 @@ do ->
                 else
                     null
 
+        #TODO:
+        getPopUpDamageSettings: (id) ->
+            {
+                #TODO: Сделать эти настройки как default, если не найден ID
+                id: "test",
+                randDX: 10,
+                randDY: 10,
+                stayTime: 12,
+                noFlyUp: false,
+                noFadeOut: false,
+                changeFontSize: 26,
+                text: {
+                    visible: true,
+                    marginX: 0,
+                    marginY: 0,
+                    position: "center",
+                    outlineColor: null,
+                    outlineWidth: 2,
+                    fontFace: null,
+                    textColor: "#E6E6E6",
+                    fontSize: 22,
+                    fontItalic: false
+                },
+                image: {
+                    name: "",
+                    marginX: 0,
+                    marginY: 0,
+                    fadeInSpeed: 20
+                }
+            }
+
     AA.link ParamsManager
     return
 

@@ -32,6 +32,8 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_BattlerAASkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AABattleActionsManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AABattleManager.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AACommon.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AADamagePopUpFactory.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyBattler.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyModelData.js"
@@ -46,6 +48,8 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Diagonal_TEST.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionAA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionResult_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_BattlerBase_@.js"
@@ -87,6 +91,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_UIEditor_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_UIEditor_0.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_UIEditor_Mouse.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_AADamagePopUpItem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_AAMapSkill2Projectile.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_ActorStateGauge.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_ActorStateIcon.js"
@@ -242,6 +247,16 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 
 
 
