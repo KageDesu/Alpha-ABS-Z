@@ -7,7 +7,11 @@ do ->
     #@[DEFINES]
     _ = Sprite_Character::
 
-    _.isPlayer = -> $gamePlayer.AAEntity().sprite() == @
+    # * Создать дополнительные спрайты для ABS системы
+    _.initABS = ->
+        @_aaSetupExtraInfo()
+
+    _.isPlayer = -> @_character == $gamePlayer
 
     _.isABSEntity = -> @_character? and @_character.isABS() and @_character.AABattler()?
 
@@ -23,6 +27,7 @@ do ->
         return unless b.isDamagePopupRequested()
         data = AADamagePopUpFactory.createDamagePopUpData(b)
         Sprite_AADamagePopUpItem.CreateOnCharacter(@_character, data.settings, data.value) if data?
+        @_aaRefreshExtraInfoOnDamage()
         b.clearDamagePopup()
         b.clearResult()
         return
@@ -42,7 +47,6 @@ do ->
         # * Сохраняем оригинальный цвет
         unless @__originalBlend?
             @__originalBlend = @getBlendColor()
-            console.info @__originalBlend
         @setBlendColor(@_aaSelectBlendColor)
         return
 
@@ -61,12 +65,15 @@ do ->
             @_aaSelectBlendColor = KDCore.Color.FromHex($gamePlayer.activeAASkill().selectorColor)
             arr = [...@_aaSelectBlendColor.ARR]
             arr[3] = 150
-            console.info arr
             @_aaSelectBlendColor = arr
             # * Подключаем метод обновления
             @_aaUpdateSelectionBlend = @_aaUpdateSelectionBlendBody
 
-
+    _.gev_onUnderMouseEventChanged = ->
+        try
+            @_aaRefreshExtraInfoState()
+        catch e
+            AA.w e
 
 
     return

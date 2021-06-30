@@ -18,6 +18,7 @@ do ->
         _.initABS = ->
             #TODO: Не стартовать если параметр выключен?
             @aaEntity?.initABS()
+            @AASprite()?.initABS()
 
         _.stopABS = ->
 

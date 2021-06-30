@@ -12,6 +12,7 @@ do ->
     _.initMembers = ->
         ALIAS__initMembers.call(@)
         AA.EV.subscribeFor("PlayerSkillSelector", @gev_onPlayerSkillSelector.bind(@))
+        AA.EV.subscribeFor("UnderMouseEventChanged", @gev_onUnderMouseEventChanged.bind(@))
     
     #@[ALIAS]
     ALIAS__update = _.update

@@ -44,6 +44,8 @@ do ->
 
         @events.push(new AA.GEvent("MapSkillsRequestsClean"))
 
+        @events.push(new AA.GEvent("UnderMouseEventChanged"))
+
         return
 
 

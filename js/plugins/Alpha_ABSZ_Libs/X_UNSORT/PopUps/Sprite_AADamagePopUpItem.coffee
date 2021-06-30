@@ -19,6 +19,8 @@ class Sprite_AADamagePopUpItem extends KDCore.Sprite
     update: ->
         super()
         return if @disposed is true
+        return if SceneManager.isSceneChanging()
+        @thread.update()
         @_updateZoom()
         @_updateImageFadeIn()
         return
@@ -87,8 +89,7 @@ do ->
         return unless @settings?
         # * Используется для расчёта размера текста
         @bitmap = new Bitmap(50, 50)
-        @anchor.x = 0.5
-        @anchor.y = 0.5
+        @anchor.set(0.5)
         try
             @bitmap.fontSize = Math.max(@settings.text.fontSize, @settings.changeFontSize)
             @_createValueText()
@@ -101,8 +102,7 @@ do ->
             w = @bitmap.measureTextWidth(@value) + 4
             h = @settings.text.fontSize + 10
             @valueSprite = KDCore.Sprite.FromBitmap(w, h)
-            @valueSprite.anchor.x = 0.5
-            @valueSprite.anchor.x = 0.5
+            @valueSprite.anchor.set(0.5)
             @applyTextSettingsByJson @valueSprite, @settings
             @valueSprite.onReady @_drawValue.bind(@)
             @add @valueSprite
@@ -120,24 +120,21 @@ do ->
             @imageSprite = KDCore.Sprite.FromImg(settings.name)
             @imageSprite.x = settings.marginX
             @imageSprite.y = settings.marginY
-            @imageSprite.anchor.x = 0.5
-            @imageSprite.anchor.x = 0.5
+            @imageSprite.anchor.set(0.5)
             @imageSprite.opacity = 0
             @add @imageSprite
         catch e
             AA.w e
 
     _._start = ->
-        timerFunc = ->
-            @_updateLife()
-            setTimeout(timerFunc.bind(@), 60) unless @disposed
-        setTimeout(timerFunc.bind(@), 60)
+        @thread = new KDCore.TimedUpdate(2, @_updateLife.bind(@))
         return
     
     _._updateLife = ->
         # * Сперва идёт анимация увеличения, затемм только отсчёт таймера
         return if @isNeedZoom is true
         return if @disposed is true
+        return if SceneManager.isSceneChanging()
         if @maxStayTime <= 0
             @dispose()
         else
@@ -149,32 +146,47 @@ do ->
 
     _._updateOpacity = ->
         # * Если не надо, то сразу исчезает
-        if @settings.noFadeOut is true
-            @opacity = 0
-        else
-            @opacity -= 25
+        try
+            if @settings.noFadeOut is true
+                @opacity = 0
+            else
+                @opacity -= 25
+        catch e
+            
+        return
 
     _._updateMoveUp = ->
         return if @settings.noFlyUp is true
-        @move(@x, @y - 1)
+        try
+            @move(@x, @y - 1)
+        catch e
+            
+        return
 
     _._updateZoom = ->
         return unless @isNeedZoom
-        b = @valueSprite.bitmap
-        if b.fontSize == @settings.changeFontSize
-            @isNeedZoom = false
-            return
-        if b.fontSize < @settings.changeFontSize
-            b.fontSize = b.fontSize + 1
-        else if b.fontSize > @settings.changeFontSize
-            b.fontSize = b.fontSize - 1
-        @_drawValue()
+        try
+            b = @valueSprite.bitmap
+            if b.fontSize == @settings.changeFontSize
+                @isNeedZoom = false
+                return
+            if b.fontSize < @settings.changeFontSize
+                b.fontSize = b.fontSize + 1
+            else if b.fontSize > @settings.changeFontSize
+                b.fontSize = b.fontSize - 1
+            @_drawValue()
+        catch e
+            
         return
 
     _._updateImageFadeIn = ->
-        return unless @imageSprite?
-        return if @imageSprite.opacity >= 255
-        @imageSprite.opacity += @settings.image.fadeInSpeed
+        try
+            return unless @imageSprite?
+            return if @imageSprite.opacity >= 255
+            @imageSprite.opacity += @settings.image.fadeInSpeed
+        catch e
+
+        return
 
     return
 # ■ END Sprite_AADamagePopUpItem.coffee

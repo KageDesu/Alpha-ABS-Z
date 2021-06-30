@@ -1,6 +1,6 @@
 do ->
     # * Общий контроллер для Sprite_UIGauge (HP, MP, TP, ...)
-    #?rev 13.10.20
+    #?rev 30.06.21
     class GaugeController extends AA.UIElementController
         constructor: (@gaugeSprite) ->
             super()
@@ -18,11 +18,11 @@ do ->
         setValueTextType: (valueTextType) ->
             switch valueTextType
                 when 1
-                    @_getTypedText = @getValuePercentText
+                    @getTypedText = @getValuePercentText
                 when 2
-                    @_getTypedText = @getValueAndMaxText
+                    @getTypedText = @getValueAndMaxText
                 else
-                    @_getTypedText = @getValueText
+                    @getTypedText = @getValueText
             return
 
         refreshGauge: ->

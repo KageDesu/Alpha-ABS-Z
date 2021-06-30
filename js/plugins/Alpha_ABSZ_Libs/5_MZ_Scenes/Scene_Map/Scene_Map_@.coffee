@@ -19,6 +19,7 @@ do ->
     _.onMapLoaded = ->
         ALIAS__onMapLoaded.call(@)
         AA.System.onMapSceneLoaded()
+        @aaCreateMouseDetectionThread()
 
     #@[ALIAS]
     # * Создаём интерфейс боевой системы
@@ -41,6 +42,7 @@ do ->
     _.update = ->
         ALIAS__update.call(@)
         @aaUpdatePlayerInput()
+        @aaUpdateMouseDetection()
         #@aaUpdateMapScroolByMouse() #TODO: доработать скролл (взять из AABS MV)
 
     #@[ALIAS]

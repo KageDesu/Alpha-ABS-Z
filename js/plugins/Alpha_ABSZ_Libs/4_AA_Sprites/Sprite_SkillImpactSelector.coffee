@@ -8,13 +8,10 @@ do ->
             return
             
         activate: (@aaSkill) ->
-            @targetsCollectThread = new KDCore.TimedUpdate(10, @_refreshTargets.bind(@))
             @visible = true
             @_applyStyle(@aaSkill)
         
         deactivate: ->
-            @targetsCollectThread = null
-            @_refreshTargets()
             @aaSkill = null
             @visible = false
             return
@@ -23,7 +20,6 @@ do ->
             super()
             return unless @visible
             @move TouchInput
-            @targetsCollectThread?.update()
 
     AA.link Sprite_SkillImpactSelector
     return
@@ -58,13 +54,6 @@ do ->
     _._applyImage = (image) ->
         return unless String.any(image)
         @bitmap = ImageManager.loadPicture(image)
-        return
-
-    #TODO: Это должно быть на игроке!!!
-    _._refreshTargets = ->
-        $gameTemp._aaSkillSelectorTargets =
-            #AATargetsManager.collectTargetsForSkillInMapPoint(@aaSkill, TouchInput.toMapPoint())
-            AATargetsManager.collectTargetsForSkillInScreenPoint(@aaSkill, TouchInput)
         return
 
 

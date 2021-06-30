@@ -90,11 +90,13 @@ do ->
     #custom action common ev,  switch, var (на любые события с Note)
     # события, которые могут пропускать через себя Proj, но выполнять действия
 
+    #TODO: animationFor: eachTarget, centerPoint
+
     # * Основные АБС параметры навыка
     _.initMain = ->
         # * Область поражения (1 - Х)
         @radius = 3
-        @range = 4#4
+        @range = 4
         #facing dir 0, point select 1
         @direction = 1
         @speed = 0#3
@@ -113,9 +115,9 @@ do ->
 
     # * Параметры селектора на карте
     _.initSelector = ->
-        @selectorColor = "#FF22AA"
-        @selectorImg = null
-        @selectorOpacity = 200
+        @selectorColor = "#bf9324"#"#FF22AA"
+        @selectorImg = "RadiusSelect"#null
+        @selectorOpacity = 220#200
 
     # * Дополнительные настройки навыка
     _.initOtherSettings = ->

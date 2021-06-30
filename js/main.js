@@ -18,6 +18,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/@@_Alpha_@Core_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/@@_PKD_AnimaX_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/0_@AABSZ.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/0_Coroutines.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAGEvents.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAInput.js"
@@ -83,8 +84,10 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Base.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Boot.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_443_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_Input.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_MouseDetection.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_Scroll_DEV.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Title.js"
@@ -98,6 +101,8 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Animation_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AAInfo.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_CharacterMiniGauge.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_PopTreasureItem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SelectedCircle.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillImpactSelector.js"
@@ -247,6 +252,13 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 

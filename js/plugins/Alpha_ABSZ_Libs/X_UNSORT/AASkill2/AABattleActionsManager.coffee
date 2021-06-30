@@ -125,8 +125,7 @@ do ->
         try
             battler = target.AABattler()
             return unless battler.result().used
-            @_actionResultOnDamage(target)
-            #TODO: set aaSkill ID to result (for parameters like damage pop up styleid)
+            @_performActionResultOnTarget(target)
             battler.startDamagePopup()
             action.subject().startDamagePopup()
             #TODO: onActionOnMe
@@ -135,9 +134,31 @@ do ->
             KDCore.warning("_onActionResult", e)
         return
 
-    _._actionResultOnDamage = (target) ->
+    # * Звуковые и визуальные эффекты после действия (на цели)
+    _._performActionResultOnTarget = (target) ->
         try
-            #TODO: Надо это или нет?
+            battler = target.AABattler()
+            result = battler.result()
+            # * MISS
+            if result.missed
+                battler.performMiss()
+            # * EVADE
+            else if result.evaded
+                if result.physical
+                    battler.performEvasion()
+                else
+                    battler.performMagicEvasion()
+            else # * DAMAGE
+                # * HP
+                if result.hpAffected
+                    if result.hpDamage > 0 and !result.drain
+                        battler.performDamage()
+                    if result.hpDamage < 0
+                        battler.performRecovery()
+                # * MP and TP
+                if battler.isAlive() && (result.mpDamage != 0 || result.tpDamage != 0)
+                    if result.mpDamage < 0 || result.tpDamage < 0
+                        battler.performRecovery()
         catch e
             KDCore.warning("_actionResultOnDamage", e)
         return
@@ -147,7 +168,6 @@ do ->
     _._endAction = (action) ->
         try
             battler = action.subject()
-            #TODO: performActionEnd - пустой метод, может не надо его вызывать?
             battler.onAllActionsEnd()
         catch e
             KDCore.warning("_endAction", e)

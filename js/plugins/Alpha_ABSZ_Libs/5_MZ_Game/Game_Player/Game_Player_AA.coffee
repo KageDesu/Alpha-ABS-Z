@@ -27,7 +27,6 @@ do ->
         "SKILL ZONE SELECTED".p()
         console.info $gameTemp._aaSkillSelectorTargets
         @startPerformAASkill(TouchInput.toMapPoint())
-        $gameTemp._aaSkillSelectorTargets = null
         # * Сбрасываем состояние?
         @_resetAAState()
 
@@ -42,7 +41,7 @@ do ->
         #TODO: if exists special action in spell then special (if have)
         #TODO: or nothing
         $gamePlayer.startAnimaXAA_Attack()
-        # * Стоит ограничение для безопасности
+        # * Стоит ограничение задержки для безопасности
         if skill.actionStartDelay > 0 and skill.actionStartDelay <= 60
             @setupDelayedAASkill(skill, point)
         else
@@ -89,6 +88,18 @@ do ->
         _._aaUpdateABS = (sceneActive) ->
             if sceneActive is true
                 @_aaUpdateDelayedSkillActions()
+                @_aaUpdateStates()
+
+        _._aaUpdateStates = ->
+            switch @aaState
+                when 'skill'
+                    # * Обновляем цели под кругом выбора
+                    $gameTemp._aaSkillSelectorTargets =
+                        AATargetsManager.collectTargetsForSkillInScreenPoint(
+                            @activeAASkill(), TouchInput
+                        )
+                else
+                    
 
         return
     # -----------------------------------------------------------------------

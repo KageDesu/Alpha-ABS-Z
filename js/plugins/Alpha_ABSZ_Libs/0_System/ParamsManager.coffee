@@ -161,6 +161,12 @@ do ->
                 else
                     null
 
+        getMiniHpGaugeSettings: () -> {
+            active: true
+            showOnlyOnHover: true
+            showOnDamage: true
+        }
+
         #TODO:
         getPopUpDamageSettings: (id) ->
             {

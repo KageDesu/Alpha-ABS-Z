@@ -7,6 +7,10 @@ class AAEnemyModelData
     constructor: (@eventId) ->
         @enemyId = @eventSettings().getEnemyId()
         @_initBaseParameters()
+
+        #@miniHpGaugeStyle = "miniHpGauge1"
+        #@miniHPGaugeOffset = [-12, -58]
+
         #TODO: Применение настроек из БД ?
         # Делать редактор или нет?
         #TODO: Применение настроек из события
