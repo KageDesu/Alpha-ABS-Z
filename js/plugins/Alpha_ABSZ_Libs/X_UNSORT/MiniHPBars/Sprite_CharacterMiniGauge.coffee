@@ -8,7 +8,6 @@ do ->
             # * По умолчанию нету доп. смещения
             # * (у каждого события может быть своё, это см. в Model)
             @setExtraMargins(0, 0)
-            initCoroutineSystem @
             return
 
         setupController: (@battler, @rateGetter) ->

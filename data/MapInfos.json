@@ -1,7 +1,7 @@
 [
 null,
-{"id":1,"expanded":false,"name":"UI","order":1,"parentId":0,"scrollX":472,"scrollY":351.5},
-{"id":2,"expanded":false,"name":"XAnima","order":2,"parentId":0,"scrollX":472,"scrollY":512},
+{"id":1,"expanded":false,"name":"UI","order":1,"parentId":0,"scrollX":607.5,"scrollY":363},
+{"id":2,"expanded":false,"name":"XAnima","order":2,"parentId":0,"scrollX":607.5,"scrollY":512},
 {"id":3,"expanded":false,"name":"Vectors","order":3,"parentId":0,"scrollX":601,"scrollY":415},
 {"id":4,"expanded":false,"name":"PopUps","order":4,"parentId":0,"scrollX":677.5,"scrollY":1222},
 {"id":5,"expanded":false,"name":"MiniHpAndSelectionTest","order":5,"parentId":0,"scrollX":538,"scrollY":687},

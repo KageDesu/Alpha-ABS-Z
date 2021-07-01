@@ -288,6 +288,7 @@
  * @type combo
  * @option AABS_0
  * @option AABS_1
+ * @option AABS_2
  * @default AABS_0
  *
  * @param size:int

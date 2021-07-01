@@ -8,7 +8,7 @@
 @param fonts:strA
 @text Fonts
 @type text[]
-@default ["AABS_0","AABS_1"]
+@default ["AABS_0","AABS_1","AABS_2"]
 @desc TODO:
 
 @param inputSettings:struct

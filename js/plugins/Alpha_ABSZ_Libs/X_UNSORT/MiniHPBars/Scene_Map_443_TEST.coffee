@@ -11,12 +11,19 @@ do ->
     ALIAS__onMapLoaded = _.onMapLoaded
     _.onMapLoaded = ->
         ALIAS__onMapLoaded.call(@)
-        @testMiniHp = new AA.Sprite_CharacterMiniGauge()
-        @addChild @testMiniHp
-        @testMiniHp.refreshPosition($gamePlayer.screenX(), $gamePlayer.screenY())
-        @testMiniHp.hideSlow()
+        
+        @testEnemyInfo = new AA.Sprite_EnemyInfo()
 
-        window._test = @testMiniHp
+        @testEnemyInfo.drawHpWithFormat(400, 400, 0)
+        @testEnemyInfo.drawNameWithFormat("Wolf")
+        @testEnemyInfo.drawLevelWithFormat(1)
+        @testEnemyInfo.drawFace("Monster", 2)
+
+        @testEnemyInfo.showSlow()
+
+        @addChild @testEnemyInfo
+
+        window._test = @testEnemyInfo
         
     
     return
