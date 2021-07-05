@@ -13,6 +13,12 @@ do ->
         ALIAS__initMembers.call(@)
         @aaClearCharacterEffects()
     
+    #@[ALIAS]
+    ALIAS__update = _.update
+    _.update = ->
+        ALIAS__update.call(@)
+        @aaUpdate() if AA.System.isABSBattle()
+
     return
 # ■ END Game_CharacterBase.coffee
 #---------------------------------------------------------------------------

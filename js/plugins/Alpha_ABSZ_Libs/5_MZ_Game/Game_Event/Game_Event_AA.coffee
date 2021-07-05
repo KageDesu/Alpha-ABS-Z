@@ -42,6 +42,58 @@ do ->
         return
     # -----------------------------------------------------------------------
     
+    # * Основная логика АБС
+    # -----------------------------------------------------------------------
+    do ->
+
+        #@[ALIAS]
+        ALIAS__isActive = _.isActive
+        _.isActive = -> ALIAS__isActive.call(@) && !@_erased
+
+        # * Этот метод работает только когда АБС активна
+        #@[ALIAS]
+        ALIAS__aaUpdate = _.aaUpdate
+        _.aaUpdate = ->
+            ALIAS__aaUpdate.call(@)
+            return unless @isABS()
+            @_aaUpdateDeadState()
+
+        #@[ALIAS]
+        ALIAS__aaOnShatterEffectCreated = _.aaOnShatterEffectCreated
+        _.aaOnShatterEffectCreated = ->
+            ALIAS__aaOnShatterEffectCreated.call(@)
+            #TODO:
+            #@erase()
+
+        #@[ALIAS]
+        ALIAS__aaOnActionOnMe = _.aaOnActionOnMe
+        _.aaOnActionOnMe = ->
+            ALIAS__aaOnActionOnMe.call(@)
+            result = @AABattler().result()
+            return unless result?
+            #TODO: Может только если HP damage?
+            if result.isHit()
+                #TODO: model paramter or skill parameter (shake str)
+                @aaRequestShakeEffect()
+            return
+
+        _._aaUpdateDeadState = ->
+            if @isActive() and !@AABattler().isAlive()
+                "DEAD".p()
+                # * Отключаем АБС для этого события
+                @AAEntity().stopABS()
+                @aaRequestShatterEffect()
+                #TODO: start shatter effect (if model parameter and not xAnimaDead)
+                #TODO: erase if not self switch
+
+                #TODO: switch IF have - it's same as action but shortcut
+                #TODO: commonEvent if have - it's same as action but shortcut
+                #TODO: action if have - sw, var, ss, ce
+            return
+
+        return
+    # -----------------------------------------------------------------------
+
     #TODO: СБРОС ЦЕЛИ
     #TODO: ОФФСЕТ ДЛЯ ВЫБОРА
     #TODO: МИНИ ХП БАР

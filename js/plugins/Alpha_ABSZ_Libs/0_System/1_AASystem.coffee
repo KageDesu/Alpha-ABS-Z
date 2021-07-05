@@ -60,13 +60,6 @@ do ->
         #TODO: Это надо или нет?
         _.isABSBattle = -> @isMap() and @isABS()
 
-        #TODO: Может пауза и не нужна
-        _.pauseABS = -> $gameTemp._isABSOnPause = true
-
-        _.resumeABS = -> $gameTemp._isABSOnPause = false
-
-        _.isPaused = -> $gameTemp._isABSOnPause is true
-
         _.update = ->
 
         return
@@ -86,11 +79,8 @@ do ->
 
         # * Сцена карты загрузилась (или попали на сцену из меню, или Transfer)
         _.onMapSceneLoaded = ->
-            if @isPaused()
-                @resumeABS()
-            else
-                # * Возможно игрок отключил систему, поэтому проверяем isABS()
-                @startABS() if @isABS()
+            # * Возможно игрок отключил систему, поэтому проверяем isABS()
+            @startABS() if @isABS()
             AA.UI.refresh()
             return
 

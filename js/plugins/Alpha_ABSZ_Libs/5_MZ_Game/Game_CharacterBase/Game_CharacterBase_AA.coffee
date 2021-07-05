@@ -38,6 +38,9 @@ do ->
             return false unless character.isABS()
             @AAEntity().isMyEnemy(character.AAEntity())
 
+        # * Логика АБС (только если АБС включена)
+        _.aaUpdate = ->
+
     # -----------------------------------------------------------------------
 
     # * Эффекты спрайта (тряска и прочее)
@@ -48,12 +51,25 @@ do ->
             # * Первое значение - время
             # * Второе значение DX (отклонение по X)
             @_aaShakeEffectData = [0, 0]
+            # * [Запрос, массив данных для сохранения, флаг что надо создать части, DX, DY]
+            #TODO: Сохранение не используется пока что
+            @_aaShatterEffectData = [false, [], true, 0, 0]
+            return
 
         _.aaMotionDX = -> @_aaShakeEffectData[1]
 
         _.aaRequestShakeEffect = (time = 10) -> @_aaShakeEffectData[0] = time
 
         _.aaIsShakeRequested = -> @_aaShakeEffectData[0] > 0
+
+        _.aaIsShatterRequested = -> @_aaShatterEffectData[0] is true
+
+        _.aaRequestShatterEffect = (dx = 0.5, dy = -4) ->
+            @_aaShatterEffectData = [true, [], true, dx, dy]
+            return
+
+        _.aaOnShatterEffectCreated = ->
+            @_aaShatterEffectData[0] = false
 
     # -----------------------------------------------------------------------
 

@@ -12,6 +12,7 @@ do ->
     _.initialize = ->
         ALIAS__initialize.call(@)
         @_aaMapAnimationSprites = []
+        @_aaMapSpriteEffects = []
         return
 
     #@[ALIAS]
@@ -35,6 +36,7 @@ do ->
     _.update = ->
         ALIAS__update.call(@)
         @aaRefreshMapAnimation()
+        @aaUpdateShatterEffect()
     
     return
 # ■ END Spriteset_Map.coffee
