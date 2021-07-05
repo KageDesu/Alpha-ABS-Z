@@ -1,19 +1,18 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Scene_Map.coffee
+# ■ Spriteset_UI.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Scene_Map::
+    _ = AA.Spriteset_UI::
 
-    #@[ALIAS]
-    ALIAS__onMapLoaded = _.onMapLoaded
-    _.onMapLoaded = ->
-        ALIAS__onMapLoaded.call(@)
-        
-
+    _._createTargetUI = ->
+        #TODO: А если не активен?
+        @sTargetInfo = new AA.UISet_TargetInfo(@)
+        @_registerUISet(@sTargetInfo) ## Spriteset_UI_0
+    
     
     return
-# ■ END Scene_Map.coffee
+# ■ END Spriteset_UI.coffee
 #---------------------------------------------------------------------------

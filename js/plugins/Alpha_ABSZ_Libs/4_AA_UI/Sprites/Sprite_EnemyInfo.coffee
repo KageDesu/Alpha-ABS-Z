@@ -4,7 +4,6 @@ do ->
     class Sprite_EnemyInfo extends AA.Sprite_UIElement
         constructor: () ->
             super(...arguments)
-            @visible = false
 
         defaultParams: -> {
             visible: true

@@ -5,6 +5,8 @@ do ->
             super()
             @elementUnderMouse = null
             @isDrag = false
+            @preEditElementsStates = []
+            return
 
         create: ->
             super()
@@ -23,16 +25,22 @@ do ->
         # * Элемнты, которые скрыты, мы показываем прозрачными
         showNotVisibleElements: ->
             for e in @elements()
-                @transparentElement(e) unless e.isActive()
+                # * Тут проверяется по флагу visible, а не isActive
+                @transparentElement(e) unless e.visible
             return
 
         deactivateElement: (element) ->
-            element.desaturate()
+            # * Сохраняем значения перед редактированием
+            @preEditElementsStates.push([element, element.visible, element.opacity])
             element.opacity = 150
+            element.desaturate()
+            return
 
         transparentElement: (element) ->
+            @preEditElementsStates.push([element, element.visible, element.opacity])
             element.visible = true
             element.opacity = 120
+            return
 
         # * Сбросить значения по умолчанию
         resetElement: (element) ->
@@ -71,6 +79,14 @@ do ->
             if Input.isTriggered('r')
                 if @elementUnderMouse?
                     @resetElement(@elementUnderMouse)
+            return
+
+        stop: ->
+            super()
+            # * Восстанавливаем прозрачность и видимость которые были перед редактированием
+            for elementData in @preEditElementsStates
+                elementData[0].visible = elementData[1]
+                elementData[0].opacity = elementData[2]
             return
 
     AA.link Scene_UIEditor

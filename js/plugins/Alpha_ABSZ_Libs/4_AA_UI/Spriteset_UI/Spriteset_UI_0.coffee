@@ -44,6 +44,7 @@ do ->
 
     _._createDefaultElements = ->
         @_createActorUI() ##Spriteset_UI_ActorUI
+        @_createTargetUI() ##Spriteset_UI_Target
 
     # * Добавить набор и зарегестрировать все элементы и контроллеры из набора
     _._registerUISet = (uiSet) ->

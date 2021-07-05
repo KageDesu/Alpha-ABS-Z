@@ -29,6 +29,8 @@ do ->
     # -----------------------------------------------------------------------
     do ->
 
+        _.refresh = -> @uiSet?.refresh()
+
         _.refreshElement = (tag) ->
             @uiSet?.refreshElement(tag)
 

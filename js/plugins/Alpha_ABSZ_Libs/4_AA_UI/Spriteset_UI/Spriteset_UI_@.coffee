@@ -16,6 +16,11 @@ do ->
 
         terminate: -> @visible = false
 
+        # * Обновить все контроллеры и элементы
+        refresh: ->
+            for controller in @controllers
+                controller.refresh()
+
         onGameMessageStart: ->
             @getElementsWithMessageFlag().forEach (e) -> e.opacity = 50
 

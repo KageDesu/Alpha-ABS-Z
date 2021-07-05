@@ -1,6 +1,6 @@
 do ->
     # * Общий контроллер для Sprite_UIGauge (HP, MP, TP, ...)
-    #?rev 30.06.21
+    #?rev 03.07.21
     class GaugeController extends AA.UIElementController
         constructor: (@gaugeSprite) ->
             super()
@@ -28,8 +28,7 @@ do ->
         refreshGauge: ->
             return unless @gaugeSprite?
             try
-                @gaugeSprite.drawGauge(@value / @max)
-                @gaugeSprite.drawText(@getTypedText())
+                @_refreshValues()
             catch e
                 KDCore.warning e
                 # * Останавливаем работу метода
@@ -71,6 +70,10 @@ do ->
             @refreshGauge()
         return
 
+    _._refreshValues = ->
+        @gaugeSprite.drawGauge(@value / @max)
+        @gaugeSprite.drawText(@getTypedText())
+        return
     
     return
 # ■ END PRIVATE.coffee

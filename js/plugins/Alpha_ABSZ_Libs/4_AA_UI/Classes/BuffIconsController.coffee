@@ -3,7 +3,6 @@ do ->
     #?rev 17.10.20
     class BuffIconsController extends AA.UIElementController
 
-        #* source - Game_Battler
         # * buffSprites - Sprite_ActorStateIcon (массив)
         constructor: (@buffSprites) ->
             super()

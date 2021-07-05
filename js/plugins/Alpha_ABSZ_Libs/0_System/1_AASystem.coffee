@@ -91,6 +91,8 @@ do ->
             else
                 # * Возможно игрок отключил систему, поэтому проверяем isABS()
                 @startABS() if @isABS()
+            AA.UI.refresh()
+            return
 
         # * Новая карта (Data)
         _.onNewMapLoaded = ->
