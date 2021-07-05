@@ -7,6 +7,8 @@ class AAEnemyModelData
     constructor: (@eventId) ->
         @enemyId = @eventSettings().getEnemyId()
         @_initBaseParameters()
+        #@_applyParametersFromDB() #TODO: from database
+        @_applyParametersFromEvent()
 
         #@miniHpGaugeStyle = "miniHpGauge1"
         #@miniHPGaugeOffset = [-12, -58]
@@ -39,6 +41,10 @@ class AAEnemyModelData
 
     eventSettings: -> $gameMap.event(@eventId).aaEventSettings
 
+    isHaveDeadSwitch: -> AA.Utils.checkSwitch(@deadSwitch)
+
+    isHaveOnDeathAction: -> AA.SAaction.isProper(@onDeath)
+
     #╒═════════════════════════════════════════════════════════════════════════╛
     # ■ PRIVATE.coffee
     #╒═════════════════════════════════════════════════════════════════════════╛
@@ -56,6 +62,13 @@ class AAEnemyModelData
             #TODO: Остановился тут, базовые настройки врага
             #TODO: Лучше сразу перейти на реализацию АИ логики
 
+        # * Применяем параметры из страницы события
+        _._applyParametersFromEvent = ->
+            settings = @eventSettings()
+            return unless settings.isHaveExtraParameters()
+            for param in settings.getParameters()
+                @[param[0]] = param[1]
+            return
         
         return
     # ■ END PRIVATE

@@ -7,7 +7,9 @@ do ->
     #@[DEFINES]
     _ = AA.Utils
 
-    _.checkSwitch = (value) -> KDCore.SDK.checkSwitch(value)
+    _.checkSwitch = (value) ->
+        return false if isFinite(value)
+        return KDCore.SDK.checkSwitch(value)
 
     # * Методы распаковки и запаковки данных для хранения и сохранения игры
 

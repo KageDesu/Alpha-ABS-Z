@@ -7,6 +7,7 @@ do ->
     #@[DEFINES]
     _ = Game_Event::
 
+    _.aaModel = -> @AAEntity().model()
 
     return
 # ■ END Game_Event.coffee

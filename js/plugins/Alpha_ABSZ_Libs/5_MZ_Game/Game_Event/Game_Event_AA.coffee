@@ -62,22 +62,30 @@ do ->
         ALIAS__aaOnShatterEffectCreated = _.aaOnShatterEffectCreated
         _.aaOnShatterEffectCreated = ->
             ALIAS__aaOnShatterEffectCreated.call(@)
-            @aaOnDeath()
+            @aaOnDefeat()
             return
 
-        #ss, sw, vr, ce, ap
-        #TODO: Придумать общую схему для действий <onDeath:action_ap:viewRadius:22>
+        #@[ALIAS]
+        ALIAS__aaOnDefeat = _.aaOnDefeat
+        _.aaOnDefeat = ->
+            ALIAS__aaOnDefeat.call(@)
+            #TODO: call items drop!
+            #TODO: gain EXP, money
+            @aaOnDeath()
 
         #@[ALIAS]
         ALIAS__aaOnDeath = _.aaOnDeath
         _.aaOnDeath = ->
             ALIAS__aaOnDeath.call(@)
-            @erase() #if not self switch
-            #TODO: start shatter effect (if model parameter is ON)
-            #TODO: start xAnimaDead ???
-            #TODO: switch IF have - it's same as action but shortcut
-            #TODO: commonEvent if have - it's same as action but shortcut
-            #TODO: action if have - sw, var, ss, ce
+            model = @aaModel()
+            if model.isHaveDeadSwitch()
+                # * Включаем self.switch
+                AA.SAaction.execute("ss_" + model.deadSwitch + "_true", @)
+            else
+                @erase()
+            if model.isHaveOnDeathAction()
+                AA.SAaction.execute(model.onDeath, @)
+            #TODO: Что делать с xAnimaDead ???
             return
 
         #@[ALIAS]
@@ -94,11 +102,13 @@ do ->
 
         _._aaUpdateDeadState = ->
             if @isActive() and !@AABattler().isAlive()
-                "DEAD".p()
                 # * Отключаем АБС для этого события
                 @AAEntity().stopABS()
-                #TODO: start shatter effect (if model parameter and not xAnimaDead)
-                @aaRequestShatterEffect()
+                # * Если параметр включён, запускаем эффект
+                if @aaModel().shatterEffect is 1
+                    @aaRequestShatterEffect()
+                else # * Иначе сразу
+                    @aaOnDefeat()
             return
 
         return

@@ -11,7 +11,6 @@ do ->
             @param = null # * Параметр плагина (MZ)
             @mainLine = "" # * <ABS:X>
             @parsedParams = [] # * Финальные значения параметров на замену
-            @absParameters = [] # * Параметры АБС найденные в событии (промежуточные)
             @_pasreEventList(list)
             @_parseABSParamsBase()
             @_parseABSParamsSequence()
@@ -20,6 +19,8 @@ do ->
             return
 
         isHaveExtraParameters: -> @parsedParams.length > 0
+
+        getParameters: -> @parsedParams
 
         getEnemyId: ->
             param = AA.Utils.Parser.extractABSParameter(@mainLine)
