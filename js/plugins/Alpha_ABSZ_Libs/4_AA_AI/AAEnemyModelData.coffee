@@ -35,6 +35,8 @@ class AAEnemyModelData
 
     #TODO: Игрок должен иметь возмможность менять значения во время игры
 
+    #TODO: basik shake effect strength when hitted
+
     eventSettings: -> $gameMap.event(@eventId).aaEventSettings
 
     #╒═════════════════════════════════════════════════════════════════════════╛

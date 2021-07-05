@@ -90,15 +90,17 @@ do ->
     #custom action common ev,  switch, var (на любые события с Note)
     # события, которые могут пропускать через себя Proj, но выполнять действия
 
+    #TODO: shake effect strheng for target
+
     #TODO: animationFor: eachTarget, centerPoint
 
     # * Основные АБС параметры навыка
     _.initMain = ->
         # * Область поражения (1 - Х)
-        @radius = 3
-        @range = 4
+        @radius = 1#3
+        @range = 1#4
         #facing dir 0, point select 1
-        @direction = 1
+        @direction = 0#1
         @speed = 0#3
         return
 

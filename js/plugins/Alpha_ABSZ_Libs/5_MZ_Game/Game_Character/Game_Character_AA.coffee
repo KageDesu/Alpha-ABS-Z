@@ -53,6 +53,21 @@ do ->
     
     # -----------------------------------------------------------------------
 
+    # * Методы ABS (Бой)
+    # -----------------------------------------------------------------------
+    do ->
+        # * Когда какое-либо действие было выполненно на мне
+        _.aaOnActionOnMe = (action) ->
+            "ACTION ON ME".p()
+            result = @AABattler().result()
+            return unless result?
+            if result.isHit()
+                #TODO: model paramter or skill parameter (shake str)
+                @aaRequestShakeEffect()
+            return
+
+    # -----------------------------------------------------------------------
+
     return
 # ■ END Game_Character.coffee
 #---------------------------------------------------------------------------

@@ -101,6 +101,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Animation_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AAEffects.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AAInfo.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_CharacterMiniGauge.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_EnemyInfo.js"
@@ -256,6 +257,7 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
 
 
 

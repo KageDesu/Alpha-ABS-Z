@@ -19,8 +19,8 @@ do ->
     _.update = ->
         ALIAS__update.call(@)
         # * Если в зоне навыка, подсвечиваться
-        @_aaUpdateSelectionBlend()
-        @_aaUpdateDamagePopUps()
+        @_aaUpdate()
+        return
 
     return
 # ■ END Sprite_Character.coffee

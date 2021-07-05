@@ -21,6 +21,12 @@ do ->
 
     _.isEnemy = -> false
 
+    _._aaUpdate = ->
+        @_aaUpdateSelectionBlend()
+        @_aaUpdateDamagePopUps()
+        @_aaUpdateSpriteEffects()
+        return
+
     _._aaUpdateDamagePopUps = ->
         return unless @isABSEntity()
         b = @_character.AABattler()

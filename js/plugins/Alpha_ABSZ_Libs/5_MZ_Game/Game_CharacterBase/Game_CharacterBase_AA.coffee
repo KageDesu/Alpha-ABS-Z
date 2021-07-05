@@ -40,6 +40,22 @@ do ->
 
     # -----------------------------------------------------------------------
 
+    # * Эффекты спрайта (тряска и прочее)
+    # -----------------------------------------------------------------------
+    do ->
+
+        _.aaClearCharacterEffects = ->
+            # * Первое значение - время
+            # * Второе значение DX (отклонение по X)
+            @_aaShakeEffectData = [0, 0]
+
+        _.aaMotionDX = -> @_aaShakeEffectData[1]
+
+        _.aaRequestShakeEffect = (time = 10) -> @_aaShakeEffectData[0] = time
+
+        _.aaIsShakeRequested = -> @_aaShakeEffectData[0] > 0
+
+    # -----------------------------------------------------------------------
 
     # * Добавим MaxTp чтобы Gauge контроллеры работали
     Object.defineProperties _, {

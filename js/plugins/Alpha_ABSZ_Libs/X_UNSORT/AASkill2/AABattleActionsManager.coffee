@@ -128,8 +128,7 @@ do ->
             @_performActionResultOnTarget(target)
             battler.startDamagePopup()
             action.subject().startDamagePopup()
-            #TODO: onActionOnMe
-            #battler.onActionOnMe(action)
+            target.aaOnActionOnMe(action)
         catch e
             KDCore.warning("_onActionResult", e)
         return
