@@ -7,6 +7,8 @@ do ->
     #@[DEFINES]
     _ = AA.Utils
 
+    _.checkSwitch = (value) -> KDCore.SDK.checkSwitch(value)
+
     # * Методы распаковки и запаковки данных для хранения и сохранения игры
 
     _.packAASkill = (skill) -> skill.storeId()

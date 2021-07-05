@@ -48,7 +48,11 @@ class AAEnemyModelData
         #@[DEFINES]
         _ = AAEnemyModelData::
     
+        # * Инициализация базовых настроек
         _._initBaseParameters = ->
+            @shatterEffect = 1
+            @deadSwitch = 0
+            @onDeath = 0
             #TODO: Остановился тут, базовые настройки врага
             #TODO: Лучше сразу перейти на реализацию АИ логики
 

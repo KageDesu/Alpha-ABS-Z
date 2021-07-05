@@ -62,8 +62,23 @@ do ->
         ALIAS__aaOnShatterEffectCreated = _.aaOnShatterEffectCreated
         _.aaOnShatterEffectCreated = ->
             ALIAS__aaOnShatterEffectCreated.call(@)
-            #TODO:
-            #@erase()
+            @aaOnDeath()
+            return
+
+        #ss, sw, vr, ce, ap
+        #TODO: Придумать общую схему для действий <onDeath:action_ap:viewRadius:22>
+
+        #@[ALIAS]
+        ALIAS__aaOnDeath = _.aaOnDeath
+        _.aaOnDeath = ->
+            ALIAS__aaOnDeath.call(@)
+            @erase() #if not self switch
+            #TODO: start shatter effect (if model parameter is ON)
+            #TODO: start xAnimaDead ???
+            #TODO: switch IF have - it's same as action but shortcut
+            #TODO: commonEvent if have - it's same as action but shortcut
+            #TODO: action if have - sw, var, ss, ce
+            return
 
         #@[ALIAS]
         ALIAS__aaOnActionOnMe = _.aaOnActionOnMe
@@ -82,13 +97,8 @@ do ->
                 "DEAD".p()
                 # * Отключаем АБС для этого события
                 @AAEntity().stopABS()
-                @aaRequestShatterEffect()
                 #TODO: start shatter effect (if model parameter and not xAnimaDead)
-                #TODO: erase if not self switch
-
-                #TODO: switch IF have - it's same as action but shortcut
-                #TODO: commonEvent if have - it's same as action but shortcut
-                #TODO: action if have - sw, var, ss, ce
+                @aaRequestShatterEffect()
             return
 
         return

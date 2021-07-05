@@ -110,6 +110,9 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillImpactSelector.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA_Animation.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA_Layers.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA_SpriteEffects.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AASkills.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_0.js"
@@ -257,6 +260,9 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
 
 
 

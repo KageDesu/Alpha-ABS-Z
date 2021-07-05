@@ -55,7 +55,9 @@ do ->
         return
 
     _._aaUpdateDelayedSkillActions = ->
+        #TODO: Навык с задержкой должен иметь задержку перед использованием иначе ошибка, если спамить навык
         for action in @aaDelayedSkillActions
+            continue unless action?
             if action[0]-- <= 0
                 skill = AA.Utils.unpackAASkill(action[1])
                 point = AA.Utils.unpackAAPoint(action[2])
