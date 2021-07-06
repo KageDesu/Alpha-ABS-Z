@@ -59,6 +59,7 @@ class AAEnemyModelData
             @shatterEffect = 1
             @deadSwitch = 0
             @onDeath = 0
+            @eraseOnDead = 1
             #TODO: Остановился тут, базовые настройки врага
             #TODO: Лучше сразу перейти на реализацию АИ логики
 

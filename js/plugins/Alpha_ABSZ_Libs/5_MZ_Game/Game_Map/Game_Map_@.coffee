@@ -13,6 +13,12 @@ do ->
         ALIAS__initialize.call(@)
         @initABSMembers()
     
+    #@[ALIAS]
+    ALIAS__refresh = _.refresh
+    _.refresh = ->
+        ALIAS__refresh.call(@)
+        @refreshABSMembers()
+
     return
 # ■ END Game_Map.coffee
 #---------------------------------------------------------------------------

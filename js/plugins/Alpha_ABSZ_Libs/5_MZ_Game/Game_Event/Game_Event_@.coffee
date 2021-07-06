@@ -42,7 +42,7 @@ do ->
         ALIAS__clearPageSettings = _.clearPageSettings
         _.clearPageSettings = ->
             ALIAS__clearPageSettings.call(@)
-            #TODO: Уничтожать АБС Ентити
+            @clearABS() if @isABS()
 
         return
     # -----------------------------------------------------------------------

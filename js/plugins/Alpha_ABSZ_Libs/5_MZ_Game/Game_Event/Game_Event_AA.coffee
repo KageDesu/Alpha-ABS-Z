@@ -11,11 +11,17 @@ do ->
     # -----------------------------------------------------------------------
     do ->
 
+        # * Когда мы переключили страницу события, надо пересоздать Battler и активировать АБС
+        _.aaIsShouldBeReActivated = -> @isABS() && !@AABattler()?
+
         _.aaCheckABSEventState = ->
             if @aaIsABSEventPage()
+                #TODO: Проверить переключение с АБС на АБС событие
                 @_initMembersABS()
             else
-                #TODO: Проверка, если был Entity, но теперь нету
+                # * Если переключили страницу, но событие было АИ, то надо отключить
+                @clearABS() if @isABS()
+                return
 
         _.aaIsABSEventPage = ->
             return false unless @page()?
@@ -82,7 +88,7 @@ do ->
                 # * Включаем self.switch
                 AA.SAaction.execute("ss_" + model.deadSwitch + "_true", @)
             else
-                @erase()
+                @erase() if model.eraseOnDead is 1
             if model.isHaveOnDeathAction()
                 AA.SAaction.execute(model.onDeath, @)
             #TODO: Что делать с xAnimaDead ???
@@ -103,13 +109,26 @@ do ->
         _._aaUpdateDeadState = ->
             if @isActive() and !@AABattler().isAlive()
                 # * Отключаем АБС для этого события
-                @AAEntity().stopABS()
+                @stopABS() #TODO: clearABS ???
                 # * Если параметр включён, запускаем эффект
                 if @aaModel().shatterEffect is 1
                     @aaRequestShatterEffect()
                 else # * Иначе сразу
                     @aaOnDefeat()
             return
+
+        return
+    # -----------------------------------------------------------------------
+
+    # * Дополнительные возможности АБС события
+    # -----------------------------------------------------------------------
+    do ->
+
+        _.aaStartCommonEvent = (ceId) ->
+            #TODO:
+            # см. Game_AIBot::startCommonEvent
+            # см. Game_AIBot::list
+            # см. Game_Interpreter::__clearCMABSEvent
 
         return
     # -----------------------------------------------------------------------

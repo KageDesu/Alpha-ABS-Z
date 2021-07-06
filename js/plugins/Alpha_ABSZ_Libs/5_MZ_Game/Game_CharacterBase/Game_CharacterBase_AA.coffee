@@ -20,7 +20,12 @@ do ->
             @aaEntity?.initABS()
             @AASprite()?.initABS()
 
-        _.stopABS = ->
+        _.stopABS = -> @AAEntity()?.stopABS()
+
+        # * Полностью отключить (очистить) АБС режим у персонажа
+        _.clearABS = ->
+            @stopABS()
+            @aaEntity = null
 
         _.AABattler = -> @AAEntity()?.battler()
 

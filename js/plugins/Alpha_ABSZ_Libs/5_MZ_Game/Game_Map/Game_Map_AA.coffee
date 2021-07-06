@@ -11,6 +11,11 @@ do ->
     _.initABSMembers = ->
         @aaMapAnimations = []
 
+    # * Проверка АБС событий и активация по требованию
+    _.refreshABSMembers = ->
+        for e in @eventsAA()
+            e.initABS() if e.aaIsShouldBeReActivated()
+
     # * Когда карта загружена, происходит активация ABS событий
     _.initABS = () ->
         e.initABS() for e in @eventsAA()
