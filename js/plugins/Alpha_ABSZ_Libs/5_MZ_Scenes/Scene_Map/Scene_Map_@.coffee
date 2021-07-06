@@ -41,9 +41,8 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
-        @aaUpdatePlayerInput()
-        @aaUpdateMouseDetection()
-        #@aaUpdateMapScroolByMouse() #TODO: доработать скролл (взять из AABS MV)
+        @aaUpdate() if AA.isABS()
+        return
 
     #@[ALIAS]
     ALIAS__onMapTouch = _.onMapTouch

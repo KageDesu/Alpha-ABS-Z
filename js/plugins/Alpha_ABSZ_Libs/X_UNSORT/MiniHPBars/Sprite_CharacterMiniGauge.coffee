@@ -59,7 +59,7 @@ do ->
         showInstant: -> @visible = true
 
         showSlow: ->
-            return if @visible is true
+            return if @visible is true && @opacity >= 255
             @refreshValues()
             @visible = true
             @changer = new AA.Changer(@)

@@ -75,7 +75,7 @@ do ->
         #(Sprite_CharacterMiniGauge)
 
         showSlow: ->
-            return if @visible is true
+            return if @visible is true && @opacity >= 255
             @visible = true
             @changer = new AA.Changer(@)
             @changer.change('opacity')

@@ -31,6 +31,7 @@ class UITargetInfoController
         @targetInfoSpr.drawFace("Monster", 2)
         #TODO: battle state show and refresh by AI state
         @targetInfoSpr.showSlow()
+        return
 
     update: ->
         return unless @targetInfoSpr.visible
