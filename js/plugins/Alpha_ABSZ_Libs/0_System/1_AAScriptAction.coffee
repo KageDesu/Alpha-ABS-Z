@@ -27,16 +27,6 @@ do ->
         return _.ACTIONS.contains(cmd)
 
     # * Выполнить AA Script Action
-    # * Примеры:
-    # ss_A_true_2 , ss_B_false, ss_C_false_3 (evId)
-    # sw_43_true, sw_222_false
-    # vr_54_2123, vr_44_9932
-    # ce_43, ce_11_bind (?)
-    # ap_viewRadius_5, ap_viewRadius_4_12 (evId)
-    # ev_5 ; start event 5 on this map
-    # an_4 (self), an_5_3 (evId), an_2_1_2 (x,y)
-    # ef_shake_10, ef_shake_10_12 (evId), ef_shatter_4_4 (dx, dy), ef_shatter_4_4_2 (evId)
-
     _.execute = (action, char) ->
         return unless _.isProper(action)
         try
@@ -64,6 +54,7 @@ do ->
         catch e
             AA.w e
 
+    # * ss_A_true_2 , ss_B_false, ss_C_false_3 (evId)
     _.executeSelfSwitchAction = (action, char) ->
         args = action.split("_")
         return if args.length < 3
@@ -80,6 +71,7 @@ do ->
         $gameSelfSwitches.setValue(key, switchState)
         return
 
+    # * sw_43_true, sw_222_false
     _.executeSwitchAction = (action) ->
         args = action.split("_")
         return if args.length < 3
@@ -89,6 +81,7 @@ do ->
         $gameSwitches.setValue(switchId, switchState)
         return
 
+    # * vr_54_2123, vr_44_9932
     _.executeVariableAction = (action) ->
         args = action.split("_")
         return if args.length < 3
@@ -99,6 +92,7 @@ do ->
         $gameVariables.setValue(varId, value)
         return
 
+    # * ce_43, ce_11_bind (?)
     _.executeCommonEventAction = (action, char) ->
         args = action.split("_")
         return if args.length < 2
@@ -109,6 +103,30 @@ do ->
         else
             $gameTemp.reserveCommonEvent(ceId)
         return
+
+    # * ev_5 ; start event 5 on this map
+    _.executeMapEventAction = (action) ->
+        args = action.split("_")
+        return if args.length < 2
+        eventId = parseInt(args[1])
+        return if eventId <= 0
+        event = $gameMap.event(eventId)
+        return unless event?
+        event.start()
+        return
+
+    # * ap_viewRadius_5, ap_viewRadius_4_12 (evId)
+    _.executeAIModelAction = (action, char) ->
+        #TODO:
+
+    # * an_4 (self), an_5_3 (evId), an_2_1_2 (x,y)
+    _.executeAnimationAction = (action, char) ->
+        #TODO:
+
+    # * ef_shake_10, ef_shake_10_12 (evId), ef_shatter_4_4 (dx, dy), ef_shatter_4_4_2 (evId)
+    _.executeEffectAction = (action, char) ->
+        # TODO:
+
 
     return
 

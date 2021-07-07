@@ -29,6 +29,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASystem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AATimer.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_DevSymbol_TEST.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_KDCoreExt.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AAInstantSkill_0.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_BattlerAASkillsSet.js"
@@ -52,6 +53,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Diagonal_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionAA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionResult_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Actor_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_BattlerBase_@.js"
@@ -109,6 +111,8 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_PopTreasureItem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SelectedCircle.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillImpactSelector.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillPanelItem.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillPanelOutline.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA_Animation.js"
@@ -261,6 +265,11 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
 
 
 
