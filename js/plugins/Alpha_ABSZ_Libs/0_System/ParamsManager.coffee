@@ -167,6 +167,60 @@ do ->
             showOnDamage: true
         }
 
+        #TODO: Первые два обязательны, так как отвечают за атаку и защиту (мышка)
+        getUISkillsItems: () -> [
+            {
+                position: { x: 218, y: 583 },
+                visibleIfEmpty: true
+                symbol: "E"
+            }
+            {
+                position: { x: 255, y: 583 },
+                visibleIfEmpty: false
+                symbol: "Q"
+            }
+            {
+                position: { x: 302, y: 583 },
+                visibleIfEmpty: true
+                symbol: "1"
+            }
+            {
+                position: { x: 339, y: 583 },
+                visibleIfEmpty: true
+                symbol: "2"
+            }
+            {
+                position: { x: 376, y: 583 },
+                visibleIfEmpty: true
+                symbol: "3"
+            }
+            {
+                position: { x: 413, y: 583 },
+                visibleIfEmpty: true
+                symbol: "4"
+            }
+            {
+                position: { x: 450, y: 583 },
+                visibleIfEmpty: true
+                symbol: "5"
+            }
+            {
+                position: { x: 487, y: 583 },
+                visibleIfEmpty: true
+                symbol: "6"
+            }
+            {
+                position: { x: 524, y: 583 },
+                visibleIfEmpty: true
+                symbol: "7"
+            }
+            {
+                position: { x: 561, y: 583 },
+                visibleIfEmpty: true
+                symbol: "8"
+            }
+        ]
+
         #TODO:
         getPopUpDamageSettings: (id) ->
             {

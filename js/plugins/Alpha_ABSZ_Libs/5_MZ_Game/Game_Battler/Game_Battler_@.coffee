@@ -11,7 +11,7 @@ do ->
     ALIAS__initMembers = _.initMembers
     _.initMembers = ->
         ALIAS__initMembers.call(@)
-        @initAASkillsSet()
+        @initAASkills()
         return
     
     return

@@ -14,8 +14,8 @@ do ->
     # * ABS навыки, которые можно использовать в данный момент (включая предметы)
     _.getUsableAASkills = -> @getAASkills().filter (skill) => @canUse(skill)
 
-    _.initAASkillsSet = ->
-        @aaSkillsSet = new AASkillsSet()
+    _.initAASkills = ->
+        @aaSkillsTimers = new AASkillsTimers()
         return
 
     #TODO: Это может и не нужно уже
@@ -29,6 +29,8 @@ do ->
         #см. ABS MV -> Game_Player.js строка 593
         @action(0).setSkill(aaSkill.id)
         return
+
+    #TODO: attackSkillId - метод у МЗ лучше, чем у МВ (там капец)
 
     return
 # ■ END Game_Battler.coffee

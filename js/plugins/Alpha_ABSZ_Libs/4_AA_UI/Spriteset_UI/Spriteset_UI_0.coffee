@@ -43,6 +43,7 @@ do ->
         #@_createUserElements()
 
     _._createDefaultElements = ->
+        @_createSkillsSet() ##Spriteset_UI_SkillsSet
         @_createActorUI() ##Spriteset_UI_ActorUI
         @_createTargetUI() ##Spriteset_UI_Target
 

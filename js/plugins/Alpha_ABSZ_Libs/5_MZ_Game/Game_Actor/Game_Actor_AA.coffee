@@ -11,9 +11,10 @@ do ->
     _.getAASkills = ->
         # * Включает атаку и защиту (базовые 1 и 2)
         #TODO: навык защиты надо тоже под АБС автоматически дорабатывать при загрузке
-        list = @skills().concat([$dataSkills[1], $dataSkills[2]])
+        attackSkillId = @attackSkillId()
+        list = @skills().concat([$dataSkills[attackSkillId]])
         return list.filter (skill) -> skill.AASkill?
-    
+
     
     return
 # ■ END Game_Actor.coffee

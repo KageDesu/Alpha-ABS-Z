@@ -1,19 +1,33 @@
+# * Класс хранит таймеры для набора АБС навыков (и предметов) для Battler
+
+#@[STORABLE]
+class AASkillsTimers
+    constructor: () ->
+        # * Таймеры для навыков
+        @timers = {}
+        return
+
+    startTimerForSkill: (skillId, time) ->
+
+    isSkillHaveTimer: (skillId) ->
+
+    # * В секундах
+    getRemainTimeForSkill: (skillId) ->
+
+    getTimerForSkill: (skillId) ->
+
+
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Scene_Map.coffee
+# ■ AASkillsTimers.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Scene_Map::
-
-    #@[ALIAS]
-    ALIAS__onMapLoaded = _.onMapLoaded
-    _.onMapLoaded = ->
-        ALIAS__onMapLoaded.call(@)
+    _ = AASkillsTimers::
 
 
     
     return
-# ■ END Scene_Map.coffee
+# ■ END AASkillsTimers.coffee
 #---------------------------------------------------------------------------

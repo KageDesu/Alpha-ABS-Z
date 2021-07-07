@@ -65,15 +65,33 @@ do ->
                 @aaDelayedSkillActions.delete(action)
         return
 
+    # * Обновление навыков для панели задач (при смене лидера)
+    # * Также выполняется начальная расстановка навыков
+    _.aaRefreshABSSkillsForPanel = ->
+        return unless @AABattler()?
+        @aaSkillsSet?.setActorId(@AABattler().actorId())
+        #TODO: rise refresh skill panel event!
+        return
+
+
     # * Основные (приватные) методы АБС
     # -----------------------------------------------------------------------
     do ->
         
+        #@[ALIAS]
+        ALIAS__initABS = _.initABS
+        _.initABS = ->
+            ALIAS__initABS.call(@)
+            @aaRefreshABSSkillsForPanel()
+            return
+
         _._initMembersABS = ->
             @aaEntity = new AAPlayerEntity()
             @aaState = null # * Свободное состояние (нулевое)
             # * Набор навыков с задержкой
             @aaDelayedSkillActions = []
+            @aaSkillsSet = new AASkillsSet()
+            return
 
         _._setAAStateToSelectSkillTarget = ->
             # * Наверное должно быт в AAEntity!!! Так как у ботов тоже будет этот параметр

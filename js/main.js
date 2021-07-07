@@ -32,6 +32,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_KDCoreExt.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AAInstantSkill_0.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsSet.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsTimers.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_BattlerAASkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AABattleActionsManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AABattleManager.js"
@@ -122,11 +123,14 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_0.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_ActorUI.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_SkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_UI_Target.js"
 ,"js/plugins/Alpha_ABSZ_Libs/TempJS.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/uAPI.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UISet_ActorGauges.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UISet_Skills.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UISet_TargetInfo.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UISkillsItemsController.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UITargetInfoController.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UserUISettings.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Window_Message_@.js"
@@ -265,6 +269,10 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
 
 
 

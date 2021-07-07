@@ -55,15 +55,21 @@ do ->
 
         deselect: -> @selectionOutline.hide()
 
-        clear: () -> @drawIcon(0)
+        clear: () ->
+            @enable()
+            @drawIcon(0)
+            @drawCount("")
+            @drawTime("")
+            #@disable() #??? or @enable()
+            #TODO: hide if option
 
         drawIcon: () -> @icon.draw(...arguments)
 
         drawSymbol: () -> @text.draw(...arguments)
 
-        drawCount: () -> @countText.draw(...arguments)
+        drawCount: () -> #@countText.draw(...arguments)
 
-        drawTime: () -> @timeText.draw(...arguments)
+        drawTime: () -> #@timeText.draw(...arguments)
 
         disable: () ->
             @button.disable()
