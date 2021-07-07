@@ -4,7 +4,24 @@
 #@[STORABLE]
 class AASkillsSet
     constructor: () ->
-        
+        # * Таймеры для навыков
+        @timers = {}
+        # * Позиции на панели для навыков
+        @bingings = {}
+        return
+
+    startTimerForSkill: (skillId, time) ->
+
+    isSkillHaveTimer: (skillId) ->
+
+    # * В секундах
+    getRemainTimeForSkill: (skillId) ->
+
+    getTimerForSkill: (skillId) ->
+
+    setPositionForSkill: (skillId, positionNew, positionOld) ->
+
+    getPositionForSkill: (skillId) ->
 
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AASkillsSet.coffee
