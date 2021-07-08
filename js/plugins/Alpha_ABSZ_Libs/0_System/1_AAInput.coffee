@@ -20,11 +20,28 @@ do ->
     # * Open menu by right mouse click?
     _.isOpenMenuByRMB = -> @settings.menuByRightClick is true
 
+    # * Клавишы навыков (ячеек) для левой и правой кнопок мыши
+    _.primarySkillSymbol = -> @skillPanelSymbols[0]
+    _.secondarySkillSymbol = -> @skillPanelSymbols[1]
+    # * Количество ячеек для навыков (и соответсвенно кнопок для них)
+    # * Кнопки имеют имя SKL_(INDEX), от 0
+    _.skillsSymbolsCount = -> @skillPanelSymbols.length
+
+    _.getTriggeredSkillSymbol = ->
+        for key in @__skillSymbols
+            if Input.isTriggered(AA.IKey[key[0]])
+                return key[1]
+        return null
 
     _.init = (@settings) ->
+        @_loadSkillPanelSymbols()
         @applyInputSettings()
         @applyKeybindings()
         "INIT ABS INPUT SUB SYSTEM".p()
+
+    # * Загружаем кнопки, которые назначены для панели навыков
+    _._loadSkillPanelSymbols = ->
+        @skillPanelSymbols = AA.PP.getUISkillsItems().map (item) -> item.symbol
 
     # * Загружает данные с настроек плагина
     _.applyKeybindings = ->
@@ -34,6 +51,7 @@ do ->
         @_asignKeyForAASymbol("MU", "w")
         @_asignKeyForAASymbol("MD", "s")
         @_asignDefaultActionsKeys()
+        @_asingSkillPanelKeys()
         return
         
     _._asignKeyForAASymbol = (symbol, key) ->
@@ -42,13 +60,26 @@ do ->
         return
 
     _._asignDefaultActionsKeys = ->
-        @_asignKeyForAASymbol("ATK", @settings.kbAttack)
-        @_asignKeyForAASymbol("DEF", @settings.kbDefense)
-        @_asignKeyForAASymbol("TRS", @settings.kbSelectTarget)
-        @_asignKeyForAASymbol("TRR", @settings.kbResetTarget)
-        @_asignKeyForAASymbol("REL", @settings.kbReload)
-        @_asignKeyForAASymbol("CMD", @settings.kbCommandMenu)
+        #@_asignKeyForAASymbol("ATK", @settings.kbAttack)
+        #@_asignKeyForAASymbol("DEF", @settings.kbDefense)
+        #@_asignKeyForAASymbol("TRS", @settings.kbSelectTarget)
+        #@_asignKeyForAASymbol("TRR", @settings.kbResetTarget)
+        #@_asignKeyForAASymbol("REL", @settings.kbReload)
+        #@_asignKeyForAASymbol("CMD", @settings.kbCommandMenu)
         @_asignKeyForAASymbol("ROT", @settings.kbRotate)
+        return
+
+    _._asingSkillPanelKeys = ->
+        # * Дополнительно присвоим для атак свои индтификаторы кнопок
+        @_asignKeyForAASymbol("ATK1", @primarySkillSymbol())
+        @_asignKeyForAASymbol("ATK2", @secondarySkillSymbol())
+        # * Теперь для всех навыков (включая атаки тоже, дублируются)
+        # * Для более быстрой проверки нажатия, отдельный массив
+        @__skillSymbols = []
+        for symb, index in @skillPanelSymbols
+            key = "SKL_" + index
+            @_asignKeyForAASymbol(key, symb)
+            @__skillSymbols.push([key, symb])
         return
 
     # * Проверка на кнопки, которые переопределены RPG Maker'ом и не будут работать так
@@ -72,7 +103,7 @@ do ->
         @_applyTouchMode()
         @_applyTargetSelectMode()
         @_applyRotateType()
-    
+
     _._applyMoveType = ->
         mt = @settings.moveType
         if mt.contains("WASD")

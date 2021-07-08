@@ -7,8 +7,8 @@ do ->
     #@[DEFINES]
     _ = Game_Player::
 
-    # * Можно ли управлять? (движение, навыки и всё в этом роде)
-    _.canBeControlled = -> @isActive()
+    # * Можно ли управлять? (АБС элементы: навыки, атака и всё в этом роде)
+    _.canBeControlled = -> @isActive() && AA.isABS()
 
     _.isInSkillTargetingState = -> @aaState == 'skill'
 
@@ -36,11 +36,15 @@ do ->
         skill = @activeAASkill()
         @turnTowardCharacter(point) if skill.isInPoint()
         #TODO: temp
-        #TODO: skill animation (if exists)
-        #TODO: Если есть Action skill, then skill action
+        #TODO: skill animation ZAnima (if exists)
+        #TODO: Если есть Action skill, then skill action (SAction)
         #TODO: if exists special action in spell then special (if have)
         #TODO: or nothing
         $gamePlayer.startAnimaXAA_Attack()
+
+        #TODO: Тут можно ещё дополнительную проверку canUse
+        # так как пока шёл выборо цели (например) мана могла закончиться
+        
         # * Стоит ограничение задержки для безопасности
         if skill.actionStartDelay > 0 and skill.actionStartDelay <= 60
             @setupDelayedAASkill(skill, point)
@@ -54,6 +58,7 @@ do ->
         )
         return
 
+    #TODO: Это вынести на Battler
     _._aaUpdateDelayedSkillActions = ->
         #TODO: Навык с задержкой должен иметь задержку перед использованием иначе ошибка, если спамить навык
         for action in @aaDelayedSkillActions
@@ -105,10 +110,11 @@ do ->
             AA.EV.call("PlayerSkillSelector")
             #AA.EV.call("PlayerChangeState")
 
-        _._aaUpdateABS = (sceneActive) ->
+        _._aaUpdatePlayerABS = (sceneActive) ->
             if sceneActive is true
                 @_aaUpdateDelayedSkillActions()
                 @_aaUpdateStates()
+                @_aaUpdatePlayerInput()
 
         _._aaUpdateStates = ->
             switch @aaState

@@ -58,6 +58,7 @@ do ->
 
     _._createController = ->
         skillsCnt = new UISkillsItemsController(@elements)
+        skillsCnt.tag = "skills"
         @controllers.push skillsCnt
         return
 

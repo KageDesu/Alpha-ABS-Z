@@ -1,45 +1,36 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_Player.coffee
+# ■ Game_BattlerBase.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_Player::
+    _ = Game_BattlerBase::
 
     #@[ALIAS]
     ALIAS__initMembers = _.initMembers
     _.initMembers = ->
         ALIAS__initMembers.call(@)
-        @_initMembersABS()
-
-    # ======================================================================
-    #TODO: Как определять?
-
-    #TODO: TEST
-
-    #@[ALIAS]
-    ALIAS__refresh = _.refresh
-    _.refresh = ->
-        ALIAS__refresh.call(@)
+        @initAASkills()
         return
 
     #@[ALIAS]
-    ALIAS__canMove = _.canMove
-    _.canMove = ->
-        canMove = ALIAS__canMove.call(@)
-        if canMove && @isABS()
-            return @AABattler().canMove()
+    ALIAS__canUse = _.canUse
+    _.canUse = (item) ->
+        if AA.isABS() and item.AASkill?
+            return @canUseABSItem(item)
         else
-            return canMove
+            return ALIAS__canUse.call(@, item)
 
+    # * АБС навыки не учитывают область действия, так как их можно использовать только на карте
     #@[ALIAS]
-    ALIAS__update = _.update
-    _.update = (sceneActive) ->
-        ALIAS__update.call(@, sceneActive)
-        @_aaUpdatePlayerABS(sceneActive)
+    ALIAS__isOccasionOk = _.isOccasionOk
+    _.isOccasionOk = (item) ->
+        if AA.isABS() and item.AASkill?
+            return true
+        else
+            return ALIAS__isOccasionOk.call(@, item)
 
-    
     return
-# ■ END Game_Player.coffee
+# ■ END Game_BattlerBase.coffee
 #---------------------------------------------------------------------------

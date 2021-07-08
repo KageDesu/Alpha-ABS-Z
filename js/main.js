@@ -58,6 +58,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_BattlerBase_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_BattlerBase_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_AnimaX.js"
@@ -269,6 +270,11 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
 
 
 

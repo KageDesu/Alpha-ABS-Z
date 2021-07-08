@@ -46,6 +46,28 @@ do ->
         catch e
             AA.w e
 
+    #TODO: Это в ACore (от туда вытащил чтобы редактировать)
+    # * Извлекает из строки (линии) имя параметра и его значение
+    _.extractABSParameter = (line) ->
+        # * Для параметров одиночных < >
+        if line.match(/<.*>/i)
+            match = line.match(/<(\w+)\s*:\s*(.+)>/i)
+        else # * Для параметров в группе (без < > )
+            match = line.match(/(\w+)\s*:\s*(.+)/i)
+        if match?
+            name = match[1]
+            value = _.convertParameterValue(match[2])
+            return [name, value]
+        else
+            return null
+
+    #TODO: Это тоже в ACORE (от туда вытащил)
+    _.convertParameterValue = (paramValue) ->
+        if isFinite(paramValue)
+            return Number(paramValue)
+        else
+            return paramValue
+
     # * Извлечь группу из объекта ДБ
     _.extractABSParametersFromDBItem = (item) ->
         try

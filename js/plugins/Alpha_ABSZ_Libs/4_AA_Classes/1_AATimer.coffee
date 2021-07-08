@@ -21,6 +21,8 @@ class AATimer
 
     getMaxSeconds: -> AATimer.ConvertFramesToSeconds @maxValue
 
+    getSecondsLeft: -> @getMaxSeconds() - @getSeconds()
+
     @ConvertFramesToSeconds: (value) -> Math.round( (value / 60) * 10 ) / 10
 
 

@@ -58,11 +58,11 @@ do ->
 
         # * Этот метод работает только когда АБС активна
         #@[ALIAS]
-        ALIAS__aaUpdate = _.aaUpdate
-        _.aaUpdate = ->
-            ALIAS__aaUpdate.call(@)
-            return unless @isABS()
+        ALIAS_aaUpdateABS = _.aaUpdateABS
+        _.aaUpdateABS = ->
+            ALIAS_aaUpdateABS.call(@)
             @_aaUpdateDeadState()
+            return
 
         #@[ALIAS]
         ALIAS__aaOnShatterEffectCreated = _.aaOnShatterEffectCreated

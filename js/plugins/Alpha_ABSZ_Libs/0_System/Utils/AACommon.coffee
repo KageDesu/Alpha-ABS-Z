@@ -7,6 +7,16 @@ do ->
     #@[DEFINES]
     _ = AA.Utils
 
+    _.isAASkill = (skillIdOrSkill) ->
+        if isFinite(skillIdOrSkill)
+            skillIdOrSkill = $dataSkills[skillIdOrSkill]
+        return skillIdOrSkill.AASkill?
+
+    _.isAAItem = (itemIdOrItem) ->
+        if isFinite(itemIdOrItem)
+            itemIdOrItem = $dataItems[skillIdOrSkill]
+        return itemIdOrItem.AASkill?
+
     _.checkSwitch = (value) ->
         return false if isFinite(value)
         return KDCore.SDK.checkSwitch(value)

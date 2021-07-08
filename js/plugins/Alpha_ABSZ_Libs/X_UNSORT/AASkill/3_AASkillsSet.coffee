@@ -17,7 +17,7 @@ class AASkillsSet
             @setupDefaultSkillsForActor()
         return
 
-    allSymbols: () -> AA.PP.getUISkillsItems().map (item) -> item.symbol
+    allSymbols: () -> AA.Input.skillPanelSymbols
 
     currentSet: () -> @bingings[@currentActorId]
 

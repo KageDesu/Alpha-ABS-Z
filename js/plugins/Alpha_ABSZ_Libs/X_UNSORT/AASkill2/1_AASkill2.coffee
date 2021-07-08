@@ -20,6 +20,7 @@
 #@[STORABLE]
 class AASkill2
     constructor: (@databaseId, @isItem = false) ->
+        @initBase()
         @initMain()
         @initOnMapSettings()
         @initSelector()
@@ -42,6 +43,7 @@ class AASkill2
         @[p[0]] = p[1] for p in params
         return
         
+    # TODO: Оружие должно иметь свою анимацию, или параметр ставить отдельный
     animationId: -> @dbItem().animationId
 
     dbItem: ->
@@ -63,6 +65,18 @@ class AASkill2
     isSingleTargetArea: -> @radius <= 1
 
     isSelfAction: -> @range <= 0 and @isInstant()
+
+    # * Время перезарядки навыка (cooldown)
+    getReloadTime: (battlerOrChar) ->
+        if isFinite(@reloadTime)
+            return @reloadTime
+        else
+            unless battlerOrChar?
+                return 0
+            else
+                if battlerOrChar instanceof Game_Character
+                    battlerOrChar = battlerOrChar.AABattler()
+                return battlerOrChar.aaCalculateFormula(@reloadTime)
 
     # * Приминить стандартные настройки навыка 001 Атака
     applyDefaultAttack001: ->
@@ -94,8 +108,8 @@ do ->
 
     #TODO: animationFor: eachTarget, centerPoint
 
-    # * Основные АБС параметры навыка
-    _.initMain = ->
+    # * Базовые (фундаментальные) АБС параметры навыка
+    _.initBase = ->
         # * Область поражения (1 - Х)
         @radius = 1#3
         @range = 1#4
@@ -104,6 +118,13 @@ do ->
         @speed = 0#3
         return
 
+    # * Основные АБС параметры навыка
+    _.initMain = ->
+        @friendlyEffect = 0 #TODO:
+        @opponentsEffect = 1 # * Еффект на противоположную команду
+        # * В СЕКУНДАХ
+        @reloadTime = 0 # * Данный параметр может быть строкой
+
     # * Настройки поведения на карте
     _.initOnMapSettings = ->
         @z = 3
@@ -111,7 +132,7 @@ do ->
         @hitOffset = $gameMap.tileWidth() * 0.6
         # * Если 1, то навык срабатывает в конце своего пути в любом случае
         # * Если 0, то навык, не достигнув цели, просто изчезнет
-        @noContact = 1
+        @noContact = 0
         @popUpStyleId = "" # * Default
         return
 
@@ -124,8 +145,6 @@ do ->
     # * Дополнительные настройки навыка
     _.initOtherSettings = ->
         @hideOutsideABS = 0
-        @friendlyEffect = 0 #TODO:
-        @opponentsEffect = 1 # * Еффект на противоположную команду
 
     # * Настройки анимации xAnima
     _.initAnimationSettings = ->

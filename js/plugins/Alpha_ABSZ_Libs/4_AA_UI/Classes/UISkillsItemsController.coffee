@@ -13,7 +13,16 @@ class UISkillsItemsController
         @refresh()
         return
 
-    #TODO: events on skill changes (refresh)
+    onSkillPerformResult: (skillId, result) ->
+        try
+            item = @_getItemForSkillId(skillId)
+            return unless item?
+            if result is 0
+                item.pulseAlert()
+            else
+                item.pulseClick()
+        catch e
+            AA.w e
 
     refresh: ->
         @_clearItems()
@@ -22,6 +31,7 @@ class UISkillsItemsController
 
     update: ->
         @_updThread?.update()
+        @_updateInput()
         return
 
 #╒═════════════════════════════════════════════════════════════════════════╛
@@ -49,7 +59,6 @@ do ->
 
     _._updateItemUseState = (item, useable) ->
 
-
     _._clearItems = ->
         for item in @skillItems
             item.clear()
@@ -65,8 +74,14 @@ do ->
         item = @_getItemForSymbol(symb)
         return unless item?
         item.skillId = skill.id
-        #TODO: draw weapon icon if attackSkill ID
-        item.drawIcon(skill.iconIndex)
+        if item.skillId == @battler.attackSkillId()
+            weapon = @battler.weapons()[0]
+            if weapon? and weapon.iconIndex > 0
+                item.drawIcon(weapon.iconIndex)
+            else
+                item.drawIcon(skill.iconIndex)
+        else
+            item.drawIcon(skill.iconIndex)
         # * Сразу обновляем состояние
         @_updateItemState(item)
         return
@@ -76,6 +91,15 @@ do ->
 
     # * Получить ячейку по ID навыка (устанавливается в методе _setupItem)
     _._getItemForSkillId = (id) -> @skillItems.find (item) -> item.skillId == id
+
+    _._updateInput = ->
+        inputSymbol = AA.Input.getTriggeredSkillSymbol()
+        if inputSymbol?
+            item = @_getItemForSymbol(inputSymbol)
+            $gamePlayer.aaTryPerformSkill(item.skillId) if item?
+        return
+        #if Input.isTriggered(AA.IKey.ATK1)
+
 
     return
 # ■ END PRIVATE.coffee

@@ -130,6 +130,8 @@ do ->
     
     _._createMain = ->
         @button = new KDCore.ButtonM("SkillSlot", false, "Alpha")
+        @button.addClickHandler () =>
+            $gamePlayer.aaTryPerformSkill(@skillId)
         @add @button
 
     _._createIcon = ->

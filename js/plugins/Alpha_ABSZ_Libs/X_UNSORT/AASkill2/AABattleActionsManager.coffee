@@ -39,6 +39,7 @@ do ->
 
     _.startProjectileAASkill = () ->
 
+    #TODO: Анимеция - из оружия или навыка
     # * Выполнение действия АБС навыка на карте или Entity
     _.applySkillAction = (subject, target, absSkill) ->
         try
@@ -81,6 +82,7 @@ do ->
     # * ======================================================================
     # * BATTLE ACTION LOGIC
 
+    # * subject и target - это characters, не battlers
     _.performBattleAction = (subject, skill, targets) ->
         "PERFORM BATTLE ACTION".p()
         "SUB".p()
@@ -94,6 +96,7 @@ do ->
         try
             action = new Game_ActionAA(subject, skill)
             return unless action.isValid()
+            #TODO:subject.AABattler().useItem(action.item())
             @_startAction(action, targets)
             @_endAction(action)
         catch e

@@ -44,7 +44,8 @@ do ->
             @AAEntity().isMyEnemy(character.AAEntity())
 
         # * Логика АБС (только если АБС включена)
-        _.aaUpdate = ->
+        _.aaUpdateABS = ->
+            @AABattler()?.aaUpdateABS()
 
     # -----------------------------------------------------------------------
 

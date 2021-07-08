@@ -14,10 +14,6 @@ do ->
     # * ABS навыки, которые можно использовать в данный момент (включая предметы)
     _.getUsableAASkills = -> @getAASkills().filter (skill) => @canUse(skill)
 
-    _.initAASkills = ->
-        @aaSkillsTimers = new AASkillsTimers()
-        return
-
     #TODO: Это может и не нужно уже
     _.getAttackAASkill = ->
     

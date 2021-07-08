@@ -47,12 +47,13 @@ AA.link = function (library) {
 // * LIBRARY WITH MZ AND MZ SUPPORT
 //! {OUTER FILE}
 
-//?rev 17.02.21
+//?rev 10.06.21
 var KDCore;
 
 KDCore = KDCore || {};
 
-KDCore._fileVersion = '2.4.9';
+// * Двузначные числа нельзя в версии, сравнение идёт по первой цифре поулчается
+KDCore._fileVersion = '2.5.1';
 
 if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
   // * ПРОПУСКАЕМ ЗАГРУЗКУ, так как уже загруженна более новая
@@ -192,7 +193,7 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
     Sprite.prototype._getProperFullRect = function(rx, ry) {
       var height, width, x, y;
       width = this.width * Math.abs(this.scale.x);
-      height = this.width * Math.abs(this.scale.y);
+      height = this.height * Math.abs(this.scale.y);
       x = rx - this.anchor.x * width;
       y = ry - this.anchor.y * height;
       if (this.anchor.x === 0 && this.scale.x < 0) {
@@ -1445,6 +1446,7 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
         this._disabled = false;
         this._infoData = null;
         this._isNeedShowText = false;
+        return;
       }
 
       isMouseInButton() {
@@ -2148,7 +2150,7 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
             return s;
           } catch (error1) {
             e = error1;
-            KDCore.warning('Something wrong with Text Settings!', e);
+            console.warn('Something wrong with Text Settings!', e);
             return KDCore.Sprite.FromBitmap(60, 30);
           }
         }
@@ -2178,16 +2180,51 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
         this._isTriggered = false;
         // * Когда произошло нажатие на кнопку
         this._handler = null;
+        this._isCanBeClicked = true;
+        this._isManualHoverMode = false;
+        this._isManualSelected = false;
         this._loadBitmaps(filename, isFull, sourceFolder);
         this._setImageState(0);
         this._createThread();
       }
 
+      setManualHover() {
+        return this._isManualHoverMode = true;
+      }
+
+      disableManualHover() {
+        return this._isManualHoverMode = false;
+      }
+
+      setManualSelected(_isManualSelected) {
+        this._isManualSelected = _isManualSelected;
+      }
+
+      enableClick() {
+        return this._isCanBeClicked = true;
+      }
+
+      disableClick() {
+        return this._isCanBeClicked = false;
+      }
+
+      desaturate() {
+        this.filters = [new PIXI.filters.ColorMatrixFilter()];
+        this.filters[0].desaturate();
+      }
+
       isMouseIn() {
-        return this.inPosition(TouchInput);
+        if (this._isManualHoverMode === true) {
+          return this._isManualSelected;
+        } else {
+          return this.inPosition(TouchInput);
+        }
       }
 
       isActive() {
+        if (this._isCanBeClicked === false) {
+          return false;
+        }
         if (this.parent != null) {
           return this.parent.visible === true && this.visible === true;
         } else {
@@ -2302,7 +2339,12 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
       };
       //?[DYNAMIC]
       _._updateMain = function() {
-        return this._updateMouseLogic();
+        this._updateMouseLogic();
+        if (!this.isActive()) {
+          if (($gameTemp.kdButtonUnderMouse != null) && $gameTemp.kdButtonUnderMouse === this) {
+            return $gameTemp.kdButtonUnderMouse = null;
+          }
+        }
       };
       _._updateMouseLogic = function() {
         this.hoverThread.update();
@@ -2312,21 +2354,22 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
         if (!this.isActive()) {
           return;
         }
-        if (this.isDisabled()) {
-          return;
-        }
         // * чтобы эффект нажатия не прекратить
         if (this._isTriggered === true) {
           return;
         }
         if (this.isMouseIn()) {
           if (this._lastState !== 1) {
-            this._setImageState(1);
+            if (!this.isDisabled()) {
+              this._setImageState(1);
+            }
             $gameTemp.kdButtonUnderMouse = this;
           }
         } else {
           if (this._lastState !== 0) {
-            this._setImageState(0);
+            if (!this.isDisabled()) {
+              this._setImageState(0);
+            }
             if ($gameTemp.kdButtonUnderMouse === this) {
               $gameTemp.kdButtonUnderMouse = null;
             }
@@ -2530,11 +2573,39 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
         this._y = _y;
       };
     })();
-    (function() {      // * Right mouse pressed
-      // * Определение когда правая (вторая) кнопка мыши зажата и удерживается
+    (function() {      // * VirtualInput для RPG Maker MV
       //$[OVER]
       //TouchInput.getMousePosition = ->
       //    new KDCore.Point(TouchInput._x, TouchInput._y)
+      var ALIAS__clear, ALIAS__update, _;
+      if (KDCore.isMZ()) {
+        return;
+      }
+      //@[DEFINES]
+      _ = Input;
+      //@[ALIAS]
+      ALIAS__clear = _.clear;
+      _.clear = function() {
+        ALIAS__clear.call(this);
+        return this._virtualButton = null;
+      };
+      //@[ALIAS]
+      ALIAS__update = _.update;
+      _.update = function() {
+        ALIAS__update.call(this);
+        if (this._virtualButton == null) {
+          return;
+        }
+        this._latestButton = this._virtualButton;
+        this._pressedTime = 0;
+        return this._virtualButton = null;
+      };
+      _.virtualClick = function(buttonName) {
+        return this._virtualButton = buttonName;
+      };
+    })();
+    (function() {      // * Right mouse pressed
+      // * Определение когда правая (вторая) кнопка мыши зажата и удерживается
       var ALIAS___onMouseUp, ALIAS___onRightButtonDown, ALIAS__clear, ALIAS__update, _;
       //@[DEFINES]
       _ = TouchInput;
@@ -2582,12 +2653,71 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
         return this._kdMousePressed2 === true;
       };
     })();
+    (function() {      //--------------------------------------------------------------------------------
+      // MV MZ Methods Extension =======================================================
+      //--------------------------------------------------------------------------------
+      if (KDCore.isMZ()) {
+        return;
+      }
+      (function() {        //╒═════════════════════════════════════════════════════════════════════════╛
+        // ■ Window_Base.coffee
+        //╒═════════════════════════════════════════════════════════════════════════╛
+        //---------------------------------------------------------------------------
+        var ALIAS__initialize, _;
+        //@[DEFINES]
+        _ = Window_Base.prototype;
+        // * Чтоб можно было Rectangle принимать в конструктор
+        //@[ALIAS]
+        ALIAS__initialize = _.initialize;
+        _.initialize = function(x, y, w, h) {
+          if (x instanceof PIXI.Rectangle) {
+            return ALIAS__initialize.call(this, x.x, x.y, x.width, x.height);
+          } else {
+            return ALIAS__initialize.call(this, ...arguments);
+          }
+        };
+      })();
+      (function() {        // ■ END Window_Base.coffee
+        //---------------------------------------------------------------------------
+
+        //╒═════════════════════════════════════════════════════════════════════════╛
+        // ■ Spriteset_Map.coffee
+        //╒═════════════════════════════════════════════════════════════════════════╛
+        //---------------------------------------------------------------------------
+        var _;
+        
+        //@[DEFINES]
+        _ = Spriteset_Map.prototype;
+        _.findTargetSprite = function(target) {
+          return this._characterSprites.find(function(sprite) {
+            return sprite.checkCharacter(target);
+          });
+        };
+      })();
+      (function() {        // ■ END Spriteset_Map.coffee
+        //---------------------------------------------------------------------------
+
+        //╒═════════════════════════════════════════════════════════════════════════╛
+        // ■ Sprite_Character.coffee
+        //╒═════════════════════════════════════════════════════════════════════════╛
+        //---------------------------------------------------------------------------
+        var _;
+        
+        //@[DEFINES]
+        _ = Sprite_Character.prototype;
+        _.checkCharacter = function(character) {
+          return this._character === character;
+        };
+      })();
+    })();
   })();
 }
 
 // ■ END KDCore.coffee
 //---------------------------------------------------------------------------
 //? КОНЕЦ KDCORE
+// ■ END Sprite_Character.coffee
+//---------------------------------------------------------------------------
 
 // Generated by CoffeeScript 2.5.1
 // * Класс который может плавно изменять какой-либо параметр
@@ -2681,7 +2811,7 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
       return this;
     }
 
-    // * Снова повторить, но поменять местами to и from
+    // * Снова повторить, но поменять местами to и from (работает только с repeat >= 2)
     reverse() {
       this._isReverse = true;
       return this;
@@ -4386,7 +4516,7 @@ AA.Utils.Parser = function() {};
   // * Извлекает из строки (линии) имя параметра и его значение
   _.extractABSParameter = function(line) {
     var match, name, value;
-    match = line.match(/<*(\w+)\s*:\s*([\w\d]+)>*/i);
+    match = line.match(/<*(\w+)\s*:\s*(.+)>*/i);
     if (match != null) {
       name = match[1];
       value = _.convertParameterValue(match[2]);
@@ -4555,4 +4685,4 @@ AA.Utils.Parser = function() {};
 // ■ END Sprite_TilingFrame.coffee
 //---------------------------------------------------------------------------
 
-//Plugin Alpha_@Core automatic build by PKD PluginBuilder 1.9.2 17.02.2021
+//Plugin Alpha_@Core automatic build by PKD PluginBuilder 1.9.2 08.07.2021

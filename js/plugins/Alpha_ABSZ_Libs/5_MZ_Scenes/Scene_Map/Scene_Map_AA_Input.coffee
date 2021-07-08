@@ -20,12 +20,12 @@ do ->
 
     #TODO: Возможно стоит вынести методы на Game_Player, сами обработки, так как проврок много
     _.aaUpdatePlayerInput_ActionKeys = ->
-        if Input.isTriggered(AA.IKey.ATK)
-            $gamePlayer.aaPerformAttack()
-            return
-        if Input.isTriggered(AA.IKey.DEF)
-            $gamePlayer.aaPerformDefense()
-            return
+        #if Input.isTriggered(AA.IKey.ATK)
+        #    $gamePlayer.aaPerformAttack()
+        #    return
+        #if Input.isTriggered(AA.IKey.DEF)
+        #    $gamePlayer.aaPerformDefense()
+        #    return
         if Input.isTriggered(AA.IKey.REL)
             #TODO: reload firearm
             return

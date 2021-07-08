@@ -54,6 +54,8 @@ do ->
 
         getElement: (tag) -> @elements.find (e) -> e.tag is tag
 
+        getController: (tag) -> @controllers.find (c) -> c.tag is tag
+
         # * Данный метод "собирает" один раз
         getElementsWithMessageFlag: ->
             unless @_elementsWithMessageFlag?
