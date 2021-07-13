@@ -96,6 +96,55 @@ do ->
         else
             return true
 
+    # * Позиция с учётом расширенных HitBox
+    # * Реализован отдельный метод, так как HitBox учитывается только при поражении навыками
+    _.posExt = (x, y) ->
+        if @aaIsHaveExtendedHitBoxes()
+            l = @x - @_aaExtendedHitBox[3]
+            r = @x + @_aaExtendedHitBox[1]
+            u = @y - @_aaExtendedHitBox[0]
+            d = @y + @_aaExtendedHitBox[2]
+            return l <= x && x <= r && u <= y && y <= d
+        else
+            return @pos(x, y)
+
+    # * Позиции X на экране, с учётом расширенных HitBox
+    _.screenXExt = () ->
+        points = [@screenX()]  # * базовая точка
+        if @aaIsHaveExtendedHitBoxes()
+            tw = $gameMap.tileWidth()
+            # * Точка права (если есть)
+            if @_aaExtendedHitBox[1] > 0
+                x = $gameMap.adjustX(@_realX + @_aaExtendedHitBox[1])
+                x = Math.floor(x * tw + tw / 2)
+                points.push(x)
+            # * Точка слева (если есть)
+            if @_aaExtendedHitBox[3] > 0
+                x = $gameMap.adjustX(@_realX - @_aaExtendedHitBox[3])
+                x = Math.floor(x * tw + tw / 2)
+                points.push(x)
+        return points
+
+    # * Позиции Y на экране, с учётом расширенных HitBox
+    _.screenYExt = () ->
+        points = [@screenY()]  # * базовая точка
+        if @aaIsHaveExtendedHitBoxes()
+            th = $gameMap.tileHeight()
+            # * Точка снизу (если есть)
+            if @_aaExtendedHitBox[2] > 1
+                y = $gameMap.adjustY(@_realY + @_aaExtendedHitBox[2])
+                y = Math.floor(x * th + th - @shiftY() - @jumpHeight())
+                points.push(y)
+            # * Точка сверху (если есть)
+            if @_aaExtendedHitBox[0] > 0
+                y = $gameMap.adjustY(@_realY - @_aaExtendedHitBox[2])
+                y = Math.floor(x * th + th - @shiftY() - @jumpHeight())
+                points.push(y)
+        return points
+
+    # * Есть ли у персонажа расширенные HitBox для АБС навыков
+    _.aaIsHaveExtendedHitBoxes = -> @_aaExtendedHitBox?
+
     return
 # ■ END Game_CharacterBase.coffee
 #---------------------------------------------------------------------------

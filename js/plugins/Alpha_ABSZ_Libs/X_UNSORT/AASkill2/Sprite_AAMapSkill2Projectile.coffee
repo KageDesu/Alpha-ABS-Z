@@ -79,7 +79,8 @@ do ->
         sX = @skill.x
         sY = @skill.y
         @_angle = Math.atan2(eY - yo - sY, eX - sX) * 180 / Math.PI
-        pi = Math.PI / 180
+        #pi = Math.PI / 180
+        #TODO: pi
         @rotation = (@_angle + 90) * Math.PI / 180
         @dx = @skill.speed() * Math.cos(@_angle * Math.PI / 180)
         @dy = @skill.speed() * Math.sin(@_angle * Math.PI / 180)
@@ -144,7 +145,7 @@ do ->
             "POINT HIT".p()
             @onHit({ x, y })
             return
-        event = @_checkHitEvent(x, y)
+        event = @_checkHitEvent()
         if event?
             "EVENT HIT".p()
             @onHit(event)
@@ -154,6 +155,7 @@ do ->
     _._checkHitPlayer = ->
         #TODO: friendlyfier is 1
         return false if @skill.isSubjectIsPlayer()
+        #TODO: Тут надо учитывать Extended Hit Box
         dist = AA.Utils.Math.getXYDistance(
             $gamePlayer.screenX(), $gamePlayer.screenY() - $gameTemp.aaProjYOff, @x, @y
         )
@@ -170,12 +172,13 @@ do ->
             @skill.isHaveTerrain($gameMap.terrainTag(tx, ty))
 
     # * Когда достиг события
-    _._checkHitEvent = (tx, ty) ->
+    _._checkHitEvent = () ->
         subId = @skill.subject
         for ev in $gameMap.events()
             continue unless ev?
             # * В себя нельзя попасть
             continue if ev.eventId() == subId
+            #TODO: Тут надо учитывать Extended Hit Box, возможно у события будет несколько ScreenX, ScreenY
             dist = AA.Utils.Math.getXYDistance(
                 ev.screenX(), ev.screenY() - $gameTemp.aaProjYOff, @x, @y
             )

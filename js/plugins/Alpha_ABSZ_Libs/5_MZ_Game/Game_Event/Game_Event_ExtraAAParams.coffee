@@ -17,6 +17,7 @@ do ->
         @_aaMapSkillVectorBlockList = null
         @_aaMapSkillVectorAction = false
         @_aaMapSkillVectorOffset = 0
+        @_aaExtendedHitBox = null
         return
 
     # * Проверка дополнительных параметров, которые могут касаться не только АА но и всех событий
@@ -26,6 +27,7 @@ do ->
         @_aaExtractVectorOffsetParam()
         @_aaExtractVectorActions()
         @_aaExtractVectorBlockList()
+        @_aaExtractExtendedHitBoxes()
         return
     
     _._aaExtractVectorOffsetParam = ->
@@ -39,6 +41,7 @@ do ->
             AA.warning e
 
     #TODO: Пока не реализованы действия на событиях
+    #TODO: Прикрутить сюда SAction
     _._aaExtractVectorActions = ->
         try
             vectorAction = KDCore.Utils.getEventCommentValue("vectorAction", @list())
@@ -66,6 +69,17 @@ do ->
                 @_aaMapSkillVectorBlockList = AA.Utils.Parser.convertArrayFromParameter(param[1])
         catch e
             AA.warning e
+        return
+
+    _._aaExtractExtendedHitBoxes = ->
+        try
+            values = KDCore.Utils.getEventCommentValue("extraHitBoxes", @list())
+            return unless values?
+            param = AA.Utils.Parser.extractABSParameterAny(values)
+            @_aaExtendedHitBox = AA.Utils.Parser.convertArrayFromParameter(param[1])
+        catch e
+            AA.w e
+            @_aaExtendedHitBox = null
         return
 
     return

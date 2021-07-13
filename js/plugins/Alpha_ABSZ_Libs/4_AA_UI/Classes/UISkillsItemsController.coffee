@@ -63,7 +63,6 @@ do ->
             @_updThread = null
         return
 
-    # * Если таймер меньше секунды, можно вообще не начинать
     # * Обновить таймер для навыка
     _._updateItemTimer = (item) ->
         if item.isDisabled() && item.skillId > 0
@@ -129,7 +128,6 @@ do ->
             item = @_getItemForSymbol(inputSymbol)
             $gamePlayer.aaTryPerformSkill(item.skillId) if item?
         return
-        #if Input.isTriggered(AA.IKey.ATK1)
 
 
     return

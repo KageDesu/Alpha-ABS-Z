@@ -40,6 +40,22 @@ do ->
         @aaMapAnimations.push({ x, y, animationId })
         return
 
+    #TODO: Метод POS должен учитывать HixBox extended тоже!
+    #TODO: Методы ScreenXE, ScreenYE
+    # * Данный метод возвращает позиции с учётом расширенного HitBox
+    _.aaGetExtendedPointsFor = (char) ->
+        try
+            positions = [ {
+                    x: char.x,
+                    y: char.y
+                }]
+                #TODO: extended hit boxes points for event (char)
+            #if char instanceof Game_Character
+            #    positions = char.aaGetExtendedPoints()
+        catch e
+            AA.w e
+        return positions
+
     return
 # ■ END Game_Map.coffee
 #---------------------------------------------------------------------------

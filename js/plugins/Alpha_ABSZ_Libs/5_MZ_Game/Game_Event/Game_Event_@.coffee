@@ -17,6 +17,16 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
+        @_updTest() #TODO: TEST
+
+    _._updTest = ->
+        return unless @eventId() == 1
+        return unless Input.isTriggered('i')
+        if AATargetsManager.isPlayerInRadius(@, 3)
+            "IN RADIUS, check vision line".p()
+            player = AATargetsManager.getAAEntityOnVisionLine(@, $gamePlayer, 3)
+            if player?
+                "IN VISIION".p()
     
     # * Система анимации XAnima
     # -----------------------------------------------------------------------

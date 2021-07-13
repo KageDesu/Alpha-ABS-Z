@@ -32,14 +32,13 @@ do ->
             else
                 @applySkillAction(subject, targetPoint, aaSkill)
         else
-            $gameMap.startAASkill(AASkill, subject, targetPoint)
+            $gameMap.startAASkill(aaSkill, subject, targetPoint)
         return
     
     _.startNonProjectileAASkill = () ->
 
     _.startProjectileAASkill = () ->
 
-    #TODO: Анимеция - из оружия или навыка
     # * Выполнение действия АБС навыка на карте или Entity
     _.applySkillAction = (subject, target, absSkill) ->
         try
