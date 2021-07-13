@@ -20,6 +20,9 @@ class AASkillsTimers
 
     isSkillHaveTimer: (skillId) -> @_skills.contains(skillId)
 
+    isSkillHaveTimerToShow: (skillId) ->
+        @isSkillHaveTimer() and @getTimerForSkill(skillId).maxValue >= 1
+
     # * В секундах
     getRemainTimeForSkill: (skillId) ->
         if @isSkillHaveTimer(skillId)
@@ -27,7 +30,7 @@ class AASkillsTimers
         else
             return 0
 
-    getTimerForSkill: (skillId) -> @timers.find (t) -> t.skillId == skillId
+    getTimerForSkill: (skillId) -> @_timers.find (t) -> t.skillId == skillId
 
     update: ->
         for t in @_timers

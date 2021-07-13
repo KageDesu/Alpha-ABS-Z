@@ -27,8 +27,22 @@ do ->
         @aaSkillsTimers = new AASkillsTimers()
         return
 
+    # * Запустить таймер перезарядки для навыка
+    _.aaSetSkillTimer = (skill) ->
+        time = skill.AASkill.getReloadTime(@)
+        @aaSkillsTimers.startTimerForSkill(skill.id, time) if time > 0
+        return
+
     # * Если у навыка есть таймер, значит он не готов (не важно сколько осталось времени)
     _.aaIsSkillReadyInTime = (skill) -> !@aaSkillsTimers.isSkillHaveTimer(skill.id)
+
+    # * Получить таймер навыка (используется для панели навыков в основном)
+    _.aaGetRemainTimeForSkill = (skillId) ->
+        # * Если таймер меньше секунды, то будет возращён 0 (чтобы не начинать визуальный отсчёт)
+        if @aaSkillsTimers.isSkillHaveTimerToShow(skillId)
+            return @aaSkillsTimers.getRemainTimeForSkill(skillId)
+        else
+            return 0
 
     _.canUseABSItem = (item) ->
         return false unless item?

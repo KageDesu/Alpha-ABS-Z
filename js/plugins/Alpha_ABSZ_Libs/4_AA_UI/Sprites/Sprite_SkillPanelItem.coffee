@@ -32,6 +32,15 @@ do ->
                 outline: { color: null, width: 2 }
                 textColor: "#e0cfbf".toCss()
             }
+            timeText: {
+                visible: true
+                size: { w: 32, h: 32 }
+                alignment: "center"
+                font: { face: "AABS_1", size: 12, italic: false }
+                margins: { x: 2, y: 2 }
+                outline: { color: null, width: 2 }
+                textColor: "#fcba03".toCss()
+            }
         }
 
         #$[OVER]
@@ -69,7 +78,7 @@ do ->
 
         drawCount: () -> #@countText.draw(...arguments)
 
-        drawTime: () -> #@timeText.draw(...arguments)
+        drawTime: () -> @timeText.draw(...arguments)
 
         disable: () ->
             @button.disable()
@@ -80,6 +89,17 @@ do ->
             @button.enable()
             @state.visible = false
             return
+
+        switchState: (isEnabled) ->
+            if isEnabled is true
+                if @isDisabled()
+                    @enable()
+                    return true # * Вновь доступна
+            else
+                @disable() unless @isDisabled()
+            return false
+
+        isDisabled: -> @state.visible is true
             
     AA.link Sprite_SKillPanelItem
     return
@@ -146,9 +166,13 @@ do ->
         @add @state
 
     _._createInfo = ->
-        #@_createTimer
-        #@_createCountText
+        @_createTimer()
+        #@_createCountText #TODO: count text for items
         @_createSymbolText()
+
+    _._createTimer = ->
+        @timeText = new AA.Sprite_UIText(@params.timeText)
+        @add @timeText
 
     _._createSymbolText = ->
         @text = new AA.Sprite_UIText(@params.symbolText)

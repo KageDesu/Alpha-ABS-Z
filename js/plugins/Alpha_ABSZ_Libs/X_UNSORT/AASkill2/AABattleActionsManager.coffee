@@ -44,19 +44,34 @@ do ->
     _.applySkillAction = (subject, target, absSkill) ->
         try
             "applySkillAction".p()
+            animationId = @getProperAnimationId(subject, absSkill)
             if target instanceof Game_Character
-                @playAnimationOnCharacter(target, absSkill.animationId())
+                @playAnimationOnCharacter(target, animationId)
             else
                 # * Если навык требует контакт, то нет никаких эффектов
                 return unless absSkill.isNoContact()
                 { x, y } = target
-                @playAnimationOnMap(x, y, absSkill.animationId())
+                @playAnimationOnMap(x, y, animationId)
             targets = AATargetsManager.collectTargtesForSkill(absSkill, target)
             @performBattleAction(subject, absSkill, targets)
             #TODO: Do Common Action (Выполнение обычных действий на событиях или персонажах)
         catch e
             AA.w e
         return
+
+    #TODO: Добавить параметр Animation Scalling ??? Чтобы скалировать обычную анимацию на карте и не переделывать каждую
+
+    # * Анимация с учётом оружия
+    _.getProperAnimationId = (subject, absSkill) ->
+        try
+            animationId = absSkill.animationId()
+            if animationId == -1 # * Normal attack
+                return subject.AABattler().attackAnimationId1()
+                #TODO: attackAnimationId2 if dual weild
+            return animationId
+        catch e
+            AA.w e
+            return 0
 
     #TODO: [Идея] Проигрывание анимации на всём экране или в координатах экрана
 
@@ -96,7 +111,6 @@ do ->
         try
             action = new Game_ActionAA(subject, skill)
             return unless action.isValid()
-            #TODO:subject.AABattler().useItem(action.item())
             @_startAction(action, targets)
             @_endAction(action)
         catch e

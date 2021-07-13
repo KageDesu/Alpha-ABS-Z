@@ -22,6 +22,14 @@ do ->
         else
             return ALIAS__canUse.call(@, item)
 
+    #@[ALIAS]
+    ALIAS__paySkillCost = _.paySkillCost
+    _.paySkillCost = (skill) ->
+        ALIAS__paySkillCost.call(@, skill)
+        if AA.isABS() and skill.AASkill?
+            @aaSetSkillTimer(skill)
+        return
+
     # * АБС навыки не учитывают область действия, так как их можно использовать только на карте
     #@[ALIAS]
     ALIAS__isOccasionOk = _.isOccasionOk

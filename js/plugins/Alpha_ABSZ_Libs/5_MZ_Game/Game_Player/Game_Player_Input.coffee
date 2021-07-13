@@ -28,7 +28,7 @@ do ->
                 "PERFROM SKILL ".p(skillId)
                 console.log(skill.name)
                 #TODO: нормальный метод на баттлере (или персонаже)
-                @_test_ActivateAASkill()
+                @prepareAASkillToExecute(skill)
             else
                 #TODO: Notify???
                 AA.UI.skillPerformResult(skillId, 0)
@@ -61,7 +61,7 @@ do ->
         #aaSkill = @AABattler().getAttackAASkill()
         #if @isCanPerformAASkill(aaSkill)
         #    @executeAASkill(aaSkill)
-        @_test_ActivateAASkill()
+        #@_test_ActivateAASkill()
         return
         #@startAnimaXAA_Attack()
 
@@ -73,24 +73,7 @@ do ->
     _.aaPerformDefense = ->
         #TODO: NOT IMPLEMENTED
 
-    _._test_ActivateAASkill = ->
-        console.log("Activate test AA Skill")
-        @_activeAASkillId = 302
 
-
-        if @activeAASkill().isNeedSelectZone()
-            # * Сбор целей сразу в точке где сейчас курсор
-            AATargetsManager.collectTargetsForSkillInScreenPoint(
-                @activeAASkill(), TouchInput #.toMapPoint()
-            )
-            @_setAAStateToSelectSkillTarget()
-        else
-            # * Передаём себя в качестве точки
-            @startPerformAASkill(@toPoint())
-        return
-
-    
-    
     return
 # ■ END Game_Player.coffee
 #---------------------------------------------------------------------------

@@ -23,8 +23,7 @@ class AATimer
 
     getSecondsLeft: -> @getMaxSeconds() - @getSeconds()
 
-    @ConvertFramesToSeconds: (value) -> Math.round( (value / 60) * 10 ) / 10
-
+    @ConvertFramesToSeconds: (value) -> (value / 60.0).toFixed(1)
 
 # ■ END AATimer.coffee
 #---------------------------------------------------------------------------

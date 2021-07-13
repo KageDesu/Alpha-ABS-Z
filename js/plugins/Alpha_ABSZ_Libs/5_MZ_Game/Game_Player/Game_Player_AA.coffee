@@ -12,6 +12,7 @@ do ->
 
     _.isInSkillTargetingState = -> @aaState == 'skill'
 
+    #TODO: А если предмет???
     _.activeAASkill = ->
         if @_activeAASkillId > 0
             return $dataSkills[@_activeAASkillId].AASkill
@@ -30,6 +31,23 @@ do ->
         # * Сбрасываем состояние?
         @_resetAAState()
 
+    # * Подготовка навыка к выполнению (сюда передаётся базовый объект навыка)
+    _.prepareAASkillToExecute = (skill) ->
+        console.log("Use skill " + skill.name)
+        #TODO: А если предмет???
+        #TODO: Анимация навыка атаки
+        @_activeAASkillId = skill.id
+        if @activeAASkill().isNeedSelectZone()
+            # * Сбор целей сразу в точке где сейчас курсор
+            AATargetsManager.collectTargetsForSkillInScreenPoint(
+                @activeAASkill(), TouchInput
+            )
+            @_setAAStateToSelectSkillTarget()
+        else
+            # * Передаём себя в качестве точки
+            @startPerformAASkill(@toPoint())
+        return
+
     #TODO: Этот метод надо выносить на Game_Character
     _.startPerformAASkill = (point) ->
         console.log(point)
@@ -44,6 +62,9 @@ do ->
 
         #TODO: Тут можно ещё дополнительную проверку canUse
         # так как пока шёл выборо цели (например) мана могла закончиться
+
+        # * Игрок "платит" за навык как только использует его
+        @AABattler().useItem(skill.dbItem())
         
         # * Стоит ограничение задержки для безопасности
         if skill.actionStartDelay > 0 and skill.actionStartDelay <= 60

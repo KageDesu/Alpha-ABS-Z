@@ -43,8 +43,11 @@ class AASkill2
         @[p[0]] = p[1] for p in params
         return
         
-    # TODO: Оружие должно иметь свою анимацию, или параметр ставить отдельный
-    animationId: -> @dbItem().animationId
+    animationId: ->
+        if @hitAnimation > 0
+            return hitAnimation
+        else
+            return @dbItem().animationId
 
     dbItem: ->
         db = if @isItem is true then $dataItems else $dataSkills
@@ -65,6 +68,8 @@ class AASkill2
     isSingleTargetArea: -> @radius <= 1
 
     isSelfAction: -> @range <= 0 and @isInstant()
+
+    isHaveTimer: -> String.any(@reloadTime) || @reloadTime > 0
 
     # * Время перезарядки навыка (cooldown)
     getReloadTime: (battlerOrChar) ->
@@ -134,6 +139,8 @@ do ->
         # * Если 0, то навык, не достигнув цели, просто изчезнет
         @noContact = 0
         @popUpStyleId = "" # * Default
+        # * Дополнительная анимация (используется на АБС карте, используется взамен параметра из БД)
+        @hitAnimation = 0
         return
 
     # * Параметры селектора на карте

@@ -9,7 +9,8 @@ class UISkillsItemsController
     setup: () ->
         @battler = $gamePlayer.AABattler()
         @skillSet = $gamePlayer.aaSkillsSet
-        @_updThread = new KDCore.TimedUpdate(30, @_updateItemState.bind(@))
+        @_updThread = new KDCore.TimedUpdate(20, @_updateItemsStates.bind(@))
+        @_updThreadTimers = new KDCore.TimedUpdate(2, @_updateItemsTimers.bind(@))
         @refresh()
         return
 
@@ -31,6 +32,7 @@ class UISkillsItemsController
 
     update: ->
         @_updThread?.update()
+        @_updThreadTimers?.update()
         @_updateInput()
         return
 
@@ -47,17 +49,46 @@ do ->
         for item in @skillItems
             @_updateItemState(item)
 
+    _._updateItemsTimers = ->
+        for item in @skillItems
+            @_updateItemTimer(item)
+
     # * Обновить состояние (таймер, доступность)
     _._updateItemState = (item) ->
-        @_updateItemTimer(item)
-        useCases = @battler.getUsableAASkills().map (skill) -> skill.id
-        @_updateItemUseState(item, useCases)
+        try
+            useCases = @battler.getUsableAASkills().map (skill) -> skill.id
+            @_updateItemUseState(item, useCases)
+        catch e
+            AA.w e
+            @_updThread = null
         return
 
+    # * Если таймер меньше секунды, можно вообще не начинать
+    # * Обновить таймер для навыка
     _._updateItemTimer = (item) ->
-
+        if item.isDisabled() && item.skillId > 0
+            time = $gamePlayer.AABattler().aaGetRemainTimeForSkill(item.skillId)
+            if time > 0
+                #TODO: BAD performance, BAD BAD BAD way
+                tStr = "" + time
+                if tStr.contains(".")
+                    parts = tStr.split(".")
+                    if parts[1].length > 0
+                        tStr = parts[0] + "." + parts[1][0]
+                item.drawTime(tStr)
+            else
+                item.drawTime("")
+        else
+            item.drawTime("")
 
     _._updateItemUseState = (item, useable) ->
+        if item.skillId == 0
+            item.enable()
+        else
+            # * Если состояние было включено на Enabled, значит даём сигнал
+            if item.switchState(useable.contains(item.skillId))
+                item.pulseReady()
+        return
 
     _._clearItems = ->
         for item in @skillItems
