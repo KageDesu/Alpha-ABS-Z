@@ -179,9 +179,10 @@ do ->
             # * В себя нельзя попасть
             continue if ev.eventId() == subId
             #TODO: Тут надо учитывать Extended Hit Box, возможно у события будет несколько ScreenX, ScreenY
-            dist = AA.Utils.Math.getXYDistance(
-                ev.screenX(), ev.screenY() - $gameTemp.aaProjYOff, @x, @y
-            )
+            #dist = AA.Utils.Math.getXYDistance(
+            #    ev.screenX(), ev.screenY() - $gameTemp.aaProjYOff, @x, @y
+            #)
+            dist = AATargetsManager.getScreenExtDistance(ev, $gameTemp.aaProjYOff, @x, @y)
             if dist < @_hitDist && @isEventIsObstacle(ev)
                 return ev
         return null

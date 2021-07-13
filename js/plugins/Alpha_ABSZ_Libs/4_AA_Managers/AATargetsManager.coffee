@@ -15,7 +15,7 @@ do ->
     # * Проверка точки на наличие целей для навыка
     _.getTargetInPoint = (subject, aaSkill, point) ->
         #TODO: в зависимости от subject и aaSkill
-        events = @_collectEventsInPoints([point])
+        events = @_collectAAEventsInPoints([point])
         return events[0]
 
     # * Собрать цели для навыка (Projectile)
@@ -44,7 +44,7 @@ do ->
             targets = [point]
         else
             if aaSkill.isSingleTargetArea()
-                targets = $gameMap.eventsXyAA(point.x, point.y)
+                targets = $gameMap.eventsXyAAExt(point.x, point.y)
             else
                 kdPoint = new KDCore.Point(point.x, point.y)
                 targets = @collectTargetsForSkillInScreenPoint(aaSkill, kdPoint.convertToScreen())
@@ -89,7 +89,7 @@ do ->
         events = []
         try
             for p in points
-                events.push ...$gameMap.eventsXyAA(p.x, p.y)
+                events.push ...$gameMap.eventsXyAAExt(p.x, p.y)
         catch e
             AA.w e
         return events
@@ -100,7 +100,7 @@ do ->
             #TODO: followers
             # * Сейчас только проверка на игрока
             for p in points
-                if $gamePlayer.pos(p.x, p.y)
+                if $gamePlayer.posExt(p.x, p.y)
                     members.push($gamePlayer)
                     break
         catch e
@@ -138,12 +138,39 @@ do ->
         return false
 
     # * Находится ли в точке AAEntity (с учётом расширенных HitBox)
-    _.isCharExtInPoint = (x, y) ->
+    ###_.isCharExtInPoint = (x, y) ->
         try
-            
+            #return
+        catch e
+            AA.w e#
+        return false###
+
+    # * Получить дистанцию между персонажем и точкой (на экране)
+    # * Учитываются расширенные HitBox
+    _.getScreenExtDistance = (char, offsetY, x2, y2) ->
+        try
+            return 1000 unless char?
+            if char.aaIsHaveExtendedHitBoxes()
+                screenXs = char.screenXExt()
+                screenYs = char.screenYExt()
+                dist = []
+                for x in screenXs
+                    for y in screenYs
+                        dist.push(
+                            AA.Utils.Math.getXYDistance(x, y - offsetY, x2, y2)
+                        )
+                return dist.min()
+            else
+                return AA.Utils.Math.getXYDistance(
+                    char.screenX(), char.screenY() - offsetY, x2, y2
+                )
         catch e
             AA.w e
-        return false
+            return 1000
+    
+    # * ==================================
+
+    #TODO: Ниже визоры, работают плохо!
 
     # * Получить AAEntity находяющуюся на линии от одной до другой точки
     # * Используется для проверки зрения (на линии видимости ли сущность)
@@ -172,7 +199,7 @@ do ->
                 if @checkVisionCollision(checkPointX, checkPointY)
                     # * Линия видимости проходит в этой точке, пытаемся найти АА сущность в точке
                     #TODO: Тут всех собирать или только игрока?
-                    #events = $gameMap.eventsXyAA(checkPointX, checkPointY).concat($gamePlayer)
+                    #events = $gameMap.eventsXyAAExt(checkPointX, checkPointY).concat($gamePlayer)
                     #return events[0] unless events.isEmpty()
                     #TODO: Пока что только игрок (так как vision используют пока только АИ боты врагов)
                     screenX = cX - $gameMap.displayX() * $gameMap.tileWidth()

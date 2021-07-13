@@ -112,34 +112,42 @@ do ->
     _.screenXExt = () ->
         points = [@screenX()]  # * базовая точка
         if @aaIsHaveExtendedHitBoxes()
+            r = @_aaExtendedHitBox[1]
+            l = @_aaExtendedHitBox[3]
             tw = $gameMap.tileWidth()
             # * Точка права (если есть)
-            if @_aaExtendedHitBox[1] > 0
-                x = $gameMap.adjustX(@_realX + @_aaExtendedHitBox[1])
-                x = Math.floor(x * tw + tw / 2)
-                points.push(x)
+            if r > 0
+                for i in [1..r]
+                    x = $gameMap.adjustX(@_realX + i)
+                    x = Math.floor(x * tw + tw / 2)
+                    points.push(x)
             # * Точка слева (если есть)
-            if @_aaExtendedHitBox[3] > 0
-                x = $gameMap.adjustX(@_realX - @_aaExtendedHitBox[3])
-                x = Math.floor(x * tw + tw / 2)
-                points.push(x)
+            if l > 0
+                for i in [1..l]
+                    x = $gameMap.adjustX(@_realX - i)
+                    x = Math.floor(x * tw + tw / 2)
+                    points.push(x)
         return points
 
     # * Позиции Y на экране, с учётом расширенных HitBox
     _.screenYExt = () ->
         points = [@screenY()]  # * базовая точка
         if @aaIsHaveExtendedHitBoxes()
+            u = @_aaExtendedHitBox[0]
+            d = @_aaExtendedHitBox[2]
             th = $gameMap.tileHeight()
             # * Точка снизу (если есть)
-            if @_aaExtendedHitBox[2] > 1
-                y = $gameMap.adjustY(@_realY + @_aaExtendedHitBox[2])
-                y = Math.floor(x * th + th - @shiftY() - @jumpHeight())
-                points.push(y)
+            if d > 0
+                for i in [1..d]
+                    y = $gameMap.adjustY(@_realY + i)
+                    y = Math.floor(y * th + th - @shiftY() - @jumpHeight())
+                    points.push(y)
             # * Точка сверху (если есть)
-            if @_aaExtendedHitBox[0] > 0
-                y = $gameMap.adjustY(@_realY - @_aaExtendedHitBox[2])
-                y = Math.floor(x * th + th - @shiftY() - @jumpHeight())
-                points.push(y)
+            if u > 0
+                for i in [1..u]
+                    y = $gameMap.adjustY(@_realY - i)
+                    y = Math.floor(y * th + th - @shiftY() - @jumpHeight())
+                    points.push(y)
         return points
 
     # * Есть ли у персонажа расширенные HitBox для АБС навыков

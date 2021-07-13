@@ -29,6 +29,24 @@ do ->
             return @eventsXy(x, y).filter (e) -> e.isActive()
         catch e
             AA.w e
+            return []
+
+    # * ABS события в указанной точке (с учётом Extended Hit Box)
+    _.eventsXyAAExt = (x, y) ->
+        try
+            return @eventsXyExt(x, y).filter (e) -> e.isActive()
+        catch e
+            AA.w e
+            return []
+
+    # * События в указанной точке (с учётом Extended Hit Box)
+    _.eventsXyExt = (x, y) ->
+        try
+            return @events().filter (event) -> event.posExt(x, y)
+        catch e
+            AA.w e
+            return []
+
 
     # * Возвращяет спрайтсет карты (!Надо проверять сцену сперва)
     _.spriteset = () -> SceneManager._scene._spriteset
@@ -40,8 +58,6 @@ do ->
         @aaMapAnimations.push({ x, y, animationId })
         return
 
-    #TODO: Метод POS должен учитывать HixBox extended тоже!
-    #TODO: Методы ScreenXE, ScreenYE
     # * Данный метод возвращает позиции с учётом расширенного HitBox
     _.aaGetExtendedPointsFor = (char) ->
         try
@@ -49,9 +65,15 @@ do ->
                     x: char.x,
                     y: char.y
                 }]
-                #TODO: extended hit boxes points for event (char)
-            #if char instanceof Game_Character
-            #    positions = char.aaGetExtendedPoints()
+            if char.aaIsHaveExtendedHitBoxes()
+                l = char._aaExtendedHitBox[3]
+                r = char._aaExtendedHitBox[1]
+                u = char._aaExtendedHitBox[0]
+                d = char._aaExtendedHitBox[2]
+                positions.push({ x: char.x + i, y: char.y }) for i in [1..r] if r > 0
+                positions.push({ x: char.x - i, y: char.y }) for i in [1..l] if l > 0
+                positions.push({ x: char.x, y: char.y - i }) for i in [1..u] if u > 0
+                positions.push({ x: char.x, y: char.y + i }) for i in [1..d] if d > 0
         catch e
             AA.w e
         return positions
