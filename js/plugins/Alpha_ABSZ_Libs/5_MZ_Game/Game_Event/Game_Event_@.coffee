@@ -20,13 +20,12 @@ do ->
         @_updTest() #TODO: TEST
 
     _._updTest = ->
-        return unless @eventId() == 1
+        return unless @eventId() == 2
         return unless Input.isTriggered('i')
-        if AATargetsManager.isPlayerInRadius(@, 3)
+        if AATargetsManager.isPlayerInRadius(@, 10)
             "IN RADIUS, check vision line".p()
-            player = AATargetsManager.getAAEntityOnVisionLine(@, $gamePlayer, 3)
-            if player?
-                "IN VISIION".p()
+            if AATargetsManager.isVisionLineIsFree(@, $gamePlayer)
+                "VISION LINE IS FREE".p()
     
     # * Система анимации XAnima
     # -----------------------------------------------------------------------

@@ -13,11 +13,14 @@ do ->
     #@[DEFINES]
     _ = Game_Event::
 
+    _.aaIsBlockVision = -> @_aaNoVisionPass is true
+
     _.aaInitExtraParams = ->
         @_aaMapSkillVectorBlockList = null
         @_aaMapSkillVectorAction = false
         @_aaMapSkillVectorOffset = 0
         @_aaExtendedHitBox = null
+        @_aaNoVisionPass = false
         return
 
     # * Проверка дополнительных параметров, которые могут касаться не только АА но и всех событий
@@ -28,6 +31,7 @@ do ->
         @_aaExtractVectorActions()
         @_aaExtractVectorBlockList()
         @_aaExtractExtendedHitBoxes()
+        @_aaExtractNoVisionPass()
         return
     
     _._aaExtractVectorOffsetParam = ->
@@ -80,6 +84,16 @@ do ->
         catch e
             AA.w e
             @_aaExtendedHitBox = null
+        return
+
+    _._aaExtractNoVisionPass = ->
+        try
+            value = KDCore.Utils.getEventCommentValue("noVisionPass", @list())
+            # * Не важно какое значение, если есть комментарий, значит noVisionPass есть
+            @_aaNoVisionPass = value?
+        catch e
+            AA.w e
+            @_aaNoVisionPass = false
         return
 
     return

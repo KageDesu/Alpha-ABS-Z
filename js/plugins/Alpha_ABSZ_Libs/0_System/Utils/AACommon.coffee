@@ -21,6 +21,8 @@ do ->
         return false if isFinite(value)
         return KDCore.SDK.checkSwitch(value)
 
+    _.isSamePointA = (point1, point2) -> point1[0] == point2[0] && point1[1] == point2[1]
+
     # * Методы распаковки и запаковки данных для хранения и сохранения игры
 
     _.packAASkill = (skill) -> skill.storeId()

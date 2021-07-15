@@ -168,70 +168,84 @@ do ->
             AA.w e
             return 1000
     
-    # * ==================================
-
-    #TODO: Ниже визоры, работают плохо!
-
-    # * Получить AAEntity находяющуюся на линии от одной до другой точки
-    # * Используется для проверки зрения (на линии видимости ли сущность)
-    # * MaxRange используется чтобы определить количество проверок (не больше)
-    _.getAAEntityOnVisionLine = (startPoint, endPoint, maxRange) ->
+    # * Проверка видимости между двумя точками (TRUE - видно точку)
+    _.isVisionLineIsFree = (startPoint, endPoint) ->
         try
-            checkStep = 3
-            checkCount = Math.round((maxRange * $gameMap.tileWidth() + $gameMap.tileWidth() / 2) / checkStep)
-            console.log(checkCount)
-            tw = $gameMap.tileWidth()
-            sX = Number(startPoint.x * tw + tw / 2)
-            sY = Number(startPoint.y * tw + tw / 2)
-            cX = sX
-            cY = sY
-            eX = Number(endPoint.x * tw + tw / 2)
-            eY = Number(endPoint.x * tw + tw / 2)
-            for i in [0...checkCount]
-                _angle = Math.atan2(eY - sY, eX - sX) * 180 / Math.PI
-                dx = checkStep * Math.cos(_angle * Math.PI / 180)
-                dy = checkStep * Math.sin(_angle * Math.PI / 180)
-                cX += dx
-                cY += dy
-                checkPointX = Math.floor(cX / $gameMap.tileWidth())
-                checkPointY = Math.floor(cY / $gameMap.tileWidth())
-                console.info([checkPointX, checkPointY])
-                if @checkVisionCollision(checkPointX, checkPointY)
-                    # * Линия видимости проходит в этой точке, пытаемся найти АА сущность в точке
-                    #TODO: Тут всех собирать или только игрока?
-                    #events = $gameMap.eventsXyAAExt(checkPointX, checkPointY).concat($gamePlayer)
-                    #return events[0] unless events.isEmpty()
-                    #TODO: Пока что только игрок (так как vision используют пока только АИ боты врагов)
-                    screenX = cX - $gameMap.displayX() * $gameMap.tileWidth()
-                    screenY = cY - $gameMap.displayY() * $gameMap.tileWidth()
-                    dist = AA.Utils.Math.getXYDistance(
-                        $gamePlayer.screenX(), $gamePlayer.screenY(), screenX, screenY
-                    )
-                    if dist < 32 #&& @isEventIsObstacle(ev)
-                        return $gamePlayer
-                    #if $gamePlayer.pos(checkPointX, checkPointY)
-                    #    return $gamePlayer
-                else
-                    return null # * Нет проходит линия видимости
+            dist = $gameMap.distance(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
+            # * Если дистанция 1 (рядом), то значит на линии видимости не может быть помех
+            return true if dist <= 1
+
+            # * Количество точек проверок на линии
+            # * Хватит точности 1 к 1, поэтому количество точек = дистанции
+            allPoints = @getLineBetweenTwoPoints(startPoint, endPoint, dist)
+            betweenPoints = []
+
+            # * Убираем End и Start точки с результата
+            # * Нам важно проверить путь между начальной и конечной точкой
+            sP = [startPoint.x, startPoint.y]
+            eP = [endPoint.x, endPoint.y]
+            for p in allPoints
+                if !AA.Utils.isSamePointA(p, sP) && !AA.Utils.isSamePointA(p, eP)
+                    betweenPoints.push(p)
+            
+            # * Если между нет точек, то значит на линии видимости
+            return true if betweenPoints.length == 0
+            
+            console.log(betweenPoints)
+
+            for p in betweenPoints
+                # * Если в точке находится объект (зона), что мешает зрению, значит false
+                if @isPointIsColiderForVision(p[0], p[1])
+                    return false
+
+            return true
+
         catch e
             AA.w e
-        return null
+        return false
 
-    # * Проходит ли "зрение" в этой точке -> true - проходит
-    _.checkVisionCollision = (x, y) ->
+    # * Возвращает линию из точек между начальной и конечной точкой (включая начальную и конечную)
+    _.getLineBetweenTwoPoints = (startPoint, endPoint, precission) ->
+        try
+            tw = $gameMap.tileWidth()
+
+            sX = Number(startPoint.x * tw + tw / 2)
+            sY = Number(startPoint.y * tw + tw / 2)
+            eX = Number(endPoint.x * tw + tw / 2)
+            eY = Number(endPoint.y * tw + tw / 2)
+
+            points = []
+
+            for i in [1..precission]
+                k = (i / precission)
+                px = (k * (eX - sX) + sX)
+                py = (k * (eY - sY) + sY)
+                cpx = Math.floor(px / $gameMap.tileWidth())
+                cpy = Math.floor(py / $gameMap.tileHeight())
+                points.push([cpx, cpy])
+
+            return points
+        catch e
+            AA.w e
+        return []
+
+    # * Находится ли в данной точке карты что-либо, что мешает видимости
+    # * TRUE - нельзя "видеть" через эту точку
+    _.isPointIsColiderForVision = (x, y) ->
         try
             #TODO: каждоый враг имеет свой набор или общий набор регионов???
             noVisionRegions = []
             noVisionTerrains = []
-            return !noVisionRegions.contains($gameMap.regionId(x, y))
-            return !noVisionTerrains.contains($gameMap.terrainTag(x, y))
-            #TODO: event with NoVisionPass (Общий коммент для всех событий АБС и нет)
-            #events = $gameMap.eventsXy(x, y) -> может быть несколько?
-            #TODO: return !event.aaIsBlockVision()
-            return true
+            return true if noVisionRegions.contains($gameMap.regionId(x, y))
+            return true if noVisionTerrains.contains($gameMap.terrainTag(x, y))
+            # * События с расширенными HitBox участвуют в области видимости
+            events = $gameMap.eventsXyExt(x, y)
+            return false if events.isEmpty()
+            # * Если хоть один блокирует, то значит заблокирована видимость
+            return events.some (e) -> e.aaIsBlockVision()
         catch e
             AA.w e
-        return false
+        return true
 
     return
 # ■ END IMPLEMENTATION.coffee
