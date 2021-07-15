@@ -52,6 +52,31 @@ do ->
     # -----------------------------------------------------------------------
     do ->
 
+        # * Этот метод выполняется из отдельного потока для логики АИ
+        #$[OUTER]
+        _.aaUpdateAILogic = ->
+            try
+                if AA.isABS() and @isActive()
+                    @AALogic().update()
+                else
+                    $gameTemp.aaClearAILogicThreads(@eventId())
+            catch e
+                AA.w e
+
+        #@[ALIAS]
+        ALIAS__initABS = _.initABS
+        _.initABS = ->
+            ALIAS__initABS.call(@)
+            $gameTemp.aaRegisterAILogicThread(@eventId())
+            return
+
+        #@[ALIAS]
+        ALIAS__clearABS = _.clearABS
+        _.clearABS = ->
+            ALIAS__clearABS.call(@)
+            $gameTemp.aaClearAILogicThread(@eventId())
+            return
+
         #@[ALIAS]
         ALIAS__isActive = _.isActive
         _.isActive = -> ALIAS__isActive.call(@) && !@_erased

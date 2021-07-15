@@ -38,4 +38,3 @@ AA.isDEV = function() {
 AA.isPro = function() {
     return true;
 };
-

@@ -34,7 +34,7 @@ do ->
     ALIAS__stop = _.stop
     _.stop = ->
         ALIAS__stop.call(@)
-        @_aaUI?.terminate()
+        AA.System.onMapSceneStopped()
         return
 
     #@[ALIAS]

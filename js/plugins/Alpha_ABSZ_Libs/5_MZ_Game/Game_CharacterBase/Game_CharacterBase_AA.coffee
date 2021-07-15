@@ -31,6 +31,9 @@ do ->
 
         _.AASprite = -> @AAEntity()?.sprite()
 
+        # * Логика АИ
+        _.AALogic = -> @AAEntity()?.logic()
+
         _.inBattle = -> @AAEntity()?.inBattle()
 
         _.isActive = -> @isABS() && @AAEntity()?.isActive()

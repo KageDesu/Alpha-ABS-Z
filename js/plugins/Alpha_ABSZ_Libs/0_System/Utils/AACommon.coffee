@@ -44,6 +44,7 @@ do ->
             return @unpackAAEntity(data)
 
     _.packAAEntity = (entity) ->
+        return null unless entity?
         if entity == $gamePlayer
             return { type: 0 }
         else if entity instanceof Game_Event
@@ -56,6 +57,7 @@ do ->
             return { type: 2 }
 
     _.unpackAAEntity = (data) ->
+        return null unless data?
         switch data.type
             when 0
                 return $gamePlayer

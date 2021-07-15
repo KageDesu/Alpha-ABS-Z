@@ -28,6 +28,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill2MapAction.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASystem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AATimer.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AIFlowMachine.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_DevSymbol_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_KDCoreExt.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AAInstantSkill_0.js"
@@ -48,10 +49,15 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAPlayerEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AATargetsManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAUI.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAVisionManager.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AIFlow.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/BuffIconsController.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Diagonal_TEST.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/EnemyAI_BattleFlow.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/EnemyAI_FlowMachine.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/EnemyAI_FreeFlow.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionAA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionResult_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Actor_AA.js"
@@ -77,6 +83,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_Input.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_System.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Temp_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Troop_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/GaugeController.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Guard.js"
@@ -270,6 +277,15 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,24 +1,34 @@
+# * Состояние (машина) для врага в битве
+class EnemyAI_BattleFlow extends AIFlow
+    constructor: () ->
+        super(...arguments)
+        return
+        
+    onStateStart: ->
+        "IN BATTLE STATE".p()
+
+    onStateEnd: ->
+        #TODO: clear target
+        "BATTLE END".p()
+
+    # * onStateEnd нету, так как Free состояние базовое
+
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_CharacterBase.coffee
+# ■ EnemyAI_BattleFlow.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_CharacterBase::
+    _ = EnemyAI_BattleFlow::
 
-    #@[ALIAS]
-    ALIAS__initMembers = _.initMembers
-    _.initMembers = ->
-        ALIAS__initMembers.call(@)
-        @aaClearCharacterEffects()
+    _._setup = ->
+        
+
+    _._updateFlow = ->
+        
+
     
-    #@[ALIAS]
-    ALIAS__update = _.update
-    _.update = ->
-        ALIAS__update.call(@)
-        @aaUpdateABS() if @isABS() and AA.isABS()
-
     return
-# ■ END Game_CharacterBase.coffee
+# ■ END EnemyAI_BattleFlow.coffee
 #---------------------------------------------------------------------------

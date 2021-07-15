@@ -36,6 +36,8 @@ class AAEntity
 
     sprite: -> $gameMap.spriteset().findTargetSprite(@character())
 
+    logic: -> null
+
     # * HELPERS
     # -----------------------------------------------------------------------
     isMyEnemy: (aaEntity) ->
@@ -51,9 +53,9 @@ class AAEntity
 
     # * TARGET
     # -----------------------------------------------------------------------
-    setTarget: (target) -> @_target = target
+    setTarget: (target) -> @_target = AA.Utils.packAAEntity(target)
     resetTarget: -> @setTarget(null)
-    getTarget: -> @_target
+    getTarget: -> AA.Utils.unpackAAEntity(@_target)
     isHasTarget: -> @getTarget()?
     
     # * MAIN STATE

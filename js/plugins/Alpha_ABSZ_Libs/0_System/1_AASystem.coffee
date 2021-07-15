@@ -57,9 +57,6 @@ do ->
 
         _.isMap = -> $gameTemp._isMapScene is true
 
-        #TODO: Это надо или нет?
-        _.isABSBattle = -> @isMap() and @isABS()
-
         _.update = ->
 
         return
@@ -83,6 +80,14 @@ do ->
             @startABS() if @isABS()
             AA.UI.refresh()
             return
+
+        # * Сцена карты завершается (переключение сцены)
+        _.onMapSceneStopped = ->
+            AA.UI.terminate()
+            $gameTemp.aaClearAILogicThreads()
+            return
+
+        _.onTitleScreen = ->
 
         # * Новая карта (Data)
         _.onNewMapLoaded = ->

@@ -12,6 +12,8 @@ class AAEnemyEntity extends AAEntity
 
     isEnemy: -> true
 
+    logic: -> @aaLogic
+
     # * Настройки и параметры
     model: -> @aaModel
 
@@ -21,6 +23,7 @@ class AAEnemyEntity extends AAEntity
             # * Инициализация системы в первый раз
             @aaModel = new AAEnemyModelData(@eventId)
             @aaBattler = new AAEnemyBattler(@aaModel.enemyId)
+            @aaLogic = new EnemyAI_FlowMachine(@eventId)
         else
             # * Повторная инициализация (например после выхода из меню)
             #TODO: resume ABS

@@ -24,7 +24,7 @@ do ->
         return unless Input.isTriggered('i')
         if AATargetsManager.isPlayerInRadius(@, 10)
             "IN RADIUS, check vision line".p()
-            if AATargetsManager.isVisionLineIsFree(@, $gamePlayer)
+            if AAVisionManager.isVisionLineIsFree(@, $gamePlayer)
                 "VISION LINE IS FREE".p()
     
     # * Система анимации XAnima
