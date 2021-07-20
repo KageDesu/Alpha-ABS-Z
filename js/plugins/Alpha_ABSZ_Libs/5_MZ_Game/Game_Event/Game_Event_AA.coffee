@@ -108,7 +108,7 @@ do ->
         ALIAS__aaOnDeath = _.aaOnDeath
         _.aaOnDeath = ->
             ALIAS__aaOnDeath.call(@)
-            model = @aaModel()
+            model = @AAModel()
             if model.isHaveDeadSwitch()
                 # * Включаем self.switch
                 AA.SAaction.execute("ss_" + model.deadSwitch + "_true", @)
@@ -136,7 +136,7 @@ do ->
                 # * Отключаем АБС для этого события
                 @stopABS() #TODO: clearABS ???
                 # * Если параметр включён, запускаем эффект
-                if @aaModel().shatterEffect is 1
+                if @AAModel().shatterEffect is 1
                     @aaRequestShatterEffect()
                 else # * Иначе сразу
                     @aaOnDefeat()

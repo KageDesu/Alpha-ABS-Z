@@ -6,12 +6,14 @@ class EnemyAI_FreeFlow extends AIFlow
         
     onStateStart: ->
         "IN FREE STATE".p()
+        @_restoreMoveData()
         @_isTargetInViewRadius = false
         return
 
     onStateEnd: ->
         "FREE END".p()
-        #TODO: save move route
+        @_storeMoveData()
+        return
 
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ EnemyAI_FreeFlow.coffee
@@ -60,13 +62,38 @@ do ->
         return
 
     _._onSeeTarget = (target) ->
-        #TODO: if can't fight?
-        #entity set target - target
         @entity().setTarget(target)
         "SEE TARGET IN LINE".p()
-        @logic().switchToBattleState()
+        #TODO: if enemy have actions, then switch to battle state
+        if @battler().isHaveAnyAASkill()
+            @logic().switchToBattleState()
+        else
+            #TODO: if can't fight?
+            #TODO: escapeFromBattle like (Типо отходить от игрока)
+            # * Тоже самое поведение, что и если не может драться (noFight)
+            #TODO: noFight - такого параметра не будет, хотите чтобы не дрался, не давайте действий
         return
     
+    # * Восстановить настройки движения, если они были сохраненны
+    _._restoreMoveData = ->
+        return unless @_storedMoveData?
+        char = @char()
+        return unless char?
+        for item in ["_moveSpeed", "_moveType", "_moveFrequency"]
+            @char[item] = @_storedMoveData[item]
+        @_storedMoveData = null
+        return
+
+    # * Перед выходом из Free состояния, сохраним настройки движения события
+    # * Чтобы потом можно было вернуться к этим настройкам (после боя например)
+    _._storeMoveData = ->
+        char = @char()
+        return unless char?
+        @_storedMoveData = {}
+        for item in ["_moveSpeed", "_moveType", "_moveFrequency"]
+            @_storedMoveData[item] = char[item]
+        return
+
     return
 # ■ END EnemyAI_FreeFlow.coffee
 #---------------------------------------------------------------------------

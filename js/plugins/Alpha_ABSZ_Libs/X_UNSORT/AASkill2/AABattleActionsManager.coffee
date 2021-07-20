@@ -51,7 +51,7 @@ do ->
                 return unless absSkill.isNoContact()
                 { x, y } = target
                 @playAnimationOnMap(x, y, animationId)
-            targets = AATargetsManager.collectTargtesForSkill(absSkill, target)
+            targets = AATargetsManager.collectTargtesForSkill(subject, absSkill, target)
             @performBattleAction(subject, absSkill, targets)
             #TODO: Do Common Action (Выполнение обычных действий на событиях или персонажах)
         catch e

@@ -71,6 +71,17 @@ class AASkill2
 
     isHaveTimer: -> String.any(@reloadTime) || @reloadTime > 0
 
+    # * Ближний бой = дистанция 1 и по направлению
+    isMelee: -> !@isInPoint() && range == 1
+
+    isForEnemies: -> @opponentsEffect is 1
+
+    isForEnemiesOnly: -> @isForEnemies() and !@isForFriends()
+
+    isForFriends: -> @friendlyEffect is 1
+
+    isForFriendsOnly: -> @isForFriends() and !@isForEnemies()
+
     # * Время перезарядки навыка (cooldown)
     getReloadTime: (battlerOrChar) ->
         if isFinite(@reloadTime)

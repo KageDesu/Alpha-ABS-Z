@@ -9,7 +9,6 @@ class AAEntity
     _setup: ->
         @_active = false
         @_target = null
-        @_inBattle = false
         @_dead = false
         # * Состояние
         @_state = null
@@ -56,7 +55,7 @@ class AAEntity
     setTarget: (target) -> @_target = AA.Utils.packAAEntity(target)
     resetTarget: -> @setTarget(null)
     getTarget: -> AA.Utils.unpackAAEntity(@_target)
-    isHasTarget: -> @getTarget()?
+    isHasTarget: -> @_target?
     
     # * MAIN STATE
     # -----------------------------------------------------------------------
@@ -66,9 +65,9 @@ class AAEntity
 
     # * BATTLE STATE
     # -----------------------------------------------------------------------
-    inBattle: -> @_inBattle is true
-    setBattle: -> @_inBattle = true
-    resetBattle: -> @_inBattle = false
+    # * Зависит от наличия цели
+    inBattle: -> @isHasTarget()
+    resetBattle: -> @resetTarget()
 
     # * DEAD STATE
     # -----------------------------------------------------------------------

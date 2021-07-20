@@ -21,7 +21,7 @@ class AASkillsTimers
     isSkillHaveTimer: (skillId) -> @_skills.contains(skillId)
 
     isSkillHaveTimerToShow: (skillId) ->
-        @isSkillHaveTimer() and @getTimerForSkill(skillId).maxValue >= 1
+        @isSkillHaveTimer(skillId) and @getTimerForSkill(skillId).maxValue >= 1
 
     # * В секундах
     getRemainTimeForSkill: (skillId) ->

@@ -13,23 +13,49 @@ do ->
 
     # * Используется для определения цели для Instant NoProjectile Direction навыков
     # * Проверка точки на наличие целей для навыка
+    #?[OUTER - used by AABattleActionsManager]
+    #? Этот навык используется напрямую для выбора целей в битве
     _.getTargetInPoint = (subject, aaSkill, point) ->
-        #TODO: в зависимости от subject и aaSkill
-        events = @_collectAAEventsInPoints([point])
-        return events[0]
+        events = @_collectAllAAEntitiesInPoints([point])
+        return null if events.isEmpty()
+        # * В зависимости от Subject и в зависимости от действия навыка
+        targets = @filteredTargetsForSubject(subject, aaSkill, events)
+        if targets? and targets.length > 0
+            return targets[0]
+        else
+            return null
+
+    # * Отфильтровать цели (из найденных в точках) для Subject (навыка)
+    _.filteredTargetsForSubject = (subject, aaSkill, targets) ->
+        try
+            entity = subject.AAEntity()
+            candidates = []
+            if aaSkill.isForEnemies()
+                for t in targets
+                    if entity.isMyEnemy(t.AAEntity())
+                        candidates.push(t)
+            if aaSkill.isForFriends()
+                for t in targets
+                    if !entity.isMyEnemy(t.AAEntity())
+                        candidates.push(t)
+            return candidates
+        catch e
+            AA.w e
+            return []
 
     # * Собрать цели для навыка (Projectile)
-    _.collectTargtesForSkill = (absSkill, point) ->
+    #?[OUTER - used by AABattleActionsManager]
+    #? Этот навык используется напрямую для выбора целей в битве
+    _.collectTargtesForSkill = (subject, absSkill, point) ->
         targets = []
         # * Точные цели селектора, если мнгновенный навык (только для игрока)
         if absSkill.isInstant() && $gameTemp._aaSkillSelectorTargets?
             targets = $gameTemp._aaSkillSelectorTargets
         else
             targets = @collectTargetsForSkillInMapPoint(absSkill, point)
-        #TODO: фильтры целей разные
-        #Например в зависимости от Subject и friendly fire
         # * Убираем НЕ АБС события
         targets = targets.filter (t) -> t.isActive()
+        targets = @filteredTargetsForSubject(subject, absSkill, targets)
         # * Сбрасываем цели селектора
         $gameTemp._aaSkillSelectorTargets = null
         return targets
@@ -131,7 +157,7 @@ do ->
             { x, y } = point
             points = $gameMap.aaGetExtendedPointsFor(char)
             for p in points
-                if $gameMap.distance(x, y, p.x, p.y) < radius
+                if $gameMap.distance(x, y, p.x, p.y) <= radius
                     return true
         catch e
             AA.w e
@@ -159,6 +185,10 @@ do ->
         catch e
             AA.w e
             return 1000
+
+    # * Цель подходящая (проверки, см. BattleManagerABS.isValidTarget)
+    #TODO: isValidTarget
+    _.isValidTarget = (char, targetChar) -> true
     
     return
 # ■ END IMPLEMENTATION.coffee
