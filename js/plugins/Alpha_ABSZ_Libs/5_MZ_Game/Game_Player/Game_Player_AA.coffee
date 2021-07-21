@@ -31,20 +31,42 @@ do ->
         # * Сбрасываем состояние?
         @_resetAAState()
 
+    _.onSkillTargetCancel = ->
+        #TODO:
+
     # * Подготовка навыка к выполнению (сюда передаётся базовый объект навыка)
     _.prepareAASkillToExecute = (skill) ->
         console.log("Use skill " + skill.name)
         #TODO: А если предмет???
         #TODO: Анимация навыка атаки
         @_activeAASkillId = skill.id
-        if @activeAASkill().isNeedSelectZone()
-            # * Сбор целей сразу в точке где сейчас курсор
-            AATargetsManager.collectTargetsForSkillInScreenPoint(
-                @activeAASkill(), TouchInput
-            )
-            @_setAAStateToSelectSkillTarget()
+        skill = @activeAASkill()
+        # * Если навык работает по направлению точки (курсора)
+        if skill.isInPoint()
+            # * Если надо выбирать зону, то выбор зоны
+            if skill.isNeedSelectZone()
+                # * Сбор целей сразу в точке где сейчас курсор
+                AATargetsManager.collectTargetsForSkillInScreenPoint(
+                    @activeAASkill(), TouchInput
+                )
+                @_setAAStateToSelectSkillTarget()
+            else
+                point = TouchInput.toMapPoint()
+                if skill.isInstant() || skill.isInCertainPoint()
+                    # * Надо проверить находится ли точка в Range навыка
+                    if AATargetsManager.isInSkillRange(@, @_activeAASkillId, point)
+                        @startPerformAASkill(point)
+                    else
+                        # * NOTHING
+                        #TODO: Показать область range применения (моргнуть)
+                        #TODO: Написать Notify (small range)
+                        AA.UI.skillPerformResult(@_activeAASkillId, 0)
+                        @_activeAASkillId = null
+                else
+                    # * Направление по точке
+                    @startPerformAASkill(point)
         else
-            # * Передаём себя в качестве точки
+            # * Передаём себя в качестве точки (direction == 0 - напрвление персонажа)
             @startPerformAASkill(@toPoint())
         return
 
@@ -122,9 +144,16 @@ do ->
         _._setAAStateToSelectSkillTarget = ->
             # * Наверное должно быт в AAEntity!!! Так как у ботов тоже будет этот параметр
             @aaState = 'skill'
+            #TODO: Так же рисовать круг области range навыка активного!
             AA.EV.call("PlayerSkillSelector")
             #AA.EV.call("PlayerChangeState")
             #TODO: rise event -> Scene_Map pick event and change mode to select map zone
+
+        _._setAAStateToSmartSkillUse = (skillId, point) ->
+            @aaState = 'smartAttack'
+            @_aaSmartSkillId = skillId
+            @_aaSmartPoint = point
+            return
 
         _._resetAAState = ->
             @aaState = null
@@ -145,6 +174,15 @@ do ->
                         AATargetsManager.collectTargetsForSkillInScreenPoint(
                             @activeAASkill(), TouchInput
                         )
+                #? Не используется пока что
+                # * Работает, но проблема что надо сбрасывать во многих случаях - путаница
+                when 'smartAttack'
+                    unless @isMoving()
+                        if AATargetsManager.isInSkillRange(@, @_aaSmartSkillId, @_aaSmartPoint)
+                            @_resetAAState()
+                            @aaTryPerformSkill(@_aaSmartSkillId)
+                        else
+                            @aaMoveTypeToPoint(@_aaSmartPoint)
                 else
                     
 

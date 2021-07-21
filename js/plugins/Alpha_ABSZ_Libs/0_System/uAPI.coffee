@@ -11,6 +11,9 @@ do ->
     #@[DEFINES]
     _ = uAPI
 
+
+    #TODO: put and remove skills from skill panel
+
     _.controlUIElement = () ->
         try
             user = $gameSystem.aaGetUserUISettings()

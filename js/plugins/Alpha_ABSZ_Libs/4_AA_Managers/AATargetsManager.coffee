@@ -189,6 +189,19 @@ do ->
     # * Цель подходящая (проверки, см. BattleManagerABS.isValidTarget)
     #TODO: isValidTarget
     _.isValidTarget = (char, targetChar) -> true
+
+    # * Находится ли точка (цель) в области дейтсвия навыка (range)
+    _.isInSkillRange = (char, skillId, targetPoint) ->
+        try
+            #TODO: ПОка просто
+            dist = char.distTo(targetPoint)
+            skill = $dataSkills[skillId].AASkill
+            #console.log("D " + dist)
+            #console.log("R " + skill.range)
+            return dist <= skill.range
+        catch e
+            AA.w e
+            return false
     
     return
 # ■ END IMPLEMENTATION.coffee

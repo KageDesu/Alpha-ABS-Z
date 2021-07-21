@@ -22,9 +22,15 @@ class AASkillsSet
     currentSet: () -> @bingings[@currentActorId]
 
     setSkillInEmptySlot: (skillId) ->
-        for s in @allSymbols()
+        symbols = @allSymbols()
+        for s in symbols
+            # * Автоматически нельзя поставить в E и Q слоты
+            #continue if s == AA.Input.primarySkillSymbol()
+            #continue if s == AA.Input.secondarySkillSymbol()
             tempId = @getSkillForSymbol(s)
-            @setSymbolForSkill(skillId, s, null) if tempId <= 0
+            if tempId <= 0
+                @setSymbolForSkill(skillId, s, null)
+                break
         return
 
     setSymbolForSkill: (skillId, symbNew, symbOld) ->
@@ -49,11 +55,13 @@ class AASkillsSet
 
     setupDefaultSkillsForActor: ->
         try
-            symbols = @allSymbols()
             battler = $gameParty.leader()
             attackSkillId = battler.attackSkillId()
-            @setSymbolForSkill(attackSkillId, symbols[0], null)
-            #TODO: setup second skill defenseSkillId()
+            @setSymbolForSkill(attackSkillId, AA.Input.primarySkillSymbol(), null)
+            # * Добавляем остальные навыки
+            for s in battler.getAASkills()
+                continue if s.id == attackSkillId
+                @setSkillInEmptySlot(s.id)
         catch e
             AA.w e
         return

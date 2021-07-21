@@ -15,7 +15,6 @@ do ->
         return unless aaSkill?
         if aaSkill.isSelfAction()
             "SELF ACTION".p()
-            #TODO: Не будет работать
             @applySkillAction(subject, subject, aaSkill)
         else if aaSkill.isInstant()
             "INSTANT ACTION".p()
@@ -183,7 +182,7 @@ do ->
     _._endAction = (action) ->
         try
             battler = action.subject()
-            battler.onAllActionsEnd()
+            battler.onAAActionEnd()
         catch e
             KDCore.warning("_endAction", e)
         return

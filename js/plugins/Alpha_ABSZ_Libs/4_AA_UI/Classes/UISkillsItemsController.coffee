@@ -82,7 +82,8 @@ do ->
 
     _._updateItemUseState = (item, useable) ->
         if item.skillId == 0
-            item.enable()
+            # * Доп. проверочка isDisabled, а то мерцает
+            item.enable() if item.isDisabled()
         else
             # * Если состояние было включено на Enabled, значит даём сигнал
             if item.switchState(useable.contains(item.skillId))

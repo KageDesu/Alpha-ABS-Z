@@ -17,6 +17,13 @@ do ->
     #TODO: Это может и не нужно уже
     _.getAttackAASkill = ->
     
+    # * Когда совершили какое-либо АБС действие (навык)
+    # * Не используется стандартный onAllActionsEnd, так как он очищает result
+    _.onAAActionEnd = ->
+        @removeStatesAuto(1)
+        @removeBuffsAuto()
+        return
+
     #TODO: Это может и не нужно уже
     # * Установить ABS навык для выполнения (задать текущее действие)
     _.prepareAASkillForExecuting = (aaSkill) ->

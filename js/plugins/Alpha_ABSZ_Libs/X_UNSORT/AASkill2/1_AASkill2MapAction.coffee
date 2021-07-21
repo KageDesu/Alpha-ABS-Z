@@ -64,7 +64,7 @@ class AASkill2MapAction
     #TODO:
     isHaveTerrain: (terrainTag) -> false
 
-    isCanHitPoint: () -> @aaSkill.isInPoint()
+    isCanHitPoint: () -> @aaSkill.isInCertainPoint()
 
     isNoContact: () -> @aaSkill.isNoContact()
 

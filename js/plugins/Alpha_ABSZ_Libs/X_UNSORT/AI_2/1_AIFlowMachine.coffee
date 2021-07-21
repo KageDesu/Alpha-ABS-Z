@@ -19,6 +19,8 @@ class AIFlowMachine
 
     logic: -> @char().AALogic()
 
+    model: -> @char().AAModel()
+
     # * Сбросить состояние
     resetState: -> @setState(0)
 

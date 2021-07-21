@@ -8,7 +8,6 @@ do ->
     _ = Scene_Map::
 
     _.aaUpdate = ->
-        @aaUpdatePlayerInput()
         @aaUpdateMouseDetection()
         #@aaUpdateMapScroolByMouse() #TODO: доработать скролл (взять из AABS MV)
     

@@ -14,12 +14,6 @@ do ->
     #@[DEFINES]
     _ = AA.Input
 
-    # * Always reset target by right mouse click?
-    _.isResetTargetOnRMB = -> @settings.targetReset is true
-
-    # * Open menu by right mouse click?
-    _.isOpenMenuByRMB = -> @settings.menuByRightClick is true
-
     # * Клавишы навыков (ячеек) для левой и правой кнопок мыши
     _.primarySkillSymbol = -> @skillPanelSymbols[0]
     _.secondarySkillSymbol = -> @skillPanelSymbols[1]
@@ -100,9 +94,11 @@ do ->
 
     _.applyInputSettings = ->
         @_applyMoveType()
-        @_applyTouchMode()
-        @_applyTargetSelectMode()
-        @_applyRotateType()
+        @_applyLMBMapTouchMode()
+        @_applyRMBMapTouchMode()
+        @_applyLMBTargetTouchMode()
+        @_applyRMBTargetTouchMode()
+        return
 
     _._applyMoveType = ->
         mt = @settings.moveType
@@ -130,33 +126,40 @@ do ->
         Input._signY = signYAA
         return
 
-    # * Режим нажатия левой кнопки мыши
-    _._applyTouchMode = ->
-        _.TouchMode = 0 # * Attack only
-        action = @settings.mouseAction
-        if action.contains('Movement')
-            _.TouchMode = 1
-        else if action.contains('Combined')
-            _.TouchMode = 2
-        return
+    # * Режим нажатия ЛЕВОЙ кнопкой мыши ПО КАРТЕ (без цели)
+    #? 0 - Attack only
+    #? 1 - Default (move)
+    #? 2 - Nothing
+    _._applyLMBMapTouchMode = ->
+        _.LMBMapTouchMode = 1
+        #TODO: parameters
 
-    _._applyTargetSelectMode = ->
-        _.TargetSelectClick = 0 # * right
-        if @settings.targetSelect.contains('Left')
-            _.TargetSelectClick = 1 # * left
-        return
+    # * Режим нажатия ПРАВОЙ кнопкой мыши ПО КАРТЕ (без цели)
+    #? 0 - Default (open menu)
+    #? 1 - Attack only (second skill)
+    #? 2 - Move
+    #? 3 - Nothing
+    _._applyRMBMapTouchMode = ->
+        _.RMBMapTouchMode = 1
+        #TODO: parameters
 
-    _._applyRotateType = ->
-        _.RotateType = 0 # * None
-        if @settings.rotateType.contains("Target")
-            _.RotateType = 1
-        else if @settings.rotateType.contains("Mouse")
-            _.RotateType = 2
-        else if @settings.rotateType.contains("Both")
-            _.RotateType = 3 # * Mouse (or target)
-        if _.RotateType is 0
-            Scene_Map::aaUpdatePlayerInput_Rotation = -> # * EMPTY
-        return
+    #? 0 - Attack only
+    #? 1 - Default (move)
+    #? 2 - Smart attack
+    #? 3 - Turn
+    # * Режим нажатия ЛЕВОЙ кнопкой мыши ПО ЦЕЛИ
+    _._applyLMBTargetTouchMode = ->
+        _.LMBTargetTouchMode = 2
+        #TODO: parameters
+
+    #? 0 - Attack only
+    #? 1 - Default (move)
+    #? 2 - Smart attack
+    #? 3 - Turn
+    # * Режим нажатия ПРАВОЙ кнопкой мыши ПО ЦЕЛИ
+    _._applyRMBTargetTouchMode = ->
+        _.RMBTargetTouchMode = 2
+        #TODO: parameters
 
 
     return

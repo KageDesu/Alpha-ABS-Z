@@ -3,7 +3,7 @@ class EnemyAI_FreeFlow extends AIFlow
     constructor: () ->
         super(...arguments)
         return
-        
+
     onStateStart: ->
         "IN FREE STATE".p()
         @_restoreMoveData()
@@ -12,7 +12,7 @@ class EnemyAI_FreeFlow extends AIFlow
 
     onStateEnd: ->
         "FREE END".p()
-        @_storeMoveData()
+        @_storeHomePoint()
         return
 
 #╒═════════════════════════════════════════════════════════════════════════╛
@@ -30,7 +30,24 @@ do ->
         return
 
     _._updateFlow = ->
+        @_updateReturnToHome()
         @_updateVision()
+
+    _._updateReturnToHome = ->
+        char = @char()
+        return unless char?
+        homePoint = char.homePoint
+        return unless homePoint?
+        try
+            if char.aaIsNearThePoint(homePoint, 0)
+                char.aaResetHomePoint() # * Сброс точки "дома"
+                @_restoreMoveData() # * Выход из режима движения
+            else
+                char.aaSetMoveTypeReturnToHomePoint()
+        catch e
+            @_restoreMoveData()
+            AA.w e
+        return
 
     # * Используется двойная проверка. Сперва простая проверка, что цель в радиусе видимости
     # * Уже затем, если цель в радиусе, проверяется линия видимости
@@ -48,7 +65,7 @@ do ->
         if @_checkVisionTimer >= 4
             @_checkVisionTimer = 0
             #TODO: Сейчас идёт проверка только на игрока
-            @_isTargetInViewRadius = AATargetsManager.isPlayerInRadius(@char(), 4)
+            @_isTargetInViewRadius = AATargetsManager.isPlayerInRadius(@char(), @model().viewRadius)
             "PL IN RADIUS".p() if @_isTargetInViewRadius is true
         return
 
@@ -76,22 +93,15 @@ do ->
     
     # * Восстановить настройки движения, если они были сохраненны
     _._restoreMoveData = ->
-        return unless @_storedMoveData?
-        char = @char()
-        return unless char?
-        for item in ["_moveSpeed", "_moveType", "_moveFrequency"]
-            @char[item] = @_storedMoveData[item]
-        @_storedMoveData = null
+        try
+            @char()?.aaRestoreMoveData()
+        catch e
+            AA.w e
         return
 
-    # * Перед выходом из Free состояния, сохраним настройки движения события
-    # * Чтобы потом можно было вернуться к этим настройкам (после боя например)
-    _._storeMoveData = ->
-        char = @char()
-        return unless char?
-        @_storedMoveData = {}
-        for item in ["_moveSpeed", "_moveType", "_moveFrequency"]
-            @_storedMoveData[item] = char[item]
+    # * Сохранить позицию перед выходом из состояния
+    _._storeHomePoint = ->
+        @char()?.aaStoreHomePoint()
         return
 
     return

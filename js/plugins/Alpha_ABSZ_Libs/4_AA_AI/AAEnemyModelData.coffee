@@ -60,8 +60,9 @@ class AAEnemyModelData
             @deadSwitch = 0
             @onDeath = 0
             @eraseOnDead = 1
-            #TODO: Остановился тут, базовые настройки врага
-            #TODO: Лучше сразу перейти на реализацию АИ логики
+            @returnRadius = 12
+            @viewRadius = 5
+            return
 
         # * Применяем параметры из страницы события
         _._applyParametersFromEvent = ->

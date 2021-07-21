@@ -7,120 +7,64 @@ do ->
     #@[DEFINES]
     _ = Scene_Map::
 
-    # * Пользовательский ввод (управление ABS и игроком)
-    # -----------------------------------------------------------------------
-    _.aaUpdatePlayerInput = ->
-        @aaUpdatePlayerInput()
-        @aaUpdateCommonInput()
-    
-    _.aaUpdatePlayerInput = ->
-        return unless $gamePlayer.canBeControlled()
-        @aaUpdatePlayerInput_Rotation()
-        @aaUpdatePlayerInput_ActionKeys()
-
-    #TODO: Возможно стоит вынести методы на Game_Player, сами обработки, так как проврок много
-    _.aaUpdatePlayerInput_ActionKeys = ->
-        #if Input.isTriggered(AA.IKey.ATK)
-        #    $gamePlayer.aaPerformAttack()
-        #    return
-        #if Input.isTriggered(AA.IKey.DEF)
-        #    $gamePlayer.aaPerformDefense()
-        #    return
-        if Input.isTriggered(AA.IKey.REL)
-            #TODO: reload firearm
-            return
-        if Input.isTriggered(AA.IKey.CMD)
-            #TODO: AI command menu
-            return
-        return
-
-    _.aaUpdatePlayerInput_Rotation = ->
-        # * Чтобы не поворачивался во время анимации
-        return unless $gamePlayer.canMove()
-        if Input.isPressed(AA.IKey.ROT)
-            switch AA.Input.RotateType
-                when 2
-                    rotateTarget = TouchInput.toMapPoint()
-                when 1
-                    rotateTarget = $gamePlayer.AATarget()
-                else
-                    if $gamePlayer.aaIsHaveTarget()
-                        rotateTarget = $gamePlayer.AATarget()
-                    else
-                        rotateTarget = TouchInput.toMapPoint()
-            if rotateTarget?
-                $gamePlayer.turnTowardCharacter(rotateTarget)
-        return
-
-    _.aaUpdateCommonInput = ->
-        if Input.isTriggered(AA.IKey.TRS)
-            #TODO: Nearest or next target select
-            return
-        if Input.isTriggered(AA.IKey.TRR)
-            #TODO: Reset target
-            @_aaResetPlayerTarget()
-            return
-        
-    #TODO: Правая кнопка или ESC должны отменять выбор зоны навыка!
-
     # * Обработка нажатия мыши (Touch) на карте (Левой)
     # -----------------------------------------------------------------------
     do ->
+
+        # * ТОЛЬКО левая кнопка мыши
         _.onMapTouchAA = ->
+            #TODO: $gamePlayer.canBeControlled() ??? Надо или нет???
             # * Если игрок в режиме выбора зоны навыка, то активация навыка
             if $gamePlayer.isInSkillTargetingState()
                 $gamePlayer.onSkillTargetSelected()
-                return
-            # * Стоит выбор целей на левую кнопку мыши (общий)
-            if AA.Input.TargetSelectClick is 1
-                # * Тут выбор цели на левую кнопку мыши игнорируется (он и так есть)
-                if AA.Input.TouchMode isnt 2
-                    @aaTrySelectTargetUnderTouch()
-            switch AA.Input.TouchMode
-                when 0 # * Attack only
-                    $gamePlayer.aaTurnTowardTouchInput()
-                    $gamePlayer.aaPerformAttack()
-                when 2 # * Combined
-                    console.log("combined")
-                    @_combinedTouchProcess()
-                else # * Movement only, other...
-                    # * Default Moving to point
-                    _.ALIAS__onMapTouch.call(@)
-            return
-
-        #TODO: REQUIRE Доделать и тесты
-        # * Смешанный режим (как в АBS было)
-        _._combinedTouchProcess = ->
-            char = @aaGetABSEntityInPosition(TouchInput.toMapPoint())
-            if char?
-                # * Если цель == цели игрока, то действие
-                if char == $gamePlayer.AATarget()
-                    # * Если ещё раз нажал на цель, если вне радиуса, то идти к цели
-                    # * Если цель в радиусе атаки (и уже выбрана), то бить
-                    console.log("CHECK ACTION, action or go")
+            else
+                # * Новая система (без выбора целей)
+                # * Обновим поиск цели под курсором
+                @aaRefreshMouseDetection()
+                if $gameTemp._aaEventUnderCursor?
+                    # * Нажатие по цели
+                    @_aaOnTouchOnTarget()
                 else
-                    # * Нажал на цель, выбрать цель
-                    @aaOnClickOnABSCharacter(char)
-            else # * Если цели под курсором нет - идти просто
-                if $gamePlayer.canBeControlled()
-                    # * Default Moving to point
+                    # * Нажатие по карте (просто)
+                    @_aaOnTouchOnMapBasic()
+            return
+
+        _._aaOnTouchOnTarget = ->
+            if AA.isDEV()
+                char = $gameTemp._aaEventUnderCursor
+                window.__selected = char
+                "SELECTED ON MAP".p(char.AABattler().name()) if char?
+            mode = AA.Input.LMBTargetTouchMode
+            switch mode
+                when 0 # * ATTACK ONLY
+                    $gamePlayer.aaPerformPlayerAttack01(false)
+                when 1 # * DEFAULT (move)
                     _.ALIAS__onMapTouch.call(@)
-                return
+                when 2 # * SMART ATTACK
+                    $gamePlayer.aaPerformPlayerAttack01(true)
+                else # * 3, TURN
+                    $gamePlayer.turnTowardCharacter($gameTemp._aaEventUnderCursor)
             return
 
-        # * Этот метод используется когда идёт просто выбор цели
-        _.aaTrySelectTargetUnderTouch = ->
-            "Target select".p()
-            #TODO: возможно сравнить с текущей и не выбирать заного
-            char = @aaGetABSEntityInPosition(TouchInput.toMapPoint())
-            @aaOnClickOnABSCharacter(char) if char?
+        _._aaOnTouchOnMapBasic = ->
+            mode = AA.Input.LMBMapTouchMode
+            if mode == 0 # * ATTACK ONLY
+                $gamePlayer.aaPerformPlayerAttack01(false)
+            else if mode == 1 # * DEFAULT (move)
+                _.ALIAS__onMapTouch.call(@)
+            else # mode == 2
+                # * NOTHING, ничего
             return
 
+        # TODO: Пока только события собирает
         _.aaGetABSEntityInPosition = (point) ->
-            @_getABSEventOnPosition(point.x, point.y)
+            try
+                events = $gameMap.eventsXyAA(point.x, point.y)
+                return events.first() if events.length > 0
+            catch e
+                AA.w
+            return null
 
-        _._getABSEventOnPosition = (x, y) -> $gameMap.eventsXyAA(x, y)?.first()
-            
         _.aaOnClickOnABSCharacter = (char) ->
             try
                 $gamePlayer.aaTrySetTarget(char)
@@ -137,67 +81,54 @@ do ->
 
         # * Если вернуть true - то меню НЕ будет показано
         _.onMapCancelTouchAA = ->
-            # * инвернтарь, Hot бар и т.д.
-            if AA.UI.isAnyUIElementTouchProcess()
+            # * Отмена выбора зоны поражения навыка
+            if $gamePlayer.isInSkillTargetingState()
+                $gamePlayer.onSkillTargetCancel()
                 return true
-            return @_targetSelectionCancelTouch()
-
-        # * Обработка выбора или сброса целей на правую кнопку мыши
-        # * Если вернуть true - то меню НЕ будет показано
-        _._targetSelectionCancelTouch = ->
-            # * Если стоит выбор цели на правую кнопку мышки
-            if AA.Input.TargetSelectClick is 0 # * right select
-                return @_onTargetSelectRMBProcess()
+            # * инвернтарь, Hot бар и т.д.
+            return true if AA.UI.isAnyUIElementTouchProcess()
+            # * Новая система (без выбора целей)
+            # * Обновим поиск цели под курсором
+            @aaRefreshMouseDetection()
+            if $gameTemp._aaEventUnderCursor?
+                # * Нажатие по цели
+                isNotShowMenu = @_aaOnCancelTouchOnTarget()
             else
-                # * Если надо сбрасывать цель на RMB
-                if AA.Input.isResetTargetOnRMB()
-                    # * Если цель выбрана
-                    if $gamePlayer.aaIsHaveTarget()
-                        @_aaResetPlayerTarget()
-                        return true # * Не вызываем меню
-                    else
-                        # * Вызов меню
-                        return !AA.Input.isOpenMenuByRMB()
-                else
-                    return !AA.Input.isOpenMenuByRMB()
+                # * Нажатие по карте (просто)
+                isNotShowMenu = @_aaOnCancelTouchBasic()
+            return isNotShowMenu
 
-        # * Обработка выбора цели правой кнопкой мыши
-        # * Если вернуть true - то меню НЕ будет показано
-        _._onTargetSelectRMBProcess = ->
-            # * Если сбрасывать не надо, то просто выбор цели
-            unless AA.Input.isResetTargetOnRMB()
-                @aaTrySelectTargetUnderTouch()
-                char = @aaGetABSEntityInPosition(TouchInput.toMapPoint())
-                unless char?
-                    return !AA.Input.isOpenMenuByRMB()
-                else
-                    return true # * Если цель выбрана, то не открывать меню
-            else
-                # * Если надо сбрасывать, то смотрим есть ли кто-то под курсором
-                char = @aaGetABSEntityInPosition(TouchInput.toMapPoint())
-                unless char?
-                    # * Если нету, то сброс цели
-                    # * Используется условие, чтобы не вызывать меню если цель только была сброшена
-                    if $gamePlayer.aaIsHaveTarget()
-                        @_aaResetPlayerTarget()
-                        return true
-                    # * Иначе, если и не было, то будет вызвано меню (если стоит опция)
-                else
-                    # * Если есть, то выбор цели
-                    @aaTrySelectTargetUnderTouch()
-            # * Если надо показывать меню по RMB
-            if AA.Input.isOpenMenuByRMB()
-                # * Если цель была выбрана, то не показывать меню
-                if $gamePlayer.aaIsHaveTarget()
+        _._aaOnCancelTouchOnTarget = ->
+            mode = AA.Input.RMBTargetTouchMode
+            switch mode
+                when 0 # * ATTACK ONLY
+                    $gamePlayer.aaPerformPlayerAttack02(false)
                     return true
-                else
-                    # * Если нет (была сброшена, то показать)
+                when 1 # * Move
+                    _.ALIAS__onMapTouch.call(@)
+                    return true
+                when 2 # * SMART ATTACK
+                    $gamePlayer.aaPerformPlayerAttack02(true)
+                    return true
+                when 3 # TURN
+                    $gamePlayer.turnTowardCharacter($gameTemp._aaEventUnderCursor)
+                    return true
+                else # * 4, MENU
                     return false
-            else
-                return true # * Не показываем меню
 
-        # * Сбросить цель игрока
-        _._aaResetPlayerTarget = -> @aaOnClickOnABSCharacter(null)
+        _._aaOnCancelTouchBasic = ->
+            mode = AA.Input.RMBMapTouchMode
+            switch mode
+                when 0 # * Menu
+                    return false # * false - значит меню будет открыто
+                when 1 # * Attack Secondary
+                    $gamePlayer.aaPerformPlayerAttack02(false)
+                    return true
+                when 2 # * Move
+                    _.ALIAS__onMapTouch.call(@)
+                    return true
+                else # * Nothing
+                    return true
 
     return
 # ■ END Scene_Map.coffee

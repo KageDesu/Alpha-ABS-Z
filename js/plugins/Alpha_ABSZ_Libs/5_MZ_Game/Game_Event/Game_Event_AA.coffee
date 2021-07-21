@@ -67,6 +67,7 @@ do ->
         ALIAS__initABS = _.initABS
         _.initABS = ->
             ALIAS__initABS.call(@)
+            @aaStoreMoveData()
             $gameTemp.aaRegisterAILogicThread(@eventId())
             return
 

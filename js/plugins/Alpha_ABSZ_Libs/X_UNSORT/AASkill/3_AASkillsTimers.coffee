@@ -21,7 +21,7 @@ class AASkillsTimers
     isSkillHaveTimer: (skillId) -> @_skills.contains(skillId)
 
     isSkillHaveTimerToShow: (skillId) ->
-        @isSkillHaveTimer(skillId) and @getTimerForSkill(skillId).maxValue >= 1
+        @isSkillHaveTimer(skillId) and @getTimerForSkill(skillId).maxValue >= 60
 
     # * В секундах
     getRemainTimeForSkill: (skillId) ->
@@ -33,11 +33,18 @@ class AASkillsTimers
     getTimerForSkill: (skillId) -> @_timers.find (t) -> t.skillId == skillId
 
     update: ->
-        for t in @_timers
-            t.update()
-            if t.isReady()
-                @_timers.delete(t)
-                @_skills.delete(t.skillId)
+        try
+            toDelete = []
+            # * Опасно удалять в переборке массива
+            for t in @_timers
+                continue unless t?
+                t.update()
+                if t.isReady()
+                    @_skills.delete(t.skillId)
+                    toDelete.push(t)
+            @_timers.delete(t) for t in toDelete
+        catch e
+            AA.w e
         return
 
 #╒═════════════════════════════════════════════════════════════════════════╛

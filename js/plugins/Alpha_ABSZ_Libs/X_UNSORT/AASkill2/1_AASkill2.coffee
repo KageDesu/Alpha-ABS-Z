@@ -54,13 +54,19 @@ class AASkill2
         db[@databaseId]
 
     # * Надо выбирать зону поражения для навыка
-    isNeedSelectZone: -> @isInPoint() and @range > 0
+    isNeedSelectZone: -> @selectZone == 1 and @range > 0
 
     # * Нет "полёта", приминение сразу в точке (зоне поражения)
     isInstant: -> @speed <= 0
 
-    # * Направление - в точку
-    isInPoint: -> @direction == 1
+    # * Имеет направление (точка)
+    isInPoint: -> @direction > 0
+
+    # * Имеет конечную точку (летит прямо в точку)
+    isInCertainPoint: -> @direction == 1
+
+    # * Летит по направлению точки
+    isInPointDirection: -> @direction == 2
 
     isNoContact: -> @noContact > 0
 
@@ -102,6 +108,7 @@ class AASkill2
         @direction = 0
         @speed = 0
         @noContact = 0
+        @reloadTime = 2
         @skillImg = ""
         return
 
@@ -127,11 +134,11 @@ do ->
     # * Базовые (фундаментальные) АБС параметры навыка
     _.initBase = ->
         # * Область поражения (1 - Х)
-        @radius = 1#2
-        @range = 1#4
-        #facing dir 0, point select 1
-        @direction = 0#1
-        @speed = 0#3
+        @radius = 1
+        @range = 1
+        #facing dir 0, point position 1, point direction 2
+        @direction = 0
+        @speed = 0
         return
 
     # * Основные АБС параметры навыка
@@ -144,6 +151,7 @@ do ->
     # * Настройки поведения на карте
     _.initOnMapSettings = ->
         @z = 3
+        @selectZone = 0
         @skillImg = "bullet0(8,5)"
         @hitOffset = $gameMap.tileWidth() * 0.6
         # * Если 1, то навык срабатывает в конце своего пути в любом случае
@@ -166,7 +174,7 @@ do ->
 
     # * Настройки анимации xAnima
     _.initAnimationSettings = ->
-        @actionStartDelay = 10
+        @actionStartDelay = 0
         #TODO: delay before skill apply
     
     return
