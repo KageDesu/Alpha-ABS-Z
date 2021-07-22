@@ -39,7 +39,7 @@ do ->
         homePoint = char.homePoint
         return unless homePoint?
         try
-            if char.aaIsNearThePoint(homePoint, 0)
+            if char.aaIsNearThePoint(homePoint, 1)
                 char.aaResetHomePoint() # * Сброс точки "дома"
                 @_restoreMoveData() # * Выход из режима движения
             else
@@ -94,6 +94,7 @@ do ->
     # * Восстановить настройки движения, если они были сохраненны
     _._restoreMoveData = ->
         try
+            "RESTORE MOVE DATA".p()
             @char()?.aaRestoreMoveData()
         catch e
             AA.w e

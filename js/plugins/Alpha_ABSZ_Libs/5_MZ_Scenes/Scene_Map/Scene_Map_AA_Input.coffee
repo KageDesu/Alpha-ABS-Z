@@ -127,6 +127,9 @@ do ->
                 when 2 # * Move
                     _.ALIAS__onMapTouch.call(@)
                     return true
+                when 3 # * Turn
+                    $gamePlayer.turnTowardCharacter(TouchInput.toMapPoint())
+                    return true
                 else # * Nothing
                     return true
 

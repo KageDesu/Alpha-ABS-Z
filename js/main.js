@@ -54,12 +54,12 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/BuffIconsController.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/DataManager_AA.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Diagonal_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/EnemyAI_BattleFlow.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/EnemyAI_FlowMachine.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/EnemyAI_FreeFlow.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionAA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionResult_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Actor_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Actor_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Battler_AA.js"
@@ -280,6 +280,16 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 
 
 

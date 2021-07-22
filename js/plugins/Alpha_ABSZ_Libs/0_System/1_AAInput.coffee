@@ -14,6 +14,9 @@ do ->
     #@[DEFINES]
     _ = AA.Input
 
+    # * Коэффицент скорости перемещения по диагонали
+    _.diagonalSpeed = 0.8
+
     # * Клавишы навыков (ячеек) для левой и правой кнопок мыши
     _.primarySkillSymbol = -> @skillPanelSymbols[0]
     _.secondarySkillSymbol = -> @skillPanelSymbols[1]
@@ -28,6 +31,7 @@ do ->
         return null
 
     _.init = (@settings) ->
+        _.IsDiagonal = @settings.isDiagonalMovement
         @_loadSkillPanelSymbols()
         @applyInputSettings()
         @applyKeybindings()
@@ -54,12 +58,8 @@ do ->
         return
 
     _._asignDefaultActionsKeys = ->
-        #@_asignKeyForAASymbol("ATK", @settings.kbAttack)
-        #@_asignKeyForAASymbol("DEF", @settings.kbDefense)
-        #@_asignKeyForAASymbol("TRS", @settings.kbSelectTarget)
-        #@_asignKeyForAASymbol("TRR", @settings.kbResetTarget)
-        #@_asignKeyForAASymbol("REL", @settings.kbReload)
-        #@_asignKeyForAASymbol("CMD", @settings.kbCommandMenu)
+        @_asignKeyForAASymbol("REL", @settings.kbReload)
+        @_asignKeyForAASymbol("CMD", @settings.kbCommandMenu)
         @_asignKeyForAASymbol("ROT", @settings.kbRotate)
         return
 
@@ -131,17 +131,32 @@ do ->
     #? 1 - Default (move)
     #? 2 - Nothing
     _._applyLMBMapTouchMode = ->
-        _.LMBMapTouchMode = 1
-        #TODO: parameters
+        _.LMBMapTouchMode = 1 # * Deafult
+        option = @settings.LMBMapTouchMode
+        if option.contains("att")
+            _.LMBMapTouchMode = 0
+        else if option.contains("Noth")
+            _.LMBMapTouchMode = 2
+        return
 
     # * Режим нажатия ПРАВОЙ кнопкой мыши ПО КАРТЕ (без цели)
     #? 0 - Default (open menu)
     #? 1 - Attack only (second skill)
     #? 2 - Move
-    #? 3 - Nothing
+    #? 3 - Turn
+    #? 4 - Nothing
     _._applyRMBMapTouchMode = ->
-        _.RMBMapTouchMode = 1
-        #TODO: parameters
+        _.RMBMapTouchMode = 0 # Default
+        option = @settings.RMBMapTouchMode
+        if option.contains("att")
+            _.RMBMapTouchMode = 1
+        else if option.contains("Mov")
+            _.RMBMapTouchMode = 2
+        else if option.contains("Tur")
+            _.RMBMapTouchMode = 3
+        else if option.contains("Noth")
+            _.RMBMapTouchMode = 4
+        return
 
     #? 0 - Attack only
     #? 1 - Default (move)
@@ -149,17 +164,31 @@ do ->
     #? 3 - Turn
     # * Режим нажатия ЛЕВОЙ кнопкой мыши ПО ЦЕЛИ
     _._applyLMBTargetTouchMode = ->
-        _.LMBTargetTouchMode = 2
-        #TODO: parameters
+        _.LMBTargetTouchMode = 1 # * Default
+        option = @settings.LMBTargetTouchMode
+        if option.contains("att")
+            _.LMBTargetTouchMode = 0
+        else if option.contains("Smar")
+            _.LMBTargetTouchMode = 2
+        else if option.contains("Tur")
+            _.LMBTargetTouchMode = 3
+        return
 
     #? 0 - Attack only
-    #? 1 - Default (move)
+    #? 1 - Move
     #? 2 - Smart attack
     #? 3 - Turn
     # * Режим нажатия ПРАВОЙ кнопкой мыши ПО ЦЕЛИ
     _._applyRMBTargetTouchMode = ->
-        _.RMBTargetTouchMode = 2
-        #TODO: parameters
+        _.RMBTargetTouchMode = 0 # * Attack only
+        option = @settings.RMBTargetTouchMode
+        if option.contains("Smart")
+            _.RMBTargetTouchMode = 2
+        else if option.contains("Mov")
+            _.RMBTargetTouchMode = 1
+        else if option.contains("Tur")
+            _.RMBTargetTouchMode = 3
+        return
 
 
     return

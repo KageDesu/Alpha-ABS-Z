@@ -7,17 +7,19 @@ do ->
     #@[DEFINES]
     _ = Game_Actor::
 
-    #$[OVER]
-    _.isPlayer = -> @ == $gameParty.leader()
-
-    #$[OVER]
-    _.getAASkills = ->
-        # * Включает атаку и защиту (базовые 1 и 2)
-        #TODO: навык защиты надо тоже под АБС автоматически дорабатывать при загрузке
-        attackSkillId = @attackSkillId()
-        list = @skills().concat([$dataSkills[attackSkillId]])
-        return list.filter (skill) -> skill.AASkill?
-
+    #@[ALIAS]
+    ALIAS__performDamage = _.performDamage
+    _.performDamage = ->
+        if AA.isABS()
+            if @isPlayer() and AA.PP.isShakeScreenWhenPlayerGetDamage()
+                # * Стандартный метод (тряска экрана и звук)
+                ALIAS__performDamage.call(@)
+            else
+                # * Если не игрок, то нет тряски и звука
+                Game_Battler::performDamage.call(@)
+        else
+            ALIAS__performDamage.call(@)
+        
     
     return
 # ■ END Game_Actor.coffee

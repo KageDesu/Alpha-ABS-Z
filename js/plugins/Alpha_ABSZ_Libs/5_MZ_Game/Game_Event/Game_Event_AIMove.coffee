@@ -7,8 +7,12 @@ do ->
     #@[DEFINES]
     _ = Game_Event::
 
+    #TODO: Параметр, может ли враг двигаться диагонально
+
     # * Сохраняем базовые настройки движения события
     _.aaStoreMoveData = ->
+        # * Выполняется один раз, при первой инициализации
+        return if @_storedMoveData?
         @_storedMoveData = {}
         for item in ["_moveSpeed", "_moveType", "_moveFrequency"]
             @_storedMoveData[item] = @[item]
@@ -19,6 +23,7 @@ do ->
         return unless @_storedMoveData?
         for item in ["_moveSpeed", "_moveType", "_moveFrequency"]
             @[item] = @_storedMoveData[item]
+        return
         
     # * Восстановить базовую скорость движения события
     _.aaResetDefaultFreqAndSpeed = ->
@@ -106,7 +111,7 @@ do ->
                     if @homePoint?
                         @aaMoveTypeToPoint(@homePoint)
                     else
-                        @_restoreMoveData()
+                        @aaRestoreMoveData()
                 else
                    # * NOTHING
                     # Просто стоим

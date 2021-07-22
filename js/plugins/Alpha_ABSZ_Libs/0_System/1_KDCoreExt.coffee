@@ -1,4 +1,17 @@
 #TODO: переместить в A_CORE или KDCOre
+
+
+# * Ищет элемент, у которого поле ID == id
+Array::getById = (id) -> @getByField('id', id)
+
+# * Ищет элемент, у которого поле FIELD (имя поля) == value
+Array::getByField = (field, value) ->
+    try
+        return @find((item) -> item[field] == value)
+    catch e
+        console.warn(e)
+        return null
+
 # * Draggable sprite
 #? KDCore.Sprite extension
 do ->

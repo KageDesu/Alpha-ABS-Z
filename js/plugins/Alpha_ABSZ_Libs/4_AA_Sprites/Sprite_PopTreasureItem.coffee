@@ -57,6 +57,8 @@ do ->
             return unless item?
             @set(item.name, item.iconIndex, count)
 
+        #TODO: Золото, опыт ???
+
         # * Задаём данные (текст, иконку, количество)
         set: (@text, @iconIndex, @count) ->
             return unless String.any(@text)

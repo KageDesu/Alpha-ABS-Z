@@ -7,6 +7,10 @@ do ->
     #@[DEFINES]
     _ = Game_Player::
 
+    # * Когда сцена карты останавливается (сменяется другой)
+    _.aaOnMapSceneEnd = ->
+        @onSkillTargetCancel() if @isInSkillTargetingState()
+
     # * Можно ли управлять? (АБС элементы: навыки, атака и всё в этом роде)
     _.canBeControlled = -> @isActive() && AA.isABS()
 
@@ -29,10 +33,9 @@ do ->
         console.info $gameTemp._aaSkillSelectorTargets
         @startPerformAASkill(TouchInput.toMapPoint())
         # * Сбрасываем состояние?
-        @_resetAAState()
+        @onSkillTargetCancel()
 
-    _.onSkillTargetCancel = ->
-        #TODO:
+    _.onSkillTargetCancel = -> @_resetAAState()
 
     # * Подготовка навыка к выполнению (сюда передаётся базовый объект навыка)
     _.prepareAASkillToExecute = (skill) ->

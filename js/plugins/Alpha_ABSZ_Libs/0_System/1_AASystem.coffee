@@ -84,6 +84,7 @@ do ->
         # * Сцена карты завершается (переключение сцены)
         _.onMapSceneStopped = ->
             AA.UI.terminate()
+            $gamePlayer.aaOnMapSceneEnd()
             $gameTemp.aaClearAILogicThreads()
             return
 

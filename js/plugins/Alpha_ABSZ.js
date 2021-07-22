@@ -7,7 +7,7 @@
  * @help
  *
 
- * @param Test
+ * @param AABSZ
  * 
  * @param HPGauge:struct
  * @type struct<LActorGauge>
@@ -17,7 +17,7 @@
  * @param fonts:strA
  * @text Fonts
  * @type text[]
- * @default ["AABS_0","AABS_1"]
+ * @default ["AABS_0","AABS_1","AABS_2"]
  * @desc TODO:
  * 
  * @param inputSettings:struct
@@ -55,39 +55,45 @@
  */
 /*~struct~LInputSettings:
 
-@param mouseAction
-@text Left Mouse Click
+@param LMBMapTouchMode
+@text LMB Map Touch
 @type select
-@option Attack Only
-@option Movement Only
-@option Combined
-@default Attack Only
+@option Primary attack
+@option Default (move)
+@option Nothing
+@default Default (move)
 @desc TODO: wiki page?
 
-@param targetSelect
-@text Target Select
+@param RMBMapTouchMode
+@text RMB Map Touch
 @type select
-@option Left Mouse Button
-@option Right Mouse Button
-@default Right Mouse Button
-@desc TODO:
+@option Default (menu)
+@option Secondary attack
+@option Move
+@option Turn
+@option Nothing
+@default Turn
+@desc TODO: wiki page?
 
-@param targetReset:b
-@text Target Reset (RMB)
-@type boolean
-@on Yes
-@off No
-@default true
-@desc Always reset target by right mouse click?
+@param LMBTargetTouchMode
+@text LMB Target Touch
+@type select
+@option Primary attack
+@option Default (move)
+@option Smart attack (Primary)
+@option Turn
+@default Smart attack (Primary)
+@desc TODO: wiki page?
 
-@param menuByRightClick:b
-@text Open Menu (RMB)
-@type boolean
-@on Yes
-@off No
-@default false
-@desc Open menu by right mouse click?
-
+@param RMBTargetTouchMode
+@text RMB Target Touch
+@type select
+@option Secondary attack
+@option Move
+@option Smart attack (Secondary)
+@option Turn
+@default Smart attack (Secondary)
+@desc TODO: wiki page?
 
 @param moveType
 @text Movement
@@ -97,42 +103,16 @@
 @default WASD and Arrows
 @desc Keyboard keys for character movement
 
-@param rotateType
-@text Rotatation
-@type select
-@option Target
-@option Mouse
-@option Both
-@option None
-@default Target
-@desc When Rotate key pressed, rotate player toward...(None - no rotation)
+@param isDiagonalMovement:b
+@text Diagonal Movement?
+@type boolean
+@default true
+@on Yes
+@off No
+@desc Moving in 8 directions?
 
 @param keybingind
 @text Key Bindings
-
-@param kbAttack
-@text Attack
-@parent keybingind
-@default E
-@desc TODO:
-
-@param kbDefense
-@text Defense
-@parent keybingind
-@default F
-@desc TODO:
-
-@param kbSelectTarget
-@text Next Target
-@parent keybingind
-@default Q
-@desc TODO:
-
-@param kbResetTarget
-@text Reset Target
-@parent keybingind
-@default Z
-@desc TODO:
 
 @param kbReload
 @text Reload
@@ -153,6 +133,7 @@
 @desc TODO:
 
 */
+
 /*~struct~LActorGauge:
  * @param visible:bool
  * @text Is Visible?
@@ -343,6 +324,7 @@
  * @type combo
  * @option AABS_0
  * @option AABS_1
+ * @option AABS_2
  * @default AABS_0
  *
  * @param size:int

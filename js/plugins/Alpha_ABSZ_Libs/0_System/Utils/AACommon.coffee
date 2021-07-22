@@ -71,6 +71,26 @@ do ->
                 return null
         return null
 
+    _.get8Dir = (d) ->
+        switch d
+            when 1
+                [4, 2]
+            when 3
+                [6, 2]
+            when 7
+                [4, 8]
+            when 9
+                [6, 8]
+            else
+                [0, 0]
+
+    _.get4Dir = (horz, vert) ->
+        return 1 if horz == 4 and vert == 2
+        return 3 if horz == 6 and vert == 2
+        return 7 if horz == 4 and vert == 8
+        return 9 if horz == 6 and vert == 8
+        0
+
     return
 
 # ■ END COMMON.coffee
