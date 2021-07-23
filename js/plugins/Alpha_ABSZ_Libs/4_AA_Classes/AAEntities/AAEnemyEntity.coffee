@@ -22,7 +22,7 @@ class AAEnemyEntity extends AAEntity
             super()
             # * Инициализация системы в первый раз
             @aaModel = new AAEnemyModelData(@eventId)
-            @aaBattler = new AAEnemyBattler(@aaModel.enemyId)
+            @aaBattler = new AAEnemyBattler(@aaModel.enemyId, @eventId)
             @aaLogic = new EnemyAI_FlowMachine(@eventId)
         else
             # * Повторная инициализация (например после выхода из меню)

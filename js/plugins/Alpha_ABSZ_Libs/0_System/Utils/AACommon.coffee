@@ -9,11 +9,13 @@ do ->
 
     _.isAASkill = (skillIdOrSkill) ->
         if isFinite(skillIdOrSkill)
+            return false if skillIdOrSkill <= 0
             skillIdOrSkill = $dataSkills[skillIdOrSkill]
         return skillIdOrSkill.AASkill?
 
     _.isAAItem = (itemIdOrItem) ->
         if isFinite(itemIdOrItem)
+            return false if itemIdOrItem <= 0
             itemIdOrItem = $dataItems[skillIdOrSkill]
         return itemIdOrItem.AASkill?
 

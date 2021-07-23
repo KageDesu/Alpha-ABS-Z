@@ -91,7 +91,10 @@ do ->
         #TODO: алгоритм выбора действия для использования сейчас
         skills = @battler().getUsableAASkills()
         if skills.length > 0
-            @_setCurrentAction(skills.first())
+            if skills.length == 1
+                @_setCurrentAction(skills[0])
+            else
+                @_selectBetterActionForNow(skills)
         else
             @_resetCurrentAction()
         return
@@ -100,6 +103,12 @@ do ->
         #TODO: Надо это или нет?
         @_nextActionCheck = 20
 
+    _._selectBetterActionForNow = (skills) ->
+        #TODO: Все навыки применить testApply и выбрать лучший + тот который
+        # можно использовать без подхода к цели
+        #TODO: пока просто первый возвращаем
+        @_setCurrentAction(skills.first())
+        return
 
     _._resetCurrentAction = ->
         @_currentAction = null
@@ -111,9 +120,22 @@ do ->
     # * Находится ли цель на расстроянии применения действия
     _._isActionInDistance = ->
         aaSkill = @_currentAction.AASkill
-        range = aaSkill.range
-        #TODO: Можно более точное уточнение, например только передо мной, если melee
-        return AATargetsManager.isCharExtInRadius(@char(), range, @target())
+        if aaSkill.isSelfAction()
+            # * Если для врагов, то проверим, что враг в области radius действия навыка
+            if aaSkill.isForEnemies()
+                return AATargetsManager.isCharExtInRadius(@char(), aaSkill.radius, @target())
+            else
+                return true
+        else
+            # * range <= 1 тут используется, чтобы монстр мог ударить диагонально, но не больше 1 клетки
+            if aaSkill.isInPoint() || aaSkill.range <= 1
+                return AATargetsManager.isCharExtInRadius(@char(), aaSkill.range, @target())
+            else
+                # * Пока просто проверка расстояния
+                #range = aaSkill.range
+                #TODO: * Цель должна быть передо мной (на прямом направлении)
+                # (см. inDirectionHard в Alpha ABS)
+                return AATargetsManager.isCharExtInRadius(@char(), aaSkill.range, @target())
     
     _._executeAction = ->
         try
@@ -127,11 +149,9 @@ do ->
                 @_resetCurrentAction()
             else
                 "EEXECUTGE".p()
-                # * Смотреть как на gamePlayer сделано и эти методы использовать
-                @char().aaTurnTowardTarget()
-                skill = @_currentAction.AASkill
-                @battler().useItem(@_currentAction)
-                AABattleActionsManager.startAASkill(skill, @char(), $gamePlayer)
+                char = @char()
+                char.setActiveAASkill(@_currentAction.id)
+                char.startPerformAASkill($gamePlayer)
         catch e
             AA.w e
 

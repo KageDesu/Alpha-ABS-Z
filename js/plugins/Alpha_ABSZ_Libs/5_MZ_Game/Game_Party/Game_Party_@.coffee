@@ -16,6 +16,15 @@ do ->
         @_actors = [@_actors.first()]
         return
     
+    #@[ALIAS]
+    ALIAS__gainItem = _.gainItem
+    _.gainItem = (item, amount, includeEquip) ->
+        ALIAS__gainItem.call(@, item, amount, includeEquip)
+        #TODO: Пока так, но вообще это будет отдельный плагин
+        if amount > 0 and @itemContainer(item)?
+            @aaShowNotifyForItemGain(item, amount) if AA.PP.isShowItemGainNotify()
+        return
+
     return
 # ■ END Game_Party.coffee
 #---------------------------------------------------------------------------

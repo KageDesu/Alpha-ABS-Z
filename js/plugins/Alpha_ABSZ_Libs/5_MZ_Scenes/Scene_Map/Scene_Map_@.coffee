@@ -6,13 +6,6 @@ do ->
 
     #@[DEFINES]
     _ = Scene_Map::
-
-    #@[ALIAS]
-    ALIAS__start = _.start
-    _.start = ->
-        # * Чтобы каждый раз проверу не делать на instanceof
-        $gameTemp._isMapScene = true
-        ALIAS__start.call(@)
     
     #@[ALIAS]
     ALIAS__onMapLoaded = _.onMapLoaded

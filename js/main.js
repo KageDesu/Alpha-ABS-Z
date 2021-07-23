@@ -67,6 +67,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_BattlerBase_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_AASkills.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Character_AnimaX.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_CharacterBase_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_CharacterBase_AA.js"
@@ -80,6 +81,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AASkills.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_AA.js"
@@ -280,6 +282,9 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
 
 
 

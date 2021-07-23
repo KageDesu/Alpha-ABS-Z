@@ -84,9 +84,17 @@ do ->
         targets = []
         # * Сформировать квадрат выбора
         searchMapPoints = @_createSquarePoints(aaSkill.radius, point)
-        #console.info(searchMapPoints)
         targets = @_collectAllAAEntitiesInPoints(searchMapPoints)
         return targets
+
+    _.collectTargetsForPlayerSelector = (aaSkill) ->
+        try
+            targets = @collectTargetsForSkillInScreenPoint(aaSkill, TouchInput)
+            # * Фильтр целей сразу
+            return @filteredTargetsForSubject($gamePlayer, aaSkill, targets)
+        catch e
+            AA.w e
+            return []
 
     # * Создаём точки карты в квадратной области навыка (пиксели)
     _._createSquarePoints = (radius, point) ->
@@ -202,6 +210,13 @@ do ->
         catch e
             AA.w e
             return false
+
+    # * Получить всех ботов, которые имеют игрока своей целью
+    #TODO: TeamID учёт
+    # * На данный момент не проверяется кто именно цель, так как нету сопартийцев и teamId
+    _.getAllWhoHavePlayerAsTarget = ->
+        return $gameMap.eventsAA().filter (e) -> e.AAEntity().isHasTarget()
+
     
     return
 # ■ END IMPLEMENTATION.coffee

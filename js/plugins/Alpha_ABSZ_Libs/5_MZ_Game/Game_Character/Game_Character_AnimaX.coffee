@@ -7,7 +7,24 @@ do ->
     #@[DEFINES]
     _ = Game_Character::
 
+
+    # * Методы ниже даже не учитываются, если плагин не подключён
     return unless Imported.PKD_AnimaX is true
+
+    
+    # * Логика состояний анимации (бой, смерть) (всегда работает)
+    _.aaUpdateABSAnimaX = ->
+        return unless @isAnimX()
+        if @_aaIsInBattleAnimaXState()
+            if @_axState != 'inBattle'
+                @switchToXAnimaState('inBattle')
+        else
+            if @_axState != 'base'
+                @resetXAnimaState()
+        return
+
+    # * Game_Event and Game_Player имеют разную реализацию
+    _._aaIsInBattleAnimaXState = -> false
 
     #@[ALIAS]
     ALIAS__createNewAnimaXForCharacter = _.createNewAnimaXForCharacter

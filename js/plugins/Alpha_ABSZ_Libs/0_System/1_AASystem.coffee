@@ -55,7 +55,7 @@ do ->
 
         _.isABS = -> $gameSystem._isABS is true
 
-        _.isMap = -> $gameTemp._isMapScene is true
+        _.isMap = -> KDCore.Utils.isSceneMap()
 
         _.update = ->
 
@@ -70,6 +70,7 @@ do ->
         _.onGameDataLoaded = ->
             # * Парсим (читаем) АБС параметры в БД
             AA.Utils.Parser.processABSSkillsNotetags()
+            AA.Utils.Parser.processABSEnemiesNotetags()
             # * По умлочанию, система всегда активированна
             $gameSystem._isABS = true
             #TODO: Сброс АБС системы (например игрок вышел из карты на титульник)

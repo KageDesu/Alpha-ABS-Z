@@ -48,6 +48,8 @@ do ->
 
         # * Логика АБС (только если АБС включена)
         _.aaUpdateABS = ->
+            @_aaUpdateDelayedSkillActions()
+            @aaUpdateABSAnimaX() if Imported.PKD_AnimaX
             @AABattler()?.aaUpdateABS()
 
     # -----------------------------------------------------------------------
@@ -96,8 +98,9 @@ do ->
         if @isAnimX()
             # * Персонаж не может идти, если он выполняет действие анимации
             return false if @isAnimXIsBusy()
-        else
-            return true
+        if AA.isABS()
+            return @AABattler().canMove()
+        return true
 
     # * Позиция с учётом расширенных HitBox
     # * Реализован отдельный метод, так как HitBox учитывается только при поражении навыками
@@ -155,6 +158,8 @@ do ->
 
     # * Есть ли у персонажа расширенные HitBox для АБС навыков
     _.aaIsHaveExtendedHitBoxes = -> @_aaExtendedHitBox?
+
+    _.aaUpdateABSAnimaX = -> # * EMPTY (Переопределяется в Game_Character_AnimaX)
 
     return
 # ■ END Game_CharacterBase.coffee

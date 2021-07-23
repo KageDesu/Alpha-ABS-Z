@@ -143,6 +143,8 @@ do ->
                     @aaOnDefeat()
             return
 
+        _._aaIsInBattleAnimaXState = -> @AAEntity().inBattle()
+
         return
     # -----------------------------------------------------------------------
 

@@ -155,10 +155,7 @@ do ->
     _._checkHitPlayer = ->
         #TODO: friendlyfier is 1
         return false if @skill.isSubjectIsPlayer()
-        #TODO: Тут надо учитывать Extended Hit Box
-        dist = AA.Utils.Math.getXYDistance(
-            $gamePlayer.screenX(), $gamePlayer.screenY() - $gameTemp.aaProjYOff, @x, @y
-        )
+        dist = AATargetsManager.getScreenExtDistance($gamePlayer, $gameTemp.aaProjYOff, @x, @y)
         return dist < @_hitDist && @isSameMapLevel($gamePlayer._priorityType)
 
     # * Когда достиг точки на карте (указанной как цель)
@@ -173,15 +170,11 @@ do ->
 
     # * Когда достиг события
     _._checkHitEvent = () ->
-        subId = @skill.subject
+        subId = @skill.getSubjectEvId()
         for ev in $gameMap.events()
             continue unless ev?
             # * В себя нельзя попасть
             continue if ev.eventId() == subId
-            #TODO: Тут надо учитывать Extended Hit Box, возможно у события будет несколько ScreenX, ScreenY
-            #dist = AA.Utils.Math.getXYDistance(
-            #    ev.screenX(), ev.screenY() - $gameTemp.aaProjYOff, @x, @y
-            #)
             dist = AATargetsManager.getScreenExtDistance(ev, $gameTemp.aaProjYOff, @x, @y)
             if dist < @_hitDist && @isEventIsObstacle(ev)
                 return ev
@@ -198,10 +191,12 @@ do ->
     # * Блокирует ли событие Projectile ?
     _.isEventIsObstacle = (event) ->
         return false if event._erased
-        return true unless event._aaMapSkillVectorBlockList?
-        return false if event._aaMapSkillVectorBlockList.isEmpty()
-        return !event._aaMapSkillVectorBlockList.contains(@skill.id())
-        return @isSameMapLevel(event._priorityType)
+        return false if event.isThrough()
+        unless event._aaMapSkillVectorBlockList?
+            return @isSameMapLevel(event._priorityType)
+        else
+            return false if event._aaMapSkillVectorBlockList.isEmpty()
+            return !event._aaMapSkillVectorBlockList.contains(@skill.id())
 
     _.onHit = (target) ->
         @_hasHit = true

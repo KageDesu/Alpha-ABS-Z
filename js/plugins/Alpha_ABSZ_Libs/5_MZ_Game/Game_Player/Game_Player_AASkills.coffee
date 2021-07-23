@@ -75,6 +75,48 @@ do ->
             AA.w e
         return
     
+    # * Подготовка навыка к выполнению (сюда передаётся базовый объект навыка)
+    _.prepareAASkillToExecute = (skill) ->
+        console.log("Use skill " + skill.name)
+        #TODO: А если предмет???
+        #TODO: Анимация навыка атаки
+        @setActiveAASkill skill.id
+        skill = @activeAASkill()
+        # * Если навык работает по направлению точки (курсора)
+        if skill.isInPoint()
+            # * Если надо выбирать зону, то выбор зоны
+            if skill.isNeedSelectZone()
+                # * Сбор целей сразу в точке где сейчас курсор
+                AATargetsManager.collectTargetsForPlayerSelector(@activeAASkill())
+                @_setAAStateToSelectSkillTarget()
+            else
+                point = TouchInput.toMapPoint()
+                if skill.isInstant() || skill.isInCertainPoint()
+                    # * Надо проверить находится ли точка в Range навыка
+                    if AATargetsManager.isInSkillRange(@, @_activeAASkillId, point)
+                        @startPerformAASkill(point)
+                    else
+                        # * NOTHING
+                        #TODO: Показать область range применения (моргнуть)
+                        #TODO: Написать Notify (small range)
+                        AA.UI.skillPerformResult(@_activeAASkillId, 0)
+                        @setActiveAASkill null
+                else
+                    # * Направление по точке
+                    @startPerformAASkill(point)
+        else
+            # * Передаём себя в качестве точки (direction == 0 - напрвление персонажа)
+            @startPerformAASkill(@toPoint())
+        return
+
+    # * Обновление навыков для панели задач (при смене лидера)
+    # * Также выполняется начальная расстановка навыков
+    _.aaRefreshABSSkillsForPanel = ->
+        return unless @AABattler()?
+        @aaSkillsSet?.setActorId(@AABattler().actorId())
+        #TODO: rise refresh skill panel event!
+        return
+
     return
 # ■ END Game_Player.coffee
 #---------------------------------------------------------------------------

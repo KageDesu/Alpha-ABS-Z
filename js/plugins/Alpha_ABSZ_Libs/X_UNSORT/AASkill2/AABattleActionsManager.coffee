@@ -44,7 +44,10 @@ do ->
             "applySkillAction".p()
             animationId = @getProperAnimationId(subject, absSkill)
             if target instanceof Game_Character
-                @playAnimationOnCharacter(target, animationId)
+                if absSkill.animationOnMap is 0
+                    @playAnimationOnCharacter(target, animationId)
+                else
+                    @playAnimationOnMap(target.x, target.y, animationId)
             else
                 # * Если навык требует контакт, то нет никаких эффектов
                 return unless absSkill.isNoContact()

@@ -1,8 +1,13 @@
+# * Так же передаём номер события, чтобы был доступ к модели и логике
 class AAEnemyBattler extends Game_Enemy
-    constructor: (enemyId) ->
+    constructor: (enemyId, @eventId) ->
         super(enemyId, 0, 0)
         # * Проверка делается один раз, так как навыки не меняются
         @_isHaveAnyAASkill = @_checkAASkillsInActions()
+        @_aaAttackHitAnimationId = @char().AAModel().hitAnimationId
+        return
+
+    char: -> $gameMap.event(@eventId)
 
     getAASkills: -> @_selectAASkillsFromActions().map (skillId) -> $dataSkills[skillId]
     
@@ -15,8 +20,7 @@ class AAEnemyBattler extends Game_Enemy
         isABS = @aaIsActionValid(action)
         return isABS && Game_Enemy::isActionValid.call(@, action)
 
-    #TODO: ABS parameter attackAnimationID - для базового навыка атаки своя анимация
-    attackAnimationId1: -> 129 #TODO: temp
+    attackAnimationId1: -> @_aaAttackHitAnimationId
 
     # * У монстров не может быть двуручной атаки, поэтому всегда 0
     attackAnimationId2: -> 0

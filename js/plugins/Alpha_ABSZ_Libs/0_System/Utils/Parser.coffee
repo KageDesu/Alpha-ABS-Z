@@ -17,9 +17,17 @@ do ->
         for item in $dataItems
             continue unless item?
             _.processABSSkillParamsInItem(item, true)
+        #TODO: checkWeapon aaAttackSkill Note
         _.checkInitialAttackABSSkill()
         return
     
+    # * Для врагов
+    _.processABSEnemiesNotetags = ->
+        for item in $dataEnemies
+            continue unless item?
+            _.processABSEnemyParams(item)
+        return
+
     # * Навык атаки всегда должен быть АБС 0
     _.checkInitialAttackABSSkill = ->
         try
@@ -119,6 +127,20 @@ do ->
         catch e
             AA.w e
             return []
+
+    # * Чтение параметров врагов
+    _.processABSEnemyParams = (item) ->
+        return unless item.meta?.ABS?
+        try
+            params = []
+            paramsRaw = _.extractABSParametersFromDBItem(item)
+            for param in paramsRaw
+                paramPair = _.extractABSParameter(param) #ACore
+                params.push(paramPair) if paramPair?
+            data = params
+            item.AAEnemy = data
+        catch e
+            AA.w e
 
     return
 

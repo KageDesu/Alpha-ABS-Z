@@ -7,11 +7,6 @@ do ->
     #@[DEFINES]
     _ = Scene_Base::
 
-    #@[ALIAS]
-    ALIAS__create = _.create
-    _.create = ->
-        $gameTemp?._isMapScene = false
-        ALIAS__create.call(@)
     
     return
 # ■ END Scene_Base.coffee

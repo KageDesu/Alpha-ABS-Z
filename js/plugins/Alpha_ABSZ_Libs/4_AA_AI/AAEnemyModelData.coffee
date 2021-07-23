@@ -7,7 +7,7 @@ class AAEnemyModelData
     constructor: (@eventId) ->
         @enemyId = @eventSettings().getEnemyId()
         @_initBaseParameters()
-        #@_applyParametersFromDB() #TODO: from database
+        @_applyParametersFromDB()
         @_applyParametersFromEvent()
 
         #@miniHpGaugeStyle = "miniHpGauge1"
@@ -39,6 +39,8 @@ class AAEnemyModelData
 
     #TODO: basik shake effect strength when hitted
 
+    enemy: -> $dataEnemies[@enemyId]
+
     eventSettings: -> $gameMap.event(@eventId).aaEventSettings
 
     isHaveDeadSwitch: -> AA.Utils.checkSwitch(@deadSwitch)
@@ -56,12 +58,33 @@ class AAEnemyModelData
     
         # * Инициализация базовых настроек
         _._initBaseParameters = ->
-            @shatterEffect = 1
-            @deadSwitch = 0
-            @onDeath = 0
-            @eraseOnDead = 1
+            @_initMain()
+            @_initOnMapSettings()
+            @_initOtherSettings()
+            @_initAnimationSettings()
+            
+        _._initMain = ->
+            @onDeath = 0 #AScript
             @returnRadius = 12
             @viewRadius = 5
+            return
+
+        _._initOnMapSettings = ->
+            @shatterEffect = 1
+            @deadSwitch = 0 #Switch (A, B, C, D)
+            @eraseOnDead = 1
+            return
+
+        _._initOtherSettings = ->
+
+        _._initAnimationSettings = ->
+            @hitAnimationId = 1 # ID анимации
+            return
+
+        _._applyParametersFromDB = ->
+            params = @enemy().AAEnemy
+            return unless params?
+            @[p[0]] = p[1] for p in params
             return
 
         # * Применяем параметры из страницы события

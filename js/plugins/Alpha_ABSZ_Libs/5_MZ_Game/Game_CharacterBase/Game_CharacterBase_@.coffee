@@ -11,13 +11,16 @@ do ->
     ALIAS__initMembers = _.initMembers
     _.initMembers = ->
         ALIAS__initMembers.call(@)
+        # * Набор навыков с задержкой
+        @aaDelayedSkillActions = []
         @aaClearCharacterEffects()
     
     #@[ALIAS]
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
-        @aaUpdateABS() if @isABS() and AA.isABS()
+        @aaUpdateABS() if @isABS() && AA.isABS()
+        return
 
         
     # * Диагональное движение

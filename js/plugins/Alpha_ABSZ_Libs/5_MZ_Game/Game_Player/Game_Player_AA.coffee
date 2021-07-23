@@ -16,13 +16,6 @@ do ->
 
     _.isInSkillTargetingState = -> @aaState == 'skill'
 
-    #TODO: А если предмет???
-    _.activeAASkill = ->
-        if @_activeAASkillId > 0
-            return $dataSkills[@_activeAASkillId].AASkill
-        else
-            return null
-
     #TODO:?
     # * Проверка цели (см. Game_CharacterBase_AA)
     _.aaIsValidTargetToSet = (target) -> true
@@ -37,92 +30,13 @@ do ->
 
     _.onSkillTargetCancel = -> @_resetAAState()
 
-    # * Подготовка навыка к выполнению (сюда передаётся базовый объект навыка)
-    _.prepareAASkillToExecute = (skill) ->
-        console.log("Use skill " + skill.name)
-        #TODO: А если предмет???
-        #TODO: Анимация навыка атаки
-        @_activeAASkillId = skill.id
-        skill = @activeAASkill()
-        # * Если навык работает по направлению точки (курсора)
-        if skill.isInPoint()
-            # * Если надо выбирать зону, то выбор зоны
-            if skill.isNeedSelectZone()
-                # * Сбор целей сразу в точке где сейчас курсор
-                AATargetsManager.collectTargetsForSkillInScreenPoint(
-                    @activeAASkill(), TouchInput
-                )
-                @_setAAStateToSelectSkillTarget()
-            else
-                point = TouchInput.toMapPoint()
-                if skill.isInstant() || skill.isInCertainPoint()
-                    # * Надо проверить находится ли точка в Range навыка
-                    if AATargetsManager.isInSkillRange(@, @_activeAASkillId, point)
-                        @startPerformAASkill(point)
-                    else
-                        # * NOTHING
-                        #TODO: Показать область range применения (моргнуть)
-                        #TODO: Написать Notify (small range)
-                        AA.UI.skillPerformResult(@_activeAASkillId, 0)
-                        @_activeAASkillId = null
-                else
-                    # * Направление по точке
-                    @startPerformAASkill(point)
-        else
-            # * Передаём себя в качестве точки (direction == 0 - напрвление персонажа)
-            @startPerformAASkill(@toPoint())
-        return
-
-    #TODO: Этот метод надо выносить на Game_Character
-    _.startPerformAASkill = (point) ->
-        console.log(point)
-        skill = @activeAASkill()
-        @turnTowardCharacter(point) if skill.isInPoint()
-        #TODO: temp
-        #TODO: skill animation ZAnima (if exists)
-        #TODO: Если есть Action skill, then skill action (SAction)
-        #TODO: if exists special action in spell then special (if have)
-        #TODO: or nothing
-        $gamePlayer.startAnimaXAA_Attack()
-
-        #TODO: Тут можно ещё дополнительную проверку canUse
-        # так как пока шёл выборо цели (например) мана могла закончиться
-
-        # * Игрок "платит" за навык как только использует его
-        @AABattler().useItem(skill.dbItem())
-        
-        # * Стоит ограничение задержки для безопасности
-        if skill.actionStartDelay > 0 and skill.actionStartDelay <= 60
-            @setupDelayedAASkill(skill, point)
-        else
-            AABattleActionsManager.startAASkill(skill, @, point)
-        return
-
-    _.setupDelayedAASkill = (skill, point) ->
-        @aaDelayedSkillActions.push(
-            [skill.actionStartDelay, AA.Utils.packAASkill(skill), AA.Utils.packAAPoint(point)]
-        )
-        return
-
-    #TODO: Это вынести на Battler
-    _._aaUpdateDelayedSkillActions = ->
-        #TODO: Навык с задержкой должен иметь задержку перед использованием иначе ошибка, если спамить навык
-        for action in @aaDelayedSkillActions
-            continue unless action?
-            if action[0]-- <= 0
-                skill = AA.Utils.unpackAASkill(action[1])
-                point = AA.Utils.unpackAAPoint(action[2])
-                AABattleActionsManager.startAASkill(skill, @, point)
-                @aaDelayedSkillActions.delete(action)
-        return
-
-    # * Обновление навыков для панели задач (при смене лидера)
-    # * Также выполняется начальная расстановка навыков
-    _.aaRefreshABSSkillsForPanel = ->
-        return unless @AABattler()?
-        @aaSkillsSet?.setActorId(@AABattler().actorId())
-        #TODO: rise refresh skill panel event!
-        return
+    #TODO: Возможно эта реализация довольно затратная по производительности
+    _._aaIsInBattleAnimaXState = ->
+        myEnemies = AATargetsManager.getAllWhoHavePlayerAsTarget()
+        if myEnemies.length > 0
+            inRadius = AATargetsManager.getFilteredInRadius(@, 10, myEnemies)
+            return inRadius.length > 0
+        return false
 
 
     # * Основные (приватные) методы АБС
@@ -139,8 +53,6 @@ do ->
         _._initMembersABS = ->
             @aaEntity = new AAPlayerEntity()
             @aaState = null # * Свободное состояние (нулевое)
-            # * Набор навыков с задержкой
-            @aaDelayedSkillActions = []
             @aaSkillsSet = new AASkillsSet()
             return
 
@@ -165,7 +77,6 @@ do ->
 
         _._aaUpdatePlayerABS = (sceneActive) ->
             if sceneActive is true
-                @_aaUpdateDelayedSkillActions()
                 @_aaUpdateStates()
                 @_aaUpdatePlayerInput()
 
@@ -174,9 +85,7 @@ do ->
                 when 'skill'
                     # * Обновляем цели под кругом выбора
                     $gameTemp._aaSkillSelectorTargets =
-                        AATargetsManager.collectTargetsForSkillInScreenPoint(
-                            @activeAASkill(), TouchInput
-                        )
+                        AATargetsManager.collectTargetsForPlayerSelector(@activeAASkill())
                 #? Не используется пока что
                 # * Работает, но проблема что надо сбрасывать во многих случаях - путаница
                 when 'smartAttack'

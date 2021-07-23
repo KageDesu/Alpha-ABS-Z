@@ -223,6 +223,10 @@ do ->
 
         isShakeScreenWhenPlayerGetDamage: () -> true
 
+        #TODO: ItemGain вынести в отдельный плагин
+        isShowItemGainNotify: -> true
+
+        #TODO: Всплывающий урон вынести в отдельный плагин
         #TODO: Сделать параметры всплывающего урона
         getPopUpDamageSettings: (id) ->
             settings = @getParam("popUpDamageTable", [])

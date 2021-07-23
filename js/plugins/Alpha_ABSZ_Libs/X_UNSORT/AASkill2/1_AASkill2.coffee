@@ -20,12 +20,12 @@
 #@[STORABLE]
 class AASkill2
     constructor: (@databaseId, @isItem = false) ->
-        @initBase()
-        @initMain()
-        @initOnMapSettings()
-        @initSelector()
-        @initOtherSettings()
-        @initAnimationSettings()
+        @_initBase()
+        @_initMain()
+        @_initOnMapSettings()
+        @_initSelector()
+        @_initOtherSettings()
+        @_initAnimationSettings()
         return
     
     # * Восстановить класс навыка из сохранённого ID (распаковка)
@@ -44,8 +44,8 @@ class AASkill2
         return
         
     animationId: ->
-        if @hitAnimation > 0
-            return hitAnimation
+        if @hitAnimationId > 0
+            return @hitAnimationId
         else
             return @dbItem().animationId
 
@@ -110,6 +110,8 @@ class AASkill2
         @noContact = 0
         @reloadTime = 2
         @skillImg = ""
+        @animaXAction = "Attack"
+        @actionStartDelay = 10
         return
 
 
@@ -132,7 +134,7 @@ do ->
     #TODO: animationFor: eachTarget, centerPoint
 
     # * Базовые (фундаментальные) АБС параметры навыка
-    _.initBase = ->
+    _._initBase = ->
         # * Область поражения (1 - Х)
         @radius = 1
         @range = 1
@@ -142,14 +144,14 @@ do ->
         return
 
     # * Основные АБС параметры навыка
-    _.initMain = ->
+    _._initMain = ->
         @friendlyEffect = 0 #TODO:
         @opponentsEffect = 1 # * Еффект на противоположную команду
         # * В СЕКУНДАХ
         @reloadTime = 0 # * Данный параметр может быть строкой
 
     # * Настройки поведения на карте
-    _.initOnMapSettings = ->
+    _._initOnMapSettings = ->
         @z = 3
         @selectZone = 0
         @skillImg = "bullet0(8,5)"
@@ -159,23 +161,24 @@ do ->
         @noContact = 0
         @popUpStyleId = "" # * Default
         # * Дополнительная анимация (используется на АБС карте, используется взамен параметра из БД)
-        @hitAnimation = 0
+        @hitAnimationId = 0
+        # * Если 1 , то в любом случае анимация будет на карте
+        @animationOnMap = 0
         return
 
     # * Параметры селектора на карте
-    _.initSelector = ->
+    _._initSelector = ->
         @selectorColor = "#bf9324"#"#FF22AA"
         @selectorImg = "RadiusSelect"#null
         @selectorOpacity = 220#200
 
     # * Дополнительные настройки навыка
-    _.initOtherSettings = ->
+    _._initOtherSettings = ->
         @hideOutsideABS = 0
 
     # * Настройки анимации xAnima
-    _.initAnimationSettings = ->
+    _._initAnimationSettings = ->
         @actionStartDelay = 0
-        #TODO: delay before skill apply
     
     return
 # ■ END AASkill2.coffee

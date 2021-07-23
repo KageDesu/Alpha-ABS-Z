@@ -55,11 +55,13 @@ do ->
         
     _.meetsABSSkillContitions = (skill) ->
         return false unless AA.Utils.isAASkill(skill)
+        return false unless @canMove()
         return @aaIsSkillReadyInTime(skill) && @meetsSkillConditions(skill)
 
     # * Вещи не имеют таймеров
     _.meetsABSItemContitions = (item) ->
         return false unless AA.Utils.isAAItem(skill)
+        return false unless @canMove()
         return @meetsItemConditions(item)
     
     return

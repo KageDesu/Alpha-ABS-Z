@@ -46,6 +46,14 @@ class AASkill2MapAction
 
     isSubjectIsPlayer: -> @packedSubject? and @packedSubject.type is 0
 
+    isSubjectIsEvent: -> @packedSubject? and @packedSubject.type is 1
+
+    getSubjectEvId: ->
+        if @isSubjectIsEvent()
+            return @packedSubject.id
+        else
+            return -1
+
     getSubject: -> AA.Utils.unpackAAEntity(@packedSubject)
 
     id: -> @aaSkill.databaseId
