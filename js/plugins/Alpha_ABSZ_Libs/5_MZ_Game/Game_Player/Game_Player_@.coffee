@@ -28,7 +28,7 @@ do ->
     ALIAS__canMove = _.canMove
     _.canMove = ->
         canMove = ALIAS__canMove.call(@)
-        if canMove && @isABS()
+        if canMove && @isABS() & AA.isABSActive()
             return @AABattler().canMove()
         else
             return canMove
@@ -37,7 +37,7 @@ do ->
     ALIAS__update = _.update
     _.update = (sceneActive) ->
         ALIAS__update.call(@, sceneActive)
-        @_aaUpdatePlayerABS(sceneActive)
+        @_aaUpdatePlayerABS(sceneActive) if AA.isABSActive()
 
     # * Диагональное движение
     # -----------------------------------------------------------------------

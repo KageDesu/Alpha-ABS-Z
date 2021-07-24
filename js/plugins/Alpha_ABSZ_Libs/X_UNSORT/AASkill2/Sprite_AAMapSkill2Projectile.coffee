@@ -204,6 +204,9 @@ do ->
         "HIT".p()
         console.info(target)
         AABattleActionsManager.applySkillAction(@skill.getSubject(), target, @skill.aaSkill)
+        # * Vector On Hit Actions работают отдельно, не в AABattleActionsManager
+        if target instanceof Game_Event
+            target.aaOnVectorHit(@skill.id())
         return
     
     return

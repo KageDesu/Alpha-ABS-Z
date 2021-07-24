@@ -25,6 +25,6 @@ class AAEnemyEntity extends AAEntity
             @aaBattler = new AAEnemyBattler(@aaModel.enemyId, @eventId)
             @aaLogic = new EnemyAI_FlowMachine(@eventId)
         else
-            # * Повторная инициализация (например после выхода из меню)
-            #TODO: resume ABS
+            # * Ничего
+            # * Повторная инициализация (например после выхода из меню) не нужна
         return

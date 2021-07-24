@@ -21,6 +21,7 @@ do ->
             AA.EV.init()
             @loadParameters()
             @applyParameters()
+            return
 
         _.loadParameters = ->
             AA.PP = new AA.ParamsManager()
@@ -43,23 +44,27 @@ do ->
     # -----------------------------------------------------------------------
     do ->
 
-        #TODO: Лог свой разработки
+        # * Этот метод выполняется всегда когда загружается карта
+        # * Не зависимо, ABS в паузе или нет
         _.startABS = ->
-            "START ABS SESSION".p()
-            @resumeABS()
-            @initManagers()
-            @initEnteties()
+            "START ABS SESSION ON MAP".p()
+            # * По умлочанию, система всегда активированна
+            @resumeABS() unless $gameSystem._isABS?
+            $gamePlayer.initABS()
+            $gameMap.initABS()
             return
 
         _.resumeABS = ->
             $gameSystem._isABS = true
 
-        _.stopABS = ->
+        _.pauseABS = ->
             $gameSystem._isABS = false
+            #TODO: rise GEvent
+            #TODO: Надо сбросить состояния игрока (например выбор навыка или каст)
+            #TODO: Надо сбросить состояние (в бою)
+            #TODO: Надо АИ логику сбросить (а то MoveType остаётся) (resetBattle)
 
-        _.isABS = -> $gameSystem._isABS is true
-
-        _.isMap = -> KDCore.Utils.isSceneMap()
+        _.isABSActive = -> $gameSystem._isABS is true
 
         _.update = ->
 
@@ -75,14 +80,11 @@ do ->
             # * Парсим (читаем) АБС параметры в БД
             AA.Utils.Parser.processABSSkillsNotetags()
             AA.Utils.Parser.processABSEnemiesNotetags()
-            # * По умлочанию, система всегда активированна
-            $gameSystem._isABS = true
-            #TODO: Сброс АБС системы (например игрок вышел из карты на титульник)
+            return
 
         # * Сцена карты загрузилась (или попали на сцену из меню, или Transfer)
         _.onMapSceneLoaded = ->
-            # * Возможно игрок отключил систему, поэтому проверяем isABS()
-            @startABS() if @isABS()
+            @startABS()
             AA.UI.refresh()
             return
 
@@ -109,19 +111,6 @@ do ->
 
         # * После загрузки
         _.onGameLoaded = ->
-
-        return
-    # -----------------------------------------------------------------------
-
-    # * Управление компонентами системы
-    # -----------------------------------------------------------------------
-    do ->
-
-        _.initManagers = ->
-
-        _.initEnteties = ->
-            $gamePlayer.initABS()
-            $gameMap.initABS()
 
         return
     # -----------------------------------------------------------------------

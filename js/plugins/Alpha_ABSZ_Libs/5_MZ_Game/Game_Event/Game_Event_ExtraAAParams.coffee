@@ -13,11 +13,28 @@ do ->
     #@[DEFINES]
     _ = Game_Event::
 
+    # * При попадании Projectile в событие
+    _.aaOnVectorHit = (skillId) ->
+        return unless @aaIsHaveVectorHitAction(skillId)
+        try
+            for action in @_aaMapSkillVectorHitActions[skillId]
+                AA.SAaction.execute(action, @)
+        catch e
+            AA.w e
+        return
+
     _.aaIsBlockVision = -> @_aaNoVisionPass is true
+
+    _.aaIsHaveVectorHitAction = (skillId) ->
+        #TODO: add ZERO 0 - for all
+        return false unless @_aaMapSkillVectorHitActions?
+        actions = @_aaMapSkillVectorHitActions[skillId]
+        return actions? and !actions.isEmpty()
 
     _.aaInitExtraParams = ->
         @_aaMapSkillVectorBlockList = null
         @_aaMapSkillVectorAction = false
+        @_aaMapSkillVectorHitActions = null
         @_aaMapSkillVectorOffset = 0
         @_aaExtendedHitBox = null
         @_aaNoVisionPass = false
@@ -29,10 +46,13 @@ do ->
         return unless @page()?
         @_aaExtractVectorOffsetParam()
         @_aaExtractVectorActions()
+        @_aaExtractVectorHitActions()
         @_aaExtractVectorBlockList()
         @_aaExtractExtendedHitBoxes()
         @_aaExtractNoVisionPass()
         return
+
+    #TODO: Добавить комментарии к методам
     
     _._aaExtractVectorOffsetParam = ->
         try
@@ -56,6 +76,34 @@ do ->
                     @_aaMapSkillVectorAction = AA.Utils.Parser.convertArrayFromParameter(param[1])
             else
                 @_aaMapSkillVectorAction = [] # * All
+        catch e
+            AA.warning e
+        return
+
+    # * Извлекает все onVectorHit действия
+    # Пример: <onVectorHit_307:ss_A_true>
+    _._aaExtractVectorHitActions = ->
+        try
+            onHitActions = KDCore.Utils.getEventCommentValueArray("onVectorHit", @list())
+            return if onHitActions.isEmpty()
+            @_aaMapSkillVectorHitActions = {}
+            for action in onHitActions
+                try
+                    actionData = AA.Utils.Parser.extractABSParameterAny(action)
+                    skillId = parseInt(actionData[0].split("_")[1])
+                    @_aaRegisterOnHitActionForSkill(skillId, actionData[1])
+                catch e
+                    AA.warning e
+        catch e
+            AA.warning e
+        return
+
+    # * Регестрирует SAction для навыка skillId при OnVectorHit
+    _._aaRegisterOnHitActionForSkill = (skillId, actionString) ->
+        try
+            unless @_aaMapSkillVectorHitActions[skillId]?
+                @_aaMapSkillVectorHitActions[skillId] = []
+            @_aaMapSkillVectorHitActions[skillId].push(actionString)
         catch e
             AA.warning e
         return

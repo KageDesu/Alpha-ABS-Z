@@ -11,20 +11,21 @@ do ->
     # -----------------------------------------------------------------------
     do ->
         # * Основной метод, является ли персонаж вообще ABS объектом
+        # * Тут НЕЛЬЗЯ добавлять доп. проверку на AA.isABSActive()
         _.isABS = -> @AAEntity()?
 
         _.AAEntity = -> @aaEntity
 
         _.initABS = ->
-            #TODO: Не стартовать если параметр выключен?
             @aaEntity?.initABS()
             @AASprite()?.initABS()
 
-        _.stopABS = -> @AAEntity()?.stopABS()
+        # * Деактивировать АБС режим
+        _.stopABS = ->
+            @aaEntity?.deactivate()
 
         # * Полностью отключить (очистить) АБС режим у персонажа
         _.clearABS = ->
-            @stopABS()
             @aaEntity = null
 
         _.AABattler = -> @AAEntity()?.battler()
@@ -98,7 +99,7 @@ do ->
         if @isAnimX()
             # * Персонаж не может идти, если он выполняет действие анимации
             return false if @isAnimXIsBusy()
-        if AA.isABS()
+        if AA.isABSMap()
             return @AABattler().canMove()
         return true
 

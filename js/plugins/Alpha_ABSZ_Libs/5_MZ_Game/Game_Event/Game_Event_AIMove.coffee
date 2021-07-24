@@ -66,10 +66,10 @@ do ->
             return unless @AAEntity().inBattle()
             # * Approach target
             @_moveType = 91
-            #TODO: from parameters approachMoveData[R,F,S]
-            if @distTo(@AAEntity().getTarget()) >= 3
-                @setMoveFrequency(5)
-                @setMoveSpeed(4)
+            params = @AAModel().approachMoveData
+            if @distTo(@AAEntity().getTarget()) >= params[0]
+                @setMoveFrequency(params[1])
+                @setMoveSpeed(params[2])
             else
                 @aaResetDefaultFreqAndSpeed()
         catch e
@@ -81,20 +81,12 @@ do ->
             return unless @AAEntity().inBattle()
             @_moveType = 92
 
-            #TODO: from model
-            minDist = 1 #2 #from param
-            maxDist = 6 #view radius (MAX)
-            isRandom = true
-
-            #inBattleMoveData[MIN, F, S, RAND]
-            #TODO: from parameters
-            @setMoveFrequency(3)
-            @setMoveSpeed(3)
-
-            @_aaNextMoveDecisionTime = 0
-            @_aaMinPatrolDist = minDist
-            @_aaMaxPatrolDist = maxDist
-            @_aaCanMakeRandomPatrolMove = isRandom
+            params = @AAModel().inBattleMoveData
+            @setMoveFrequency(params[1])
+            @setMoveSpeed(params[2])
+            @_aaMinPatrolDist = params[0]
+            @_aaMaxPatrolDist = @AAModel().viewRadius
+            @_aaCanMakeRandomPatrolMove = params[3]
         catch e
             AA.w e
 

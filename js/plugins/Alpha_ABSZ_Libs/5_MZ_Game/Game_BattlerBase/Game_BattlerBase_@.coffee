@@ -12,7 +12,7 @@ do ->
     #@[ALIAS]
     ALIAS__isAppeared = _.isAppeared
     _.isAppeared = ->
-        if AA.isABS()
+        if AA.isABSMap()
             return true
         else
             return ALIAS__isAppeared.call(@)
@@ -27,7 +27,7 @@ do ->
     #@[ALIAS]
     ALIAS__canUse = _.canUse
     _.canUse = (item) ->
-        if AA.isABS() and item.AASkill?
+        if AA.isABSMap() and item.AASkill?
             return @canUseABSItem(item)
         else
             return ALIAS__canUse.call(@, item)
@@ -36,7 +36,7 @@ do ->
     ALIAS__paySkillCost = _.paySkillCost
     _.paySkillCost = (skill) ->
         ALIAS__paySkillCost.call(@, skill)
-        if AA.isABS() and skill.AASkill?
+        if AA.isABSMap() and skill.AASkill?
             @aaSetSkillTimer(skill)
         return
 
@@ -44,7 +44,7 @@ do ->
     #@[ALIAS]
     ALIAS__isOccasionOk = _.isOccasionOk
     _.isOccasionOk = (item) ->
-        if AA.isABS() and item.AASkill?
+        if AA.isABSMap() and item.AASkill?
             return true
         else
             return ALIAS__isOccasionOk.call(@, item)

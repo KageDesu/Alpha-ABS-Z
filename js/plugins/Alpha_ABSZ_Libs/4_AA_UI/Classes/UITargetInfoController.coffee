@@ -22,13 +22,14 @@ class UITargetInfoController
         return
 
     showTargetInfo: () ->
+        model = @target.AAEntity().model()
+        return if model.UIInfo is 0
         battler = @target.AABattler()
         #TODO: Values from enemy
         @targetInfoSpr.drawNameWithFormat(battler.name())
         #TODO: level from what?
         @targetInfoSpr.drawLevelWithFormat(1)
-        model = @target.AAEntity().model()
-        @targetInfoSpr.drawFace("Monster", 2)
+        @targetInfoSpr.drawFace(model.faceName, model.faceIndex)
         #TODO: battle state show and refresh by AI state
         @targetInfoSpr.showSlow()
         return

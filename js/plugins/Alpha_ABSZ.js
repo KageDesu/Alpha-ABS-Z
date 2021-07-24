@@ -1,11 +1,14 @@
 /*:
- * @plugindesc (v.0.1)[PRO] Active Battle System
+ * @plugindesc (v.0.1)[PRO] New Active Battle System
  * @author Pheonix KageDesu
  * @target MZ
- * @url https://kagedesuworkshop.blogspot.com
+ * @url https://kdworkshop.net/
  *
  * @help
  *
+ * Alpha ABS Z - PREVIEW build
+ * Not recommended making game with this plugins yet
+ * Only for testing and preview purposes
 
  * @param AABSZ @text @desc
  * 
@@ -49,6 +52,30 @@
  * @max 7
  * @default []
  * @desc The terrains tags (1-7) through which the enemies can not see
+ * 
+ * 
+ * @param spacer|map @text‏‏‎ ‎@desc ===============================================
+ * 
+ * @param mapSettingsGroup
+ * @text Map settings
+ * 
+ * @param map_noProjectilePass:intA
+ * @parent mapSettingsGroup
+ * @text No Pass Projectiles Regions
+ * @type number[]
+ * @min 1
+ * @max 255
+ * @default []
+ * @desc The numbers of the regions through which the projectiles can not pass
+ * 
+ * @param map_noProjectilePass2:intA
+ * @parent mapSettingsGroup
+ * @text No Pass Projectiles Terrains
+ * @type number[]
+ * @min 1
+ * @max 7
+ * @default []
+ * @desc The terrains tags (1-7) through which the projectiles can not pass
  * 
  * 
  * 

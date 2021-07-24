@@ -23,12 +23,17 @@ AA.cre = function(e, msg) {
 };
 
 // * Если карта (Scene_Map) и включён режим АБС
-AA.isABS = function() {
-    return AA.System.isABS() && AA.isMap();
+AA.isABSMap = function() {
+    return AA.isABSActive() && AA.isMap();
+};
+
+// * АБС в активном режиме
+AA.isABSActive = function() {
+    return AA.System.isABSActive();
 };
 
 AA.isMap = function() {
-    return AA.System.isMap();
+    return KDCore.Utils.isSceneMap();
 };
 
 AA.isDEV = function() {

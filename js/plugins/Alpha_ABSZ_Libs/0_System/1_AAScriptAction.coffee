@@ -13,7 +13,7 @@ do ->
     #@[DEFINES]
     _ = AA.SAaction
 
-    _.ACTIONS = ["ss", "sw", "vr", "ce", "ap", "ev", "ef"]
+    _.ACTIONS = ["ss", "sw", "vr", "ce", "ap", "ev", "an", "ef", "se"]
 
     _.isProper = (actionLine) ->
         return false unless actionLine?
@@ -26,6 +26,7 @@ do ->
             cmd = null
         return _.ACTIONS.contains(cmd)
 
+    #?MAIN OUTER (Основной метод вызова)
     # * Выполнить AA Script Action
     _.execute = (action, char) ->
         return unless _.isProper(action)
@@ -49,6 +50,8 @@ do ->
                     _.executeAnimationAction(action, char)
                 when "ef"
                     _.executeEffectAction(action, char)
+                when "se"
+                    _.executeSESoundAction(action)
                 else
                     AA.w "Unknown script action: " + action
         catch e
@@ -121,12 +124,66 @@ do ->
 
     # * an_4 (self), an_5_3 (evId), an_2_1_2 (x,y)
     _.executeAnimationAction = (action, char) ->
-        #TODO:
+        args = action.split("_")
+        return if args.length < 2
+        animationId = parseInt(args[1])
+        return if animationId <= 0
+        # * x, y
+        if args[3]?
+            mapX = parseInt(args[2])
+            mapY = parseInt(args[3])
+            AABattleActionsManager.playAnimationOnMap(mapX, mapY, animationId)
+        else if args[2]? # * eventId
+            eventId = parseInt(args[2])
+            return if eventId <= 0
+            event = $gameMap.event(eventId)
+            return unless event?
+            AABattleActionsManager.playAnimationOnCharacter(event, animationId)
+        else # * on self
+            return unless char?
+            AABattleActionsManager.playAnimationOnCharacter(char, animationId)
+        return
 
-    # * ef_shake_10, ef_shake_10_12 (evId), ef_shatter_4_4 (dx, dy), ef_shatter_4_4_2 (evId)
+    # * ef_shake_10, ef_shake_10_12 (evId)
+    # * ef_shatter_4_4 (dx, dy), ef_shatter_4_4_2 (evId)
     _.executeEffectAction = (action, char) ->
-        # TODO:
+        args = action.split("_")
+        return if args.length < 3
+        effectName = args[1]
+        switch effectName
+            when "shatter"
+                _._executeEffect_Shatter(args, char)
+            else
+                # TODO: доделать shake
+        return
 
+    _._executeEffect_Shatter = (args, char) ->
+        dx = parseInt(args[2])
+        dy = parseInt(args[3])
+        if args[4]? # * evId
+            #TODO: можно в метод вынести, похожий код
+            eventId = parseInt(args[4])
+            return if eventId <= 0
+            event = $gameMap.event(eventId)
+            return unless event?
+            event.aaRequestShatterEffect(dx, dy)
+        else # * char
+            return unless char?
+            char.aaRequestShatterEffect(dx, dy)
+        return
+
+    # * se_Bell1_90_100 (volume, pitch)
+    _.executeSESoundAction = (action) ->
+        args = action.split("_")
+        return if args.length < 2
+        name = args[1]
+        return unless String.any(name)
+        # * volume and pitch - не обязательные
+        if args[2]?
+            volume = parseInt(args[2])
+            pitch = parseInt(args[3]) if args[3]
+        KDCore.Utils.playSE(name, volume, pitch)
+        return
 
     return
 

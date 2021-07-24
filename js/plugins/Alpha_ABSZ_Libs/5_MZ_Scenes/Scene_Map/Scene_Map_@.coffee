@@ -34,7 +34,7 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
-        @aaUpdate() if AA.isABS()
+        @updateABS() if AA.isABSActive()
         return
 
     #@[ALIAS]
@@ -43,7 +43,7 @@ do ->
     _.ALIAS__onMapTouch = ALIAS__onMapTouch
     _.onMapTouch = ->
         return if AA.UI.isUITouched()
-        if AA.isABS()
+        if AA.isABSActive()
             @onMapTouchAA()
         else
             ALIAS__onMapTouch.call(@)

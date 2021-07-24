@@ -14,7 +14,7 @@ do ->
         "THREAD REGISTERED FOR".p(eventId)
         @_aaInitAILogicThreads()
         thread = setInterval (->
-                return unless AA.isABS()
+                return unless AA.isABSMap()
                 ev = $gameMap.event(eventId)
                 if ev?
                     ev.aaUpdateAILogic()

@@ -10,7 +10,7 @@ do ->
     #@[ALIAS]
     ALIAS__performDamage = _.performDamage
     _.performDamage = ->
-        if AA.isABS()
+        if AA.isABSMap()
             if @isPlayer() and AA.PP.isShakeScreenWhenPlayerGetDamage()
                 # * Стандартный метод (тряска экрана и звук)
                 ALIAS__performDamage.call(@)

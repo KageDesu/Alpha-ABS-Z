@@ -56,8 +56,8 @@ do ->
         #$[OUTER]
         _.aaUpdateAILogic = ->
             try
-                if AA.isABS() and @isActive()
-                    @AALogic().update()
+                if @isActive()
+                    @AALogic().update() if AA.isABSActive()
                 else
                     $gameTemp.aaClearAILogicThreads(@eventId())
             catch e
@@ -94,6 +94,7 @@ do ->
         ALIAS__aaOnShatterEffectCreated = _.aaOnShatterEffectCreated
         _.aaOnShatterEffectCreated = ->
             ALIAS__aaOnShatterEffectCreated.call(@)
+            return unless @isABS()
             @aaOnDefeat()
             return
 
@@ -135,7 +136,7 @@ do ->
         _._aaUpdateDeadState = ->
             if @isActive() and !@AABattler().isAlive()
                 # * Отключаем АБС для этого события
-                @stopABS() #TODO: clearABS ???
+                @stopABS()
                 # * Если параметр включён, запускаем эффект
                 if @AAModel().shatterEffect is 1
                     @aaRequestShatterEffect()

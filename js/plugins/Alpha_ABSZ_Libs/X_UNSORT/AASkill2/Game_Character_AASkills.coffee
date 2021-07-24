@@ -34,6 +34,7 @@ do ->
     _.aaPlayAASkillXAnimation = (skill) ->
         try
             return unless Imported.PKD_AnimaX
+            return unless @isAnimX()
             if String.any(skill.animaXAction)
                 # * Special
                 @startAnimaXCustomAction(skill.animaXAction, false, true)

@@ -14,10 +14,13 @@ do ->
 
     #TODO: put and remove skills from skill panel
 
+    _.pauseABS = -> AA.System.pauseABS()
+
+    _.resumeABS = -> AA.System.resumeABS()
 
     _.editUI = ->
         try
-            if AA.System.isMap()
+            if AA.isMap()
                 SceneManager.push(AA.Scene_UIEditor)
         catch e
             KDCore.warning e

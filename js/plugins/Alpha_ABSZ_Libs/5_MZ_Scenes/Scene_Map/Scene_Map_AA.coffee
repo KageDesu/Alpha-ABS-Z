@@ -7,7 +7,7 @@ do ->
     #@[DEFINES]
     _ = Scene_Map::
 
-    _.aaUpdate = ->
+    _.updateABS = ->
         @aaUpdateMouseDetection()
         #@aaUpdateMapScroolByMouse() #TODO: доработать скролл (взять из AABS MV)
     

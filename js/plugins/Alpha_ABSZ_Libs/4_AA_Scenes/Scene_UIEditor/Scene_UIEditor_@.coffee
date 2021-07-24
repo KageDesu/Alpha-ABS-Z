@@ -11,8 +11,8 @@ do ->
         create: ->
             super()
             # * Запоминаем состояние АБС, так как надо его ставить на паузу
-            $gameTemp._needRestoreABSSystemAfterUIEdit = AA.System.isABS()
-            AA.System.stopABS()
+            $gameTemp._needRestoreABSSystemAfterUIEdit = AA.isABSActive()
+            AA.System.pauseABS()
             @createMain() ## -> 0
             #TODO: Добавить опцию (Показывать ли скрытые в редактре...)
             @showNotVisibleElements()

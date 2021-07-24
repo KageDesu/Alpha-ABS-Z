@@ -9,6 +9,7 @@ class AAEnemyModelData
         @_initBaseParameters()
         @_applyParametersFromDB()
         @_applyParametersFromEvent()
+        @_convertParameters()
         #TODO: Делать редактор или нет?
 
     #TODO: Игрок должен иметь возмможность менять значения во время игры
@@ -38,6 +39,8 @@ class AAEnemyModelData
             @_initOtherSettings()
             @_initVisualSettings()
             @_initAnimationSettings()
+            @_initMovingSettings()
+            return
             
         _._initMain = ->
             @onDeath = 0 #AScript
@@ -55,6 +58,9 @@ class AAEnemyModelData
             return
 
         _._initVisualSettings = ->
+            @faceName = "" # имя файла в папке faces
+            @faceIndex = 0
+            @UIInfo = 1 # * Если 1 - показывать Target UI при наведени курсора
             @miniHpGaugeStyle = ""
             @miniHPGaugeOffset = [0, 0]
 
@@ -62,6 +68,14 @@ class AAEnemyModelData
 
         _._initAnimationSettings = ->
             @hitAnimationId = 1 # ID анимации
+            return
+
+        _._initMovingSettings = ->
+            # Range (when start), Freq, Speed
+            @approachMoveData = [3, 5, 4]
+            # Min dist, Freq, Speed, isRandomStep
+            @inBattleMoveData = [1, 3, 3, 0]
+            #TODO: returnMoveData
             return
 
         _._applyParametersFromDB = ->
@@ -76,6 +90,16 @@ class AAEnemyModelData
             return unless settings.isHaveExtraParameters()
             for param in settings.getParameters()
                 @[param[0]] = param[1]
+            return
+
+        # * Преобразует некоторые параметры
+        _._convertParameters = ->
+            @miniHPGaugeOffset =
+                AA.Utils.Parser.convertArrayFromParameter @miniHPGaugeOffset
+            @approachMoveData =
+                AA.Utils.Parser.convertArrayFromParameter @approachMoveData
+            @inBattleMoveData =
+                AA.Utils.Parser.convertArrayFromParameter @inBattleMoveData
             return
 
         # * Не используются (для Selection circle)

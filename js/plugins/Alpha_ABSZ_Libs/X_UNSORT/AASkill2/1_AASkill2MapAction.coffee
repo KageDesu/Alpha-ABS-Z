@@ -70,19 +70,13 @@ class AASkill2MapAction
         globalRegions = AA.PP.getProjectileRestrictedRegions()
         if globalRegions.contains(regionId)
             return true
-        if @aaSkill.noPassRegions is 0
-            return false
-        else
-            return @aaSkill.noPassRegions.contains(regionId)
+        return @aaSkill.noPassRegions.contains(regionId)
 
     isHaveTerrain: (terrainTag) ->
         globalTerrains = AA.PP.getProjectileRestrictedTerrains()
         if globalTerrains.contains(terrainTag)
             return true
-        if @aaSkill.noPassTerrains is 0
-            return false
-        else
-            return @aaSkill.noPassTerrains.contains(terrainTag)
+        return @aaSkill.noPassTerrains.contains(terrainTag)
 
     isCanHitPoint: () -> @aaSkill.isInCertainPoint()
 

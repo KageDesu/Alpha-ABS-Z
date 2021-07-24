@@ -229,8 +229,8 @@ do ->
         # * Глобальные непроходимые участки карты для визоров и Projectile
         getVisionRestrictedRegions: -> @getParam("enemies_noPassVision", [])
         getVisionRestrictedTerrains: -> @getParam("enemies_noPassVision2", [])
-        getProjectileRestrictedRegions: -> []
-        getProjectileRestrictedTerrains: -> []
+        getProjectileRestrictedRegions: -> @getParam("map_noProjectilePass", [])
+        getProjectileRestrictedTerrains: -> @getParam("map_noProjectilePass2", [])
 
         #TODO: Всплывающий урон вынести в отдельный плагин
         #TODO: Сделать параметры всплывающего урона

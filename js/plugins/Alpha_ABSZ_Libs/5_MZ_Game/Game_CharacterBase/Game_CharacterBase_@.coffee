@@ -19,7 +19,7 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
-        @aaUpdateABS() if @isABS() && AA.isABS()
+        @aaUpdateABS() if @isABS() && AA.isABSActive()
         return
 
         

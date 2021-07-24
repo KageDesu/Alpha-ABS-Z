@@ -12,7 +12,7 @@ do ->
         @onSkillTargetCancel() if @isInSkillTargetingState()
 
     # * Можно ли управлять? (АБС элементы: навыки, атака и всё в этом роде)
-    _.canBeControlled = -> @isActive() && AA.isABS()
+    _.canBeControlled = -> @isActive() && AA.isABSMap()
 
     _.isInSkillTargetingState = -> @aaState == 'skill'
 

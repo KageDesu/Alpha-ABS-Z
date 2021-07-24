@@ -11,10 +11,6 @@ do ->
     #@[DEFINES]
     _ = Game_Troop::
 
-    # * Активирует ABS для всех событий на карте
-    #_.initABS = ->
-    #    $gameMap.initABS()
-
     
     return
 # ■ END Game_Troop.coffee

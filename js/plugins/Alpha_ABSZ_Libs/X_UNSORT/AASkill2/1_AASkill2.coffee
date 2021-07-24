@@ -166,9 +166,9 @@ do ->
         # * Если 1 , то в любом случае анимация будет на карте
         @animationOnMap = 0
         # * Непроходимые регионы
-        @noPassRegions = 0 # * []
+        @noPassRegions = []
         # * Непроходимые Terrain tags
-        @noPassTerrains = 0 # * []
+        @noPassTerrains = []
         return
 
     # * Параметры селектора на карте
@@ -188,10 +188,8 @@ do ->
     # * Преобразует некоторые параметры
     _._convertParameters = ->
         # * Из строки 1,2,3 в массив [1,2,3]
-        if @noPassRegions isnt 0
-            @noPassRegions = AA.Utils.Parser.convertArrayFromParameter(@noPassRegions)
-        if @noPassTerrains isnt 0
-            @noPassTerrains = AA.Utils.Parser.convertArrayFromParameter(@noPassTerrains)
+        @noPassRegions = AA.Utils.Parser.convertArrayFromParameter(@noPassRegions)
+        @noPassTerrains = AA.Utils.Parser.convertArrayFromParameter(@noPassTerrains)
         return
 
     return

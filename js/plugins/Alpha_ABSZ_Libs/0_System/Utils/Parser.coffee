@@ -122,6 +122,7 @@ do ->
 
     # * Конвертирует массив из строки 1,2,3 в [1, 2, 3] (цифры)
     _.convertArrayFromParameter = (values) ->
+        return values if values instanceof Array
         try
             return values.split(",").map((i) -> parseInt(i.trim()))
         catch e
