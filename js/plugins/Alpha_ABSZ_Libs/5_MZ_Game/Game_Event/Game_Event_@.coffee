@@ -12,20 +12,6 @@ do ->
     _.initMembers = ->
         ALIAS__initMembers.call(@)
         @aaInitExtraParams()
-
-    #@[ALIAS]
-    ALIAS__update = _.update
-    _.update = ->
-        ALIAS__update.call(@)
-        @_updTest() #TODO: TEST
-
-    _._updTest = ->
-        return unless @eventId() == 2
-        return unless Input.isTriggered('i')
-        if AATargetsManager.isPlayerInRadius(@, 10)
-            "IN RADIUS, check vision line".p()
-            if AAVisionManager.isVisionLineIsFree(@, $gamePlayer)
-                "VISION LINE IS FREE".p()
     
     # * Система анимации XAnima
     # -----------------------------------------------------------------------

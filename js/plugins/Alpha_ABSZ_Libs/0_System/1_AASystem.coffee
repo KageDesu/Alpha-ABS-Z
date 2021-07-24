@@ -46,9 +46,13 @@ do ->
         #TODO: Лог свой разработки
         _.startABS = ->
             "START ABS SESSION".p()
-            $gameSystem._isABS = true
+            @resumeABS()
             @initManagers()
             @initEnteties()
+            return
+
+        _.resumeABS = ->
+            $gameSystem._isABS = true
 
         _.stopABS = ->
             $gameSystem._isABS = false

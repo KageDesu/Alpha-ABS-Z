@@ -9,7 +9,7 @@ do ->
 
     #@[ALIAS]
     ALIAS__onMapLoaded = _.onMapLoaded
-    _.onMapLoaded = ->
+    _.onMapLoaded1 = ->
         ALIAS__onMapLoaded.call(@)
 
         @uiLayer = new Sprite()
@@ -124,7 +124,7 @@ do ->
 
     #@[ALIAS]
     ALIAS__update = _.update
-    _.update = ->
+    _.update1 = ->
         ALIAS__update.call(@)
 
         #if Input.isTriggered 'a'
@@ -141,7 +141,7 @@ do ->
 
     #@[ALIAS]
     ALIAS__stop = _.stop
-    _.stop = ->
+    _.stop1 = ->
         @uiLayer.visible = false
         ALIAS__stop.call(@)
 

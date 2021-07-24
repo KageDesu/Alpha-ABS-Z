@@ -11,21 +11,21 @@ do ->
     #@[DEFINES]
     _ = AAVisionManager
 
-    # * Проверка видимости между двумя точками (TRUE - видно точку)
-    _.isVisionLineIsFree = (startPoint, endPoint) ->
+    # * Проверка видимости между визором (событием) и точкой (TRUE - видно точку)
+    _.isVisionLineIsFree = (visor, endPoint) ->
         try
-            dist = $gameMap.distance(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
+            dist = $gameMap.distance(visor.x, visor.y, endPoint.x, endPoint.y)
             # * Если дистанция 1 (рядом), то значит на линии видимости не может быть помех
             return true if dist <= 1
 
             # * Количество точек проверок на линии
             # * Хватит точности 1 к 1, поэтому количество точек = дистанции
-            allPoints = @getLineBetweenTwoPoints(startPoint, endPoint, dist)
+            allPoints = @getLineBetweenTwoPoints(visor, endPoint, dist)
             betweenPoints = []
 
             # * Убираем End и Start точки с результата
             # * Нам важно проверить путь между начальной и конечной точкой
-            sP = [startPoint.x, startPoint.y]
+            sP = [visor.x, visor.y]
             eP = [endPoint.x, endPoint.y]
             for p in allPoints
                 if !AA.Utils.isSamePointA(p, sP) && !AA.Utils.isSamePointA(p, eP)
@@ -38,7 +38,7 @@ do ->
 
             for p in betweenPoints
                 # * Если в точке находится объект (зона), что мешает зрению, значит false
-                if @isPointIsColiderForVision(p[0], p[1])
+                if @isPointIsColiderForVision(visor, p[0], p[1])
                     return false
 
             return true
@@ -74,11 +74,10 @@ do ->
 
     # * Находится ли в данной точке карты что-либо, что мешает видимости
     # * TRUE - нельзя "видеть" через эту точку
-    _.isPointIsColiderForVision = (x, y) ->
+    _.isPointIsColiderForVision = (visor, x, y) ->
         try
-            #TODO: каждоый враг имеет свой набор или общий набор регионов???
-            noVisionRegions = []
-            noVisionTerrains = []
+            noVisionRegions = AA.PP.getVisionRestrictedRegions()
+            noVisionTerrains = AA.PP.getVisionRestrictedTerrains()
             return true if noVisionRegions.contains($gameMap.regionId(x, y))
             return true if noVisionTerrains.contains($gameMap.terrainTag(x, y))
             # * События с расширенными HitBox участвуют в области видимости

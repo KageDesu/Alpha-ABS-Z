@@ -10,6 +10,9 @@ do ->
 
         create: ->
             super()
+            # * Запоминаем состояние АБС, так как надо его ставить на паузу
+            $gameTemp._needRestoreABSSystemAfterUIEdit = AA.System.isABS()
+            AA.System.stopABS()
             @createMain() ## -> 0
             #TODO: Добавить опцию (Показывать ли скрытые в редактре...)
             @showNotVisibleElements()
@@ -83,6 +86,8 @@ do ->
 
         stop: ->
             super()
+            if $gameTemp._needRestoreABSSystemAfterUIEdit is true
+                AA.System.resumeABS()
             # * Восстанавливаем прозрачность и видимость которые были перед редактированием
             for elementData in @preEditElementsStates
                 elementData[0].visible = elementData[1]

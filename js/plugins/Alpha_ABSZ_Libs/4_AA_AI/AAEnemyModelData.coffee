@@ -9,34 +9,9 @@ class AAEnemyModelData
         @_initBaseParameters()
         @_applyParametersFromDB()
         @_applyParametersFromEvent()
-
-        #@miniHpGaugeStyle = "miniHpGauge1"
-        #@miniHPGaugeOffset = [-12, -58]
-
-        #TODO: Применение настроек из БД ?
-        # Делать редактор или нет?
-        #TODO: Применение настроек из события
-
-        ###if @enemyId == 11
-            @selectionVisible = true
-            @selectionColor = "#FF00FF"
-            @selectionOffset = [0, -10]
-            @selectionImage = "targetSelectedDottedSquare"
-
-            @miniHpGaugeStyle = "miniHpGauge2"
-            @miniHPGaugeOffset = [8, 12]
-
-        else if @enemyId == 10
-            @selectionVisible = true
-            @selectionColor = "#BBBB00"
-            @selectionOffset = [0, -20]
-            @selectionImage = "targetSelectedBigSquare"
-
-            @miniHpGaugeStyle = "miniHpGauge3"
-            @miniHPGaugeOffset = [-12, -58]###
+        #TODO: Делать редактор или нет?
 
     #TODO: Игрок должен иметь возмможность менять значения во время игры
-
     #TODO: basik shake effect strength when hitted
 
     enemy: -> $dataEnemies[@enemyId]
@@ -61,12 +36,16 @@ class AAEnemyModelData
             @_initMain()
             @_initOnMapSettings()
             @_initOtherSettings()
+            @_initVisualSettings()
             @_initAnimationSettings()
             
         _._initMain = ->
             @onDeath = 0 #AScript
             @returnRadius = 12
             @viewRadius = 5
+            #TODO: Каждый враг может иметь свои ограничения видимости
+            @noPassVisionRegions = 0
+            @noPassVisionTerrains = 0
             return
 
         _._initOnMapSettings = ->
@@ -74,6 +53,10 @@ class AAEnemyModelData
             @deadSwitch = 0 #Switch (A, B, C, D)
             @eraseOnDead = 1
             return
+
+        _._initVisualSettings = ->
+            @miniHpGaugeStyle = ""
+            @miniHPGaugeOffset = [0, 0]
 
         _._initOtherSettings = ->
 
@@ -94,6 +77,12 @@ class AAEnemyModelData
             for param in settings.getParameters()
                 @[param[0]] = param[1]
             return
+
+        # * Не используются (для Selection circle)
+        #@selectionVisible = true
+        #@selectionColor = "#FF00FF"
+        #@selectionOffset = [0, -10]
+        #@selectionImage = "targetSelectedDottedSquare"
         
         return
     # ■ END PRIVATE

@@ -66,11 +66,23 @@ class AASkill2MapAction
 
     speed: -> @aaSkill.speed
 
-    #TODO:
-    isHaveRegion: (regionId) -> false
+    isHaveRegion: (regionId) ->
+        globalRegions = AA.PP.getProjectileRestrictedRegions()
+        if globalRegions.contains(regionId)
+            return true
+        if @aaSkill.noPassRegions is 0
+            return false
+        else
+            return @aaSkill.noPassRegions.contains(regionId)
 
-    #TODO:
-    isHaveTerrain: (terrainTag) -> false
+    isHaveTerrain: (terrainTag) ->
+        globalTerrains = AA.PP.getProjectileRestrictedTerrains()
+        if globalTerrains.contains(terrainTag)
+            return true
+        if @aaSkill.noPassTerrains is 0
+            return false
+        else
+            return @aaSkill.noPassTerrains.contains(terrainTag)
 
     isCanHitPoint: () -> @aaSkill.isInCertainPoint()
 

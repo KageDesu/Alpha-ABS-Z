@@ -15,7 +15,7 @@ do ->
             else
                 return []
 
-        # * Стандартные: ["AABS_0","AABS_1"]
+        # * Стандартные: ["AABS_0","AABS_1", "AABS_2"]
         fonts: -> @getParam("fonts", [])
 
         uiData: (tag) ->
@@ -225,6 +225,12 @@ do ->
 
         #TODO: ItemGain вынести в отдельный плагин
         isShowItemGainNotify: -> true
+
+        # * Глобальные непроходимые участки карты для визоров и Projectile
+        getVisionRestrictedRegions: -> @getParam("enemies_noPassVision", [])
+        getVisionRestrictedTerrains: -> @getParam("enemies_noPassVision2", [])
+        getProjectileRestrictedRegions: -> []
+        getProjectileRestrictedTerrains: -> []
 
         #TODO: Всплывающий урон вынести в отдельный плагин
         #TODO: Сделать параметры всплывающего урона

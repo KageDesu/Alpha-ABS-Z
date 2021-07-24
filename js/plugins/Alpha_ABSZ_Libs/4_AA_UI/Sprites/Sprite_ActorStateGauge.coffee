@@ -5,6 +5,8 @@ do ->
         constructor: () ->
             super(...arguments)
 
+        #TODO: Переделать вывод значения как у Enemy Mini HP
+
         defaultParams: -> {
             visible: true,
             position: { x: 304, y: 560 },

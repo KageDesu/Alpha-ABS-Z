@@ -7,24 +7,51 @@
  * @help
  *
 
- * @param AABSZ
+ * @param AABSZ @text @desc
  * 
- * @param HPGauge:struct
- * @type struct<LActorGauge>
- * @default
- * @desc
+ * @param inputSettings:struct
+ * @text Controls Settings
+ * @type struct<LInputSettings>
+ * @default {"LMBMapTouchMode":"Default (move)","RMBMapTouchMode":"Turn","LMBTargetTouchMode":"Smart attack (Primary)","RMBTargetTouchMode":"Smart attack (Secondary)","moveType":"WASD and Arrows","isDiagonalMovement:b":"true","keybingind":"","kbReload":"R","kbCommandMenu":"C","kbRotate":"Control"}
+ * @desc Controls and keybingind settings
+ * 
+ * @param spacer|visual @text‏‏‎ ‎@desc ===============================================
+ * 
+ * @param visualSettingsGroup
+ * @text Visual Parameters
  * 
  * @param fonts:strA
+ * @parent visualSettingsGroup
  * @text Fonts
  * @type text[]
  * @default ["AABS_0","AABS_1","AABS_2"]
- * @desc TODO:
+ * @desc Font files names for preload (from fonts\ folder), without extension
  * 
- * @param inputSettings:struct
- * @text Input Settings
- * @type struct<LInputSettings>
- * @default
- * @desc Input and keybingind settings
+ * @param spacer|enemies @text‏‏‎ ‎@desc ===============================================
+ * 
+ * @param enemySettingsGroup
+ * @text Enemies settings
+ * 
+ * @param enemies_noPassVision:intA
+ * @parent enemySettingsGroup
+ * @text No Pass Vision Regions
+ * @type number[]
+ * @min 1
+ * @max 255
+ * @default []
+ * @desc The numbers of the regions through which the enemies can not see
+ * 
+ * @param enemies_noPassVision2:intA
+ * @parent enemySettingsGroup
+ * @text No Pass Vision Terrains
+ * @type number[]
+ * @min 1
+ * @max 7
+ * @default []
+ * @desc The terrains tags (1-7) through which the enemies can not see
+ * 
+ * 
+ * 
  * 
 
 

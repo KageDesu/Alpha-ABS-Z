@@ -51,6 +51,7 @@ do ->
     # * Чтобы выполнить навык, которого нет у персонажа, то можно поставить флаг forced = true
     _.aaTryPerformSkill = (skillId, forced = false) ->
         try
+            return unless AA.isABS()
             return unless skillId?
             return if skillId <= 0
             # * Выполняем навык в любом случае (даже если нету или не готов)

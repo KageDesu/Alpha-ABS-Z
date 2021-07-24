@@ -14,6 +14,14 @@ do ->
 
     #TODO: put and remove skills from skill panel
 
+
+    _.editUI = ->
+        try
+            if AA.System.isMap()
+                SceneManager.push(AA.Scene_UIEditor)
+        catch e
+            KDCore.warning e
+
     _.controlUIElement = () ->
         try
             user = $gameSystem.aaGetUserUISettings()

@@ -1,8 +1,11 @@
 /*:
- * @plugindesc (v.0.1)%TYPE% Active Battle System
+ * @plugindesc (v.0.1)%TYPE% New Active Battle System
  * @author Pheonix KageDesu
  * @target MZ
- * @url https://kagedesuworkshop.blogspot.com
+ * @url https://kdworkshop.net/
  *
  * @help
  *
+ * Alpha ABS Z - PREVIEW build
+ * Not recommended making game with this plugins yet
+ * Only for testing and preview purposes

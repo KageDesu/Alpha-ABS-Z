@@ -41,6 +41,7 @@ class AASkill2
     # * Установить набор параметров из Note (принимает массив пар: имя - значение)
     setNoteParameters: (params) ->
         @[p[0]] = p[1] for p in params
+        @_convertParameters()
         return
         
     animationId: ->
@@ -164,6 +165,10 @@ do ->
         @hitAnimationId = 0
         # * Если 1 , то в любом случае анимация будет на карте
         @animationOnMap = 0
+        # * Непроходимые регионы
+        @noPassRegions = 0 # * []
+        # * Непроходимые Terrain tags
+        @noPassTerrains = 0 # * []
         return
 
     # * Параметры селектора на карте
@@ -180,6 +185,15 @@ do ->
     _._initAnimationSettings = ->
         @actionStartDelay = 0
     
+    # * Преобразует некоторые параметры
+    _._convertParameters = ->
+        # * Из строки 1,2,3 в массив [1,2,3]
+        if @noPassRegions isnt 0
+            @noPassRegions = AA.Utils.Parser.convertArrayFromParameter(@noPassRegions)
+        if @noPassTerrains isnt 0
+            @noPassTerrains = AA.Utils.Parser.convertArrayFromParameter(@noPassTerrains)
+        return
+
     return
 # ■ END AASkill2.coffee
 #---------------------------------------------------------------------------
