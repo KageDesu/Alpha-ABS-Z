@@ -29,6 +29,19 @@ KDCore.Utils.getEventCommentValueArray = (commentCode, list) ->
         console.warn e
     return comments
 
+# * Расширение, чтобы без XDev работал плагин
+do ->
+
+    __STR_P = String::p
+    String::p = (anotherText) ->
+        if AA.isDEV()
+            __STR_P.call(@, anotherText)
+        else
+            # * NOTHING
+        return
+
+    return
+
 # * Draggable sprite
 #? KDCore.Sprite extension
 do ->

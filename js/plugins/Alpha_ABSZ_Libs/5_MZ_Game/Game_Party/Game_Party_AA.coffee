@@ -15,6 +15,8 @@ do ->
             popUpItem = new AA.Sprite_PopTreasureItem()
             popUpItem.setItem item, count
             char = $gamePlayer.AASprite()
+            #TODO: Сделать проверку на предыидущий предмет, если сразу одинаковый, то х2
+            #TODO: Звук какой-нибудь когда вещь поднимаешь!
             return unless char?
             # * Если нету, создаём
             unless char.aaTreasurePopEngine?

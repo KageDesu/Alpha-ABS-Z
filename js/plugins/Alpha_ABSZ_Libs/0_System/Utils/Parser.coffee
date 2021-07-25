@@ -54,28 +54,6 @@ do ->
         catch e
             AA.w e
 
-    #TODO: Это в ACore (от туда вытащил чтобы редактировать)
-    # * Извлекает из строки (линии) имя параметра и его значение
-    _.extractABSParameter = (line) ->
-        # * Для параметров одиночных < >
-        if line.match(/<.*>/i)
-            match = line.match(/<(\w+)\s*:\s*(.+)>/i)
-        else # * Для параметров в группе (без < > )
-            match = line.match(/(\w+)\s*:\s*(.+)/i)
-        if match?
-            name = match[1]
-            value = _.convertParameterValue(match[2])
-            return [name, value]
-        else
-            return null
-
-    #TODO: Это тоже в ACORE (от туда вытащил)
-    _.convertParameterValue = (paramValue) ->
-        if isFinite(paramValue)
-            return Number(paramValue)
-        else
-            return paramValue
-
     # * Извлечь группу из объекта ДБ
     _.extractABSParametersFromDBItem = (item) ->
         try
@@ -84,30 +62,6 @@ do ->
         catch e
             AA.w e
         return []
-
-
-    #TODO: В ACore
-    # *  Извлечь линии (строки) АБС параметров из группы в Note
-    _.parseNoteGroup = (tag,  note) ->
-        try
-            result = []
-            sTag = "<" + tag
-            eTag = "</" + tag + ">"
-            notes = note.split(/[\r\n]+/)
-            startLineIndex = -1
-            endLineIndex = -1
-            for line, index in notes
-                if line.contains(sTag)
-                    startLineIndex = index + 1 # * Себя не включает начальный таг
-                if startLineIndex >= 0 && line.contains(eTag)
-                    endLineIndex = index
-                    break
-            if startLineIndex > -1 && endLineIndex > -1
-                result = notes.slice(startLineIndex, endLineIndex)
-        catch e
-            AA.w e
-            return []
-        return result
 
     # * Извлекает из строки (линии) имя параметра и его значение
     # * Учитывается сложный параметр (массив или строка)
