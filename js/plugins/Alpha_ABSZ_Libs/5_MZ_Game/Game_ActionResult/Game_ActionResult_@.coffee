@@ -1,22 +1,19 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_Party.coffee
+# ■ Game_ActionResult.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_Party::
+    _ = Game_ActionResult::
 
     #@[ALIAS]
-    ALIAS__gainItem = _.gainItem
-    _.gainItem = (item, amount, includeEquip) ->
-        ALIAS__gainItem.call(@, ...arguments)
-        return if amount <= 0
-        container = @itemContainer(item)
-        return unless container?
-        #TODO: Менеджер PopUp Treasure
-        #SceneManager._scene._testPopUp()
-
+    ALIAS__clear = _.clear
+    _.clear = ->
+        ALIAS__clear.call(@)
+        @_lastAASkill = null
+        return
+        
     return
-# ■ END Game_Party.coffee
+# ■ END Game_ActionResult.coffee
 #---------------------------------------------------------------------------

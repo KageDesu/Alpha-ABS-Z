@@ -110,7 +110,7 @@ do ->
         return unless subject?
         return unless skill?
         try
-            action = new Game_ActionAA(subject, skill)
+            action = new AABattleAction(subject, skill)
             return unless action.isValid()
             @_startAction(action, targets)
             @_endAction(action)

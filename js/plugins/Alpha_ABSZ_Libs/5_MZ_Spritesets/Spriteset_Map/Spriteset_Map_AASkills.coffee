@@ -7,14 +7,6 @@ do ->
     #@[DEFINES]
     _ = Spriteset_Map::
 
-    #@[ALIAS]
-    ALIAS__createCharacters = _.createCharacters
-    _.createCharacters = ->
-        ALIAS__createCharacters.call(@)
-        @aaCreateMapSkills()
-        AA.EV.subscribeFor("MapSkillsRequestsClean", @_aaClearMapSkills.bind(@))
-        return
-
     _.aaCreateMapSkills = ->
         @_aaMapSkills = []
         # * Создаём уже существующие (зарегестрированные) на карте

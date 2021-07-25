@@ -7,6 +7,15 @@ do ->
     #@[DEFINES]
     _ = Game_Event::
 
+    #@[EVENT]
+    _.gev_onABSPaused = ->
+        try
+            return unless @AALogic()?
+            unless @AALogic().isFreeState()
+                @AALogic().switchToFreeState()
+        catch e
+            AA.w e
+
     # * Система AAEntity
     # -----------------------------------------------------------------------
     do ->
@@ -67,6 +76,7 @@ do ->
         ALIAS__initABS = _.initABS
         _.initABS = ->
             ALIAS__initABS.call(@)
+            AA.EV.subscribeFor("PauseABS", @gev_onABSPaused.bind(@))
             @aaStoreMoveData()
             $gameTemp.aaRegisterAILogicThread(@eventId())
             return

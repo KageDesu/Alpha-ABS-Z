@@ -50,7 +50,6 @@ do ->
         # * Логика АБС (только если АБС включена)
         _.aaUpdateABS = ->
             @_aaUpdateDelayedSkillActions()
-            @aaUpdateABSAnimaX() if Imported.PKD_AnimaX
             @AABattler()?.aaUpdateABS()
 
     # -----------------------------------------------------------------------

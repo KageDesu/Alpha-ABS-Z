@@ -65,6 +65,7 @@ do ->
         if @_checkVisionTimer >= 4
             @_checkVisionTimer = 0
             #TODO: Сейчас идёт проверка только на игрока
+            #TODO: Добавить фильтр isActive (например когда игрок в технике)
             @_isTargetInViewRadius = AATargetsManager.isPlayerInRadius(@char(), @model().viewRadius)
             "PL IN RADIUS".p() if @_isTargetInViewRadius is true
         return

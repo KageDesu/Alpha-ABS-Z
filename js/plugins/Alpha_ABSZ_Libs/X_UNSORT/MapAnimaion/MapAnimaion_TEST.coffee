@@ -45,7 +45,7 @@ do ->
     _.update = ->
         ALIAS__update.call(@)
         #@_linkSprite?.move TouchInput
-        @_linkSprite?.y += 4
+        #@_linkSprite?.y += 4
         #if $gameTemp._proj?
         #    $gameTemp._proj.apply(@_linkSprite)
             #@__looped.setRotation(0, 0, $gameTemp._proj.getCurrentRotation())

@@ -40,6 +40,14 @@ do ->
         @aaUpdateShatterEffect()
         @aaUpdateDynamicSprites()
     
+    #@[ALIAS]
+    ALIAS__createCharacters = _.createCharacters
+    _.createCharacters = ->
+        ALIAS__createCharacters.call(@)
+        @aaCreateMapSkills()
+        AA.EV.subscribeFor("MapSkillsRequestsClean", @_aaClearMapSkills.bind(@))
+        return
+
     return
 # ■ END Spriteset_Map.coffee
 #---------------------------------------------------------------------------

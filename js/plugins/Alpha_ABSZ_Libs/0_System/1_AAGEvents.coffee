@@ -38,12 +38,21 @@ do ->
         @events.find (ev) -> ev.name == name
 
     _._initABSGEvents = ->
+        # * Когда АБС ставиться на паузу
+        @events.push(new AA.GEvent("PauseABS"))
+
+        #TODO: Проверить эти два на использование
         @events.push(new AA.GEvent("PlayerTarget"))
         @events.push(new AA.GEvent("PlayerChangeState"))
+
+        # * Когда игрок начинает выбирать зону действия навыка
         @events.push(new AA.GEvent("PlayerSkillSelector"))
 
+        # * Когда выполнился (закончился) навык Projectile на карте
+        # * Запрашивает очистку кеша
         @events.push(new AA.GEvent("MapSkillsRequestsClean"))
 
+        # * Смена события под курсором
         @events.push(new AA.GEvent("UnderMouseEventChanged"))
 
         return

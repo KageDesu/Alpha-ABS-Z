@@ -34,18 +34,35 @@ do ->
     _.onSkillTargetCancel = -> @_resetAAState()
 
     #TODO: Возможно эта реализация довольно затратная по производительности
+    #TODO: Сделать параметр плагина - использовать боевую стойку или нет
     _._aaIsInBattleAnimaXState = ->
+        return false unless AA.isABSActive()
         myEnemies = AATargetsManager.getAllWhoHavePlayerAsTarget()
         if myEnemies.length > 0
             inRadius = AATargetsManager.getFilteredInRadius(@, 10, myEnemies)
             return inRadius.length > 0
         return false
 
+    #@[EVENT]
+    _.gev_onABSPaused = ->
+        try
+            # * Сбрасываем состояние (выбор навыка)
+            @_resetAAState()
+        catch e
+            AA.w e
 
     # * Основные (приватные) методы АБС
     # -----------------------------------------------------------------------
     do ->
         
+        #TODO: Доделать поддержку техники
+        # * Боты сейчас не учитывают isActive
+        # * Надо там добавить isTagetValid
+        #@[ALIAS]
+        #ALIAS__isActive = _.isActive
+        #_.isActive = ->
+        #    ALIAS__isActive.call(@) && !@isInVehicle()
+
         #@[ALIAS]
         ALIAS__initABS = _.initABS
         _.initABS = ->

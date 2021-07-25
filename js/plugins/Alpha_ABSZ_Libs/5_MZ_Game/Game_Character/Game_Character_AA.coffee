@@ -13,6 +13,8 @@ do ->
 
         _.AATarget = -> @AAEntity()?.getTarget()
 
+        #TODO: Это можно удалить
+
         # * Попытка установить активную цель
         _.aaTrySetTarget = (target) ->
             if @aaIsValidTargetToSet(target)
@@ -30,16 +32,6 @@ do ->
     # * Методы ABS (Навыки)
     # -----------------------------------------------------------------------
     do ->
-
-        # * Может ли использовать ABS навык
-        _.isCanPerformAASkill = (aaSkill) -> AABattleManager.canUseAASkillNow(@, aaSkill)
-
-        # * Выполнить АBS навык
-        _.executeAASkill = (aaSkill) ->
-            @AABattler().prepareAASkillForExecuting(aaSkill)
-            #TODO: ТУТ ОСТАНОВИЛСЯ
-            # * Если есть анимация, то через анимацию
-            # * Иначе сразу
 
 
 

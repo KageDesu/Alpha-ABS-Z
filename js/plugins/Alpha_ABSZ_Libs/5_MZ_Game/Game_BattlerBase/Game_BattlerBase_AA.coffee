@@ -46,6 +46,8 @@ do ->
 
     _.canUseABSItem = (item) ->
         return false unless item?
+        return false unless AA.isABSActive()
+        return false unless @canMove()
         if DataManager.isSkill(item)
             return @meetsABSSkillContitions(item)
         else if DataManager.isItem(item)
@@ -55,13 +57,11 @@ do ->
         
     _.meetsABSSkillContitions = (skill) ->
         return false unless AA.Utils.isAASkill(skill)
-        return false unless @canMove()
         return @aaIsSkillReadyInTime(skill) && @meetsSkillConditions(skill)
 
     # * Вещи не имеют таймеров
     _.meetsABSItemContitions = (item) ->
         return false unless AA.Utils.isAAItem(skill)
-        return false unless @canMove()
         return @meetsItemConditions(item)
     
     return

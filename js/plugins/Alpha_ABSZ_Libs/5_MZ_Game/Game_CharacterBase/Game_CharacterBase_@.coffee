@@ -19,7 +19,9 @@ do ->
     ALIAS__update = _.update
     _.update = ->
         ALIAS__update.call(@)
-        @aaUpdateABS() if @isABS() && AA.isABSActive()
+        if @isABS()
+            @aaUpdateABSAnimaX() if Imported.PKD_AnimaX
+            @aaUpdateABS() if AA.isABSActive()
         return
 
         

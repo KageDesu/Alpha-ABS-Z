@@ -23,6 +23,8 @@ do ->
             else if char.aaTreasurePopEngine.isEmtpy()
                 char.aaTreasurePopEngine.stop()
                 char.aaTreasurePopEngine = new AA.PopTreasureController(char, popUpItem)
+            else # * Добавляем
+                char.aaTreasurePopEngine.addItem(popUpItem)
         catch e
             AA.w e
     

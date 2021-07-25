@@ -166,9 +166,9 @@ do ->
     _._applyLMBTargetTouchMode = ->
         _.LMBTargetTouchMode = 1 # * Default
         option = @settings.LMBTargetTouchMode
-        if option.contains("att")
-            _.LMBTargetTouchMode = 0
-        else if option.contains("Smar")
+        if option.contains("Smar")
+            _.LMBTargetTouchMode = 2
+        else if option.contains("atk")
             _.LMBTargetTouchMode = 2
         else if option.contains("Tur")
             _.LMBTargetTouchMode = 3

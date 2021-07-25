@@ -14,23 +14,11 @@ do ->
     # * ABS навыки, которые можно использовать в данный момент (включая предметы)
     _.getUsableAASkills = -> @getAASkills().filter (skill) => @canUse(skill)
 
-    #TODO: Это может и не нужно уже
-    _.getAttackAASkill = ->
-    
     # * Когда совершили какое-либо АБС действие (навык)
     # * Не используется стандартный onAllActionsEnd, так как он очищает result
     _.onAAActionEnd = ->
         @removeStatesAuto(1)
         @removeBuffsAuto()
-        return
-
-    #TODO: Это может и не нужно уже
-    # * Установить ABS навык для выполнения (задать текущее действие)
-    _.prepareAASkillForExecuting = (aaSkill) ->
-        @makeActions()
-        #TODO: if item, setItem, isSkill set Skill
-        #см. ABS MV -> Game_Player.js строка 593
-        @action(0).setSkill(aaSkill.id)
         return
 
     #TODO: attackSkillId - метод у МЗ лучше, чем у МВ (там капец)

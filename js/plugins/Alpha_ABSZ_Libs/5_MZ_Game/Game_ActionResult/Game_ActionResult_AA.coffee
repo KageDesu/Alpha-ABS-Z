@@ -1,13 +1,22 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Sprite_Animation.coffee
+# ■ Game_ActionResult.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Sprite_Animation::
+    _ = Game_ActionResult::
 
+    # * Запоминаем АБС навык, который был использован
+    _.setUsedAASkill = (aaSkill) ->
+        @_lastAASkill = AA.Utils.packAASkill(aaSkill)
+
+    _.getUsedAASkill = ->
+        if @_lastAASkill?
+            return AA.Utils.unpackAASkill(@_lastAASkill)
+        else
+            return null
     
     return
-# ■ END Sprite_Animation.coffee
+# ■ END Game_ActionResult.coffee
 #---------------------------------------------------------------------------

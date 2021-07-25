@@ -3,7 +3,7 @@
 # * Большинство методов из Game_Action просто не используются
 # * Вынесен в отдельный класс чтобы не мешать обычной битве
 
-class Game_ActionAA extends Game_Action
+class AABattleAction extends Game_Action
     constructor: (subject, aaSkill) ->
         super(subject, true)
         @setAASkill(aaSkill)

@@ -58,11 +58,10 @@ do ->
             $gameSystem._isABS = true
 
         _.pauseABS = ->
+            return unless @isABSActive()
             $gameSystem._isABS = false
-            #TODO: rise GEvent
-            #TODO: Надо сбросить состояния игрока (например выбор навыка или каст)
-            #TODO: Надо сбросить состояние (в бою)
-            #TODO: Надо АИ логику сбросить (а то MoveType остаётся) (resetBattle)
+            AA.EV.call("PauseABS")
+            return
 
         _.isABSActive = -> $gameSystem._isABS is true
 

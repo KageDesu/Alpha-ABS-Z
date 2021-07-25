@@ -11,10 +11,7 @@ do ->
     #@[DEFINES]
     _ = AABattleManager
 
-    # * Может ли user использовать навык aaSkill в данный момент (имея активную цель target или null)
-    _.canUseAASkillNow = (user, aaSkill, target) -> true
-
-
+    #TODO: Не нужен по сути
 
 
     return

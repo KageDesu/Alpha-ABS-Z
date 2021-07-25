@@ -11,6 +11,7 @@ do ->
     ALIAS__initMembers = _.initMembers
     _.initMembers = ->
         ALIAS__initMembers.call(@)
+        AA.EV.subscribeFor("PauseABS", @gev_onABSPaused.bind(@))
         @_initMembersABS()
 
     # ======================================================================
