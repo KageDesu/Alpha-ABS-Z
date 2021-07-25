@@ -16,6 +16,9 @@ do ->
 
     _.isInSkillTargetingState = -> @aaState == 'skill'
 
+    # * Если ли у игрока АБС навык с ID
+    _.aaIsHaveABSSkill = (skillId) -> @AABattler().getAASkills().getById(skillId)?
+
     #TODO:?
     # * Проверка цели (см. Game_CharacterBase_AA)
     _.aaIsValidTargetToSet = (target) -> true

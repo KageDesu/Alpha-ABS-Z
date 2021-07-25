@@ -14,6 +14,20 @@ do ->
 
     #TODO: put and remove skills from skill panel
 
+    #TODO: Не работает (UI панель не обновляется)
+    _.setSkillToPanel = (skillId, slotSymbol) ->
+        try
+            return unless $gamePlayer.aaIsHaveABSSkill(skillId)
+            symbols = AA.Input.skillPanelSymbols
+            if String.any(slotSymbol)
+                if symbols.contains(slotSymbol)
+                    $gamePlayer.aaSkillsSet?.setSymbolForSkill(skillId, slotSymbol, null)
+            else
+                $gamePlayer.aaSkillsSet?.setSkillInEmptySlot(skillId)
+        catch e
+            KDCore.warning e
+        return
+
     _.pauseABS = -> AA.System.pauseABS()
 
     _.resumeABS = -> AA.System.resumeABS()
