@@ -122,6 +122,9 @@
       }
     }
 
+    //TODO: Доработать: исключить группы, правильный конвентор
+
+      //TODO: deadSwitch
     // * Извлекает параметры из команды плагина
     _parsePluginCommand() {
       var k, p, params, v;
@@ -137,6 +140,10 @@
       }
       for (k in params) {
         v = params[k];
+        if (k.contains("Group")) {
+          // * Пропускаем заголовки групп
+          continue;
+        }
         p = [k, AA.Utils.Parser.convertParameterValue(v)];
         this.parsedParams.push(p);
       }

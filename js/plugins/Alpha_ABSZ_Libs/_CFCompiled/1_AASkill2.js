@@ -13,7 +13,6 @@
 // * Пока новый навык не умеет следовать за целью (возможно введу потом)
 
 //TODO: АБС навыки могут быть и в обычной битве тоже, т.е. используется два вида настроек
-//TODO: Нужен специальный коммент <hideOutsideABS:1>
 //TODO: Навыки с ABS всегда есть на карте и в бою, а вот без ABS - нет на карте
 
 //@[STORABLE]
@@ -26,7 +25,6 @@ AASkill2 = class AASkill2 {
     this._initBase();
     this._initMain();
     this._initOnMapSettings();
-    this._initSelector();
     this._initOtherSettings();
     this._initAnimationSettings();
     return;
@@ -193,7 +191,7 @@ AASkill2 = class AASkill2 {
   };
   // * Основные АБС параметры навыка
   _._initMain = function() {
-    this.friendlyEffect = 0; //TODO:
+    this.friendlyEffect = 0; // * Еффект на дружественную команду (и себя)
     this.opponentsEffect = 1; // * Еффект на противоположную команду
     // * В СЕКУНДАХ
     return this.reloadTime = 0; // * Данный параметр может быть строкой
@@ -204,10 +202,11 @@ AASkill2 = class AASkill2 {
     this.z = 3;
     this.selectZone = 0;
     this.skillImg = "bullet0(8,5)";
-    this.hitOffset = $gameMap.tileWidth() * 0.6;
+    this.hitOffset = 28; //$gameMap.tileWidth() * 0.6
     // * Если 1, то навык срабатывает в конце своего пути в любом случае
     // * Если 0, то навык, НЕ достигнув цели, просто изчезнет
     this.noContact = 0;
+    //TODO: to WIKI (+ image and example)
     this.popUpStyleId = ""; // * Default
     // * Дополнительная анимация (используется на АБС карте, используется взамен параметра из БД)
     this.hitAnimationId = 0;
@@ -217,11 +216,13 @@ AASkill2 = class AASkill2 {
     this.noPassRegions = [];
     // * Непроходимые Terrain tags
     this.noPassTerrains = [];
+    // * Селектор карты
+    this._initSelector();
   };
   // * Параметры селектора на карте
   _._initSelector = function() {
     this.selectorColor = "#bf9324"; //"#FF22AA"
-    this.selectorImg = "RadiusSelect"; //null
+    this.selectorImg = null;
     return this.selectorOpacity = 220; //200
   };
   
@@ -231,6 +232,7 @@ AASkill2 = class AASkill2 {
   };
   // * Настройки анимации xAnima
   _._initAnimationSettings = function() {
+    this.animaXAction = null;
     return this.actionStartDelay = 0;
   };
   

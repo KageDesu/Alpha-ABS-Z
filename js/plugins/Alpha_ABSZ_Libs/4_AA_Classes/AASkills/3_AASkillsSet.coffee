@@ -9,6 +9,9 @@ class AASkillsSet
         @currentActorId = 0
         return
 
+    # * Установить ActorId из Game_Player (shortcut)
+    setPlayerActorId: -> @setActorId($gamePlayer.AABattler().actorId())
+
     # * Установить персонажа, с которым будем работать
     setActorId: (@currentActorId) ->
         # * Если персонаж не настроен, то показать стандартные навыки

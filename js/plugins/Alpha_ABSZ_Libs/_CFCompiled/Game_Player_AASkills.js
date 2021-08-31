@@ -148,11 +148,11 @@
       return;
     }
     if ((ref = this.aaSkillsSet) != null) {
-      ref.setActorId(this.AABattler().actorId());
+      ref.setPlayerActorId();
     }
+    AA.UI.refreshElement('skills');
   };
 })();
 
 // ■ END Game_Player.coffee
 //---------------------------------------------------------------------------
-//TODO: rise refresh skill panel event!

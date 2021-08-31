@@ -42,6 +42,28 @@ do ->
         return
     # -----------------------------------------------------------------------
 
+    #@[ALIAS]
+    ALIAS__list = _.list
+    _.list = ->
+        try
+            # * Вызов общего события, которое было bind к этому событию (SActions)
+            if @_aaExtraEventList?
+                t = @_aaExtraEventList
+                # * Один раз, поэтому зануляем
+                @_aaExtraEventList = null
+                # * Команда "Вызов Общего события" внутри этого события
+                # * (Так можно использовать this. и есть _eventId)
+                return [
+                        {
+                            code: 117
+                            indent: 0
+                            parameters: [t]
+                        }
+                    ]
+        catch e
+            AA.w e
+        return ALIAS__list.call(@)
+
     return
 # ■ END Game_Event.coffee
 #---------------------------------------------------------------------------

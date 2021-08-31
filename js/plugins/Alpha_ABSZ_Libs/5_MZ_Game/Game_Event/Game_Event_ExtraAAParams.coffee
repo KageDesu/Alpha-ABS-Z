@@ -3,10 +3,7 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 
-# * Данные параметры отвечают за блокирование или
-# * эффекты влияния Vector навыков на обычные (и АБС) события
-
-# * Список: vectorOffset:X, vectorAction:[]\<>, vectorBlock:[]\all\no
+# * Дополнительные параметры, которые расширяют возможности взаимодействия событий в АБС
 
 do ->
 
@@ -15,7 +12,10 @@ do ->
 
     # * При попадании Projectile в событие
     _.aaOnVectorHit = (skillId) ->
-        return unless @aaIsHaveVectorHitAction(skillId)
+        unless @aaIsHaveVectorHitAction(skillId)
+            # * Если нет для skillId ничего, то смотрим общие - 0
+            skillId = 0
+            return unless @aaIsHaveVectorHitAction(0)
         try
             for action in @_aaMapSkillVectorHitActions[skillId]
                 AA.SAaction.execute(action, @)
@@ -23,17 +23,18 @@ do ->
             AA.w e
         return
 
+    # * Блокирует ли данное событие Visor
     _.aaIsBlockVision = -> @_aaNoVisionPass is true
 
+    # * Есть ли действие при попадании конкретного Vector?
     _.aaIsHaveVectorHitAction = (skillId) ->
-        #TODO: add ZERO 0 - for all
         return false unless @_aaMapSkillVectorHitActions?
         actions = @_aaMapSkillVectorHitActions[skillId]
         return actions? and !actions.isEmpty()
 
+    # * Инициализация расширенных параметров события
     _.aaInitExtraParams = ->
         @_aaMapSkillVectorBlockList = null
-        @_aaMapSkillVectorAction = false
         @_aaMapSkillVectorHitActions = null
         @_aaMapSkillVectorOffset = 0
         @_aaExtendedHitBox = null
@@ -45,15 +46,15 @@ do ->
         @aaInitExtraParams()
         return unless @page()?
         @_aaExtractVectorOffsetParam()
-        @_aaExtractVectorActions()
         @_aaExtractVectorHitActions()
         @_aaExtractVectorBlockList()
         @_aaExtractExtendedHitBoxes()
         @_aaExtractNoVisionPass()
         return
 
-    #TODO: Добавить комментарии к методам
-    
+    # * Извлекает параметр смщенеия вектора для данного события
+    # * Т.е. смещение начала графики, когда данное событие "выпускает" вектор из себя
+    # * <vectorOffset:X>
     _._aaExtractVectorOffsetParam = ->
         try
             svOffset = KDCore.Utils.getEventCommentValue("vectorOffset", @list())
@@ -64,24 +65,9 @@ do ->
         catch e
             AA.warning e
 
-    #TODO: Пока не реализованы действия на событиях
-    #TODO: Прикрутить сюда SAction
-    _._aaExtractVectorActions = ->
-        try
-            vectorAction = KDCore.Utils.getEventCommentValue("vectorAction", @list())
-            return unless vectorAction?
-            if vectorAction.contains(":")
-                param = AA.Utils.Parser.extractABSParameterAny(vectorAction)
-                if param?
-                    @_aaMapSkillVectorAction = AA.Utils.Parser.convertArrayFromParameter(param[1])
-            else
-                @_aaMapSkillVectorAction = [] # * All
-        catch e
-            AA.warning e
-        return
-
     # * Извлекает все onVectorHit действия
-    # Пример: <onVectorHit_307:ss_A_true>
+    # * Пример: <onVectorHit_307:ss_A_true>
+    # * Можно 0 - тогда будет для всех навыков (для любого) или просто onVectorHit:SA>
     _._aaExtractVectorHitActions = ->
         try
             onHitActions = KDCore.Utils.getEventCommentValueArray("onVectorHit", @list())
@@ -90,7 +76,11 @@ do ->
             for action in onHitActions
                 try
                     actionData = AA.Utils.Parser.extractABSParameterAny(action)
-                    skillId = parseInt(actionData[0].split("_")[1])
+                    args = actionData[0].split("_")
+                    if args.length > 1
+                        skillId = parseInt(args[1])
+                    else
+                        skillId = 0 # * any
                     @_aaRegisterOnHitActionForSkill(skillId, actionData[1])
                 catch e
                     AA.warning e
@@ -108,6 +98,10 @@ do ->
             AA.warning e
         return
 
+    # * Извлекает список ID навыков, которые блокирет данное событие
+    # * <vectorBlock:no> - ничего не блокирует
+    # * <vectorBlock:all> - всё блокирует (по умолчанию)
+    # * <vectorBlock: 301, 302> - НЕ блокирует 301 и 302 навыки
     _._aaExtractVectorBlockList = ->
         try
             vectorBlockList = KDCore.Utils.getEventCommentValue("vectorBlock", @list())
@@ -123,6 +117,9 @@ do ->
             AA.warning e
         return
 
+    # * Расширенные границы коллизии события (учитывается только для АБС навыков)
+    # * UP, RIGHT, DOWN, LEFT (по часовой)
+    # * Пример: <extraHitBoxes:1,0,0,0> - расширение на 1 клетку вверх
     _._aaExtractExtendedHitBoxes = ->
         try
             values = KDCore.Utils.getEventCommentValue("extraHitBoxes", @list())
@@ -134,6 +131,10 @@ do ->
             @_aaExtendedHitBox = null
         return
 
+    # * Если есть этот комментарий, Visor АИ не может проходить через это событие
+    # * <noVisionPass>
+    #TODO: Добавить except ID событий (или врагов) как с vectorBlock
+    #TODO: Т.е. только определённые враги могут видеть через этот объект
     _._aaExtractNoVisionPass = ->
         try
             value = KDCore.Utils.getEventCommentValue("noVisionPass", @list())

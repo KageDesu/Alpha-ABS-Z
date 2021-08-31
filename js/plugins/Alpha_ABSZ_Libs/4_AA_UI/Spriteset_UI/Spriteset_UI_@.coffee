@@ -20,6 +20,7 @@ do ->
         refresh: ->
             for controller in @controllers
                 controller.refresh()
+            return
 
         onGameMessageStart: ->
             @getElementsWithMessageFlag().forEach (e) -> e.opacity = 50
@@ -38,10 +39,16 @@ do ->
 
         # * Обновить элемент (применить настройки)
         refreshElement: (tag) ->
-            #TODO: Обновить контроллер
             element = @getElement(tag)
             return unless element?
             @_applyUserSettingsFor(element, $gameSystem.aaGetUserUISettings()) ##Spriteset_UI_0
+            return
+
+        # * Обновить контроллер элемента
+        refreshController: (tag) ->
+            controller = @getController(tag)
+            return unless controller?
+            controller.refresh()
             return
 
         # * Восстановить настройки элемента

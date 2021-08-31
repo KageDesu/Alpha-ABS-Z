@@ -16,7 +16,6 @@ const scriptUrls = [
      "js/rmmz_windows.js",
      "js/plugins.js"
 ,"js/plugins/Alpha_ABSZ_Libs/@@_Alpha_@Core_TEST.js"
-,"js/plugins/Alpha_ABSZ_Libs/@@_PKD_AnimaX_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/0_@AABSZ.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAGEvents.js"
@@ -72,6 +71,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AI.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AIMove.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_ExtraAAParams.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Interpreter_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AASkills.js"
@@ -276,6 +276,17 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
 
 

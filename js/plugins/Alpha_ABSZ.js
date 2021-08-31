@@ -86,23 +86,100 @@
  * @text ABS Enemy Configurate
  * @desc Configurate enemy ABS parameters for this certaint event
  * 
+ * @arg MainGroup
+ * @text Main Group
+ * 
+ * @arg viewRadius
+ * @parent MainGroup
+ * @text View Radius
+ * @type number
+ * @min 1
+ * @max 100
+ * @default 5
+ * @desc On how many map cells sees enemy
+ * 
+ * @arg returnRadius
+ * @parent MainGroup
+ * @text  Return Radius
+ * @type number
+ * @min 1
+ * @max 100
+ * @default 12
+ * @desc How far can the enemy move away from the place where the battle begins
+ * 
+ * @arg onDeath
+ * @parent MainGroup
+ * @text On Death
+ * @type text
+ * @default
+ * @desc ABS Script action (SAction), called when enemy is die
+ * 
+ * @arg MapGroup
+ * @text Map Group
+ * 
+ * @arg shatterEffect
+ * @parent MapGroup
+ * @text Shatter Effect?
+ * @type boolean
+ * @default true
+ * @desc Is play sprite shatter effect when enemy is die?
+ * 
  * @arg deadSwitch
+ * @parent MapGroup
  * @text Dead Switch
  * @type select
  * @option A
  * @option B
  * @option C
- * @option D 
- * @default D
- * @desc What self.switch will be turn ON when enemy is dead and turn OFF when is revive (alive)
+ * @option D
+ * @option 0
+ * @default 0
+ * @desc Will turn ON this self.switch when enemy is die ( 0 - nothing )
  * 
- * @arg viewRadius
- * @text  View Range
+ * @arg eraseOnDead
+ * @parent deadSwitch
+ * @text Erase on Dead?
+ * @type boolean
+ * @default true
+ * @desc Erase Event when enemy is die? Only if NOT HAVE Dead Switch
+ * 
+ * @arg VisualGroup
+ * @text Visual Group
+ * 
+ * @arg UIInfo
+ * @parent VisualGroup
+ * @text Show UI Info?
+ * @type boolean
+ * @default true
+ * @desc Is show portrait UI when enemy is under cursor?
+ * 
+ * @arg faceName
+ * @parent VisualGroup
+ * @text Face Name
+ * @type file
+ * @required 1
+ * @dir img\faces
+ * @default
+ * @desc Image name for portrait UI
+ * 
+ * @arg faceIndex
+ * @parent faceName
+ * @text Face Index
  * @type number
- * @min 1
- * @max 50
- * @default 12
- * @desc Enemy view radius
+ * @min 0
+ * @max 100
+ * @default 0
+ * @desc Face index on face image for portrait UI
+ * 
+ * @arg AnimationGroup
+ * @text Animation Group
+ * 
+ * @arg hitAnimationId
+ * @parent AnimationGroup
+ * @text Hit Animation
+ * @type animation
+ * @default 1
+ * @desc Hit animation on character when enemy attacks
  * 
 
 

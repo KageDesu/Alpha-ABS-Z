@@ -115,7 +115,7 @@ do ->
     _.aaMoveTypeKeepDistance = ->
         try
             # * Если меньше 0, то ничего
-            if @_aaMinPatrolDist < 0
+            if @_aaMinPatrolDist <= 0
                 @aaTurnTowardTarget()
                 return
             target = @AAEntity().getTarget()

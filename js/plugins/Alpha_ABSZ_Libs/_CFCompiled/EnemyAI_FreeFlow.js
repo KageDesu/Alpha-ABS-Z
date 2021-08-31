@@ -34,6 +34,10 @@ EnemyAI_FreeFlow = class EnemyAI_FreeFlow extends AIFlow {
   };
   _._updateFlow = function() {
     this._updateReturnToHome();
+    //TODO: Временно отключим Visor для врагов, у которых нет АБС навыков вообще
+    if (!this.battler().isHaveAnyAASkill()) {
+      return;
+    }
     return this._updateVision();
   };
   _._updateReturnToHome = function() {

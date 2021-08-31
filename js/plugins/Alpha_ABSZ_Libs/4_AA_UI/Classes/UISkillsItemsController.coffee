@@ -1,4 +1,4 @@
-#TODO: Систематизация класса
+#TODO: Систематизация класса (Наследовать от )
 
 # * Данный класс работает только на Game_Player
 class UISkillsItemsController

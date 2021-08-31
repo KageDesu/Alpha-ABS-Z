@@ -25,6 +25,12 @@ do ->
 
     _.isSamePointA = (point1, point2) -> point1[0] == point2[0] && point1[1] == point2[1]
 
+    # * Является ли символ кнопкой панели навыков
+    _.isSkillPanelSymbol = (symbol) ->
+        return false unless String.any(symbol)
+        symbols = AA.Input.skillPanelSymbols
+        return symbols.contains(symbol)
+
     # * Методы распаковки и запаковки данных для хранения и сохранения игры
 
     _.packAASkill = (skill) -> skill.storeId()

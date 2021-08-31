@@ -13,6 +13,11 @@ AASkillsSet = class AASkillsSet {
     return;
   }
 
+  // * Установить ActorId из Game_Player (shortcut)
+  setPlayerActorId() {
+    return this.setActorId($gamePlayer.AABattler().actorId());
+  }
+
   // * Установить персонажа, с которым будем работать
   setActorId(currentActorId) {
     this.currentActorId = currentActorId;

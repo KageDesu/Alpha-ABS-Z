@@ -38,8 +38,13 @@ AA.UI = function() {};
       return (ref = this.uiSet) != null ? ref.refresh() : void 0;
     };
     _.refreshElement = function(tag) {
-      var ref;
-      return (ref = this.uiSet) != null ? ref.refreshElement(tag) : void 0;
+      var ref, ref1;
+      if ((ref = this.uiSet) != null) {
+        ref.refreshElement(tag);
+      }
+      if ((ref1 = this.uiSet) != null) {
+        ref1.refreshController(tag);
+      }
     };
     _.hide = function() {
       var ref;

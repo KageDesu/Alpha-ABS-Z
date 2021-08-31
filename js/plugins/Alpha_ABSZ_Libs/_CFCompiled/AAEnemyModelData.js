@@ -74,8 +74,11 @@ AAEnemyModelData = (function() {
       this.faceName = ""; // имя файла в папке faces
       this.faceIndex = 0;
       this.UIInfo = 1; // * Если 1 - показывать Target UI при наведени курсора
-      this.miniHpGaugeStyle = "";
-      return this.miniHPGaugeOffset = [0, 0];
+      this.miniHpGaugeStyle = ""; //TODO: * no used
+      return this.miniHPGaugeOffset = [
+        0,
+        0 //TODO: * no used
+      ];
     };
     _._initOtherSettings = function() {};
     _._initAnimationSettings = function() {
@@ -114,7 +117,7 @@ AAEnemyModelData = (function() {
     };
     // * Преобразует некоторые параметры
     _._convertParameters = function() {
-      this.miniHPGaugeOffset = AA.Utils.Parser.convertArrayFromParameter(this.miniHPGaugeOffset);
+      this.miniHPGaugeOffset = AA.Utils.Parser.convertArrayFromParameter(this.miniHPGaugeOffset); //TODO: * no used
       this.approachMoveData = AA.Utils.Parser.convertArrayFromParameter(this.approachMoveData);
       this.inBattleMoveData = AA.Utils.Parser.convertArrayFromParameter(this.inBattleMoveData);
     };

@@ -74,6 +74,9 @@ do ->
                     @parsedParams.push(pair)
             return
 
+        #TODO: Доработать: исключить группы, правильный конвентор
+
+        #TODO: deadSwitch
         # * Извлекает параметры из команды плагина
         _parsePluginCommand: () ->
             return unless  @param?
@@ -81,6 +84,8 @@ do ->
             params = @param.parameters[3]
             return unless params?
             for k, v of params
+                # * Пропускаем заголовки групп
+                continue if k.contains("Group")
                 p = [k, AA.Utils.Parser.convertParameterValue(v)]
                 @parsedParams.push(p)
             return

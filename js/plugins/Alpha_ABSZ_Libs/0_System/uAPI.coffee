@@ -11,22 +11,27 @@ do ->
     #@[DEFINES]
     _ = uAPI
 
+    #TODO: Execute SAction (global)
 
-    #TODO: put and remove skills from skill panel
-
-    #TODO: Не работает (UI панель не обновляется)
     _.setSkillToPanel = (skillId, slotSymbol) ->
         try
-            return unless $gamePlayer.aaIsHaveABSSkill(skillId)
-            symbols = AA.Input.skillPanelSymbols
-            if String.any(slotSymbol)
-                if symbols.contains(slotSymbol)
+            if skillId <= 0 # * Удаляем навык из панели
+                if AA.Utils.isSkillPanelSymbol(slotSymbol)
+                    $gamePlayer.aaSkillsSet?.setSymbolForSkill(0, slotSymbol, null)
+            else # * Устанавливаем навык на панель
+                # * Должен быть изучен
+                return unless $gamePlayer.aaIsHaveABSSkill(skillId)
+                if AA.Utils.isSkillPanelSymbol(slotSymbol)
                     $gamePlayer.aaSkillsSet?.setSymbolForSkill(skillId, slotSymbol, null)
-            else
-                $gamePlayer.aaSkillsSet?.setSkillInEmptySlot(skillId)
+                else # * Если символ не указан (или указан неверно, то устанавливаем в свободное место)
+                    $gamePlayer.aaSkillsSet?.setSkillInEmptySlot(skillId)
+            AA.UI.refreshElement('skills')
         catch e
             KDCore.warning e
         return
+
+    # * Если навыка нет или неверно указан slotSymbol - будет возвращён 0
+    _.getSkillIdFromPanel = (slotSymbol) -> $gamePlayer.aaSkillsSet?.getSkillForSymbol(slotSymbol)
 
     _.pauseABS = -> AA.System.pauseABS()
 
@@ -65,6 +70,8 @@ do ->
         catch e
             KDCore.warning e
 
+    #TODO: Этот метод добавить в SActions !!!
+    #TODO: show on map point, show on screen point
     _.showPopUpOnChar = (charId, styleId, value, isVariable) ->
         try
             return unless KDCore.Utils.isSceneMap()
@@ -82,9 +89,6 @@ do ->
         catch e
             KDCore.warning e
 
-    #TODO: show on map point, show on screen point
-
-    
     return
 # ■ END IMPLEMENTATION.coffee
 #---------------------------------------------------------------------------

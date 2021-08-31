@@ -4,10 +4,7 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 
-// * Данные параметры отвечают за блокирование или
-// * эффекты влияния Vector навыков на обычные (и АБС) события
-
-// * Список: vectorOffset:X, vectorAction:[]\<>, vectorBlock:[]\all\no
+// * Дополнительные параметры, которые расширяют возможности взаимодействия событий в АБС
 (function() {
   var _;
   //@[DEFINES]
@@ -16,7 +13,11 @@
   _.aaOnVectorHit = function(skillId) {
     var action, e, i, len, ref;
     if (!this.aaIsHaveVectorHitAction(skillId)) {
-      return;
+      // * Если нет для skillId ничего, то смотрим общие - 0
+      skillId = 0;
+      if (!this.aaIsHaveVectorHitAction(0)) {
+        return;
+      }
     }
     try {
       ref = this._aaMapSkillVectorHitActions[skillId];
@@ -29,21 +30,22 @@
       AA.w(e);
     }
   };
+  // * Блокирует ли данное событие Visor
   _.aaIsBlockVision = function() {
     return this._aaNoVisionPass === true;
   };
+  // * Есть ли действие при попадании конкретного Vector?
   _.aaIsHaveVectorHitAction = function(skillId) {
     var actions;
     if (this._aaMapSkillVectorHitActions == null) {
-      //TODO: add ZERO 0 - for all
       return false;
     }
     actions = this._aaMapSkillVectorHitActions[skillId];
     return (actions != null) && !actions.isEmpty();
   };
+  // * Инициализация расширенных параметров события
   _.aaInitExtraParams = function() {
     this._aaMapSkillVectorBlockList = null;
-    this._aaMapSkillVectorAction = false;
     this._aaMapSkillVectorHitActions = null;
     this._aaMapSkillVectorOffset = 0;
     this._aaExtendedHitBox = null;
@@ -56,13 +58,14 @@
       return;
     }
     this._aaExtractVectorOffsetParam();
-    this._aaExtractVectorActions();
     this._aaExtractVectorHitActions();
     this._aaExtractVectorBlockList();
     this._aaExtractExtendedHitBoxes();
     this._aaExtractNoVisionPass();
   };
-  //TODO: Добавить комментарии к методам
+  // * Извлекает параметр смщенеия вектора для данного события
+  // * Т.е. смещение начала графики, когда данное событие "выпускает" вектор из себя
+  // * <vectorOffset:X>
   _._aaExtractVectorOffsetParam = function() {
     var e, param, svOffset;
     try {
@@ -80,32 +83,11 @@
       return AA.warning(e);
     }
   };
-  //TODO: Пока не реализованы действия на событиях
-  //TODO: Прикрутить сюда SAction
-  _._aaExtractVectorActions = function() {
-    var e, param, vectorAction;
-    try {
-      vectorAction = KDCore.Utils.getEventCommentValue("vectorAction", this.list());
-      if (vectorAction == null) {
-        return;
-      }
-      if (vectorAction.contains(":")) {
-        param = AA.Utils.Parser.extractABSParameterAny(vectorAction);
-        if (param != null) {
-          this._aaMapSkillVectorAction = AA.Utils.Parser.convertArrayFromParameter(param[1]);
-        }
-      } else {
-        this._aaMapSkillVectorAction = []; // * All
-      }
-    } catch (error) {
-      e = error;
-      AA.warning(e);
-    }
-  };
   // * Извлекает все onVectorHit действия
-  // Пример: <onVectorHit_307:ss_A_true>
+  // * Пример: <onVectorHit_307:ss_A_true>
+  // * Можно 0 - тогда будет для всех навыков (для любого) или просто onVectorHit:SA>
   _._aaExtractVectorHitActions = function() {
-    var action, actionData, e, i, len, onHitActions, skillId;
+    var action, actionData, args, e, i, len, onHitActions, skillId;
     try {
       onHitActions = KDCore.Utils.getEventCommentValueArray("onVectorHit", this.list());
       if (onHitActions.isEmpty()) {
@@ -116,7 +98,12 @@
         action = onHitActions[i];
         try {
           actionData = AA.Utils.Parser.extractABSParameterAny(action);
-          skillId = parseInt(actionData[0].split("_")[1]);
+          args = actionData[0].split("_");
+          if (args.length > 1) {
+            skillId = parseInt(args[1]);
+          } else {
+            skillId = 0; // * any
+          }
           this._aaRegisterOnHitActionForSkill(skillId, actionData[1]);
         } catch (error) {
           e = error;
@@ -141,6 +128,10 @@
       AA.warning(e);
     }
   };
+  // * Извлекает список ID навыков, которые блокирет данное событие
+  // * <vectorBlock:no> - ничего не блокирует
+  // * <vectorBlock:all> - всё блокирует (по умолчанию)
+  // * <vectorBlock: 301, 302> - НЕ блокирует 301 и 302 навыки
   _._aaExtractVectorBlockList = function() {
     var e, param, vectorBlockList;
     try {
@@ -161,6 +152,9 @@
       AA.warning(e);
     }
   };
+  // * Расширенные границы коллизии события (учитывается только для АБС навыков)
+  // * UP, RIGHT, DOWN, LEFT (по часовой)
+  // * Пример: <extraHitBoxes:1,0,0,0> - расширение на 1 клетку вверх
   _._aaExtractExtendedHitBoxes = function() {
     var e, param, values;
     try {
@@ -176,6 +170,10 @@
       this._aaExtendedHitBox = null;
     }
   };
+  // * Если есть этот комментарий, Visor АИ не может проходить через это событие
+  // * <noVisionPass>
+  //TODO: Добавить except ID событий (или врагов) как с vectorBlock
+  //TODO: Т.е. только определённые враги могут видеть через этот объект
   _._aaExtractNoVisionPass = function() {
     var e, value;
     try {

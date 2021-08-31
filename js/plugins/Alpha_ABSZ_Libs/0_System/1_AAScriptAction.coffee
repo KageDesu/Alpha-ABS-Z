@@ -7,12 +7,10 @@ AA.SAaction = ->
 #---------------------------------------------------------------------------
 do ->
 
-    #TODO:balloon icon и поддержка | черты для нескольких действи
-
     #@[DEFINES]
     _ = AA.SAaction
 
-    _.ACTIONS = ["ss", "sw", "vr", "ce", "ap", "ev", "an", "ef", "se"]
+    _.ACTIONS = ["ss", "sw", "vr", "ce", "ap", "ev", "an", "ef", "se", "ba"]
 
     _.isProper = (actionLine) ->
         return false unless actionLine?
@@ -31,7 +29,6 @@ do ->
         return unless _.isProper(action)
         try
             cmd = action.split("_")[0]
-            #TODO: all this stuff below
             switch cmd
                 when "ss"
                     _.executeSelfSwitchAction(action, char)
@@ -51,6 +48,8 @@ do ->
                     _.executeEffectAction(action, char)
                 when "se"
                     _.executeSESoundAction(action)
+                when "ba"
+                    _.executeBallonIcon(action, char)
                 else
                     AA.w "Unknown script action: " + action
         catch e
@@ -94,13 +93,13 @@ do ->
         $gameVariables.setValue(varId, value)
         return
 
-    # * ce_43, ce_11_bind (?)
+    # * ce_43, ce_11_this (?)
     _.executeCommonEventAction = (action, char) ->
         args = action.split("_")
         return if args.length < 2
         ceId = parseInt(args[1])
         return if ceId <= 0
-        if args[2]? and args[2] == "bind" and char instanceof Game_Event
+        if args[2]? and args[2] == "this" and char instanceof Game_Event
             char?.aaStartCommonEvent(ceId)
         else
             $gameTemp.reserveCommonEvent(ceId)
@@ -110,16 +109,35 @@ do ->
     _.executeMapEventAction = (action) ->
         args = action.split("_")
         return if args.length < 2
-        eventId = parseInt(args[1])
-        return if eventId <= 0
-        event = $gameMap.event(eventId)
-        return unless event?
-        event.start()
+        event = @_getEventByArgId(args[1])
+        event?.start()
         return
+
+    _._getEventByArgId = (argX) ->
+        eventId = parseInt(argX)
+        return null if eventId <= 0
+        return $gameMap.event(eventId)
 
     # * ap_viewRadius_5, ap_viewRadius_4_12 (evId)
     _.executeAIModelAction = (action, char) ->
-        #TODO:
+        args = action.split("_")
+        return if args.length < 2
+        paramName = args[1]
+        return unless String.any(paramName)
+        paramValue = args[2]
+        # * Преобразование числа
+        if isFinite(paramValue)
+            paramValue = Number(paramValue)
+        #TODO: Как быть с массивами данных??? approachMoveData
+        if args[3]? # * evId
+            event = @_getEventByArgId(args[4])
+            return unless event?
+            char = event
+        # * char
+        return unless char?
+        return unless char.isABS()
+        char.aaChangeModelParam(paramName, paramValue)
+        return
 
     # * an_4 (self), an_5_3 (evId), an_2_1_2 (x,y)
     _.executeAnimationAction = (action, char) ->
@@ -133,9 +151,7 @@ do ->
             mapY = parseInt(args[3])
             AABattleActionsManager.playAnimationOnMap(mapX, mapY, animationId)
         else if args[2]? # * eventId
-            eventId = parseInt(args[2])
-            return if eventId <= 0
-            event = $gameMap.event(eventId)
+            event = @_getEventByArgId(args[2])
             return unless event?
             AABattleActionsManager.playAnimationOnCharacter(event, animationId)
         else # * on self
@@ -152,23 +168,29 @@ do ->
         switch effectName
             when "shatter"
                 _._executeEffect_Shatter(args, char)
+            when "shake"
+                _._executeEffect_Shake(args, char)
             else
-                # TODO: доделать shake
+                AA.w("SAction: effect " + effectName + " not registred in ABS")
         return
 
     _._executeEffect_Shatter = (args, char) ->
         dx = parseInt(args[2])
         dy = parseInt(args[3])
         if args[4]? # * evId
-            #TODO: можно в метод вынести, похожий код
-            eventId = parseInt(args[4])
-            return if eventId <= 0
-            event = $gameMap.event(eventId)
-            return unless event?
-            event.aaRequestShatterEffect(dx, dy)
+            event = @_getEventByArgId(args[4])
+            event?.aaRequestShatterEffect(dx, dy)
         else # * char
-            return unless char?
-            char.aaRequestShatterEffect(dx, dy)
+            char?.aaRequestShatterEffect(dx, dy)
+        return
+
+    _._executeEffect_Shake = (args, char) ->
+        time = parseInt(args[2])
+        if args[3]? # * evId
+            event = @_getEventByArgId(args[3])
+            event?.aaRequestShakeEffect(time)
+        else # * char
+            char?.aaRequestShakeEffect(time)
         return
 
     # * se_Bell1_90_100 (volume, pitch)
@@ -182,6 +204,16 @@ do ->
             volume = parseInt(args[2])
             pitch = parseInt(args[3]) if args[3]
         KDCore.Utils.playSE(name, volume, pitch)
+        return
+
+    # * ba_1, ba_2_4 (evId)
+    _.executeBallonIcon = (action, char) ->
+        args = action.split("_")
+        return if args.length < 2
+        balloonId = parseInt(args[1])
+        if args[2]? # * evId
+            char = @_getEventByArgId(args[2])
+        $gameTemp.requestBalloon(char, balloonId) if char?
         return
 
     return

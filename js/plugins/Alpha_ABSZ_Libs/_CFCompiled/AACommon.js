@@ -34,6 +34,15 @@
   _.isSamePointA = function(point1, point2) {
     return point1[0] === point2[0] && point1[1] === point2[1];
   };
+  // * Является ли символ кнопкой панели навыков
+  _.isSkillPanelSymbol = function(symbol) {
+    var symbols;
+    if (!String.any(symbol)) {
+      return false;
+    }
+    symbols = AA.Input.skillPanelSymbols;
+    return symbols.contains(symbol);
+  };
   // * Методы распаковки и запаковки данных для хранения и сохранения игры
   _.packAASkill = function(skill) {
     return skill.storeId();

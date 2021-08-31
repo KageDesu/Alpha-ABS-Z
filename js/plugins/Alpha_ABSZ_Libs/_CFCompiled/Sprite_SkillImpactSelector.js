@@ -56,11 +56,13 @@
   _._applyColor = function(color) {
     return this.bitmap.fillAll(color.toCss());
   };
+  //TODO: If empty, load default from AABS folder
   return _._applyImage = function(image) {
     if (!String.any(image)) {
-      return;
+      this.bitmap = ImageManager.loadAA("RadiusSelect");
+    } else {
+      this.bitmap = ImageManager.loadPicture(image);
     }
-    this.bitmap = ImageManager.loadPicture(image);
   };
 })();
 

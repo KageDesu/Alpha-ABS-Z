@@ -226,6 +226,9 @@ do ->
         #TODO: ItemGain вынести в отдельный плагин
         isShowItemGainNotify: -> true
 
+        # * Добавлять автоматически новый навык на панель навыков при изучении навыка
+        isAddNewSkillsOnPanelOnLearning: -> true
+
         # * Глобальные непроходимые участки карты для визоров и Projectile
         getVisionRestrictedRegions: -> @getParam("enemies_noPassVision", [])
         getVisionRestrictedTerrains: -> @getParam("enemies_noPassVision2", [])

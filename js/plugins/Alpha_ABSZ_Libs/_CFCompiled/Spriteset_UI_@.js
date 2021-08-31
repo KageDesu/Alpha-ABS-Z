@@ -27,14 +27,12 @@
 
     // * Обновить все контроллеры и элементы
     refresh() {
-      var controller, i, len, ref, results;
+      var controller, i, len, ref;
       ref = this.controllers;
-      results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         controller = ref[i];
-        results.push(controller.refresh());
+        controller.refresh();
       }
-      return results;
     }
 
     onGameMessageStart() {
@@ -67,12 +65,21 @@
     // * Обновить элемент (применить настройки)
     refreshElement(tag) {
       var element;
-      //TODO: Обновить контроллер
       element = this.getElement(tag);
       if (element == null) {
         return;
       }
       this._applyUserSettingsFor(element, $gameSystem.aaGetUserUISettings()); //#Spriteset_UI_0
+    }
+
+    // * Обновить контроллер элемента
+    refreshController(tag) {
+      var controller;
+      controller = this.getController(tag);
+      if (controller == null) {
+        return;
+      }
+      controller.refresh();
     }
 
     // * Восстановить настройки элемента

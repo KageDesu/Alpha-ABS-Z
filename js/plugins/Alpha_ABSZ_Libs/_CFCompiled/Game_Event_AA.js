@@ -186,7 +186,28 @@
 
     // * Дополнительные возможности АБС события
     // -----------------------------------------------------------------------
-    _.aaStartCommonEvent = function(ceId) {};
+    // * Запускает общее события внутри данного события (т.е. внутри себя вызов общего)
+    // * Это позволяет использовать this. и менять АБС параметры события
+    _.aaStartCommonEvent = function(ceId) {
+      var commonEvent, e;
+      try {
+        this._aaExtraEventList = null;
+        if (ceId <= 0) {
+          return;
+        }
+        "Call outer CE ".p(ceId);
+        commonEvent = $dataCommonEvents[ceId];
+        if (commonEvent == null) {
+          return;
+        }
+        this._aaExtraEventList = ceId;
+        // * Переключаем напрямую, без метода start(), так как не нужен Lock
+        this._starting = true;
+      } catch (error) {
+        e = error;
+        AA.w(e);
+      }
+    };
   })();
 })();
 
@@ -198,7 +219,3 @@
 //TODO: ОФФСЕТ ДЛЯ ВЫБОРА
 //TODO: МИНИ ХП БАР
 // Также добавить управление ним во время игры (один из трёх типов)
-//TODO:
-// см. Game_AIBot::startCommonEvent
-// см. Game_AIBot::list
-// см. Game_Interpreter::__clearCMABSEvent

@@ -7,6 +7,20 @@
   var _;
   //@[DEFINES]
   _ = AA.Utils.Parser;
+  //TODO: IN ACORE
+  _.convertParameterValue = function(paramValue) {
+    if (isFinite(paramValue)) {
+      return Number(paramValue);
+    } else {
+      if (paramValue === "true") {
+        return 1;
+      } else if (paramValue === "false") {
+        return 0;
+      } else {
+        return paramValue;
+      }
+    }
+  };
   // * Для навыков (навыки, оружие, предметы)
   _.processABSSkillsNotetags = function() {
     var item, j, k, len, len1;

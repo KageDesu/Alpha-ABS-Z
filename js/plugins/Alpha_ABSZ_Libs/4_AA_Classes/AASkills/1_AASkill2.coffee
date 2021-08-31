@@ -14,7 +14,6 @@
 # * Пока новый навык не умеет следовать за целью (возможно введу потом)
 
 #TODO: АБС навыки могут быть и в обычной битве тоже, т.е. используется два вида настроек
-#TODO: Нужен специальный коммент <hideOutsideABS:1>
 #TODO: Навыки с ABS всегда есть на карте и в бою, а вот без ABS - нет на карте
 
 #@[STORABLE]
@@ -23,7 +22,6 @@ class AASkill2
         @_initBase()
         @_initMain()
         @_initOnMapSettings()
-        @_initSelector()
         @_initOtherSettings()
         @_initAnimationSettings()
         return
@@ -146,7 +144,7 @@ do ->
 
     # * Основные АБС параметры навыка
     _._initMain = ->
-        @friendlyEffect = 0 #TODO:
+        @friendlyEffect = 0 # * Еффект на дружественную команду (и себя)
         @opponentsEffect = 1 # * Еффект на противоположную команду
         # * В СЕКУНДАХ
         @reloadTime = 0 # * Данный параметр может быть строкой
@@ -156,10 +154,11 @@ do ->
         @z = 3
         @selectZone = 0
         @skillImg = "bullet0(8,5)"
-        @hitOffset = $gameMap.tileWidth() * 0.6
+        @hitOffset = 28 #$gameMap.tileWidth() * 0.6
         # * Если 1, то навык срабатывает в конце своего пути в любом случае
         # * Если 0, то навык, НЕ достигнув цели, просто изчезнет
         @noContact = 0
+        #TODO: to WIKI (+ image and example)
         @popUpStyleId = "" # * Default
         # * Дополнительная анимация (используется на АБС карте, используется взамен параметра из БД)
         @hitAnimationId = 0
@@ -169,12 +168,14 @@ do ->
         @noPassRegions = []
         # * Непроходимые Terrain tags
         @noPassTerrains = []
+        # * Селектор карты
+        @_initSelector()
         return
 
     # * Параметры селектора на карте
     _._initSelector = ->
         @selectorColor = "#bf9324"#"#FF22AA"
-        @selectorImg = "RadiusSelect"#null
+        @selectorImg = null
         @selectorOpacity = 220#200
 
     # * Дополнительные настройки навыка
@@ -183,6 +184,7 @@ do ->
 
     # * Настройки анимации xAnima
     _._initAnimationSettings = ->
+        @animaXAction = null
         @actionStartDelay = 0
     
     # * Преобразует некоторые параметры

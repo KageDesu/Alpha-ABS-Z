@@ -31,6 +31,8 @@ do ->
 
     _._updateFlow = ->
         @_updateReturnToHome()
+        #TODO: Временно отключим Visor для врагов, у которых нет АБС навыков вообще
+        return unless @battler().isHaveAnyAASkill()
         @_updateVision()
 
     _._updateReturnToHome = ->

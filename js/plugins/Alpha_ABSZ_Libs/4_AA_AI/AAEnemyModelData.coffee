@@ -61,8 +61,8 @@ class AAEnemyModelData
             @faceName = "" # имя файла в папке faces
             @faceIndex = 0
             @UIInfo = 1 # * Если 1 - показывать Target UI при наведени курсора
-            @miniHpGaugeStyle = ""
-            @miniHPGaugeOffset = [0, 0]
+            @miniHpGaugeStyle = "" #TODO: * no used
+            @miniHPGaugeOffset = [0, 0] #TODO: * no used
 
         _._initOtherSettings = ->
 
@@ -94,7 +94,7 @@ class AAEnemyModelData
 
         # * Преобразует некоторые параметры
         _._convertParameters = ->
-            @miniHPGaugeOffset =
+            @miniHPGaugeOffset = #TODO: * no used
                 AA.Utils.Parser.convertArrayFromParameter @miniHPGaugeOffset
             @approachMoveData =
                 AA.Utils.Parser.convertArrayFromParameter @approachMoveData

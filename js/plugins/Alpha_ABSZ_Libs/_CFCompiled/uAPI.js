@@ -11,31 +11,41 @@ uAPI = function() {};
   var _;
   //@[DEFINES]
   _ = uAPI;
-  //TODO: put and remove skills from skill panel
-
-  //TODO: Не работает (UI панель не обновляется)
+  //TODO: Execute SAction (global)
   _.setSkillToPanel = function(skillId, slotSymbol) {
-    var e, ref, ref1, symbols;
+    var e, ref, ref1, ref2;
     try {
-      if (!$gamePlayer.aaIsHaveABSSkill(skillId)) {
-        return;
-      }
-      symbols = AA.Input.skillPanelSymbols;
-      if (String.any(slotSymbol)) {
-        if (symbols.contains(slotSymbol)) {
+      if (skillId <= 0) { // * Удаляем навык из панели
+        if (AA.Utils.isSkillPanelSymbol(slotSymbol)) {
           if ((ref = $gamePlayer.aaSkillsSet) != null) {
-            ref.setSymbolForSkill(skillId, slotSymbol, null);
+            ref.setSymbolForSkill(0, slotSymbol, null); // * Устанавливаем навык на панель
           }
         }
       } else {
-        if ((ref1 = $gamePlayer.aaSkillsSet) != null) {
-          ref1.setSkillInEmptySlot(skillId);
+        // * Должен быть изучен
+        if (!$gamePlayer.aaIsHaveABSSkill(skillId)) {
+          return;
+        }
+        if (AA.Utils.isSkillPanelSymbol(slotSymbol)) {
+          if ((ref1 = $gamePlayer.aaSkillsSet) != null) {
+            ref1.setSymbolForSkill(skillId, slotSymbol, null); // * Если символ не указан (или указан неверно, то устанавливаем в свободное место)
+          }
+        } else {
+          if ((ref2 = $gamePlayer.aaSkillsSet) != null) {
+            ref2.setSkillInEmptySlot(skillId);
+          }
         }
       }
+      AA.UI.refreshElement('skills');
     } catch (error) {
       e = error;
       KDCore.warning(e);
     }
+  };
+  // * Если навыка нет или неверно указан slotSymbol - будет возвращён 0
+  _.getSkillIdFromPanel = function(slotSymbol) {
+    var ref;
+    return (ref = $gamePlayer.aaSkillsSet) != null ? ref.getSkillForSymbol(slotSymbol) : void 0;
   };
   _.pauseABS = function() {
     return AA.System.pauseABS();
@@ -89,6 +99,8 @@ uAPI = function() {};
       return KDCore.warning(e);
     }
   };
+  //TODO: Этот метод добавить в SActions !!!
+  //TODO: show on map point, show on screen point
   _.showPopUpOnChar = function(charId, styleId, value, isVariable) {
     var char, e, settings;
     try {
@@ -118,4 +130,3 @@ uAPI = function() {};
 
 // ■ END IMPLEMENTATION.coffee
 //---------------------------------------------------------------------------
-//TODO: show on map point, show on screen point

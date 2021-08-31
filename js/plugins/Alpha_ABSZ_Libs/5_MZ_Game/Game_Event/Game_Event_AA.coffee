@@ -163,11 +163,21 @@ do ->
     # -----------------------------------------------------------------------
     do ->
 
+        # * Запускает общее события внутри данного события (т.е. внутри себя вызов общего)
+        # * Это позволяет использовать this. и менять АБС параметры события
         _.aaStartCommonEvent = (ceId) ->
-            #TODO:
-            # см. Game_AIBot::startCommonEvent
-            # см. Game_AIBot::list
-            # см. Game_Interpreter::__clearCMABSEvent
+            try
+                @_aaExtraEventList = null
+                return if ceId <= 0
+                "Call outer CE ".p(ceId)
+                commonEvent = $dataCommonEvents[ceId]
+                return unless commonEvent?
+                @_aaExtraEventList = ceId
+                # * Переключаем напрямую, без метода start(), так как не нужен Lock
+                @_starting = true
+            catch e
+                AA.w e
+            return
 
         return
     # -----------------------------------------------------------------------

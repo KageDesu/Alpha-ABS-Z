@@ -160,7 +160,7 @@
     var distance, e, target;
     try {
       // * Если меньше 0, то ничего
-      if (this._aaMinPatrolDist < 0) {
+      if (this._aaMinPatrolDist <= 0) {
         this.aaTurnTowardTarget();
         return;
       }

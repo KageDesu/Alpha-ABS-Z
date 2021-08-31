@@ -35,6 +35,8 @@ do ->
 
         _.refreshElement = (tag) ->
             @uiSet?.refreshElement(tag)
+            @uiSet?.refreshController(tag)
+            return
 
         _.hide = -> @uiSet?.hide()
 

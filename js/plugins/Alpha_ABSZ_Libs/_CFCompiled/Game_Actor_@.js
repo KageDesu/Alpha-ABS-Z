@@ -4,7 +4,7 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__performDamage, _;
+  var ALIAS__learnSkill, ALIAS__performDamage, _;
   //@[DEFINES]
   _ = Game_Actor.prototype;
   //@[ALIAS]
@@ -20,6 +20,28 @@
       }
     } else {
       return ALIAS__performDamage.call(this);
+    }
+  };
+  
+  //@[ALIAS]
+  ALIAS__learnSkill = _.learnSkill;
+  _.learnSkill = function(skillId) {
+    var shouldAddNewSkillToPanel;
+    // * Сперва флаг - что не надо добавлять
+    shouldAddNewSkillToPanel = false;
+    if (!this.isLearnedSkill(skillId) && AA.PP.isAddNewSkillsOnPanelOnLearning()) {
+      shouldAddNewSkillToPanel = true;
+    }
+    ALIAS__learnSkill.call(this, skillId);
+    // * Добавляем после, чтобы навык уже был у игрока
+    // * Дополнительно проверяем, выучен ли он и надо ли его добавлять
+    if (this.isLearnedSkill(skillId) && shouldAddNewSkillToPanel === true) {
+      //#TODO: Учитывать членов группы, но пока только игрок
+      // * Чтобы добавить на панель члена партии, надо ActorID менять у SkillSet
+      // * И потом опять его возвращать
+      if (this.isPlayer() && AA.Utils.isAASkill(skillId)) {
+        uAPI.setSkillToPanel(skillId);
+      }
     }
   };
 })();

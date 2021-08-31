@@ -367,6 +367,11 @@
       return true;
     }
 
+    // * Добавлять автоматически новый навык на панель навыков при изучении навыка
+    isAddNewSkillsOnPanelOnLearning() {
+      return true;
+    }
+
     // * Глобальные непроходимые участки карты для визоров и Projectile
     getVisionRestrictedRegions() {
       return this.getParam("enemies_noPassVision", []);

@@ -7,11 +7,9 @@ AA.SAaction = function() {};
   //╒═════════════════════════════════════════════════════════════════════════╛
   //---------------------------------------------------------------------------
   var _;
-  //TODO:balloon icon и поддержка | черты для нескольких действи
-
   //@[DEFINES]
   _ = AA.SAaction;
-  _.ACTIONS = ["ss", "sw", "vr", "ce", "ap", "ev", "an", "ef", "se"];
+  _.ACTIONS = ["ss", "sw", "vr", "ce", "ap", "ev", "an", "ef", "se", "ba"];
   _.isProper = function(actionLine) {
     var cmd, e, parts;
     if (actionLine == null) {
@@ -39,7 +37,6 @@ AA.SAaction = function() {};
     }
     try {
       cmd = action.split("_")[0];
-      //TODO: all this stuff below
       switch (cmd) {
         case "ss":
           return _.executeSelfSwitchAction(action, char);
@@ -59,6 +56,8 @@ AA.SAaction = function() {};
           return _.executeEffectAction(action, char);
         case "se":
           return _.executeSESoundAction(action);
+        case "ba":
+          return _.executeBallonIcon(action, char);
         default:
           return AA.w("Unknown script action: " + action);
       }
@@ -124,7 +123,7 @@ AA.SAaction = function() {};
     }
     $gameVariables.setValue(varId, value);
   };
-  // * ce_43, ce_11_bind (?)
+  // * ce_43, ce_11_this (?)
   _.executeCommonEventAction = function(action, char) {
     var args, ceId;
     args = action.split("_");
@@ -135,7 +134,7 @@ AA.SAaction = function() {};
     if (ceId <= 0) {
       return;
     }
-    if ((args[2] != null) && args[2] === "bind" && char instanceof Game_Event) {
+    if ((args[2] != null) && args[2] === "this" && char instanceof Game_Event) {
       if (char != null) {
         char.aaStartCommonEvent(ceId);
       }
@@ -145,28 +144,60 @@ AA.SAaction = function() {};
   };
   // * ev_5 ; start event 5 on this map
   _.executeMapEventAction = function(action) {
-    var args, event, eventId;
+    var args, event;
     args = action.split("_");
     if (args.length < 2) {
       return;
     }
-    eventId = parseInt(args[1]);
+    event = this._getEventByArgId(args[1]);
+    if (event != null) {
+      event.start();
+    }
+  };
+  _._getEventByArgId = function(argX) {
+    var eventId;
+    eventId = parseInt(argX);
     if (eventId <= 0) {
-      return;
+      return null;
     }
-    event = $gameMap.event(eventId);
-    if (event == null) {
-      return;
-    }
-    event.start();
+    return $gameMap.event(eventId);
   };
   // * ap_viewRadius_5, ap_viewRadius_4_12 (evId)
-  _.executeAIModelAction = function(action, char) {};
-  //TODO:
-
+  _.executeAIModelAction = function(action, char) {
+    var args, event, paramName, paramValue;
+    args = action.split("_");
+    if (args.length < 2) {
+      return;
+    }
+    paramName = args[1];
+    if (!String.any(paramName)) {
+      return;
+    }
+    paramValue = args[2];
+    // * Преобразование числа
+    if (isFinite(paramValue)) {
+      paramValue = Number(paramValue);
+    }
+    //TODO: Как быть с массивами данных??? approachMoveData
+    if (args[3] != null) {
+      event = this._getEventByArgId(args[4]);
+      if (event == null) {
+        return;
+      }
+      char = event;
+    }
+    // * char
+    if (char == null) {
+      return;
+    }
+    if (!char.isABS()) {
+      return;
+    }
+    char.aaChangeModelParam(paramName, paramValue);
+  };
   // * an_4 (self), an_5_3 (evId), an_2_1_2 (x,y)
   _.executeAnimationAction = function(action, char) {
-    var animationId, args, event, eventId, mapX, mapY;
+    var animationId, args, event, mapX, mapY;
     args = action.split("_");
     if (args.length < 2) {
       return;
@@ -181,11 +212,7 @@ AA.SAaction = function() {};
       mapY = parseInt(args[3]);
       AABattleActionsManager.playAnimationOnMap(mapX, mapY, animationId);
     } else if (args[2] != null) {
-      eventId = parseInt(args[2]);
-      if (eventId <= 0) {
-        return;
-      }
-      event = $gameMap.event(eventId);
+      event = this._getEventByArgId(args[2]);
       if (event == null) {
         return;
       }
@@ -210,29 +237,40 @@ AA.SAaction = function() {};
       case "shatter":
         _._executeEffect_Shatter(args, char);
         break;
+      case "shake":
+        _._executeEffect_Shake(args, char);
+        break;
+      default:
+        AA.w("SAction: effect " + effectName + " not registred in ABS");
     }
   };
-  // TODO: доделать shake
   _._executeEffect_Shatter = function(args, char) {
-    var dx, dy, event, eventId;
+    var dx, dy, event;
     dx = parseInt(args[2]);
     dy = parseInt(args[3]);
     if (args[4] != null) {
-      //TODO: можно в метод вынести, похожий код
-      eventId = parseInt(args[4]);
-      if (eventId <= 0) {
-        return;
+      event = this._getEventByArgId(args[4]);
+      if (event != null) {
+        event.aaRequestShatterEffect(dx, dy); // * char
       }
-      event = $gameMap.event(eventId);
-      if (event == null) {
-        return;
-      }
-      event.aaRequestShatterEffect(dx, dy); // * char
     } else {
-      if (char == null) {
-        return;
+      if (char != null) {
+        char.aaRequestShatterEffect(dx, dy);
       }
-      char.aaRequestShatterEffect(dx, dy);
+    }
+  };
+  _._executeEffect_Shake = function(args, char) {
+    var event, time;
+    time = parseInt(args[2]);
+    if (args[3] != null) {
+      event = this._getEventByArgId(args[3]);
+      if (event != null) {
+        event.aaRequestShakeEffect(time); // * char
+      }
+    } else {
+      if (char != null) {
+        char.aaRequestShakeEffect(time);
+      }
     }
   };
   // * se_Bell1_90_100 (volume, pitch)
@@ -254,5 +292,20 @@ AA.SAaction = function() {};
       }
     }
     KDCore.Utils.playSE(name, volume, pitch);
+  };
+  // * ba_1, ba_2_4 (evId)
+  _.executeBallonIcon = function(action, char) {
+    var args, balloonId;
+    args = action.split("_");
+    if (args.length < 2) {
+      return;
+    }
+    balloonId = parseInt(args[1]);
+    if (args[2] != null) {
+      char = this._getEventByArgId(args[2]);
+    }
+    if (char != null) {
+      $gameTemp.requestBalloon(char, balloonId);
+    }
   };
 })();

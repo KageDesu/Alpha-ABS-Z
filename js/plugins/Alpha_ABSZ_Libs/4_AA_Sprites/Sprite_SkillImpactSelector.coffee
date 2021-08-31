@@ -51,9 +51,12 @@ do ->
     _._applyColor = (color) ->
         @bitmap.fillAll color.toCss()
 
+    #TODO: If empty, load default from AABS folder
     _._applyImage = (image) ->
-        return unless String.any(image)
-        @bitmap = ImageManager.loadPicture(image)
+        unless String.any(image)
+            @bitmap = ImageManager.loadAA("RadiusSelect")
+        else
+            @bitmap = ImageManager.loadPicture(image)
         return
 
 

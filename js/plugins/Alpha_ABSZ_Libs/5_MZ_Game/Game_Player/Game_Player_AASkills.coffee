@@ -114,8 +114,8 @@ do ->
     # * Также выполняется начальная расстановка навыков
     _.aaRefreshABSSkillsForPanel = ->
         return unless @AABattler()?
-        @aaSkillsSet?.setActorId(@AABattler().actorId())
-        #TODO: rise refresh skill panel event!
+        @aaSkillsSet?.setPlayerActorId()
+        AA.UI.refreshElement('skills')
         return
 
     return

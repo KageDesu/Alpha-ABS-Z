@@ -4,7 +4,7 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__initMembers, _;
+  var ALIAS__initMembers, ALIAS__list, _;
   //@[DEFINES]
   _ = Game_Event.prototype;
   //@[ALIAS]
@@ -37,8 +37,35 @@
       }
     };
   })();
+  // -----------------------------------------------------------------------
+
+  //@[ALIAS]
+  ALIAS__list = _.list;
+  _.list = function() {
+    var e, t;
+    try {
+      // * Вызов общего события, которое было bind к этому событию (SActions)
+      if (this._aaExtraEventList != null) {
+        t = this._aaExtraEventList;
+        // * Один раз, поэтому зануляем
+        this._aaExtraEventList = null;
+        return [
+          {
+            // * Команда "Вызов Общего события" внутри этого события
+            // * (Так можно использовать this. и есть _eventId)
+            code: 117,
+            indent: 0,
+            parameters: [t]
+          }
+        ];
+      }
+    } catch (error) {
+      e = error;
+      AA.w(e);
+    }
+    return ALIAS__list.call(this);
+  };
 })();
 
 // ■ END Game_Event.coffee
 //---------------------------------------------------------------------------
-// -----------------------------------------------------------------------
