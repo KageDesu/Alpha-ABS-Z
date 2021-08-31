@@ -74,15 +74,15 @@
       }
       // * Выполняем навык в любом случае (даже если нету или не готов)
       if (forced === true) {
-        skill = $dataSkills[skillId];
-        if (!AA.Utils.isAASkill(skill)) {
+        skill = AA.Utils.getAASkillObject(skillId);
+        if (!AA.Utils.isAAObject(skill)) {
           // * Только АБС навык можно выполнить через этот метод
           skill = null;
         }
       } else {
         // * Иначе навык должен быть готов к использованию и выучен
         skill = this.AABattler().getUsableAASkills().find(function(s) {
-          return s.id === skillId;
+          return s.idA === skillId;
         });
       }
       if (skill != null) {
@@ -108,7 +108,7 @@
     console.log("Use skill " + skill.name);
     //TODO: А если предмет???
     //TODO: Анимация навыка атаки
-    this.setActiveAASkill(skill.id);
+    this.setActiveAASkill(skill.idA);
     skill = this.activeAASkill();
     // * Если навык работает по направлению точки (курсора)
     if (skill.isInPoint()) {

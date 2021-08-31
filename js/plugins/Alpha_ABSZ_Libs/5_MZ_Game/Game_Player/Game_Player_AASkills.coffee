@@ -56,12 +56,12 @@ do ->
             return if skillId <= 0
             # * Выполняем навык в любом случае (даже если нету или не готов)
             if forced is true
-                skill = $dataSkills[skillId]
+                skill = AA.Utils.getAASkillObject(skillId)
                 # * Только АБС навык можно выполнить через этот метод
-                skill = null unless AA.Utils.isAASkill(skill)
+                skill = null unless AA.Utils.isAAObject(skill)
             else
                 # * Иначе навык должен быть готов к использованию и выучен
-                skill = @AABattler().getUsableAASkills().find (s) -> s.id == skillId
+                skill = @AABattler().getUsableAASkills().find (s) -> s.idA == skillId
             if skill?
                 AA.UI.skillPerformResult(skillId, 1)
                 #TODO: perform skill
@@ -81,7 +81,7 @@ do ->
         console.log("Use skill " + skill.name)
         #TODO: А если предмет???
         #TODO: Анимация навыка атаки
-        @setActiveAASkill skill.id
+        @setActiveAASkill skill.idA
         skill = @activeAASkill()
         # * Если навык работает по направлению точки (курсора)
         if skill.isInPoint()

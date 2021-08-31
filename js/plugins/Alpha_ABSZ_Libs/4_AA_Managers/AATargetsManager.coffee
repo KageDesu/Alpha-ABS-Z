@@ -203,7 +203,8 @@ do ->
         try
             #TODO: ПОка просто
             dist = char.distTo(targetPoint)
-            skill = $dataSkills[skillId].AASkill
+            dataObj = AA.Utils.getAASkillObject(skillId)
+            skill = dataObj.AASkill
             #console.log("D " + dist)
             #console.log("R " + skill.range)
             return dist <= skill.range

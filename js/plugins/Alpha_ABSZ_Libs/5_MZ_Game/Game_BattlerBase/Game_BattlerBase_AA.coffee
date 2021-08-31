@@ -30,11 +30,11 @@ do ->
     # * Запустить таймер перезарядки для навыка
     _.aaSetSkillTimer = (skill) ->
         time = skill.AASkill.getReloadTime(@)
-        @aaSkillsTimers.startTimerForSkill(skill.id, time) if time > 0
+        @aaSkillsTimers.startTimerForSkill(skill.idA, time) if time > 0
         return
 
     # * Если у навыка есть таймер, значит он не готов (не важно сколько осталось времени)
-    _.aaIsSkillReadyInTime = (skill) -> !@aaSkillsTimers.isSkillHaveTimer(skill.id)
+    _.aaIsSkillReadyInTime = (skill) -> !@aaSkillsTimers.isSkillHaveTimer(skill.idA)
 
     # * Получить таймер навыка (используется для панели навыков в основном)
     _.aaGetRemainTimeForSkill = (skillId) ->
@@ -48,6 +48,7 @@ do ->
         return false unless item?
         return false unless AA.isABSActive()
         return false unless @canMove()
+        return false unless AA.Utils.isAAObject(item)
         if DataManager.isSkill(item)
             return @meetsABSSkillContitions(item)
         else if DataManager.isItem(item)
@@ -56,12 +57,10 @@ do ->
             return false
         
     _.meetsABSSkillContitions = (skill) ->
-        return false unless AA.Utils.isAASkill(skill)
         return @aaIsSkillReadyInTime(skill) && @meetsSkillConditions(skill)
 
     # * Вещи не имеют таймеров
     _.meetsABSItemContitions = (item) ->
-        return false unless AA.Utils.isAAItem(skill)
         return @meetsItemConditions(item)
     
     return

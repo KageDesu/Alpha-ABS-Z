@@ -14,7 +14,7 @@ class AAEnemyBattler extends Game_Enemy
     # * Если ли у врага хотябы одно действие с АБС навыком
     isHaveAnyAASkill: -> @_isHaveAnyAASkill is true
 
-    aaIsActionValid: (action) -> AA.Utils.isAASkill(action.skillId)
+    aaIsActionValid: (action) -> AA.Utils.isAAObject(action.skillId)
 
     isActionValid: (action) ->
         isABS = @aaIsActionValid(action)

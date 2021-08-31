@@ -7,9 +7,12 @@ do ->
     #@[DEFINES]
     _ = Game_Battler::
 
-    # * Все ABS навыки персонажа (включая предметы)
+    # * Все ABS навыки персонажа
     # У Actor и Enemy разные источники, поэтому метод тут не имеет тела
     _.getAASkills = -> []
+
+    # * Все ABS предметы персонажа
+    _.getAAItems = -> []
 
     # * ABS навыки, которые можно использовать в данный момент (включая предметы)
     _.getUsableAASkills = -> @getAASkills().filter (skill) => @canUse(skill)

@@ -7,23 +7,35 @@
   var _;
   //@[DEFINES]
   _ = AA.Utils;
-  _.isAASkill = function(skillIdOrSkill) {
-    if (isFinite(skillIdOrSkill)) {
-      if (skillIdOrSkill <= 0) {
+  // * В ABS Z предметы и навыки имеют свои уникальные ID (поле idA)
+  // * Это сделано так как предметы имели одинаковые ID что и навыки и было не удобно их различать
+  // * Теперь предметы имеют idA = id + это значение
+  _.ItemsIDStart = 9000;
+  // * Навык (или предмет) имеют AASkill данные в себе
+  _.isAAObject = function(skillIdOrObject) {
+    if (isFinite(skillIdOrObject)) {
+      if (skillIdOrObject <= 0) {
         return false;
       }
-      skillIdOrSkill = $dataSkills[skillIdOrSkill];
+      skillIdOrObject = this.getAASkillObject(skillIdOrObject);
     }
-    return skillIdOrSkill.AASkill != null;
+    return skillIdOrObject.AASkill != null;
   };
-  _.isAAItem = function(itemIdOrItem) {
-    if (isFinite(itemIdOrItem)) {
-      if (itemIdOrItem <= 0) {
-        return false;
-      }
-      itemIdOrItem = $dataItems[skillIdOrSkill];
+  _.isAASkill = function(skillId) {
+    return skillId <= this.ItemsIDStart;
+  };
+  _.isAAItem = function(skillId) {
+    return skillId > this.ItemsIDStart;
+  };
+  _.getAASkillObject = function(skillId) {
+    if (skillId <= 0) {
+      return null;
     }
-    return itemIdOrItem.AASkill != null;
+    if (this.isAAItem(skillId)) {
+      return $dataItems[skillId - this.ItemsIDStart];
+    } else {
+      return $dataSkills[skillId];
+    }
   };
   _.checkSwitch = function(value) {
     if (isFinite(value)) {
@@ -44,11 +56,14 @@
     return symbols.contains(symbol);
   };
   // * Методы распаковки и запаковки данных для хранения и сохранения игры
-  _.packAASkill = function(skill) {
-    return skill.storeId();
-  };
-  _.unpackAASkill = function(data) {
-    return AASkill2.FromStoreId(data);
+  _.unpackAASkill = function(aId) {
+    var object;
+    object = this.getAASkillObject(aId);
+    if (object != null) {
+      return object.AASkill;
+    } else {
+      return null;
+    }
   };
   _.packAAPoint = function(point) {
     var x, y;

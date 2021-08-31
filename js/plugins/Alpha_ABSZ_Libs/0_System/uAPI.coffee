@@ -19,13 +19,23 @@ do ->
                 if AA.Utils.isSkillPanelSymbol(slotSymbol)
                     $gamePlayer.aaSkillsSet?.setSymbolForSkill(0, slotSymbol, null)
             else # * Устанавливаем навык на панель
-                # * Должен быть изучен
-                return unless $gamePlayer.aaIsHaveABSSkill(skillId)
+                # * Если НАВЫК, то должен быть изучен
+                if AA.Utils.isAASkill(skillId)
+                    return unless $gamePlayer.aaIsHaveABSSkill(skillId)
+                # * Предметы можно устанавливать, даже если нет в инвентаре (будет 0)
                 if AA.Utils.isSkillPanelSymbol(slotSymbol)
                     $gamePlayer.aaSkillsSet?.setSymbolForSkill(skillId, slotSymbol, null)
                 else # * Если символ не указан (или указан неверно, то устанавливаем в свободное место)
                     $gamePlayer.aaSkillsSet?.setSkillInEmptySlot(skillId)
             AA.UI.refreshElement('skills')
+        catch e
+            KDCore.warning e
+        return
+
+    _.setItemToPanel = (itemId, slotSymbol) ->
+        try
+            itemId += AA.Utils.ItemsIDStart if itemId > 0
+            @setSkillToPanel(itemId, slotSymbol)
         catch e
             KDCore.warning e
         return

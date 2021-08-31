@@ -16,8 +16,13 @@ do ->
         #TODO: навык защиты надо тоже под АБС автоматически дорабатывать при загрузке
         attackSkillId = @attackSkillId()
         list = @skills().concat([$dataSkills[attackSkillId]])
+        # * Включает АБС предметы (так как они по сути тоже навыки)
+        # * Используется метод $gameParty.items() для быстродействия, чтобы 2 раза не проверять
+        list = list.concat($gameParty.items())
         return list.filter (skill) -> skill.AASkill?
 
+    #$[OVER]
+    _.getAAItems = -> $gameParty.items().filter (item) -> AA.Utils.isAAObject(item)
     
     return
 # ■ END Game_Actor.coffee

@@ -7,17 +7,28 @@ do ->
     #@[DEFINES]
     _ = AA.Utils
 
-    _.isAASkill = (skillIdOrSkill) ->
-        if isFinite(skillIdOrSkill)
-            return false if skillIdOrSkill <= 0
-            skillIdOrSkill = $dataSkills[skillIdOrSkill]
-        return skillIdOrSkill.AASkill?
+    # * В ABS Z предметы и навыки имеют свои уникальные ID (поле idA)
+    # * Это сделано так как предметы имели одинаковые ID что и навыки и было не удобно их различать
+    # * Теперь предметы имеют idA = id + это значение
+    _.ItemsIDStart = 9000
 
-    _.isAAItem = (itemIdOrItem) ->
-        if isFinite(itemIdOrItem)
-            return false if itemIdOrItem <= 0
-            itemIdOrItem = $dataItems[skillIdOrSkill]
-        return itemIdOrItem.AASkill?
+    # * Навык (или предмет) имеют AASkill данные в себе
+    _.isAAObject = (skillIdOrObject) ->
+        if isFinite(skillIdOrObject)
+            return false if skillIdOrObject <= 0
+            skillIdOrObject = @getAASkillObject(skillIdOrObject)
+        return skillIdOrObject.AASkill?
+
+    _.isAASkill = (skillId) -> skillId <= @ItemsIDStart
+
+    _.isAAItem = (skillId) -> skillId > @ItemsIDStart
+
+    _.getAASkillObject = (skillId) ->
+        return null if skillId <= 0
+        if @isAAItem(skillId)
+            return $dataItems[skillId - @ItemsIDStart]
+        else
+            return $dataSkills[skillId]
 
     _.checkSwitch = (value) ->
         return false if isFinite(value)
@@ -33,9 +44,12 @@ do ->
 
     # * Методы распаковки и запаковки данных для хранения и сохранения игры
 
-    _.packAASkill = (skill) -> skill.storeId()
-
-    _.unpackAASkill = (data) -> AASkill2.FromStoreId(data)
+    _.unpackAASkill = (aId) ->
+        object = @getAASkillObject(aId)
+        if object?
+            return object.AASkill
+        else
+            return null
 
     _.packAAPoint = (point) ->
         if point instanceof Game_Character

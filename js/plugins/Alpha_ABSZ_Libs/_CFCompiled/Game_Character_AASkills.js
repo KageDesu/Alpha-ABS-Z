@@ -13,7 +13,7 @@
   //TODO: А если предмет???
   _.activeAASkill = function() {
     if (this._activeAASkillId > 0) {
-      return $dataSkills[this._activeAASkillId].AASkill;
+      return AA.Utils.getAASkillObject(this._activeAASkillId).AASkill;
     } else {
       return null;
     }
@@ -57,7 +57,7 @@
     }
   };
   _.setupDelayedAASkill = function(skill, point) {
-    this.aaDelayedSkillActions.push([skill.actionStartDelay, AA.Utils.packAASkill(skill), AA.Utils.packAAPoint(point)]);
+    this.aaDelayedSkillActions.push([skill.actionStartDelay, skill.aId, AA.Utils.packAAPoint(point)]);
   };
   _._aaUpdateDelayedSkillActions = function() {
     var action, i, len, point, ref, skill;

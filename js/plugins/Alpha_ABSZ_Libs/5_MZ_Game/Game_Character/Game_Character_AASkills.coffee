@@ -12,7 +12,7 @@ do ->
     #TODO: А если предмет???
     _.activeAASkill = ->
         if @_activeAASkillId > 0
-            return $dataSkills[@_activeAASkillId].AASkill
+            return AA.Utils.getAASkillObject(@_activeAASkillId).AASkill
         else
             return null
 
@@ -45,7 +45,7 @@ do ->
 
     _.setupDelayedAASkill = (skill, point) ->
         @aaDelayedSkillActions.push(
-            [skill.actionStartDelay, AA.Utils.packAASkill(skill), AA.Utils.packAAPoint(point)]
+            [skill.actionStartDelay, skill.aId, AA.Utils.packAAPoint(point)]
         )
         return
 

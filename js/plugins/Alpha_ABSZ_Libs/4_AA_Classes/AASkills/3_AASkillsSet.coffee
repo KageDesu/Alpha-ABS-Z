@@ -63,8 +63,8 @@ class AASkillsSet
             @setSymbolForSkill(attackSkillId, AA.Input.primarySkillSymbol(), null)
             # * Добавляем остальные навыки
             for s in battler.getAASkills()
-                continue if s.id == attackSkillId
-                @setSkillInEmptySlot(s.id)
+                continue if s.idA == attackSkillId
+                @setSkillInEmptySlot(s.idA)
         catch e
             AA.w e
         return

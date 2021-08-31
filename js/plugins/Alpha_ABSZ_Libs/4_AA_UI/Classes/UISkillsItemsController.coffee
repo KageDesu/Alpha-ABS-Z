@@ -56,7 +56,7 @@ do ->
     # * Обновить состояние (таймер, доступность)
     _._updateItemState = (item) ->
         try
-            useCases = @battler.getUsableAASkills().map (skill) -> skill.id
+            useCases = @battler.getUsableAASkills().map (skill) -> skill.idA
             @_updateItemUseState(item, useCases)
         catch e
             AA.w e
@@ -99,12 +99,12 @@ do ->
     # * Задать навык в ячейку
     _._setupItem = (skill) ->
         return unless skill?
-        symb = @skillSet.getSymbolForSkill(skill.id)
+        symb = @skillSet.getSymbolForSkill(skill.idA)
         # * Нету символа для навыка (т.е. навык не находится в ячейках)
         return unless symb?
         item = @_getItemForSymbol(symb)
         return unless item?
-        item.skillId = skill.id
+        item.skillId = skill.idA
         if item.skillId == @battler.attackSkillId()
             weapon = @battler.weapons()[0]
             if weapon? and weapon.iconIndex > 0

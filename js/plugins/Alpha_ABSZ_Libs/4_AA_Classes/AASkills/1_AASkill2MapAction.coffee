@@ -56,7 +56,7 @@ class AASkill2MapAction
 
     getSubject: -> AA.Utils.unpackAAEntity(@packedSubject)
 
-    id: -> @aaSkill.databaseId
+    id: -> @aaSkill.aId
 
     zLevel: -> @aaSkill.z
 

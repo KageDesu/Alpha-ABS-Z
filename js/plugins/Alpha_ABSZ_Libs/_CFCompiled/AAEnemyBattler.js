@@ -29,7 +29,7 @@ AAEnemyBattler = class AAEnemyBattler extends Game_Enemy {
   }
 
   aaIsActionValid(action) {
-    return AA.Utils.isAASkill(action.skillId);
+    return AA.Utils.isAAObject(action.skillId);
   }
 
   isActionValid(action) {

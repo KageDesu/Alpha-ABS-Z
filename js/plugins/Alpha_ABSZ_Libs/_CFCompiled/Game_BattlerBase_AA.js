@@ -35,12 +35,12 @@
     var time;
     time = skill.AASkill.getReloadTime(this);
     if (time > 0) {
-      this.aaSkillsTimers.startTimerForSkill(skill.id, time);
+      this.aaSkillsTimers.startTimerForSkill(skill.idA, time);
     }
   };
   // * Если у навыка есть таймер, значит он не готов (не важно сколько осталось времени)
   _.aaIsSkillReadyInTime = function(skill) {
-    return !this.aaSkillsTimers.isSkillHaveTimer(skill.id);
+    return !this.aaSkillsTimers.isSkillHaveTimer(skill.idA);
   };
   // * Получить таймер навыка (используется для панели навыков в основном)
   _.aaGetRemainTimeForSkill = function(skillId) {
@@ -61,6 +61,9 @@
     if (!this.canMove()) {
       return false;
     }
+    if (!AA.Utils.isAAObject(item)) {
+      return false;
+    }
     if (DataManager.isSkill(item)) {
       return this.meetsABSSkillContitions(item);
     } else if (DataManager.isItem(item)) {
@@ -70,16 +73,10 @@
     }
   };
   _.meetsABSSkillContitions = function(skill) {
-    if (!AA.Utils.isAASkill(skill)) {
-      return false;
-    }
     return this.aaIsSkillReadyInTime(skill) && this.meetsSkillConditions(skill);
   };
   // * Вещи не имеют таймеров
   _.meetsABSItemContitions = function(item) {
-    if (!AA.Utils.isAAItem(skill)) {
-      return false;
-    }
     return this.meetsItemConditions(item);
   };
 })();

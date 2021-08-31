@@ -272,11 +272,12 @@ AATargetsManager = function() {};
   };
   // * Находится ли точка (цель) в области дейтсвия навыка (range)
   _.isInSkillRange = function(char, skillId, targetPoint) {
-    var dist, e, skill;
+    var dataObj, dist, e, skill;
     try {
       //TODO: ПОка просто
       dist = char.distTo(targetPoint);
-      skill = $dataSkills[skillId].AASkill;
+      dataObj = AA.Utils.getAASkillObject(skillId);
+      skill = dataObj.AASkill;
       //console.log("D " + dist)
       //console.log("R " + skill.range)
       return dist <= skill.range;

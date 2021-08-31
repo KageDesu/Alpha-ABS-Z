@@ -14,7 +14,7 @@
     var isInclude;
     isInclude = ALIAS__includes.call(this, item);
     if (isInclude === true) {
-      if (AA.Utils.isAASkill(item)) {
+      if (AA.Utils.isAAObject(item)) {
         if (item.AASkill.hideOutsideABS === 1) {
           return false;
         }

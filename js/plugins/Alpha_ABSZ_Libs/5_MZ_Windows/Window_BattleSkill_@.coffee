@@ -13,7 +13,7 @@ do ->
     _.includes = (item) ->
         isInclude = ALIAS__includes.call(@, item)
         if isInclude is true
-            if AA.Utils.isAASkill(item)
+            if AA.Utils.isAAObject(item)
                 if item.AASkill.hideOutsideABS is 1
                     return false
         return isInclude

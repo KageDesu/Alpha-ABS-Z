@@ -95,10 +95,10 @@ AASkillsSet = class AASkillsSet {
       // * Добавляем остальные навыки
       for (i = 0, len = ref.length; i < len; i++) {
         s = ref[i];
-        if (s.id === attackSkillId) {
+        if (s.idA === attackSkillId) {
           continue;
         }
-        this.setSkillInEmptySlot(s.id);
+        this.setSkillInEmptySlot(s.idA);
       }
     } catch (error) {
       e = error;

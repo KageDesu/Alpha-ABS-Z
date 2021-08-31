@@ -85,7 +85,13 @@
           params.push(paramPair);
         }
       }
-      item.AASkill = new AASkill2(item.id, isItem);
+      // * АБС использует свой ID, чтобы предметы и навыки различать
+      item.idA = item.id;
+      if (isItem === true) {
+        item.idA += AA.Utils.ItemsIDStart;
+      }
+      // * Данные АБС навыка храняться у предмета
+      item.AASkill = new AASkill2(item.idA, isItem);
       return item.AASkill.setNoteParameters(params);
     } catch (error) {
       e = error;

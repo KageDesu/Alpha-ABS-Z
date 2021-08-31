@@ -172,7 +172,7 @@ EnemyAI_BattleFlow = class EnemyAI_BattleFlow extends AIFlow {
       } else {
         "EEXECUTGE".p();
         char = this.char();
-        char.setActiveAASkill(this._currentAction.id);
+        char.setActiveAASkill(this._currentAction.idA);
         return char.startPerformAASkill($gamePlayer);
       }
     } catch (error) {

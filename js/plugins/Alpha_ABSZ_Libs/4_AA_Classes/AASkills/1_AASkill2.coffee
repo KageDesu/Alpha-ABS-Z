@@ -18,7 +18,7 @@
 
 #@[STORABLE]
 class AASkill2
-    constructor: (@databaseId, @isItem = false) ->
+    constructor: (@aId) ->
         @_initBase()
         @_initMain()
         @_initOnMapSettings()
@@ -26,15 +26,9 @@ class AASkill2
         @_initAnimationSettings()
         return
     
-    # * Восстановить класс навыка из сохранённого ID (распаковка)
-    @FromStoreId: (storeId) ->
-        if storeId[1] == true
-            return $dataItems[storeId[0]].AASkill
-        else
-            return $dataSkills[storeId[0]].AASkill
+    isItem: -> AA.Utils.isAAItem(@aId)
 
-    # * ID для хранения навыка, чтобы не хранить весь класс (упаковка)
-    storeId: -> [@databaseId, @isItem]
+    isSkill: -> !@isItem()
 
     # * Установить набор параметров из Note (принимает массив пар: имя - значение)
     setNoteParameters: (params) ->
@@ -48,9 +42,7 @@ class AASkill2
         else
             return @dbItem().animationId
 
-    dbItem: ->
-        db = if @isItem is true then $dataItems else $dataSkills
-        db[@databaseId]
+    dbItem: -> AA.Utils.getAASkillObject(@aId)
 
     # * Надо выбирать зону поражения для навыка
     isNeedSelectZone: -> @selectZone == 1 and @range > 0

@@ -39,7 +39,7 @@
       //#TODO: Учитывать членов группы, но пока только игрок
       // * Чтобы добавить на панель члена партии, надо ActorID менять у SkillSet
       // * И потом опять его возвращать
-      if (this.isPlayer() && AA.Utils.isAASkill(skillId)) {
+      if (this.isPlayer() && AA.Utils.isAAObject(skillId)) {
         uAPI.setSkillToPanel(skillId);
       }
     }

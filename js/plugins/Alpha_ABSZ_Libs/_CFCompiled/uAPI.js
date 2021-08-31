@@ -22,10 +22,13 @@ uAPI = function() {};
           }
         }
       } else {
-        // * Должен быть изучен
-        if (!$gamePlayer.aaIsHaveABSSkill(skillId)) {
-          return;
+        // * Если НАВЫК, то должен быть изучен
+        if (AA.Utils.isAASkill(skillId)) {
+          if (!$gamePlayer.aaIsHaveABSSkill(skillId)) {
+            return;
+          }
         }
+        // * Предметы можно устанавливать, даже если нет в инвентаре (будет 0)
         if (AA.Utils.isSkillPanelSymbol(slotSymbol)) {
           if ((ref1 = $gamePlayer.aaSkillsSet) != null) {
             ref1.setSymbolForSkill(skillId, slotSymbol, null); // * Если символ не указан (или указан неверно, то устанавливаем в свободное место)
@@ -37,6 +40,18 @@ uAPI = function() {};
         }
       }
       AA.UI.refreshElement('skills');
+    } catch (error) {
+      e = error;
+      KDCore.warning(e);
+    }
+  };
+  _.setItemToPanel = function(itemId, slotSymbol) {
+    var e;
+    try {
+      if (itemId > 0) {
+        itemId += AA.Utils.ItemsIDStart;
+      }
+      this.setSkillToPanel(itemId, slotSymbol);
     } catch (error) {
       e = error;
       KDCore.warning(e);

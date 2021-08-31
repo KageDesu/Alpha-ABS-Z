@@ -60,7 +60,11 @@ do ->
             for param in paramsRaw
                 paramPair = _.extractABSParameter(param) #ACore
                 params.push(paramPair) if paramPair?
-            item.AASkill = new AASkill2(item.id, isItem)
+            # * АБС использует свой ID, чтобы предметы и навыки различать
+            item.idA = item.id
+            item.idA += AA.Utils.ItemsIDStart if isItem is true
+            # * Данные АБС навыка храняться у предмета
+            item.AASkill = new AASkill2(item.idA, isItem)
             item.AASkill.setNoteParameters(params)
         catch e
             AA.w e

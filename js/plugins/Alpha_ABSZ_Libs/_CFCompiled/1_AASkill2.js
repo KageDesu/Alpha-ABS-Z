@@ -19,9 +19,8 @@
 var AASkill2;
 
 AASkill2 = class AASkill2 {
-  constructor(databaseId, isItem = false) {
-    this.databaseId = databaseId;
-    this.isItem = isItem;
+  constructor(aId) {
+    this.aId = aId;
     this._initBase();
     this._initMain();
     this._initOnMapSettings();
@@ -30,19 +29,12 @@ AASkill2 = class AASkill2 {
     return;
   }
 
-  
-    // * Восстановить класс навыка из сохранённого ID (распаковка)
-  static FromStoreId(storeId) {
-    if (storeId[1] === true) {
-      return $dataItems[storeId[0]].AASkill;
-    } else {
-      return $dataSkills[storeId[0]].AASkill;
-    }
+  isItem() {
+    return AA.Utils.isAAItem(this.aId);
   }
 
-  // * ID для хранения навыка, чтобы не хранить весь класс (упаковка)
-  storeId() {
-    return [this.databaseId, this.isItem];
+  isSkill() {
+    return !this.isItem();
   }
 
   // * Установить набор параметров из Note (принимает массив пар: имя - значение)
@@ -64,9 +56,7 @@ AASkill2 = class AASkill2 {
   }
 
   dbItem() {
-    var db;
-    db = this.isItem === true ? $dataItems : $dataSkills;
-    return db[this.databaseId];
+    return AA.Utils.getAASkillObject(this.aId);
   }
 
   // * Надо выбирать зону поражения для навыка

@@ -7,6 +7,7 @@
   var _;
   //@[DEFINES]
   _ = DataManager;
+  //TODO: УДАЛИТЬ
   // * Хранит ли предмет (объект) в себе ABS параметры
   _.isHaveABSParams = function(item) {
     return (item != null ? item.AASkillData : void 0) != null;

@@ -92,7 +92,7 @@ UISkillsItemsController = class UISkillsItemsController {
     var e, useCases;
     try {
       useCases = this.battler.getUsableAASkills().map(function(skill) {
-        return skill.id;
+        return skill.idA;
       });
       this._updateItemUseState(item, useCases);
     } catch (error) {
@@ -152,7 +152,7 @@ UISkillsItemsController = class UISkillsItemsController {
     if (skill == null) {
       return;
     }
-    symb = this.skillSet.getSymbolForSkill(skill.id);
+    symb = this.skillSet.getSymbolForSkill(skill.idA);
     // * Нету символа для навыка (т.е. навык не находится в ячейках)
     if (symb == null) {
       return;
@@ -161,7 +161,7 @@ UISkillsItemsController = class UISkillsItemsController {
     if (item == null) {
       return;
     }
-    item.skillId = skill.id;
+    item.skillId = skill.idA;
     if (item.skillId === this.battler.attackSkillId()) {
       weapon = this.battler.weapons()[0];
       if ((weapon != null) && weapon.iconIndex > 0) {

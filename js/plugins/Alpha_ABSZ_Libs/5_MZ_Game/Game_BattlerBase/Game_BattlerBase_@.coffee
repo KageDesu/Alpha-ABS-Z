@@ -59,7 +59,7 @@ do ->
                 weapon = @weapons()[0]
                 if weapon.meta.aaAttackSkillId?
                     skillId = parseInt(weapon.meta.aaAttackSkillId)
-                    return skillId if AA.Utils.isAASkill(skillId)
+                    return skillId if AA.Utils.isAAObject(skillId)
         return ALIAS__attackSkillId.call(@)###
 
     return
