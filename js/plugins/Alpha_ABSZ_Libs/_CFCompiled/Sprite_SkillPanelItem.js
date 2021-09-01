@@ -75,6 +75,28 @@
             width: 2
           },
           textColor: "#fcba03".toCss()
+        },
+        countText: {
+          visible: true,
+          size: {
+            w: 32,
+            h: 32
+          },
+          alignment: "right",
+          font: {
+            face: "AABS_1",
+            size: 12,
+            italic: false
+          },
+          margins: {
+            x: 0,
+            y: -6
+          },
+          outline: {
+            color: null,
+            width: 2
+          },
+          textColor: "#eb852d".toCss()
         }
       };
     }
@@ -135,7 +157,9 @@
       return this.text.draw(...arguments);
     }
 
-    drawCount() {} //@countText.draw(...arguments)
+    drawCount(a) {
+      return this.countText.draw(...arguments);
+    }
 
     drawTime() {
       return this.timeText.draw(...arguments);
@@ -234,12 +258,16 @@
   };
   _._createInfo = function() {
     this._createTimer();
-    //@_createCountText #TODO: count text for items
+    this._createCountText();
     return this._createSymbolText();
   };
   _._createTimer = function() {
     this.timeText = new AA.Sprite_UIText(this.params.timeText);
     return this.add(this.timeText);
+  };
+  _._createCountText = function() {
+    this.countText = new AA.Sprite_UIText(this.params.countText);
+    return this.add(this.countText);
   };
   _._createSymbolText = function() {
     this.text = new AA.Sprite_UIText(this.params.symbolText);

@@ -30,6 +30,12 @@ class AASkill2
 
     isSkill: -> !@isItem()
 
+    databaseId: ->
+        if @isItem()
+            return @aId - AA.Utils.ItemsIDStart
+        else
+            return @aId
+
     # * Установить набор параметров из Note (принимает массив пар: имя - значение)
     setNoteParameters: (params) ->
         @[p[0]] = p[1] for p in params

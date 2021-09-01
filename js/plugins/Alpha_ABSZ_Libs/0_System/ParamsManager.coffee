@@ -229,6 +229,9 @@ do ->
         # * Добавлять автоматически новый навык на панель навыков при изучении навыка
         isAddNewSkillsOnPanelOnLearning: -> true
 
+        # * Добавлять автоматически АБС предметы на панель навыков
+        isAddNewItemOnPanelOnPickup: -> true
+
         # * Глобальные непроходимые участки карты для визоров и Projectile
         getVisionRestrictedRegions: -> @getParam("enemies_noPassVision", [])
         getVisionRestrictedTerrains: -> @getParam("enemies_noPassVision2", [])

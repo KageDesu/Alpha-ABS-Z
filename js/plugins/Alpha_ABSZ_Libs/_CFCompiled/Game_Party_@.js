@@ -25,6 +25,9 @@
       if (AA.PP.isShowItemGainNotify()) {
         this.aaShowNotifyForItemGain(item, amount);
       }
+      if (AA.PP.isAddNewItemOnPanelOnPickup()) {
+        this.aaAddGainedItemToPanel(item, amount);
+      }
     }
   };
 })();

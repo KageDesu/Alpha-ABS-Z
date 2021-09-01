@@ -23,6 +23,7 @@ do ->
         #TODO: Пока так, но вообще это будет отдельный плагин
         if amount > 0 and @itemContainer(item)?
             @aaShowNotifyForItemGain(item, amount) if AA.PP.isShowItemGainNotify()
+            @aaAddGainedItemToPanel(item, amount) if AA.PP.isAddNewItemOnPanelOnPickup()
         return
 
     return

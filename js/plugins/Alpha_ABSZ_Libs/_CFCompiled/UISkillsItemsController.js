@@ -15,6 +15,7 @@ UISkillsItemsController = class UISkillsItemsController {
     this.battler = $gamePlayer.AABattler();
     this.skillSet = $gamePlayer.aaSkillsSet;
     this._updThread = new KDCore.TimedUpdate(20, this._updateItemsStates.bind(this));
+    this._updThreadItemCount = new KDCore.TimedUpdate(30, this._updateItemsCount.bind(this));
     this._updThreadTimers = new KDCore.TimedUpdate(2, this._updateItemsTimers.bind(this));
     this.refresh();
   }
@@ -38,22 +39,34 @@ UISkillsItemsController = class UISkillsItemsController {
   }
 
   refresh() {
-    var i, len, ref, skill;
+    var i, item, j, len, len1, panelItems, ref, skill;
     this._clearItems();
     ref = this.battler.getAASkills();
     for (i = 0, len = ref.length; i < len; i++) {
       skill = ref[i];
       this._setupItem(skill);
     }
+    // * Предметы отдельно, так как могут быть не в наличии
+    panelItems = this.skillSet.getAllItemsFromPanel().map(function(id) {
+      return AA.Utils.getAASkillObject(id);
+    });
+    for (j = 0, len1 = panelItems.length; j < len1; j++) {
+      item = panelItems[j];
+      this._setupItem(item);
+    }
+    this._updateItemsCount(); // * Сразу обновим количество
   }
 
   update() {
-    var ref, ref1;
+    var ref, ref1, ref2;
     if ((ref = this._updThread) != null) {
       ref.update();
     }
     if ((ref1 = this._updThreadTimers) != null) {
       ref1.update();
+    }
+    if ((ref2 = this._updThreadItemCount) != null) {
+      ref2.update();
     }
     this._updateInput();
   }
@@ -84,6 +97,16 @@ UISkillsItemsController = class UISkillsItemsController {
     for (i = 0, len = ref.length; i < len; i++) {
       item = ref[i];
       results.push(this._updateItemTimer(item));
+    }
+    return results;
+  };
+  _._updateItemsCount = function() {
+    var i, item, len, ref, results;
+    ref = this.skillItems;
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      item = ref[i];
+      results.push(this._updateItemCount(item));
     }
     return results;
   };
@@ -122,6 +145,14 @@ UISkillsItemsController = class UISkillsItemsController {
     } else {
       return item.drawTime("");
     }
+  };
+  // * Обновить количество (для предметов)
+  _._updateItemCount = function(item) {
+    // * Навыки пропускаем
+    if (AA.Utils.isAASkill(item.skillId)) {
+      return;
+    }
+    item.drawCount($gameParty.numItems(AA.Utils.getAASkillObject(item.skillId)));
   };
   _._updateItemUseState = function(item, useable) {
     if (item.skillId === 0) {

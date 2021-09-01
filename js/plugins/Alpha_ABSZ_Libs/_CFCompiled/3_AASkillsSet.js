@@ -33,7 +33,7 @@ AASkillsSet = class AASkillsSet {
   }
 
   currentSet() {
-    return this.bingings[this.currentActorId];
+    return this.bingings[this.currentActorId] || {};
   }
 
   setSkillInEmptySlot(skillId) {
@@ -104,6 +104,29 @@ AASkillsSet = class AASkillsSet {
       e = error;
       AA.w(e);
     }
+  }
+
+  // * Возвращает ID всех предметов на панели
+  getAllItemsFromPanel() {
+    var i, id, items, len, s, symbols;
+    items = [];
+    symbols = this.allSymbols();
+    for (i = 0, len = symbols.length; i < len; i++) {
+      s = symbols[i];
+      id = this.getSkillForSymbol(s);
+      if (AA.Utils.isAAItem(id)) {
+        items.push(id);
+      }
+    }
+    return items;
+  }
+
+  
+    // * Есть ли предмет на панели
+  // * Этот метод используется в автоматическом добавлении новых предметов
+  // * Чтобы не добавлять один и тот же предмет несколько раз
+  isHaveItemOnPanel(id) {
+    return this.getAllItemsFromPanel().contains(id);
   }
 
 };

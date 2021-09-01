@@ -22,7 +22,7 @@ class AASkillsSet
 
     allSymbols: () -> AA.Input.skillPanelSymbols
 
-    currentSet: () -> @bingings[@currentActorId]
+    currentSet: () -> @bingings[@currentActorId] || {}
 
     setSkillInEmptySlot: (skillId) ->
         symbols = @allSymbols()
@@ -69,6 +69,19 @@ class AASkillsSet
             AA.w e
         return
 
+    # * Возвращает ID всех предметов на панели
+    getAllItemsFromPanel: ->
+        items = []
+        symbols = @allSymbols()
+        for s in symbols
+            id = @getSkillForSymbol(s)
+            items.push(id) if AA.Utils.isAAItem(id)
+        return items
+    
+    # * Есть ли предмет на панели
+    # * Этот метод используется в автоматическом добавлении новых предметов
+    # * Чтобы не добавлять один и тот же предмет несколько раз
+    isHaveItemOnPanel: (id) -> return @getAllItemsFromPanel().contains(id)
 
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AASkillsSet.coffee

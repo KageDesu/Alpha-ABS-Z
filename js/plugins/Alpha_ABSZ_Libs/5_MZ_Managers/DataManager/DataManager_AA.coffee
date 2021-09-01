@@ -7,10 +7,7 @@ do ->
     #@[DEFINES]
     _ = DataManager
 
-    #TODO: УДАЛИТЬ
-    # * Хранит ли предмет (объект) в себе ABS параметры
-    _.isHaveABSParams = (item) -> return item?.AASkillData?
-    
+
     return
 # ■ END DataManager.coffee
 #---------------------------------------------------------------------------

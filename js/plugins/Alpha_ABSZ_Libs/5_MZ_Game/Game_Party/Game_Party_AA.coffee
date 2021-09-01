@@ -7,6 +7,16 @@ do ->
     #@[DEFINES]
     _ = Game_Party::
 
+    _.aaAddGainedItemToPanel = (item, count) ->
+        return unless AA.Utils.isAAObject(item)
+        # * Новый предмет (т.е. раньше не было)
+        if @numItems(item) == count
+            # * Тут надо использовать aID
+            unless $gamePlayer.aaSkillsSet.isHaveItemOnPanel(item.aId)
+                # * Тут используется обычный ID (так как конвертируется в методе)
+                uAPI.setItemToPanel(item.id)
+        return
+
     _.aaShowNotifyForItemGain = (item, count) ->
         try
             return unless KDCore.Utils.isSceneMap()

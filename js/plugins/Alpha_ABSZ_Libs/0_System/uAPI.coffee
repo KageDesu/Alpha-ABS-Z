@@ -13,6 +13,9 @@ do ->
 
     #TODO: Execute SAction (global)
 
+    # * Добавить навык на панель навыков
+    # * 0 - убрать из слота
+    # * slotSymbol == null - в любое не занятое место
     _.setSkillToPanel = (skillId, slotSymbol) ->
         try
             if skillId <= 0 # * Удаляем навык из панели
@@ -32,9 +35,12 @@ do ->
             KDCore.warning e
         return
 
+    # * Добавить предмет на панель навыков, поддерживает как обычные ID, так и aID
     _.setItemToPanel = (itemId, slotSymbol) ->
         try
-            itemId += AA.Utils.ItemsIDStart if itemId > 0
+            # * Автоматическое преобразование в ID предмета
+            if itemId > 0 and !AA.isAAItem(itemId)
+                itemId += AA.Utils.ItemsIDStart
             @setSkillToPanel(itemId, slotSymbol)
         catch e
             KDCore.warning e

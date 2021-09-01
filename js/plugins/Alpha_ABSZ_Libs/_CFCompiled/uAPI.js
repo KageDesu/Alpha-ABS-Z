@@ -12,6 +12,10 @@ uAPI = function() {};
   //@[DEFINES]
   _ = uAPI;
   //TODO: Execute SAction (global)
+
+  // * Добавить навык на панель навыков
+  // * 0 - убрать из слота
+  // * slotSymbol == null - в любое не занятое место
   _.setSkillToPanel = function(skillId, slotSymbol) {
     var e, ref, ref1, ref2;
     try {
@@ -45,10 +49,12 @@ uAPI = function() {};
       KDCore.warning(e);
     }
   };
+  // * Добавить предмет на панель навыков, поддерживает как обычные ID, так и aID
   _.setItemToPanel = function(itemId, slotSymbol) {
     var e;
     try {
-      if (itemId > 0) {
+      // * Автоматическое преобразование в ID предмета
+      if (itemId > 0 && !AA.isAAItem(itemId)) {
         itemId += AA.Utils.ItemsIDStart;
       }
       this.setSkillToPanel(itemId, slotSymbol);

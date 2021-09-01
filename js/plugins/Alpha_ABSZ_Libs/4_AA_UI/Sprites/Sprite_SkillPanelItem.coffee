@@ -41,6 +41,15 @@ do ->
                 outline: { color: null, width: 2 }
                 textColor: "#fcba03".toCss()
             }
+            countText: {
+                visible: true
+                size: { w: 32, h: 32 }
+                alignment: "right"
+                font: { face: "AABS_1", size: 12, italic: false }
+                margins: { x: 0, y: -6 }
+                outline: { color: null, width: 2 }
+                textColor: "#eb852d".toCss()
+            }
         }
 
         #$[OVER]
@@ -76,7 +85,7 @@ do ->
 
         drawSymbol: () -> @text.draw(...arguments)
 
-        drawCount: () -> #@countText.draw(...arguments)
+        drawCount: (a) -> @countText.draw(...arguments)
 
         drawTime: () -> @timeText.draw(...arguments)
 
@@ -167,12 +176,16 @@ do ->
 
     _._createInfo = ->
         @_createTimer()
-        #@_createCountText #TODO: count text for items
+        @_createCountText()
         @_createSymbolText()
 
     _._createTimer = ->
         @timeText = new AA.Sprite_UIText(@params.timeText)
         @add @timeText
+
+    _._createCountText = ->
+        @countText = new AA.Sprite_UIText(@params.countText)
+        @add @countText
 
     _._createSymbolText = ->
         @text = new AA.Sprite_UIText(@params.symbolText)

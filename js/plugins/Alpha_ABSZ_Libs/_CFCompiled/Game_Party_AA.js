@@ -7,6 +7,19 @@
   var _;
   //@[DEFINES]
   _ = Game_Party.prototype;
+  _.aaAddGainedItemToPanel = function(item, count) {
+    if (!AA.Utils.isAAObject(item)) {
+      return;
+    }
+    // * Новый предмет (т.е. раньше не было)
+    if (this.numItems(item) === count) {
+      // * Тут надо использовать aID
+      if (!$gamePlayer.aaSkillsSet.isHaveItemOnPanel(item.aId)) {
+        // * Тут используется обычный ID (так как конвертируется в методе)
+        uAPI.setItemToPanel(item.id);
+      }
+    }
+  };
   _.aaShowNotifyForItemGain = function(item, count) {
     var char, e, popUpItem;
     try {

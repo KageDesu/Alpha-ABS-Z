@@ -372,6 +372,11 @@
       return true;
     }
 
+    // * Добавлять автоматически АБС предметы на панель навыков
+    isAddNewItemOnPanelOnPickup() {
+      return true;
+    }
+
     // * Глобальные непроходимые участки карты для визоров и Projectile
     getVisionRestrictedRegions() {
       return this.getParam("enemies_noPassVision", []);

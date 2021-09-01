@@ -37,6 +37,14 @@ AASkill2 = class AASkill2 {
     return !this.isItem();
   }
 
+  databaseId() {
+    if (this.isItem()) {
+      return this.aId - AA.Utils.ItemsIDStart;
+    } else {
+      return this.aId;
+    }
+  }
+
   // * Установить набор параметров из Note (принимает массив пар: имя - значение)
   setNoteParameters(params) {
     var i, len, p;

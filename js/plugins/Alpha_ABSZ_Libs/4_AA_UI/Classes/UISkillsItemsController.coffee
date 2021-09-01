@@ -10,6 +10,7 @@ class UISkillsItemsController
         @battler = $gamePlayer.AABattler()
         @skillSet = $gamePlayer.aaSkillsSet
         @_updThread = new KDCore.TimedUpdate(20, @_updateItemsStates.bind(@))
+        @_updThreadItemCount = new KDCore.TimedUpdate(30, @_updateItemsCount.bind(@))
         @_updThreadTimers = new KDCore.TimedUpdate(2, @_updateItemsTimers.bind(@))
         @refresh()
         return
@@ -28,11 +29,16 @@ class UISkillsItemsController
     refresh: ->
         @_clearItems()
         @_setupItem(skill) for skill in @battler.getAASkills()
+        # * Предметы отдельно, так как могут быть не в наличии
+        panelItems = @skillSet.getAllItemsFromPanel().map (id) -> AA.Utils.getAASkillObject(id)
+        @_setupItem(item) for item in panelItems
+        @_updateItemsCount() # * Сразу обновим количество
         return
 
     update: ->
         @_updThread?.update()
         @_updThreadTimers?.update()
+        @_updThreadItemCount?.update()
         @_updateInput()
         return
 
@@ -52,6 +58,10 @@ do ->
     _._updateItemsTimers = ->
         for item in @skillItems
             @_updateItemTimer(item)
+
+    _._updateItemsCount = ->
+        for item in @skillItems
+            @_updateItemCount(item)
 
     # * Обновить состояние (таймер, доступность)
     _._updateItemState = (item) ->
@@ -79,6 +89,13 @@ do ->
                 item.drawTime("")
         else
             item.drawTime("")
+
+    # * Обновить количество (для предметов)
+    _._updateItemCount = (item) ->
+        # * Навыки пропускаем
+        return if AA.Utils.isAASkill(item.skillId)
+        item.drawCount($gameParty.numItems(AA.Utils.getAASkillObject(item.skillId)))
+        return
 
     _._updateItemUseState = (item, useable) ->
         if item.skillId == 0
