@@ -21,6 +21,10 @@ do ->
                 # * Новая система (без выбора целей)
                 # * Обновим поиск цели под курсором
                 @aaRefreshMouseDetection()
+                # * Статичная атака при повороте
+                if $gamePlayer.aaIsStaticAttackInRotation()
+                    $gamePlayer.aaPerformPlayerAttack01(false)
+                    return
                 if $gameTemp._aaEventUnderCursor?
                     # * Нажатие по цели
                     @_aaOnTouchOnTarget()
@@ -90,6 +94,10 @@ do ->
             # * Новая система (без выбора целей)
             # * Обновим поиск цели под курсором
             @aaRefreshMouseDetection()
+            # * Статичная атака при повороте
+            if $gamePlayer.aaIsStaticAttackInRotation()
+                    $gamePlayer.aaPerformPlayerAttack02(false)
+                    return true
             if $gameTemp._aaEventUnderCursor?
                 # * Нажатие по цели
                 isNotShowMenu = @_aaOnCancelTouchOnTarget()

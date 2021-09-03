@@ -7,6 +7,13 @@
   var _;
   //@[DEFINES]
   _ = Game_Player.prototype;
+  // * Только атака по нажатию LMB или RMB в режиме поворота (Cntr зажата)
+  //TODO: Plugin Parameter
+  //TODO: Можно DYNAMIC сделать метод (т.е. если параметр отключён, занулить его)
+  // см. AASystem -> applyParameters метод (в нём можно занулять)
+  _.aaIsStaticAttackInRotation = function() {
+    return this.aaInRotation === true && AA.Input.IsStaticAttackWhenRotating === true;
+  };
   _._aaUpdatePlayerInput = function() {
     var e;
     if (!$gamePlayer.canBeControlled()) {
@@ -22,11 +29,9 @@
     }
   };
   _._aaUpdateInput_Rotation = function() {
-    // * Чтобы не поворачивался во время анимации
-    if (!this.canMove()) {
-      return;
-    }
-    if (Input.isPressed(AA.IKey.ROT)) {
+    // * Чтобы не поворачивался во время анимации, проверяем и canMove()
+    this.aaInRotation = this.canMove() && Input.isPressed(AA.IKey.ROT);
+    if (this.aaInRotation) {
       this.turnTowardCharacter(TouchInput.toMapPoint());
     }
   };

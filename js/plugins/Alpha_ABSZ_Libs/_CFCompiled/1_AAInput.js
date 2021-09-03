@@ -40,6 +40,7 @@ AA.IKey = function() {};
   _.init = function(settings) {
     this.settings = settings;
     _.IsDiagonal = this.settings.isDiagonalMovement;
+    _.IsStaticAttackWhenRotating = this.settings.isStaticAtkRot;
     this._loadSkillPanelSymbols();
     this.applyInputSettings();
     this.applyKeybindings();

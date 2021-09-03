@@ -56,6 +56,14 @@
 @off No
 @desc Moving in 8 directions?
 
+@param isStaticAtkRot:b
+@text Attack when rotation?
+@type boolean
+@default true
+@on Yes
+@off No
+@desc Always only attack (no move) when rotating if mouse clicked on map?
+
 @param keybingind
 @text Key Bindings
 

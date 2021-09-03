@@ -19,6 +19,11 @@
         // * Новая система (без выбора целей)
         // * Обновим поиск цели под курсором
         this.aaRefreshMouseDetection();
+        // * Статичная атака при повороте
+        if ($gamePlayer.aaIsStaticAttackInRotation()) {
+          $gamePlayer.aaPerformPlayerAttack01(false);
+          return;
+        }
         if ($gameTemp._aaEventUnderCursor != null) {
           // * Нажатие по цели
           this._aaOnTouchOnTarget();
@@ -112,6 +117,11 @@
       // * Новая система (без выбора целей)
       // * Обновим поиск цели под курсором
       this.aaRefreshMouseDetection();
+      // * Статичная атака при повороте
+      if ($gamePlayer.aaIsStaticAttackInRotation()) {
+        $gamePlayer.aaPerformPlayerAttack02(false);
+        return true;
+      }
       if ($gameTemp._aaEventUnderCursor != null) {
         // * Нажатие по цели
         isNotShowMenu = this._aaOnCancelTouchOnTarget();

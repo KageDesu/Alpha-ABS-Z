@@ -15,7 +15,7 @@
  * @param inputSettings:struct
  * @text Controls Settings
  * @type struct<LInputSettings>
- * @default {"LMBMapTouchMode":"Default (move)","RMBMapTouchMode":"Turn","LMBTargetTouchMode":"Smart attack (Primary)","RMBTargetTouchMode":"Smart attack (Secondary)","moveType":"WASD and Arrows","isDiagonalMovement:b":"true","keybingind":"","kbReload":"R","kbCommandMenu":"C","kbRotate":"Control"}
+ * @default {"LMBMapTouchMode":"Default (move)","RMBMapTouchMode":"Turn","LMBTargetTouchMode":"Smart attack (Primary)","RMBTargetTouchMode":"Smart attack (Secondary)","moveType":"WASD and Arrows","isDiagonalMovement:b":"true","isStaticAtkRot:b":"true","keybingind":"","kbReload":"R","kbCommandMenu":"C","kbRotate":"Control"}
  * @desc Controls and keybingind settings
  * 
  * @param spacer|visual @text‏‏‎ ‎@desc ===============================================
@@ -241,6 +241,14 @@
 @on Yes
 @off No
 @desc Moving in 8 directions?
+
+@param isStaticAtkRot:b
+@text Attack when rotation?
+@type boolean
+@default true
+@on Yes
+@off No
+@desc Always only attack (no move) when rotating if mouse clicked on map?
 
 @param keybingind
 @text Key Bindings

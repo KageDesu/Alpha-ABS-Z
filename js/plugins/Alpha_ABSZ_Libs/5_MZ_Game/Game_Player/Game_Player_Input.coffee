@@ -7,6 +7,13 @@ do ->
     #@[DEFINES]
     _ = Game_Player::
 
+    # * Только атака по нажатию LMB или RMB в режиме поворота (Cntr зажата)
+    #TODO: Plugin Parameter
+    #TODO: Можно DYNAMIC сделать метод (т.е. если параметр отключён, занулить его)
+    # см. AASystem -> applyParameters метод (в нём можно занулять)
+    _.aaIsStaticAttackInRotation = -> @aaInRotation is true &&
+        AA.Input.IsStaticAttackWhenRotating is true
+
     _._aaUpdatePlayerInput = ->
         return unless $gamePlayer.canBeControlled()
         try
@@ -18,10 +25,9 @@ do ->
         return
 
     _._aaUpdateInput_Rotation = ->
-        # * Чтобы не поворачивался во время анимации
-        return unless @canMove()
-        if Input.isPressed(AA.IKey.ROT)
-            @turnTowardCharacter(TouchInput.toMapPoint())
+        # * Чтобы не поворачивался во время анимации, проверяем и canMove()
+        @aaInRotation = @canMove() && Input.isPressed(AA.IKey.ROT)
+        @turnTowardCharacter(TouchInput.toMapPoint()) if @aaInRotation
         return
 
     _._aaUpdateInput_ActionKeys = ->

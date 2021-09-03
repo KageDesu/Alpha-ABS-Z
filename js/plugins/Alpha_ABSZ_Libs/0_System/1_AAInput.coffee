@@ -32,6 +32,7 @@ do ->
 
     _.init = (@settings) ->
         _.IsDiagonal = @settings.isDiagonalMovement
+        _.IsStaticAttackWhenRotating = @settings.isStaticAtkRot
         @_loadSkillPanelSymbols()
         @applyInputSettings()
         @applyKeybindings()
