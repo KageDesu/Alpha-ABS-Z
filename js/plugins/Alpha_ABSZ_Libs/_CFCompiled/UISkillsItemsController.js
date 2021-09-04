@@ -228,6 +228,48 @@ UISkillsItemsController = class UISkillsItemsController {
       }
     }
   };
+  // * Обработка нажатия правкой кнопкой мыши по слоту (вызывается из AA.UI)
+  _.handleSkillSelectorProcess = function() {
+    var symbol;
+    if (AA.UI.isSkillSelectorOpen()) {
+      AA.UI.closeSkillSelector();
+      // * Если было нажатие на другой слот, то сразу открываем его
+      symbol = this._getSkillSymbolSelectorHandled();
+      if ((symbol != null) && $gameTemp.__aaLastSkillSelectorSymbol !== symbol) {
+        return this.handleSkillSelectorProcess(); // * Если было нажатие на слот, но этот же, закрываем его
+      } else {
+        $gameTemp.__aaLastSkillSelectorSymbol = null;
+        return true;
+      }
+    } else {
+      symbol = this._getSkillSymbolSelectorHandled();
+      if (symbol != null) {
+        AA.UI.openSkillSelectorFor(symbol);
+        $gameTemp.__aaLastSkillSelectorSymbol = symbol;
+        return true;
+      }
+    }
+    return false;
+  };
+  // * Возвращает symbol слота, если было открыто меню выбора навыка (правой кнопкой по слоту)
+  _._getSkillSymbolSelectorHandled = function() {
+    var item;
+    // * Только по правой кнопке мыши (всегда)
+    if (TouchInput.isCancelled()) {
+      item = this._getItemUnderCursor();
+      if (item != null) {
+        return item.symbol;
+      }
+    }
+    return null;
+  };
+  
+  // * Получить Skill Item под курсором
+  _._getItemUnderCursor = function() {
+    return this.skillItems.find(function(item) {
+      return item.isUnderMouse();
+    });
+  };
 })();
 
 // ■ END PRIVATE.coffee

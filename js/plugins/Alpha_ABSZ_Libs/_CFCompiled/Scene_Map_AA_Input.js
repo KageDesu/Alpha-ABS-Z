@@ -105,13 +105,13 @@
     // * Если вернуть true - то меню НЕ будет показано
     _.onMapCancelTouchAA = function() {
       var isNotShowMenu;
+      if (AA.UI.isAnyUIElementTouchProcess()) {
+        // * инвернтарь, Hot бар и т.д.
+        return true;
+      }
       // * Отмена выбора зоны поражения навыка
       if ($gamePlayer.isInSkillTargetingState()) {
         $gamePlayer.onSkillTargetCancel();
-        return true;
-      }
-      if (AA.UI.isAnyUIElementTouchProcess()) {
-        // * инвернтарь, Hot бар и т.д.
         return true;
       }
       // * Новая система (без выбора целей)

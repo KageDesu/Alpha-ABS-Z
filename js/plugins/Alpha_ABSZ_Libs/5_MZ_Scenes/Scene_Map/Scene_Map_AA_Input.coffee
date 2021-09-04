@@ -85,12 +85,12 @@ do ->
 
         # * Если вернуть true - то меню НЕ будет показано
         _.onMapCancelTouchAA = ->
+            # * инвернтарь, Hot бар и т.д.
+            return true if AA.UI.isAnyUIElementTouchProcess()
             # * Отмена выбора зоны поражения навыка
             if $gamePlayer.isInSkillTargetingState()
                 $gamePlayer.onSkillTargetCancel()
                 return true
-            # * инвернтарь, Hot бар и т.д.
-            return true if AA.UI.isAnyUIElementTouchProcess()
             # * Новая система (без выбора целей)
             # * Обновим поиск цели под курсором
             @aaRefreshMouseDetection()

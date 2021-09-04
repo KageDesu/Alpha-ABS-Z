@@ -51,6 +51,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/EnemyAI_BattleFlow.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/EnemyAI_FlowMachine.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/EnemyAI_FreeFlow.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/FWindow_SkillSelect.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionResult_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_ActionResult_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Actor_@.js"
@@ -100,6 +101,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_Input.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_MouseDetection.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_Scroll_DEV.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_SSW_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Title.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_UIEditor_@.js"
@@ -141,6 +143,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UserUISettings.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Window_BattleSkill_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Window_Message_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/zFloating_Window.js"
 ];
 const effekseerWasmUrl = "js/libs/effekseer.wasm";
 
@@ -276,6 +279,9 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
 
 
 

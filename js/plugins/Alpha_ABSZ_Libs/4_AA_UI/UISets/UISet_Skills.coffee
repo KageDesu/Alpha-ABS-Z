@@ -12,6 +12,7 @@ do ->
             @_create()
             @refresh()
 
+        # * Этот метод нужен обязательно
         refresh: ->
             try
                 

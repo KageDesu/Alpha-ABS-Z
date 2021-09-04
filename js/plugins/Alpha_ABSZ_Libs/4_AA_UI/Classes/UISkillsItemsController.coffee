@@ -147,6 +147,35 @@ do ->
             $gamePlayer.aaTryPerformSkill(item.skillId) if item?
         return
 
+    # * Обработка нажатия правкой кнопкой мыши по слоту (вызывается из AA.UI)
+    _.handleSkillSelectorProcess = ->
+        if AA.UI.isSkillSelectorOpen()
+            AA.UI.closeSkillSelector()
+            # * Если было нажатие на другой слот, то сразу открываем его
+            symbol = @_getSkillSymbolSelectorHandled()
+            if symbol? and $gameTemp.__aaLastSkillSelectorSymbol != symbol
+                return @handleSkillSelectorProcess()
+            else # * Если было нажатие на слот, но этот же, закрываем его
+                $gameTemp.__aaLastSkillSelectorSymbol = null
+                return true
+        else
+            symbol = @_getSkillSymbolSelectorHandled()
+            if symbol?
+                AA.UI.openSkillSelectorFor(symbol)
+                $gameTemp.__aaLastSkillSelectorSymbol = symbol
+                return true
+        return false
+
+    # * Возвращает symbol слота, если было открыто меню выбора навыка (правой кнопкой по слоту)
+    _._getSkillSymbolSelectorHandled = ->
+        # * Только по правой кнопке мыши (всегда)
+        if TouchInput.isCancelled()
+            item = @_getItemUnderCursor()
+            return item.symbol if item?
+        return null
+    
+    # * Получить Skill Item под курсором
+    _._getItemUnderCursor = () -> @skillItems.find (item) -> item.isUnderMouse()
 
     return
 # ■ END PRIVATE.coffee

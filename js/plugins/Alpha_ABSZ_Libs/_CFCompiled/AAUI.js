@@ -13,11 +13,16 @@ AA.UI = function() {};
     this.uiSet = uiSet;
     return this._subscribeForEvents();
   };
+  _.isValid = function() {
+    return this.uiSet != null;
+  };
   // * Когда появляется окно с сообщением
   _.onGameMessageStart = function() {
     var ref;
     return (ref = this.uiSet) != null ? ref.onGameMessageStart() : void 0;
   };
+  //TODO: Опция, чтобы автоматически закрывать окно выбора навыков, когда появляется сообщение
+
   // * Когда заканчивается окно с сообщением
   _.onGameMessageEnd = function() {
     var ref;
@@ -27,8 +32,12 @@ AA.UI = function() {};
   _.isUITouched = function() {
     return false;
   };
+  // * Вызывается когда сцена карты заканчивается
+  //TODO: Сюда добавить автоматическое закрытие окна выбора навыков
   _.terminate = function() {
     var ref;
+    //TODO: TEMP
+    this.closeSkillSelector();
     return (ref = this.uiSet) != null ? ref.terminate() : void 0;
   };
   (function() {    // * Основной интерфейс Spriteset_UI
@@ -56,22 +65,93 @@ AA.UI = function() {};
     };
     // * Если какой-либо UI элемент обрабатывает нажатие курсора, то true
     return _.isAnyUIElementTouchProcess = function() {
-      return false;
+      // * Обработка окна выбора навыков
+      if (this._isSkillSelectorProcessHandler()) {
+        return true;
+      } else {
+        return false;
+      }
     };
   })();
-  (function() {    // -----------------------------------------------------------------------
+  (function() {    //TODO: Вот тут надо делать проверку, что если селектор навыков отркыт и нажимается правая
+    // кнопка мыши, то мы должны закрыть селектор навыков сперва (ОПЦИЯ)
+
+    // -----------------------------------------------------------------------
 
     // * Набор навыков
     // -----------------------------------------------------------------------
+    // * Открыть окно выбора навыка для слота (символа)
+    _.openSkillSelectorFor = function(symbol) {
+      var cntrl, e, item;
+      if (!this.isValid()) {
+        return;
+      }
+      try {
+        if (symbol == null) {
+          return this.closeSkillSelector();
+        } else {
+          cntrl = this.uiSet.getController("skills");
+          item = cntrl._getItemForSymbol(symbol);
+          //TODO: TEMP
+          "OPEN SKILL WINDOW FOR ".p(symbol);
+          if (item != null) {
+            return window._w.prepareAndOpenForSlot(item);
+          }
+        }
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    // * Открыто ли окно выбора навыка
+    _.isSkillSelectorOpen = function() {
+      var e;
+      if (!this.isValid()) {
+        return;
+      }
+      try {
+        return window._w.isOpen();
+      } catch (error) {
+        e = error;
+        AA.w(e);
+      }
+      return false;
+    };
+    _.closeSkillSelector = function() {
+      var e;
+      if (!this.isValid()) {
+        return;
+      }
+      try {
+        window._w.close();
+      } catch (error) {
+        e = error;
+        AA.w(e);
+      }
+    };
     // * Когда игрок нажал на кнопку какого-либо навыка на панели навыков
-    return _.skillPerformResult = function(skillId, result) {
+    _.skillPerformResult = function(skillId, result) {
       var cntrl, e;
       try {
-        if (this.uiSet == null) {
+        if (!this.isValid()) {
           return;
         }
         cntrl = this.uiSet.getController("skills");
         return cntrl != null ? cntrl.onSkillPerformResult(skillId, result) : void 0;
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    // * Если открыто окно выбора навыка для слота, то оно закрывается сперва
+    // * Если правой кнопкой по навыку, то открывается окно
+    return _._isSkillSelectorProcessHandler = function() {
+      var e, ref;
+      if (!this.isValid()) {
+        return false;
+      }
+      try {
+        return (ref = this.uiSet.getController("skills")) != null ? ref.handleSkillSelectorProcess() : void 0;
       } catch (error) {
         e = error;
         return AA.w(e);

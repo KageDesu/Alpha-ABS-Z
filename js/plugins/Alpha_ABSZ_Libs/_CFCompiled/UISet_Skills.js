@@ -12,6 +12,7 @@
       this.refresh();
     }
 
+    // * Этот метод нужен обязательно
     refresh() {
       var e;
       try {
