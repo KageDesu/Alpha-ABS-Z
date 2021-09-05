@@ -55,6 +55,22 @@
     symbols = AA.Input.skillPanelSymbols;
     return symbols.contains(symbol);
   };
+  // * Получить иконку оружия навыка атаки (или иконку навыка атаки, если нет оружия)
+  _.getAttackSkillWeaponIconIndex = function(skill, battler) {
+    var e, weapon;
+    try {
+      weapon = battler.weapons()[0];
+      if ((weapon != null) && weapon.iconIndex > 0) {
+        return weapon.iconIndex;
+      } else {
+        return skill.iconIndex;
+      }
+    } catch (error) {
+      e = error;
+      AA.w(e);
+      return 0;
+    }
+  };
   // * Методы распаковки и запаковки данных для хранения и сохранения игры
   _.unpackAASkill = function(aId) {
     var object;

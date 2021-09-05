@@ -1,5 +1,7 @@
 #TODO: переместить в A_CORE или KDCOre
 
+#TODO: см метод hitIndex в Window_Selectable - Там конверт глобал координат в локальные простой
+
 
 # * Ищет элемент, у которого поле ID == id
 Array::getById = (id) -> @getByField('id', id)

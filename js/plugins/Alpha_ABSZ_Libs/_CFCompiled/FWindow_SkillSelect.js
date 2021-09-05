@@ -6,46 +6,192 @@ FWindow_SkillSelect = class FWindow_SkillSelect extends AA.FloatingWindow {
     super(...arguments);
   }
 
-  // * Сдвинуть позицию окна с учётом позиции элемента Skills Panel
-  moveRelativeSlotPosition(x, y) {}
+  getSettings() {} // TODO: implement
+
+  
+    // * Сдвинуть позицию окна с учётом позиции элемента Skills Panel
+  moveRelativeSlotPosition(x, y) {
+    var h2, sector, w2;
+    // Screen sectors
+    // 1 | 2
+    // 3 | 4
+    // ==============
+    sector = 1;
+    w2 = Graphics.width / 2;
+    h2 = Graphics.height / 2;
+    
+    // * Определяем сектор экрана, на котромнаходится элемент
+    if (x < w2) {
+      if (y < h2) {
+        sector = 1;
+      } else {
+        sector = 3;
+      }
+    } else {
+      if (y < h2) {
+        sector = 2;
+      } else {
+        sector = 4;
+      }
+    }
+    
+    // * Настраиваем позиции в зависимости от секторов
+    if (sector === 3 || sector === 1) {
+      this.x = x;
+    }
+    if (sector === 2 || sector === 4) {
+      this.x = x - this.width + 32; //TODO: margins from settings
+    }
+    if (sector >= 3) {
+      this.y = y - this.height;
+    } else {
+      this.y = y + 32 + 2;
+    }
+  }
 
   
     // * Подготовить окно и октрыть для элемента Skills Panel
   // * slotItem = Sprite_SKillPanelItem
-  //@x = x #3
-  //@x = x - @width + 32 #4
-  //@y = y - @height # 3 and 4
   prepareAndOpenForSlot(slotItem) {
     var symbol, x, y;
     ({x, y, symbol} = slotItem);
-    // * Запоминаем символ, чтобы установить навык при выборе
-    this._activeSlotSymbol = symbol;
     this.moveRelativeSlotPosition(x, y);
-    this._prepareSkillList();
-    this.refreshSkillList();
+    // * Тут всегда категория 0 по умолчанию
+    this.refreshSkillList(0, symbol);
     this.open();
   }
 
-  // * Создание списка навыков текущей группы
-  refreshSkillList() {}
+  // * Создание списка навыков для группы
+  // * Этот метод вызывается когда окно открывается для слота
+  refreshSkillList(category, symbol) {
+    if (this.skillsList == null) {
+      return;
+    }
+    // * Запоминаем символ, чтобы установить навык при выборе
+    this.skillsList.setSymbol(symbol);
+    // * При смене категории список формируется (т.е. refresh)
+    this.changeCategory(0);
+  }
 
-};
+  changeCategory(category) {
+    var e;
+    try {
+      this._refreshCategoryButtons(category);
+      this._refreshHeader(category);
+      return this.skillsList.setCategory(category);
+    } catch (error) {
+      e = error;
+      return AA.w(e);
+    }
+  }
 
-(function() {  // * Данное окно (выбор навыков и вещей) нельзя двигать
+  // * Данное окно (выбор навыков и вещей) нельзя двигать
   //$[OVER]
   //isDraggable: -> false
   //TODO: или можно?
+  update() {
+    super.update();
+    return this._updateSkillSelectClick();
+  }
 
-  //╒═════════════════════════════════════════════════════════════════════════╛
+};
+
+(function() {  //╒═════════════════════════════════════════════════════════════════════════╛
   // ■ FWindow_SkillSelect.coffee
   //╒═════════════════════════════════════════════════════════════════════════╛
   //---------------------------------------------------------------------------
   var _;
   //@[DEFINES]
   _ = FWindow_SkillSelect.prototype;
-  _._prepareSkillList = function() {};
+  //$[OVER]
+  _._createCustomElements = function() {
+    this._createCategoriesButtons();
+    this._createCategoriesHeader();
+    this._refreshCategoryButtons(0);
+    this._createSkillsList();
+  };
+  _._createCategoriesButtons = function() {
+    //TODO: from settings
+    this.buttonCat0 = new KDCore.ButtonM("Button_SkSSkillsGroup", true, "Alpha");
+    this.buttonCat0.addClickHandler(() => {
+      return this.changeCategory(0);
+    });
+    this.buttonCat0.move(26, 6);
+    this.addContent(this.buttonCat0);
+    this.buttonCat1 = new KDCore.ButtonM("Button_SkSItemsGroup", true, "Alpha");
+    this.buttonCat1.addClickHandler(() => {
+      return this.changeCategory(1);
+    });
+    this.buttonCat1.move(this.buttonCat0.x + 60, this.buttonCat0.y);
+    this.addContent(this.buttonCat1);
+  };
+  _._createCategoriesHeader = function() {
+    var p;
+    //TODO: from parameters
+    p = {
+      visible: true,
+      size: {
+        w: 160,
+        h: 28
+      },
+      alignment: "center",
+      font: {
+        face: "AABS_0",
+        size: 14,
+        italic: false
+      },
+      margins: {
+        x: 0,
+        y: 0
+      },
+      outline: {
+        color: null,
+        width: 2
+      },
+      textColor: "#FFFFFF".toCss()
+    };
+    this.headerText = new AA.Sprite_UIText(p);
+    // * Добавляем на Header (поверх всего)
+    this.addChild(this.headerText);
+  };
+  _._createSkillsList = function() {
+    //TODO: from settings
+    this.skillsList = new Window_SkillSelectorList(new Rectangle(0, 50, this.width, this.height - 80));
+    return this.addContent(this.skillsList);
+  };
+  _._updateSkillSelectClick = function() {
+    var ref;
+    if (!this.isOpen()) {
+      return;
+    }
+    if (TouchInput.isTriggered() && this.isMouseIn()) {
+      if ((ref = this.skillsList) != null) {
+        ref.onClick();
+      }
+    }
+  };
+  _._refreshCategoryButtons = function(newCategory) {
+    this.buttonCat0.disable();
+    this.buttonCat1.disable();
+    if (newCategory === 0) {
+      this.buttonCat1.enable();
+    } else {
+      this.buttonCat0.enable();
+    }
+  };
+  _._refreshHeader = function(category) {
+    if (category === 0) {
+      this.headerText.draw("SKILLS");
+    } else {
+      this.headerText.draw("ITEMS");
+    }
+  };
 })();
 
 // ■ END FWindow_SkillSelect.coffee
 //---------------------------------------------------------------------------
-//TODO: Сброс короче всего (контента)
+
+// Когда в фокусе (мышка в зоне окна) - прокрутка колесом мышки
+
+// Элемент - (Кнопка на которой (иконка + текст))
+// Сделать через Window_Selectable ??? - урезанный, контроль только через это окно и мышку

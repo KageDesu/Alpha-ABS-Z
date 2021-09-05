@@ -33,11 +33,8 @@ AA.UI = function() {};
     return false;
   };
   // * Вызывается когда сцена карты заканчивается
-  //TODO: Сюда добавить автоматическое закрытие окна выбора навыков
   _.terminate = function() {
     var ref;
-    //TODO: TEMP
-    this.closeSkillSelector();
     return (ref = this.uiSet) != null ? ref.terminate() : void 0;
   };
   (function() {    // * Основной интерфейс Spriteset_UI
@@ -73,10 +70,7 @@ AA.UI = function() {};
       }
     };
   })();
-  (function() {    //TODO: Вот тут надо делать проверку, что если селектор навыков отркыт и нажимается правая
-    // кнопка мыши, то мы должны закрыть селектор навыков сперва (ОПЦИЯ)
-
-    // -----------------------------------------------------------------------
+  (function() {    // -----------------------------------------------------------------------
 
     // * Набор навыков
     // -----------------------------------------------------------------------
@@ -92,10 +86,8 @@ AA.UI = function() {};
         } else {
           cntrl = this.uiSet.getController("skills");
           item = cntrl._getItemForSymbol(symbol);
-          //TODO: TEMP
-          "OPEN SKILL WINDOW FOR ".p(symbol);
           if (item != null) {
-            return window._w.prepareAndOpenForSlot(item);
+            return this.uiSet.fwSkillsSelector.prepareAndOpenForSlot(item);
           }
         }
       } catch (error) {
@@ -110,7 +102,7 @@ AA.UI = function() {};
         return;
       }
       try {
-        return window._w.isOpen();
+        return this.uiSet.fwSkillsSelector.isOpen();
       } catch (error) {
         e = error;
         AA.w(e);
@@ -123,7 +115,7 @@ AA.UI = function() {};
         return;
       }
       try {
-        window._w.close();
+        this.uiSet._terminateSkillSelectorWindow();
       } catch (error) {
         e = error;
         AA.w(e);
@@ -160,6 +152,7 @@ AA.UI = function() {};
   })();
   (function() {    // -----------------------------------------------------------------------
 
+    //TODO: Удалить этот код? (УЖЕ НЕ ИСПОЛЬЗУЕТСЯ)
     // * Цель игрока
     // -----------------------------------------------------------------------
     // * Круг под выбранной целью (установить спрайт круга)

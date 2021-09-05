@@ -9,7 +9,18 @@
 
   //@[DEFINES]
   _ = AA.FloatingWindow.prototype;
+  _._createParts = function() {
+    this._createLayers();
+    this._loadHeader();
+    this._createCloseButton();
+    this._moveToStartPosition();
+    this._createCustomElements();
+  };
+  // * Содание прочих элементов окна (для наследников)
+  _._createCustomElements = function() {}; // * EMTPY
 })();
 
 // ■ END Floating Window.coffee
 //---------------------------------------------------------------------------
+
+//TODO: _createContent удалить и этот _createCustomElements заместо него

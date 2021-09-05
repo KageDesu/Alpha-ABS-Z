@@ -53,16 +53,12 @@ AASkillsSet = class AASkillsSet {
   }
 
   setSymbolForSkill(skillId, symbNew, symbOld) {
-    var skillInNewPos;
-    skillInNewPos = this.getSkillForSymbol(symbNew);
+    //skillInNewPos = @getSkillForSymbol(symbNew)
     this.currentSet()[symbNew] = skillId;
-    if (skillInNewPos > 0) {
-      if (symbOld != null) {
-        this.currentSet()[symbOld] = skillInNewPos;
-      }
-    }
   }
 
+  //if skillInNewPos > 0
+  //    @currentSet()[symbOld] = skillInNewPos if symbOld?
   getSymbolForSkill(skillId) {
     var key, ref, value;
     ref = this.currentSet();

@@ -143,6 +143,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/UserUISettings.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Window_BattleSkill_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Window_Message_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Window_SkillSelectorList.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/zFloating_Window.js"
 ];
 const effekseerWasmUrl = "js/libs/effekseer.wasm";
@@ -279,6 +280,11 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
 
 
 

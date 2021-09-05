@@ -19,6 +19,10 @@ do ->
         #TODO: Загрузка всех компонентов из параметров и подготовка
         @_create()
 
+    # * Дополнительное закрытие элементов (перед закрытием всего UI)
+    _._terminateElements = ->
+        @_terminateSkillSelectorWindow() ##Spriteset_UI_SkillsSet
+
     # * Получить все элементы
     # * Обновить элемент по тэгу
     # * (возможно) Обновить все элементы
@@ -44,6 +48,7 @@ do ->
 
     _._createDefaultElements = ->
         @_createSkillsSet() ##Spriteset_UI_SkillsSet
+        @_createSkillSelectorWindow() ##Spriteset_UI_SkillsSet
         @_createActorUI() ##Spriteset_UI_ActorUI
         @_createTargetUI() ##Spriteset_UI_Target
 
@@ -52,8 +57,11 @@ do ->
         @elements.push ...uiSet.elements
         @controllers.push ...uiSet.controllers
         @uiSets.push uiSet
-        @addChild uiSet
+        @_addElementToUI uiSet
         return
+
+    # * Добавить элемент на обычный слой (выше пользовательских)
+    _._addElementToUI = (sprite) -> @layer.addChild sprite
 
     # * Применить пользовательские настройки к элементу
     _._applyUserSettingsFor = (element, settings) ->

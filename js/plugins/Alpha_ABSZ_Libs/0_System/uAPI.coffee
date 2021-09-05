@@ -39,7 +39,7 @@ do ->
     _.setItemToPanel = (itemId, slotSymbol) ->
         try
             # * Автоматическое преобразование в ID предмета
-            if itemId > 0 and !AA.isAAItem(itemId)
+            if itemId > 0 and !AA.Utils.isAAItem(itemId)
                 itemId += AA.Utils.ItemsIDStart
             @setSkillToPanel(itemId, slotSymbol)
         catch e

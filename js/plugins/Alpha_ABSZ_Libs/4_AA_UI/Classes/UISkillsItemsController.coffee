@@ -123,11 +123,8 @@ do ->
         return unless item?
         item.skillId = skill.idA
         if item.skillId == @battler.attackSkillId()
-            weapon = @battler.weapons()[0]
-            if weapon? and weapon.iconIndex > 0
-                item.drawIcon(weapon.iconIndex)
-            else
-                item.drawIcon(skill.iconIndex)
+            iconIndex = AA.Utils.getAttackSkillWeaponIconIndex(item, @battler)
+            item.drawIcon(iconIndex)
         else
             item.drawIcon(skill.iconIndex)
         # * Сразу обновляем состояние

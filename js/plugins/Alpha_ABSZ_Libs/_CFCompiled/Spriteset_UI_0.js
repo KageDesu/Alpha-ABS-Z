@@ -19,6 +19,11 @@
     //TODO: Загрузка всех компонентов из параметров и подготовка
     return this._create();
   };
+  // * Дополнительное закрытие элементов (перед закрытием всего UI)
+  _._terminateElements = function() {
+    return this._terminateSkillSelectorWindow(); //#Spriteset_UI_SkillsSet
+  };
+  
   // * Получить все элементы
   // * Обновить элемент по тэгу
   // * (возможно) Обновить все элементы
@@ -43,6 +48,7 @@
   //@_createUserElements()
   _._createDefaultElements = function() {
     this._createSkillsSet(); //#Spriteset_UI_SkillsSet
+    this._createSkillSelectorWindow(); //#Spriteset_UI_SkillsSet
     this._createActorUI(); //#Spriteset_UI_ActorUI
     return this._createTargetUI(); //#Spriteset_UI_Target
   };
@@ -52,7 +58,11 @@
     this.elements.push(...uiSet.elements);
     this.controllers.push(...uiSet.controllers);
     this.uiSets.push(uiSet);
-    this.addChild(uiSet);
+    this._addElementToUI(uiSet);
+  };
+  // * Добавить элемент на обычный слой (выше пользовательских)
+  _._addElementToUI = function(sprite) {
+    return this.layer.addChild(sprite);
   };
   // * Применить пользовательские настройки к элементу
   _._applyUserSettingsFor = function(element, settings) {

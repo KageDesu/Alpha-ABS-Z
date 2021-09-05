@@ -54,7 +54,7 @@ uAPI = function() {};
     var e;
     try {
       // * Автоматическое преобразование в ID предмета
-      if (itemId > 0 && !AA.isAAItem(itemId)) {
+      if (itemId > 0 && !AA.Utils.isAAItem(itemId)) {
         itemId += AA.Utils.ItemsIDStart;
       }
       this.setSkillToPanel(itemId, slotSymbol);

@@ -14,7 +14,10 @@ do ->
 
         hide: -> @visible = false
 
-        terminate: -> @visible = false
+        terminate: ->
+            @_terminateElements() ##Spriteset_UI_0
+            @visible = false
+            return
 
         # * Обновить все контроллеры и элементы
         refresh: ->

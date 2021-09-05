@@ -42,6 +42,18 @@ do ->
         symbols = AA.Input.skillPanelSymbols
         return symbols.contains(symbol)
 
+    # * Получить иконку оружия навыка атаки (или иконку навыка атаки, если нет оружия)
+    _.getAttackSkillWeaponIconIndex = (skill, battler) ->
+        try
+            weapon = battler.weapons()[0]
+            if weapon? and weapon.iconIndex > 0
+                return weapon.iconIndex
+            else
+                return skill.iconIndex
+        catch e
+            AA.w e
+            return 0
+
     # * Методы распаковки и запаковки данных для хранения и сохранения игры
 
     _.unpackAASkill = (aId) ->

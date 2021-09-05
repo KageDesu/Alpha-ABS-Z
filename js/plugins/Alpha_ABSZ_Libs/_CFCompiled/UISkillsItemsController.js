@@ -179,7 +179,7 @@ UISkillsItemsController = class UISkillsItemsController {
   
   // * Задать навык в ячейку
   _._setupItem = function(skill) {
-    var item, symb, weapon;
+    var iconIndex, item, symb;
     if (skill == null) {
       return;
     }
@@ -194,12 +194,8 @@ UISkillsItemsController = class UISkillsItemsController {
     }
     item.skillId = skill.idA;
     if (item.skillId === this.battler.attackSkillId()) {
-      weapon = this.battler.weapons()[0];
-      if ((weapon != null) && weapon.iconIndex > 0) {
-        item.drawIcon(weapon.iconIndex);
-      } else {
-        item.drawIcon(skill.iconIndex);
-      }
+      iconIndex = AA.Utils.getAttackSkillWeaponIconIndex(item, this.battler);
+      item.drawIcon(iconIndex);
     } else {
       item.drawIcon(skill.iconIndex);
     }

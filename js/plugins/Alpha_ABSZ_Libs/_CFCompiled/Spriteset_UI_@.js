@@ -22,7 +22,8 @@
     }
 
     terminate() {
-      return this.visible = false;
+      this._terminateElements(); //#Spriteset_UI_0
+      this.visible = false;
     }
 
     // * Обновить все контроллеры и элементы

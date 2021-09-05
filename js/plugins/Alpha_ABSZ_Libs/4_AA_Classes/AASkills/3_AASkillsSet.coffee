@@ -37,10 +37,10 @@ class AASkillsSet
         return
 
     setSymbolForSkill: (skillId, symbNew, symbOld) ->
-        skillInNewPos = @getSkillForSymbol(symbNew)
+        #skillInNewPos = @getSkillForSymbol(symbNew)
         @currentSet()[symbNew] = skillId
-        if skillInNewPos > 0
-            @currentSet()[symbOld] = skillInNewPos if symbOld?
+        #if skillInNewPos > 0
+        #    @currentSet()[symbOld] = skillInNewPos if symbOld?
         return
         
     getSymbolForSkill: (skillId) ->

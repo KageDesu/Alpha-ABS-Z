@@ -29,11 +29,7 @@ do ->
     _.isUITouched = -> false
 
     # * Вызывается когда сцена карты заканчивается
-    #TODO: Сюда добавить автоматическое закрытие окна выбора навыков
-    _.terminate = ->
-        #TODO: TEMP
-        @closeSkillSelector()
-        @uiSet?.terminate()
+    _.terminate = -> @uiSet?.terminate()
 
     # * Основной интерфейс Spriteset_UI
     # -----------------------------------------------------------------------
@@ -57,8 +53,6 @@ do ->
                 return true
             else
                 return false
-        #TODO: Вот тут надо делать проверку, что если селектор навыков отркыт и нажимается правая
-        # кнопка мыши, то мы должны закрыть селектор навыков сперва (ОПЦИЯ)
 
     # -----------------------------------------------------------------------
 
@@ -76,9 +70,7 @@ do ->
                 else
                     cntrl = @uiSet.getController("skills")
                     item = cntrl._getItemForSymbol(symbol)
-                    #TODO: TEMP
-                    "OPEN SKILL WINDOW FOR ".p(symbol)
-                    window._w.prepareAndOpenForSlot(item) if item?
+                    @uiSet.fwSkillsSelector.prepareAndOpenForSlot(item) if item?
             catch e
                 AA.w e
 
@@ -86,7 +78,7 @@ do ->
         _.isSkillSelectorOpen = () ->
             return unless @isValid()
             try
-                return window._w.isOpen()
+                return @uiSet.fwSkillsSelector.isOpen()
             catch e
                 AA.w e
             return false
@@ -94,7 +86,7 @@ do ->
         _.closeSkillSelector = () ->
             return unless @isValid()
             try
-                window._w.close()
+                @uiSet._terminateSkillSelectorWindow()
             catch e
                 AA.w e
             return
@@ -119,6 +111,7 @@ do ->
 
     # -----------------------------------------------------------------------
 
+    #TODO: Удалить этот код? (УЖЕ НЕ ИСПОЛЬЗУЕТСЯ)
     # * Цель игрока
     # -----------------------------------------------------------------------
     do ->

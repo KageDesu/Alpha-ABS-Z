@@ -11,6 +11,15 @@
     this.sSkills = new AA.UISet_Skills(this);
     return this._registerUISet(this.sSkills); //# Spriteset_UI_0
   };
+  _._createSkillSelectorWindow = function() {
+    //TODO: Ширина и высота из параметров
+    this.fwSkillsSelector = new FWindow_SkillSelect(this, 160, 360);
+    return this._addElementToUI(this.fwSkillsSelector);
+  };
+  _._terminateSkillSelectorWindow = function() {
+    var ref;
+    return (ref = this.fwSkillsSelector) != null ? ref.close() : void 0;
+  };
 })();
 
 // ■ END Spriteset_UI.coffee
