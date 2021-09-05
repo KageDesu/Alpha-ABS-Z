@@ -109,6 +109,8 @@ uAPI = function() {};
       return KDCore.warning(e);
     }
   };
+  //TODO: Кнопки нажимаются напанели, даже если скрытый интерфейс
+  //TODO: Надо метод isValid дополнить (который в AA.UI) и делать проверки
   _.hideUI = function() {
     var e, user;
     try {
