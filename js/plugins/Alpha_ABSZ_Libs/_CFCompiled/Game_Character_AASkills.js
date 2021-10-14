@@ -57,7 +57,7 @@
     }
   };
   _.setupDelayedAASkill = function(skill, point) {
-    this.aaDelayedSkillActions.push([skill.actionStartDelay, skill.aId, AA.Utils.packAAPoint(point)]);
+    this.aaDelayedSkillActions.push([skill.actionStartDelay, skill.idA, AA.Utils.packAAPoint(point)]);
   };
   _._aaUpdateDelayedSkillActions = function() {
     var action, i, len, point, ref, skill;

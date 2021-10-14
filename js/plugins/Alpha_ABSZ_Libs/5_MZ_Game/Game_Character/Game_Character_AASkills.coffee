@@ -45,7 +45,7 @@ do ->
 
     _.setupDelayedAASkill = (skill, point) ->
         @aaDelayedSkillActions.push(
-            [skill.actionStartDelay, skill.aId, AA.Utils.packAAPoint(point)]
+            [skill.actionStartDelay, skill.idA, AA.Utils.packAAPoint(point)]
         )
         return
 

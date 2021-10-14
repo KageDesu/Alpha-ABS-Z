@@ -9,7 +9,7 @@
   _ = Game_ActionResult.prototype;
   // * Запоминаем АБС навык, который был использован
   _.setUsedAASkill = function(aaSkill) {
-    return this._lastAASkill = aaSkill.aId;
+    return this._lastAASkill = aaSkill.idA;
   };
   _.getUsedAASkill = function() {
     if (this._lastAASkill != null) {

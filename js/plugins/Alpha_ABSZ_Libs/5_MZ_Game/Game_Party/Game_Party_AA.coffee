@@ -11,17 +11,21 @@ do ->
         return unless AA.Utils.isAAObject(item)
         # * Новый предмет (т.е. раньше не было)
         if @numItems(item) == count
-            # * Тут надо использовать aID
-            unless $gamePlayer.aaSkillsSet.isHaveItemOnPanel(item.aId)
+            # * Тут надо использовать idA
+            unless $gamePlayer.aaSkillsSet.isHaveItemOnPanel(item.idA)
                 # * Тут используется обычный ID (так как конвертируется в методе)
                 uAPI.setItemToPanel(item.id)
         return
 
+    #TODO: Добавить ещё проверку флага, чтобы пропускать Notify, например когда с инвентаря снимаем вещь
     _.aaShowNotifyForItemGain = (item, count) ->
         try
             return unless KDCore.Utils.isSceneMap()
             return if count <= 0
             return unless item?
+            # * Специальный флаг, чтобы скрыть Notify
+            # * Этот флаг использует Map Inventory (когда снимаешь предмет)
+            return if $gameTemp.aaNotNeedItemPopUpNotify is true
             popUpItem = new AA.Sprite_PopTreasureItem()
             popUpItem.setItem item, count
             char = $gamePlayer.AASprite()

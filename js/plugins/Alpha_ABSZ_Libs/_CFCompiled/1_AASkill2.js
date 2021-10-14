@@ -19,8 +19,8 @@
 var AASkill2;
 
 AASkill2 = class AASkill2 {
-  constructor(aId) {
-    this.aId = aId;
+  constructor(idA) {
+    this.idA = idA;
     this._initBase();
     this._initMain();
     this._initOnMapSettings();
@@ -30,7 +30,7 @@ AASkill2 = class AASkill2 {
   }
 
   isItem() {
-    return AA.Utils.isAAItem(this.aId);
+    return AA.Utils.isAAItem(this.idA);
   }
 
   isSkill() {
@@ -39,9 +39,9 @@ AASkill2 = class AASkill2 {
 
   databaseId() {
     if (this.isItem()) {
-      return this.aId - AA.Utils.ItemsIDStart;
+      return this.idA - AA.Utils.ItemsIDStart;
     } else {
-      return this.aId;
+      return this.idA;
     }
   }
 
@@ -64,7 +64,7 @@ AASkill2 = class AASkill2 {
   }
 
   dbItem() {
-    return AA.Utils.getAASkillObject(this.aId);
+    return AA.Utils.getAASkillObject(this.idA);
   }
 
   // * Надо выбирать зону поражения для навыка

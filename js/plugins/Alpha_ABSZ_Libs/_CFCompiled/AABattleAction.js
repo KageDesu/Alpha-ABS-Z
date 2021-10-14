@@ -18,7 +18,7 @@ AABattleAction = class AABattleAction extends Game_Action {
     if (aaSkill.isItem()) {
       this.setItem(aaSkill.databaseId());
     } else {
-      this.setSkill(aaSkill.aId);
+      this.setSkill(aaSkill.idA);
     }
   }
 

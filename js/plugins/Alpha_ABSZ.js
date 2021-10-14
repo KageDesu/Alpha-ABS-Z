@@ -1290,8 +1290,8 @@ AA.SAaction = function() {};
 var AASkill2;
 
 AASkill2 = class AASkill2 {
-  constructor(aId) {
-    this.aId = aId;
+  constructor(idA) {
+    this.idA = idA;
     this._initBase();
     this._initMain();
     this._initOnMapSettings();
@@ -1301,7 +1301,7 @@ AASkill2 = class AASkill2 {
   }
 
   isItem() {
-    return AA.Utils.isAAItem(this.aId);
+    return AA.Utils.isAAItem(this.idA);
   }
 
   isSkill() {
@@ -1310,9 +1310,9 @@ AASkill2 = class AASkill2 {
 
   databaseId() {
     if (this.isItem()) {
-      return this.aId - AA.Utils.ItemsIDStart;
+      return this.idA - AA.Utils.ItemsIDStart;
     } else {
-      return this.aId;
+      return this.idA;
     }
   }
 
@@ -1335,7 +1335,7 @@ AASkill2 = class AASkill2 {
   }
 
   dbItem() {
-    return AA.Utils.getAASkillObject(this.aId);
+    return AA.Utils.getAASkillObject(this.idA);
   }
 
   // * Надо выбирать зону поражения для навыка
@@ -1596,7 +1596,7 @@ AASkill2MapAction = class AASkill2MapAction {
   }
 
   id() {
-    return this.aaSkill.aId;
+    return this.aaSkill.idA;
   }
 
   zLevel() {
@@ -1901,52 +1901,8 @@ AIFlowMachine = class AIFlowMachine {
 
 //TODO: см метод hitIndex в Window_Selectable - Там конверт глобал координат в локальные простой
 
-// * Ищет элемент, у которого поле ID == id
-Array.prototype.getById = function(id) {
-  return this.getByField('id', id);
-};
-
-// * Ищет элемент, у которого поле FIELD (имя поля) == value
-Array.prototype.getByField = function(field, value) {
-  var e;
-  try {
-    return this.find(function(item) {
-      return item[field] === value;
-    });
-  } catch (error) {
-    e = error;
-    console.warn(e);
-    return null;
-  }
-};
-
-KDCore.Utils.getEventCommentValueArray = function(commentCode, list) {
-  var comment, comments, e, i, item;
-  try {
-    comments = [];
-    if (list && list.length > 1) {
-      i = 0;
-      while (i < list.length) {
-        item = list[i++];
-        if (!item) {
-          continue;
-        }
-        if (item.code === 108) {
-          comment = item.parameters[0];
-          if (comment.contains(commentCode)) {
-            comments.push(comment);
-          }
-        }
-      }
-    }
-  } catch (error) {
-    e = error;
-    console.warn(e);
-  }
-  return comments;
-};
-
-(function() {  // * Расширение, чтобы без XDev работал плагин
+// * Расширение, чтобы без XDev работал плагин
+(function() {
   var __STR_P;
   __STR_P = String.prototype.p;
   String.prototype.p = function(anotherText) {
@@ -2300,7 +2256,7 @@ AABattleAction = class AABattleAction extends Game_Action {
     if (aaSkill.isItem()) {
       this.setItem(aaSkill.databaseId());
     } else {
-      this.setSkill(aaSkill.aId);
+      this.setSkill(aaSkill.idA);
     }
   }
 
@@ -2654,6 +2610,9 @@ AABattleManager = function() {};
   _.ItemsIDStart = 9000;
   // * Навык (или предмет) имеют AASkill данные в себе
   _.isAAObject = function(skillIdOrObject) {
+    if (skillIdOrObject == null) {
+      return false;
+    }
     if (isFinite(skillIdOrObject)) {
       if (skillIdOrObject <= 0) {
         return false;
@@ -2713,9 +2672,9 @@ AABattleManager = function() {};
     }
   };
   // * Методы распаковки и запаковки данных для хранения и сохранения игры
-  _.unpackAASkill = function(aId) {
+  _.unpackAASkill = function(idA) {
     var object;
-    object = this.getAASkillObject(aId);
+    object = this.getAASkillObject(idA);
     if (object != null) {
       return object.AASkill;
     } else {
@@ -4862,7 +4821,7 @@ FWindow_SkillSelect = class FWindow_SkillSelect extends AA.FloatingWindow {
   _ = Game_ActionResult.prototype;
   // * Запоминаем АБС навык, который был использован
   _.setUsedAASkill = function(aaSkill) {
-    return this._lastAASkill = aaSkill.aId;
+    return this._lastAASkill = aaSkill.idA;
   };
   _.getUsedAASkill = function() {
     if (this._lastAASkill != null) {
@@ -5324,7 +5283,7 @@ _.attackSkillId = ->
     }
   };
   _.setupDelayedAASkill = function(skill, point) {
-    this.aaDelayedSkillActions.push([skill.actionStartDelay, skill.aId, AA.Utils.packAAPoint(point)]);
+    this.aaDelayedSkillActions.push([skill.actionStartDelay, skill.idA, AA.Utils.packAAPoint(point)]);
   };
   _._aaUpdateDelayedSkillActions = function() {
     var action, i, len, point, ref, skill;
@@ -6996,13 +6955,14 @@ _.attackSkillId = ->
     }
     // * Новый предмет (т.е. раньше не было)
     if (this.numItems(item) === count) {
-      // * Тут надо использовать aID
-      if (!$gamePlayer.aaSkillsSet.isHaveItemOnPanel(item.aId)) {
+      // * Тут надо использовать idA
+      if (!$gamePlayer.aaSkillsSet.isHaveItemOnPanel(item.idA)) {
         // * Тут используется обычный ID (так как конвертируется в методе)
         uAPI.setItemToPanel(item.id);
       }
     }
   };
+  //TODO: Добавить ещё проверку флага, чтобы пропускать Notify, например когда с инвентаря снимаем вещь
   _.aaShowNotifyForItemGain = function(item, count) {
     var char, e, popUpItem;
     try {
@@ -7013,6 +6973,11 @@ _.attackSkillId = ->
         return;
       }
       if (item == null) {
+        return;
+      }
+      // * Специальный флаг, чтобы скрыть Notify
+      // * Этот флаг использует Map Inventory (когда снимаешь предмет)
+      if ($gameTemp.aaNotNeedItemPopUpNotify === true) {
         return;
       }
       popUpItem = new AA.Sprite_PopTreasureItem();
@@ -12576,7 +12541,7 @@ uAPI = function() {};
       KDCore.warning(e);
     }
   };
-  // * Добавить предмет на панель навыков, поддерживает как обычные ID, так и aID
+  // * Добавить предмет на панель навыков, поддерживает как обычные ID, так и idA
   _.setItemToPanel = function(itemId, slotSymbol) {
     var e;
     try {
@@ -12636,6 +12601,8 @@ uAPI = function() {};
       return KDCore.warning(e);
     }
   };
+  //TODO: Кнопки нажимаются напанели, даже если скрытый интерфейс
+  //TODO: Надо метод isValid дополнить (который в AA.UI) и делать проверки
   _.hideUI = function() {
     var e, user;
     try {
@@ -13686,4 +13653,4 @@ Window_SkillSelectorList = class Window_SkillSelectorList extends Window_Selecta
 
 //TODO: _createContent удалить и этот _createCustomElements заместо него
 
-//Plugin Alpha_ABSZ automatic build by PKD PluginBuilder 1.9.2 05.09.2021
+//Plugin Alpha_ABSZ automatic build by PKD PluginBuilder 1.9.2 18.09.2021

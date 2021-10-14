@@ -13,7 +13,7 @@ class AABattleAction extends Game_Action
         if aaSkill.isItem()
             @setItem(aaSkill.databaseId())
         else
-            @setSkill(aaSkill.aId)
+            @setSkill(aaSkill.idA)
         return
     
     AASkill: () -> @item().AASkill

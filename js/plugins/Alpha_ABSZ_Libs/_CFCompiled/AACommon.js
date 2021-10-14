@@ -13,6 +13,9 @@
   _.ItemsIDStart = 9000;
   // * Навык (или предмет) имеют AASkill данные в себе
   _.isAAObject = function(skillIdOrObject) {
+    if (skillIdOrObject == null) {
+      return false;
+    }
     if (isFinite(skillIdOrObject)) {
       if (skillIdOrObject <= 0) {
         return false;
@@ -72,9 +75,9 @@
     }
   };
   // * Методы распаковки и запаковки данных для хранения и сохранения игры
-  _.unpackAASkill = function(aId) {
+  _.unpackAASkill = function(idA) {
     var object;
-    object = this.getAASkillObject(aId);
+    object = this.getAASkillObject(idA);
     if (object != null) {
       return object.AASkill;
     } else {

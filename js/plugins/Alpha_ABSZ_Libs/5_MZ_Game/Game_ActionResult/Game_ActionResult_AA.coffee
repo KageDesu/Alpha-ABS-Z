@@ -9,7 +9,7 @@ do ->
 
     # * Запоминаем АБС навык, который был использован
     _.setUsedAASkill = (aaSkill) ->
-        @_lastAASkill = aaSkill.aId
+        @_lastAASkill = aaSkill.idA
 
     _.getUsedAASkill = ->
         if @_lastAASkill?

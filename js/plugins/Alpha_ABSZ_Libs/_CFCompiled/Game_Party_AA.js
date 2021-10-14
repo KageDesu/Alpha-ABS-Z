@@ -13,13 +13,14 @@
     }
     // * Новый предмет (т.е. раньше не было)
     if (this.numItems(item) === count) {
-      // * Тут надо использовать aID
-      if (!$gamePlayer.aaSkillsSet.isHaveItemOnPanel(item.aId)) {
+      // * Тут надо использовать idA
+      if (!$gamePlayer.aaSkillsSet.isHaveItemOnPanel(item.idA)) {
         // * Тут используется обычный ID (так как конвертируется в методе)
         uAPI.setItemToPanel(item.id);
       }
     }
   };
+  //TODO: Добавить ещё проверку флага, чтобы пропускать Notify, например когда с инвентаря снимаем вещь
   _.aaShowNotifyForItemGain = function(item, count) {
     var char, e, popUpItem;
     try {
@@ -30,6 +31,11 @@
         return;
       }
       if (item == null) {
+        return;
+      }
+      // * Специальный флаг, чтобы скрыть Notify
+      // * Этот флаг использует Map Inventory (когда снимаешь предмет)
+      if ($gameTemp.aaNotNeedItemPopUpNotify === true) {
         return;
       }
       popUpItem = new AA.Sprite_PopTreasureItem();

@@ -3,34 +3,6 @@
 #TODO: см метод hitIndex в Window_Selectable - Там конверт глобал координат в локальные простой
 
 
-# * Ищет элемент, у которого поле ID == id
-Array::getById = (id) -> @getByField('id', id)
-
-# * Ищет элемент, у которого поле FIELD (имя поля) == value
-Array::getByField = (field, value) ->
-    try
-        return @find((item) -> item[field] == value)
-    catch e
-        console.warn(e)
-        return null
-
-KDCore.Utils.getEventCommentValueArray = (commentCode, list) ->
-    try
-        comments = []
-        if list and list.length > 1
-            i = 0
-            while i < list.length
-                item = list[i++]
-                if !item
-                    continue
-                if item.code == 108
-                    comment = item.parameters[0]
-                    if comment.contains(commentCode)
-                        comments.push(comment)
-    catch e
-        console.warn e
-    return comments
-
 # * Расширение, чтобы без XDev работал плагин
 do ->
 

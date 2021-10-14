@@ -18,7 +18,7 @@
 
 #@[STORABLE]
 class AASkill2
-    constructor: (@aId) ->
+    constructor: (@idA) ->
         @_initBase()
         @_initMain()
         @_initOnMapSettings()
@@ -26,15 +26,15 @@ class AASkill2
         @_initAnimationSettings()
         return
     
-    isItem: -> AA.Utils.isAAItem(@aId)
+    isItem: -> AA.Utils.isAAItem(@idA)
 
     isSkill: -> !@isItem()
 
     databaseId: ->
         if @isItem()
-            return @aId - AA.Utils.ItemsIDStart
+            return @idA - AA.Utils.ItemsIDStart
         else
-            return @aId
+            return @idA
 
     # * Установить набор параметров из Note (принимает массив пар: имя - значение)
     setNoteParameters: (params) ->
@@ -48,7 +48,7 @@ class AASkill2
         else
             return @dbItem().animationId
 
-    dbItem: -> AA.Utils.getAASkillObject(@aId)
+    dbItem: -> AA.Utils.getAASkillObject(@idA)
 
     # * Надо выбирать зону поражения для навыка
     isNeedSelectZone: -> @selectZone == 1 and @range > 0
@@ -178,6 +178,7 @@ do ->
 
     # * Дополнительные настройки навыка
     _._initOtherSettings = ->
+        #TODO: Переименовать в onlyForABS
         @hideOutsideABS = 0
 
     # * Настройки анимации xAnima

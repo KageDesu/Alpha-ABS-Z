@@ -14,6 +14,7 @@ do ->
 
     # * Навык (или предмет) имеют AASkill данные в себе
     _.isAAObject = (skillIdOrObject) ->
+        return false unless skillIdOrObject?
         if isFinite(skillIdOrObject)
             return false if skillIdOrObject <= 0
             skillIdOrObject = @getAASkillObject(skillIdOrObject)
@@ -56,8 +57,8 @@ do ->
 
     # * Методы распаковки и запаковки данных для хранения и сохранения игры
 
-    _.unpackAASkill = (aId) ->
-        object = @getAASkillObject(aId)
+    _.unpackAASkill = (idA) ->
+        object = @getAASkillObject(idA)
         if object?
             return object.AASkill
         else

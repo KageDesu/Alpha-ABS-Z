@@ -3,52 +3,8 @@
 
 //TODO: см метод hitIndex в Window_Selectable - Там конверт глобал координат в локальные простой
 
-// * Ищет элемент, у которого поле ID == id
-Array.prototype.getById = function(id) {
-  return this.getByField('id', id);
-};
-
-// * Ищет элемент, у которого поле FIELD (имя поля) == value
-Array.prototype.getByField = function(field, value) {
-  var e;
-  try {
-    return this.find(function(item) {
-      return item[field] === value;
-    });
-  } catch (error) {
-    e = error;
-    console.warn(e);
-    return null;
-  }
-};
-
-KDCore.Utils.getEventCommentValueArray = function(commentCode, list) {
-  var comment, comments, e, i, item;
-  try {
-    comments = [];
-    if (list && list.length > 1) {
-      i = 0;
-      while (i < list.length) {
-        item = list[i++];
-        if (!item) {
-          continue;
-        }
-        if (item.code === 108) {
-          comment = item.parameters[0];
-          if (comment.contains(commentCode)) {
-            comments.push(comment);
-          }
-        }
-      }
-    }
-  } catch (error) {
-    e = error;
-    console.warn(e);
-  }
-  return comments;
-};
-
-(function() {  // * Расширение, чтобы без XDev работал плагин
+// * Расширение, чтобы без XDev работал плагин
+(function() {
   var __STR_P;
   __STR_P = String.prototype.p;
   String.prototype.p = function(anotherText) {

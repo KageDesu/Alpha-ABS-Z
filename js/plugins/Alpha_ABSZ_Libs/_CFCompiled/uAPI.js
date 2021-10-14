@@ -49,7 +49,7 @@ uAPI = function() {};
       KDCore.warning(e);
     }
   };
-  // * Добавить предмет на панель навыков, поддерживает как обычные ID, так и aID
+  // * Добавить предмет на панель навыков, поддерживает как обычные ID, так и idA
   _.setItemToPanel = function(itemId, slotSymbol) {
     var e;
     try {

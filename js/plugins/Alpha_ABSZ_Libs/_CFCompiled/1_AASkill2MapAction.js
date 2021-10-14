@@ -78,7 +78,7 @@ AASkill2MapAction = class AASkill2MapAction {
   }
 
   id() {
-    return this.aaSkill.aId;
+    return this.aaSkill.idA;
   }
 
   zLevel() {
