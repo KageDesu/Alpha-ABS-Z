@@ -11,16 +11,14 @@ AA.EV = function() {};
   _ = AA.EV;
   _.init = function() {
     "INIT ABS GEVENTS SUB SYSTEM".p();
-    this.events = [];
+    this.events = new AA.GEvents();
     return this._initABSGEvents();
   };
   _.subscribeFor = function(evName, listener) {
-    var ref;
-    return (ref = this._getEventByName(evName)) != null ? ref.addListener(listener) : void 0;
+    return this.events.subscribeFor(evName, listener);
   };
   _.call = function(evName) {
-    var ref;
-    return (ref = this._getEventByName(evName)) != null ? ref.call() : void 0;
+    return this.events.call(evName);
   };
 })();
 
@@ -31,24 +29,19 @@ AA.EV = function() {};
   var _;
   //@[DEFINES]
   _ = AA.EV;
-  _._getEventByName = function(name) {
-    return this.events.find(function(ev) {
-      return ev.name === name;
-    });
-  };
   _._initABSGEvents = function() {
     // * Когда АБС ставиться на паузу
-    this.events.push(new AA.GEvent("PauseABS"));
+    this.events.register("PauseABS");
     //TODO: Проверить эти два на использование
-    this.events.push(new AA.GEvent("PlayerTarget"));
-    this.events.push(new AA.GEvent("PlayerChangeState"));
+    this.events.register("PlayerTarget");
+    this.events.register("PlayerChangeState");
     // * Когда игрок начинает выбирать зону действия навыка
-    this.events.push(new AA.GEvent("PlayerSkillSelector"));
+    this.events.register("PlayerSkillSelector");
     // * Когда выполнился (закончился) навык Projectile на карте
     // * Запрашивает очистку кеша
-    this.events.push(new AA.GEvent("MapSkillsRequestsClean"));
+    this.events.register("MapSkillsRequestsClean");
     // * Смена события под курсором
-    this.events.push(new AA.GEvent("UnderMouseEventChanged"));
+    this.events.register("UnderMouseEventChanged");
   };
 })();
 

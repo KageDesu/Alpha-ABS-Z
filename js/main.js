@@ -38,7 +38,6 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyModelData.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEventSettingsParser.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAGEvent.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAMapEntitiesSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAPlayerEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AATargetsManager.js"
@@ -278,6 +277,15 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 

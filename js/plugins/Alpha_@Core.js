@@ -1,5 +1,5 @@
 /*:
- * @plugindesc (v.0.2) Alpha Core Plugin
+ * @plugindesc (v.0.3) Alpha Core Plugin
  * @author Pheonix KageDesu
  * @target MZ MV
  * @url https://kdworkshop.net/
@@ -23,13 +23,13 @@ Imported.Alpha_Core = true;
 // * ALPHA FAMILY PLUGINS GLOBAL DEFINITION
 var AA = AA || {};
 AA.Core = AA.Core || {};
-AA.Core.version = 0.2;
+AA.Core.version = 0.3;
 
 AA.Utils = {};
 
 // * Заглушки
-AA.isABS = () => false;
-AA.isMap = () => false;
+AA.isABSActive = () => false;
+AA.isABSMap = () => false;
 
 AA.warning = function(e, msg) {
     KDCore.warning(e, msg);
@@ -49,13 +49,13 @@ AA.link = function (library) {
 // * LIBRARY WITH MZ AND MZ SUPPORT
 //! {OUTER FILE}
 
-//?rev 10.06.21
+//?rev 18.09.21
 var KDCore;
 
 KDCore = KDCore || {};
 
 // * Двузначные числа нельзя в версии, сравнение идёт по первой цифре поулчается
-KDCore._fileVersion = '2.5.1';
+KDCore._fileVersion = '2.6';
 
 if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
   // * ПРОПУСКАЕМ ЗАГРУЗКУ, так как уже загруженна более новая
@@ -120,6 +120,23 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
     };
     Array.prototype.isEmpty = function() {
       return this.length === 0;
+    };
+    // * Ищет элемент, у которого поле ID == id
+    Array.prototype.getById = function(id) {
+      return this.getByField('id', id);
+    };
+    // * Ищет элемент, у которого поле FIELD (имя поля) == value
+    Array.prototype.getByField = function(field, value) {
+      var e;
+      try {
+        return this.find(function(item) {
+          return item[field] === value;
+        });
+      } catch (error1) {
+        e = error1;
+        console.warn(e);
+        return null;
+      }
     };
     // * Number Extension
     //------------------------------------------------------------------------------
@@ -265,8 +282,6 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
     };
     // * Input Extension
     //------------------------------------------------------------------------------
-
-    //TODO: Gamepad support
     Input.KeyMapperPKD = {};
 //Numbers
     for (i = l = 48; l <= 57; i = ++l) {
@@ -316,6 +331,272 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
       //?NEW
       TouchInput.toPoint = function() {
         return new KDCore.Point(TouchInput.x, TouchInput.y);
+      };
+    })();
+    (function() {      // * Input Extension: KDGamepad
+      //------------------------------------------------------------------------------
+      // * Поддержка расширенного управления через геймпад (свой модуль)
+      var ALIAS___updateGamepadState, _;
+      //@[DEFINES]
+      _ = Input;
+      // * Активировать работу модуля KDGamepad
+      _.activateExtendedKDGamepad = function() {
+        return _._kdIsGamepadExtended = true;
+      };
+      //@[ALIAS]
+      ALIAS___updateGamepadState = _._updateGamepadState;
+      _._updateGamepadState = function(gamepad) {
+        if (Input._kdIsGamepadExtended === true) {
+          KDGamepad.update();
+        }
+        if ((typeof $gameTemp !== "undefined" && $gameTemp !== null ? $gameTemp.__kdgpStopDefaultGamepad : void 0) === true) {
+          return;
+        }
+        // * Режим перемещения без DPad
+        // * В оригинале игрок также ходит по DPad клавишам, что может быть не удобно
+        // * например при работе с инвентарём
+        if (KDGamepad.isNoDPadMoving()) {
+          if (KDGamepad.isDPadAny()) {
+            Input.clear();
+            return;
+          }
+        }
+        ALIAS___updateGamepadState.call(this, gamepad);
+      };
+      window.KDGamepad = function() {
+        return new Error("This is static class");
+      };
+      window.addEventListener("gamepadconnected", function(event) {
+        var e;
+        try {
+          return KDGamepad.refresh();
+        } catch (error1) {
+          // * Можно напрямую
+          //unless KDGamepad.isExists()
+          //    if event.gamepad? and event.gamepad.mapping == 'standard'
+          //        KDGamepad.init(event.gamepad)
+          e = error1;
+          KDCore.warning(e);
+          return KDGamepad.stop();
+        }
+      });
+      window.addEventListener("gamepaddisconnected", function(event) {
+        var e;
+        if (!KDGamepad.isExists()) {
+          return;
+        }
+        try {
+          if ((event.gamepad != null) && event.gamepad === KDGamepad.gamepad) {
+            return KDGamepad.stop();
+          }
+        } catch (error1) {
+          e = error1;
+          KDCore.warning(e);
+          return KDGamepad.stop();
+        }
+      });
+      KDGamepad.stopDefaultGamepad = function() {
+        $gameTemp.__kdgpStopDefaultGamepad = true;
+      };
+      KDGamepad.resumeDefaultGamepad = function() {
+        $gameTemp.__kdgpStopDefaultGamepad = null;
+      };
+      // * Ссылка на геймпад
+      KDGamepad.gamepad = null;
+      // * Подключён ли Gamepad ?
+      KDGamepad.isExists = function() {
+        return KDGamepad.gamepad != null;
+      };
+      // * Инициализация состояния кнопок
+      // * Этот метод вызывается автоматически из Refresh или при подключении Gamepad
+      KDGamepad.init = function(gamepad) {
+        KDGamepad.gamepad = gamepad;
+        this._isActive = true;
+        this.buttonNames = [
+          'A', // 0
+          'B', // 1
+          'X', // 2
+          'Y', // 3
+          'LB', // 4
+          'RB', // 5
+          'LTrigger', // 6
+          'RTrigger', // 7
+          'Back', // 8
+          'Start', // 9
+          'LStick', // 10
+          'RStick', // 11
+          'dUp', // 12
+          'dDown', // 13
+          'dLeft', // 14
+          'dRight' // 15
+        ];
+        this.reset();
+      };
+      // * Аналог Input.clear
+      KDGamepad.clear = function() {
+        return KDGamepad.reset();
+      };
+      // * Сбросить состояние кнопок
+      KDGamepad.reset = function() {
+        this.leftStick = {
+          x: 0,
+          y: 0
+        };
+        this.rightStick = {
+          x: 0,
+          y: 0
+        };
+        this.buttons = {};
+        this.buttonsPressed = {};
+        this.prevButtons = {};
+      };
+      
+      // * Остановить учёт геймпада
+      KDGamepad.stop = function() {
+        KDGamepad.reset();
+        KDGamepad.gamepad = null;
+      };
+      // * Функция проверки что нажата кнопка на геймпаде
+      KDGamepad._buttonPressed = function(gamepad, index) {
+        var b, e;
+        try {
+          if (!gamepad || !gamepad.buttons || index >= gamepad.buttons.length) {
+            return false;
+          }
+          b = gamepad.buttons[index];
+          if (b == null) {
+            return false;
+          }
+          if (typeof b === 'object') {
+            // * Можно упростить
+            return b.pressed;
+          }
+          return b === 1.0;
+        } catch (error1) {
+          e = error1;
+          KDCore.warning(e);
+          return false;
+        }
+      };
+      // * Каждый кадр (обновление состояний)
+      KDGamepad.update = function() {
+        var e, gp, isDown, len, name, q, ref;
+        if (!KDGamepad.isActive()) {
+          return;
+        }
+        KDGamepad.refresh();
+        if (!KDGamepad.isExists()) {
+          return;
+        }
+        try {
+          gp = KDGamepad.gamepad;
+          ref = this.buttonNames;
+          // * Проверка состояний кнопок
+          for (i = q = 0, len = ref.length; q < len; i = ++q) {
+            name = ref[i];
+            this.buttons[name] = false;
+            isDown = KDGamepad._buttonPressed(gp, i);
+            if (isDown === true) {
+              this.prevButtons[name] = true;
+            } else {
+              // * Срабатываение только при нажал - отпустил
+              if (this.prevButtons[name] === true) {
+                this.buttons[name] = true;
+                this.prevButtons[name] = false;
+              }
+            }
+          }
+          // * Проверка стиков
+          this.leftStick.x = gp.axes[0];
+          this.leftStick.y = gp.axes[1];
+          this.rightStick.x = gp.axes[2];
+          this.rightStick.y = gp.axes[3];
+        } catch (error1) {
+          e = error1;
+          KDCore.warning(e);
+          KDGamepad.stop();
+        }
+      };
+      // * Обновить и проверить состояние Gamepad
+      // * Надо каждый раз это вызывать
+      KDGamepad.refresh = function() {
+        var e, gamepads, gp, isGamepadRefreshed, q, ref;
+        try {
+          isGamepadRefreshed = false;
+          if (navigator.getGamepads) {
+            gamepads = navigator.getGamepads();
+          } else if (navigator.webkitGetGamepads) {
+            gamepads = navigator.webkitGetGamepads();
+          }
+          if (gamepads != null) {
+            for (i = q = 0, ref = gamepads.length; (0 <= ref ? q < ref : q > ref); i = 0 <= ref ? ++q : --q) {
+              gp = gamepads[i];
+              if ((gp != null) && gp.mapping === 'standard') {
+                isGamepadRefreshed = true;
+                if (KDGamepad.buttonNames != null) {
+                  KDGamepad.gamepad = gp;
+                } else {
+                  KDGamepad.init(gp);
+                }
+                break;
+              }
+            }
+          }
+          if (!isGamepadRefreshed) {
+            // * Если не был найден не один gamepad - отключаем систему
+            KDGamepad.stop();
+          }
+        } catch (error1) {
+          e = error1;
+          KDCore.warning(e);
+          KDGamepad.stop();
+        }
+      };
+      // * Любое нажатие кнопки
+      KDGamepad.isKeyAny = function(name) {
+        return KDGamepad.isKey(name) || KDGamepad.isKeyPressed(name);
+      };
+      // * Нажата ли кнопка (trigger нажал - отпустил)
+      KDGamepad.isKey = function(name) {
+        if (!KDGamepad.isExists()) {
+          return false;
+        }
+        if (this.buttons == null) {
+          return false;
+        }
+        return this.buttons[name] === true;
+      };
+      // * Нажата ли кнопка (continues зажата)
+      KDGamepad.isKeyPressed = function(name) {
+        if (!KDGamepad.isExists()) {
+          return false;
+        }
+        if (this.buttons == null) {
+          return false;
+        }
+        return this.prevButtons[name] === true;
+      };
+      KDGamepad.isDPadAny = function() {
+        return KDGamepad.isKeyAny("dLeft") || KDGamepad.isKeyAny("dRight") || KDGamepad.isKeyAny("dUp") || KDGamepad.isKeyAny("dDown");
+      };
+      KDGamepad.isActive = function() {
+        return this._isActive === true;
+      };
+      // * Временно отключить обработку KDGamepad
+      KDGamepad.setActive = function(_isActive) {
+        this._isActive = _isActive;
+        if (KDGamepad.isActive()) {
+          KDGamepad.refresh();
+        } else {
+          KDGamepad.stop();
+        }
+      };
+      // * Отключить перемещение игрока на DPad
+      KDGamepad.setNoDPadMovingMode = function(_noDpadMoving) {
+        this._noDpadMoving = _noDpadMoving;
+      };
+      return KDGamepad.isNoDPadMoving = function() {
+        return this._noDpadMoving === true;
       };
     })();
     // * Window_Base Extension
@@ -1157,7 +1438,7 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
     }).call(this);
     // * Utils
     //------------------------------------------------------------------------------
-    KDCore.Utils = {};
+    KDCore.Utils = KDCore.Utils || {};
     (function() {
       var _;
       _ = KDCore.Utils;
@@ -1229,6 +1510,31 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
           console.warn(e);
         }
         return null;
+      };
+      _.getEventCommentValueArray = function(commentCode, list) {
+        var comment, comments, e, item;
+        try {
+          comments = [];
+          if (list && list.length > 1) {
+            i = 0;
+            while (i < list.length) {
+              item = list[i++];
+              if (!item) {
+                continue;
+              }
+              if (item.code === 108) {
+                comment = item.parameters[0];
+                if (comment.contains(commentCode)) {
+                  comments.push(comment);
+                }
+              }
+            }
+          }
+        } catch (error1) {
+          e = error1;
+          console.warn(e);
+        }
+        return comments;
       };
       _.getPositionPointFromJSON = function(jsonSettings) {
         return _.convertPositionPointFromJSON(jsonSettings.position);
@@ -3074,10 +3380,11 @@ AATimer = class AATimer {
       this.visible = false;
       this._initFloatingSystem();
       this._loadWindowFrame();
-      this._createContent();
       return;
     }
 
+    // * Тут ничего не создавать, не двигать, так как
+    // * конент создаётся Async, см. метод _createCustomElements
     isActive() {
       return this.visible === true;
     }
@@ -3091,11 +3398,11 @@ AATimer = class AATimer {
     }
 
     isDraggable() {
-      return this._headerSpr.visible === true && this.isOpen();
+      return (this._headerSpr != null) && this._headerSpr.visible === true && this.isOpen();
     }
 
-    setCloseHandler() {
-      return this._closeHandler;
+    setCloseHandler(_closeHandler) {
+      this._closeHandler = _closeHandler;
     }
 
     callCloseHandler() {
@@ -3104,12 +3411,12 @@ AATimer = class AATimer {
       }
     }
 
-    setDraggingHandler() {
-      return this._dragHandler;
+    setDraggingHandler(_dragHandler) {
+      this._dragHandler = _dragHandler;
     }
 
-    setDragEndHandler() {
-      return this._dragEndHandler;
+    setDragEndHandler(_dragEndHandler) {
+      this._dragEndHandler = _dragEndHandler;
     }
 
     hideHeader() {} //TODO:
@@ -3209,6 +3516,13 @@ AATimer = class AATimer {
       if (this._mouseIn === false && this._dragging === false) {
         return;
       }
+      // * Если существует объект который сейчас dragging
+      if ($gameTemp.pkdDraggableInstance != null) {
+        // * Если этот объект не этот объект, то выходим из метода
+        if ($gameTemp.pkdDraggableInstance !== this) {
+          return;
+        }
+      }
       if (TouchInput.isLongPressed()) {
         if (this._dragging === false) {
           this._onDragStart();
@@ -3228,6 +3542,8 @@ AATimer = class AATimer {
       this.opacity = 200;
       this._deltaXY = this.getDeltaXY();
       this._dragging = true;
+      // * Устанавливаем глобальную ссылку на объект перемещения
+      $gameTemp.pkdDraggableInstance = this;
     };
     //TODO из пойнт
     _.getDeltaXY = function() {
@@ -3250,9 +3566,16 @@ AATimer = class AATimer {
       if (this._dragging === true) {
         this._dragging = false;
         this.opacity = 255;
+        this._clearDraggableGlocalInstance();
         if (this._dragEndHandler != null) {
           this._dragEndHandler();
         }
+      }
+    };
+    // * Освобождаем глобальную ссылку
+    _._clearDraggableGlocalInstance = function() {
+      if ($gameTemp.pkdDraggableInstance === this) {
+        return $gameTemp.pkdDraggableInstance = null;
       }
     };
     _._isMouseInHeader = function() {
@@ -3302,6 +3625,7 @@ AATimer = class AATimer {
       this._loadHeader();
       this._createCloseButton();
       this._moveToStartPosition();
+      this._createCustomElements();
     };
     // * Слои нужны, так как изображения загружаються асинхронно
     _._createLayers = function() {
@@ -3333,7 +3657,7 @@ AATimer = class AATimer {
     };
     // * Наследники создают свои элементы в этом методе
     // * Есть специальный метод addContent()
-    _._createContent = function() {}; // * EMPTY
+    _._createCustomElements = function() {}; // * EMPTY
   })();
   (function() {    // -----------------------------------------------------------------------
 
@@ -3341,6 +3665,7 @@ AATimer = class AATimer {
     // -----------------------------------------------------------------------
     
     // * Определение если мышка в области окна
+    //TODO: Есть проблема при открытии окна сразу под курсором
     _._registerMouseInOut = function() {
       if (!this.isOpen()) {
         return;
@@ -3400,6 +3725,7 @@ AATimer = class AATimer {
     _._close = function() {
       this.visible = false;
       this.removeFromParent();
+      this._clearDraggableGlocalInstance();
       $gameTemp._floatingWindows.delete(this);
       this._onMouseOut();
       return this._destroyMouseCheckThread();
@@ -3413,17 +3739,39 @@ AATimer = class AATimer {
 
   // * Если окно под курсором, нельзя нажимать на карте для движения игрока
   // -----------------------------------------------------------------------
-  var alias_SM_isAnyButtonPressed;
-  //@[ALIAS]
-  alias_SM_isAnyButtonPressed = Scene_Map.prototype.isAnyButtonPressed;
-  Scene_Map.prototype.isAnyButtonPressed = function() {
-    if ($gameTemp.floatingWindowUnderMouse != null) {
-      return true;
+  (function() {    //╒═════════════════════════════════════════════════════════════════════════╛
+    // ■ Scene_Map.coffee
+    //╒═════════════════════════════════════════════════════════════════════════╛
+    //---------------------------------------------------------------------------
+    var ALIAS__isAnyButtonPressed, ALIAS__processMapTouch, _;
+    
+    //@[DEFINES]
+    _ = Scene_Map.prototype;
+    if (KDCore.isMZ()) {
+      //@[ALIAS]
+      ALIAS__isAnyButtonPressed = _.isAnyButtonPressed;
+      _.isAnyButtonPressed = function() {
+        if ($gameTemp.floatingWindowUnderMouse != null) {
+          return true;
+        } else {
+          return ALIAS__isAnyButtonPressed.call(this);
+        }
+      };
     } else {
-      return alias_SM_isAnyButtonPressed.call(this);
+      //@[ALIAS]
+      ALIAS__processMapTouch = _.processMapTouch;
+      _.processMapTouch = function() {
+        if ($gameTemp.floatingWindowUnderMouse != null) {
+          return;
+        }
+        return ALIAS__processMapTouch.call(this);
+      };
     }
-  };
+  })();
 })();
+
+// ■ END Scene_Map.coffee
+//---------------------------------------------------------------------------
 
 // Generated by CoffeeScript 2.5.1
 // * Общий класс для всех UI элементов
@@ -4212,6 +4560,7 @@ AATimer = class AATimer {
 //---------------------------------------------------------------------------
 
 // Generated by CoffeeScript 2.5.1
+//rev 07.10.21
 (function() {
   var Sprite_UIText;
   Sprite_UIText = class Sprite_UIText extends AA.Sprite_UIElement {
@@ -4251,8 +4600,14 @@ AATimer = class AATimer {
       return this._drawTextWhenReady(text);
     }
 
-    
-      // * Пишет текст с определённым цветом (один раз)
+    // * Сборка текста с учётом формата
+    drawTextWithFormat(/*format string, arguments parameters... */) {
+      var text;
+      text = this._convertFormatedString(...arguments);
+      this.drawText(text);
+    }
+
+    // * Пишет текст с определённым цветом (один раз)
     drawTextColor(text, colorCss) {
       if (this._textSpr == null) {
         return;
@@ -4306,6 +4661,104 @@ AATimer = class AATimer {
   _._drawTextWhenReady = function(text) {
     this._drawOnReady = text;
     return this._drawText(text);
+  };
+  
+  // * Заменить вхождения %1, %2 на значения параметров
+  _._convertFormatedString = function(/*text, args...*/) {
+    var e, i, j, ref, text;
+    try {
+      text = arguments[0];
+      for (i = j = 1, ref = arguments.length; (1 <= ref ? j < ref : j > ref); i = 1 <= ref ? ++j : --j) {
+        try {
+          if (arguments[i] == null) {
+            continue;
+          }
+          text = text.replace("%" + i, arguments[i]);
+        } catch (error) {
+          e = error;
+          AA.warning(e);
+          text = "[wrong format text input]";
+        }
+      }
+      return text;
+    } catch (error) {
+      e = error;
+      AA.warning(e);
+      return "[wrong format text input]";
+    }
+  };
+})();
+
+// ■ END PRIVATE.coffee
+//---------------------------------------------------------------------------
+
+// Generated by CoffeeScript 2.5.1
+//rev 07.10.21
+(function() {
+  var Sprite_UITextExt;
+  Sprite_UITextExt = class Sprite_UITextExt extends AA.Sprite_UIText {
+    constructor() {
+      super(...arguments);
+    }
+
+    // * Стандартный набор настроек
+    defaultParams() {
+      return {
+        visible: true,
+        // * В RPG Maker MZ хватает и 20, а в MV надо минимум 60 (для 14 размера)
+        size: {
+          w: 200,
+          h: 60
+        },
+        font: {
+          face: null,
+          size: 14,
+          italic: false
+        },
+        margins: {
+          x: 0,
+          y: 0
+        }
+      };
+    }
+
+    //$[OVER]
+    // * Данный метод не поддерживается, так как тут основа не Sprite, а Window
+    drawTextColor() {
+      return this.drawText(...arguments);
+    }
+
+  };
+  AA.link(Sprite_UITextExt);
+})();
+
+(function() {  //╒═════════════════════════════════════════════════════════════════════════╛
+  // ■ PRIVATE.coffee
+  //╒═════════════════════════════════════════════════════════════════════════╛
+  //---------------------------------------------------------------------------
+  var _;
+  //@[DEFINES]
+  _ = AA.Sprite_UITextExt.prototype;
+  //$[OVER]
+  _._createTextSprite = function() {
+    var rect;
+    rect = new PIXI.Rectangle(0, 0, this.params.size.w, this.params.size.h);
+    this._textSpr = new AA.Window_ExtTextLineBase(rect, this.params.font);
+    this._textSpr.x = this.params.margins.x || 0;
+    this._textSpr.y = this.params.margins.y || 0;
+    this.add(this._textSpr);
+    // * На следующий кадр, чтобы не было потери текста (опасно)
+    //setTimeout (=> @_onReady() ), 10
+    this._onReady(); // * Сразу
+  };
+  
+  //$[OVER]
+  _._drawText = function(text) {
+    if (this._textSpr == null) {
+      return;
+    }
+    this._textSpr.contents.clear();
+    this._textSpr.drawTextExWithWordWrap(text, 0, 0, this._textSpr.width);
   };
 })();
 
@@ -4639,6 +5092,93 @@ AA.Utils.Parser = function() {};
 //---------------------------------------------------------------------------
 
 // Generated by CoffeeScript 2.5.1
+// * Класс для реализации набора кнопок переключателей (Tabs)
+// * Когда только одна кнопка может быть нажата (выбрана)
+
+//rev 07.10.21
+
+//╒═════════════════════════════════════════════════════════════════════════╛
+// ■ Sprite_ButtonsGroup.coffee
+//╒═════════════════════════════════════════════════════════════════════════╛
+//---------------------------------------------------------------------------
+(function() {
+  var Sprite_ButtonsGroup;
+  Sprite_ButtonsGroup = class Sprite_ButtonsGroup extends KDCore.Sprite {
+    // buttonsArray = [
+    //       {image: NAME, position: [X,Y]}, ...
+    //    ]
+    constructor(buttonsArray, activeIndex, clickCallback) {
+      var button, i, len;
+      super();
+      this.clickCallback = clickCallback;
+      this._buttons = [];
+      for (i = 0, len = buttonsArray.length; i < len; i++) {
+        button = buttonsArray[i];
+        this._createButton(button);
+      }
+      this._onButtonClick(activeIndex);
+      return;
+    }
+
+    getSelectedIndex() {
+      return this._buttons.findIndex(function(btn) {
+        return !btn.isEnabled();
+      });
+    }
+
+  };
+  AA.link(Sprite_ButtonsGroup);
+})();
+
+(function() {  // ■ END Sprite_ButtonsGroup.coffee
+  //---------------------------------------------------------------------------
+
+  //╒═════════════════════════════════════════════════════════════════════════╛
+  // ■ PRIVATE
+  //╒═════════════════════════════════════════════════════════════════════════╛
+  //---------------------------------------------------------------------------
+  var _;
+  //@[DEFINES]
+  _ = AA.Sprite_ButtonsGroup.prototype;
+  _._createButton = function({image, position}) {
+    var btn, index, method;
+    // * Так как кнопки работают как переключатели, то 03 должен быть всегда
+    index = this._buttons.length;
+    btn = new KDCore.ButtonM(image, true, "Alpha");
+    btn.move(position);
+    method = () => {
+      return this._onButtonClick(index);
+    };
+    btn.addClickHandler(method);
+    this._buttons.push(btn);
+    this.add(btn);
+  };
+  _._onButtonClick = function(index = 0) {
+    var ref;
+    this._resetAllButtons();
+    if ((ref = this._buttons[index]) != null) {
+      ref.disable(); // * Нажата
+    }
+    if (this.clickCallback != null) {
+      this.clickCallback();
+    }
+  };
+  _._resetAllButtons = function() {
+    var btn, i, len, ref;
+    ref = this._buttons;
+    for (i = 0, len = ref.length; i < len; i++) {
+      btn = ref[i];
+      if (btn != null) {
+        btn.enable();
+      }
+    }
+  };
+})();
+
+// ■ END PRIVATE
+//---------------------------------------------------------------------------
+
+// Generated by CoffeeScript 2.5.1
 //╒═════════════════════════════════════════════════════════════════════════╛
 // ■ Sprite_TilingFrame.coffee
 //╒═════════════════════════════════════════════════════════════════════════╛
@@ -4732,7 +5272,65 @@ AA.Utils.Parser = function() {};
         spr = ref[j];
         spr.bitmap = this.skinBitmap;
       }
-      return Window.prototype._setRectPartsGeometry.call(this, this.frame, srect, drect, m);
+      if (KDCore.isMZ()) {
+        Window.prototype._setRectPartsGeometry.call(this, this.frame, srect, drect, m);
+      } else {
+        this._setRectPartsGeometry(this.frame, srect, drect, m);
+      }
+    }
+
+    // * Этот метод существует в MZ, но нет в MV
+    //? From MZ
+    _setRectPartsGeometry(sprite, srect, drect, m) {
+      var child, children, dh, dmh, dmw, dw, dx, dy, j, len, sh, smh, smw, sw, sx, sy;
+      sx = srect.x;
+      sy = srect.y;
+      sw = srect.width;
+      sh = srect.height;
+      dx = drect.x;
+      dy = drect.y;
+      dw = drect.width;
+      dh = drect.height;
+      smw = sw - m * 2;
+      smh = sh - m * 2;
+      dmw = dw - m * 2;
+      dmh = dh - m * 2;
+      children = sprite.children;
+      sprite.setFrame(0, 0, dw, dh);
+      sprite.move(dx, dy);
+      // corner
+      children[0].setFrame(sx, sy, m, m);
+      children[1].setFrame(sx + sw - m, sy, m, m);
+      children[2].setFrame(sx, sy + sw - m, m, m);
+      children[3].setFrame(sx + sw - m, sy + sw - m, m, m);
+      children[0].move(0, 0);
+      children[1].move(dw - m, 0);
+      children[2].move(0, dh - m);
+      children[3].move(dw - m, dh - m);
+      // edge
+      children[4].move(m, 0);
+      children[5].move(m, dh - m);
+      children[6].move(0, m);
+      children[7].move(dw - m, m);
+      children[4].setFrame(sx + m, sy, smw, m);
+      children[5].setFrame(sx + m, sy + sw - m, smw, m);
+      children[6].setFrame(sx, sy + m, m, smh);
+      children[7].setFrame(sx + sw - m, sy + m, m, smh);
+      children[4].scale.x = dmw / smw;
+      children[5].scale.x = dmw / smw;
+      children[6].scale.y = dmh / smh;
+      children[7].scale.y = dmh / smh;
+      // center
+      if (children[8] != null) {
+        children[8].setFrame(sx + m, sy + m, smw, smh);
+        children[8].move(m, m);
+        children[8].scale.x = dmw / smw;
+        children[8].scale.y = dmh / smh;
+      }
+      for (j = 0, len = children.length; j < len; j++) {
+        child = children[j];
+        child.visible = dw > 0 && dh > 0;
+      }
     }
 
   };
@@ -4776,4 +5374,77 @@ AA.Utils.Parser = function() {};
 // ■ END Sprite_TilingFrame.coffee
 //---------------------------------------------------------------------------
 
-//Plugin Alpha_@Core automatic build by PKD PluginBuilder 1.9.2 25.07.2021
+// Generated by CoffeeScript 2.5.1
+// * Данное окно используется как основа для Sprite_UITextExt
+
+//rev 07.10.21
+(function() {
+  var Window_ExtTextLineBase;
+  Window_ExtTextLineBase = class Window_ExtTextLineBase extends Window_Base {
+    constructor(rect, fontSettings) {
+      super(rect);
+      this.fontSettings = fontSettings;
+      this.createContents();
+      // * Всегда прозрачное окно
+      this.setBackgroundType(2);
+    }
+
+    // * Нет отступов
+    updatePadding() {
+      return this.padding = 0;
+    }
+
+    // * Нет отступов
+    itemPadding() {
+      return 0;
+    }
+
+    textPadding() {
+      return 0;
+    }
+
+    standardPadding() {
+      return 0;
+    }
+
+    contentsWidth() {
+      return this.width;
+    }
+
+    contentsHeight() {
+      return this.height;
+    }
+
+    // * Более гибкая настройка размера текста при { }
+    makeFontBigger() {
+      return this.contents.fontSize += 1;
+    }
+
+    makeFontSmaller() {
+      if (this.contents.fontSize > 1) {
+        return this.contents.fontSize -= 1;
+      }
+    }
+
+    // * Применение своих шрифта и размера текста
+    resetFontSettings() {
+      super.resetFontSettings();
+      if (this.fontSettings == null) {
+        return;
+      }
+      if (String.any(this.fontSettings.face)) {
+        this.contents.fontFace = this.fontSettings.face;
+      }
+      if (this.fontSettings.size > 0) {
+        this.contents.fontSize = this.fontSettings.size;
+      }
+      if (this.fontSettings.italic != null) {
+        this.contents.fontItalic = this.fontSettings.italic;
+      }
+    }
+
+  };
+  AA.link(Window_ExtTextLineBase);
+})();
+
+//Plugin Alpha_@Core automatic build by PKD PluginBuilder 1.9.2 08.10.2021
