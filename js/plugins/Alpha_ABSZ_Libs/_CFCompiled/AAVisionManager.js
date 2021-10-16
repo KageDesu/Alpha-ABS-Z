@@ -82,10 +82,11 @@ AAVisionManager = function() {};
   // * Находится ли в данной точке карты что-либо, что мешает видимости
   // * TRUE - нельзя "видеть" через эту точку
   _.isPointIsColiderForVision = function(visor, x, y) {
-    var e, events, noVisionRegions, noVisionTerrains;
+    var e, events, model, noVisionRegions, noVisionTerrains;
     try {
-      noVisionRegions = AA.PP.getVisionRestrictedRegions();
-      noVisionTerrains = AA.PP.getVisionRestrictedTerrains();
+      model = visor.AAModel();
+      noVisionRegions = AA.PP.getVisionRestrictedRegions().concat(model.noPassVisionRegions);
+      noVisionTerrains = AA.PP.getVisionRestrictedTerrains().concat(model.noPassVisionTerrains);
       if (noVisionRegions.contains($gameMap.regionId(x, y))) {
         return true;
       }

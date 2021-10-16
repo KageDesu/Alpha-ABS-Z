@@ -9,7 +9,6 @@ do ->
 
     _.setActiveAASkill = (@_activeAASkillId) ->
 
-    #TODO: А если предмет???
     _.activeAASkill = ->
         if @_activeAASkillId > 0
             return AA.Utils.getAASkillObject(@_activeAASkillId).AASkill

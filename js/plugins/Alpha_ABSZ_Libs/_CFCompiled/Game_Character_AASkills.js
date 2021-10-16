@@ -10,7 +10,6 @@
   _.setActiveAASkill = function(_activeAASkillId) {
     this._activeAASkillId = _activeAASkillId;
   };
-  //TODO: А если предмет???
   _.activeAASkill = function() {
     if (this._activeAASkillId > 0) {
       return AA.Utils.getAASkillObject(this._activeAASkillId).AASkill;

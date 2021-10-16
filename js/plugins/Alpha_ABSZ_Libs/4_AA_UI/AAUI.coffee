@@ -139,6 +139,9 @@ do ->
         _.activateSkillImpactSelector = (aaSkill) ->
             @skillSelector?.activate(aaSkill)
 
+        # * Эффект тряски (когда нажатие за зону поражения)
+        _.shakeSkillImpactSelector = () -> @skillSelector?.shake()
+
         _.resetSkillImpactSelector = -> @skillSelector?.deactivate()
 
     # -----------------------------------------------------------------------

@@ -178,7 +178,6 @@ do ->
 
     # * Дополнительные настройки навыка
     _._initOtherSettings = ->
-        #TODO: Переименовать в onlyForABS
         @hideOutsideABS = 0
 
     # * Настройки анимации xAnima

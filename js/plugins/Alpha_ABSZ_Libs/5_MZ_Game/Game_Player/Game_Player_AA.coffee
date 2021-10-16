@@ -27,9 +27,17 @@ do ->
     _.onSkillTargetSelected = ->
         "SKILL ZONE SELECTED".p()
         console.info $gameTemp._aaSkillSelectorTargets
-        @startPerformAASkill(TouchInput.toMapPoint())
-        # * Сбрасываем состояние?
-        @onSkillTargetCancel()
+        # * Проверка радиуса
+        skill = @activeAASkill()
+        point = TouchInput.toMapPoint()
+        if AA.Utils.Math.getDistanceMapPlayerPoint(point) <= skill.range
+            @startPerformAASkill(point)
+            # * Сбрасываем состояние
+            @onSkillTargetCancel()
+        else
+            AA.UI.shakeSkillImpactSelector()
+            #TODO: shake sprite
+        return
 
     _.onSkillTargetCancel = -> @_resetAAState()
 

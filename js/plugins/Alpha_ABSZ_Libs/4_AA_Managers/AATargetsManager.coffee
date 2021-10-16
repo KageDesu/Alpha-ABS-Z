@@ -89,7 +89,11 @@ do ->
 
     _.collectTargetsForPlayerSelector = (aaSkill) ->
         try
-            targets = @collectTargetsForSkillInScreenPoint(aaSkill, TouchInput)
+            # * Проверка range, если выходит за range, то не будут цели выделяться
+            if AA.Utils.Math.getDistanceMapPlayerPoint(TouchInput.toMapPoint()) <= aaSkill.range
+                targets = @collectTargetsForSkillInScreenPoint(aaSkill, TouchInput)
+            else
+                targets = []
             # * Фильтр целей сразу
             return @filteredTargetsForSubject($gamePlayer, aaSkill, targets)
         catch e

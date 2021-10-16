@@ -121,7 +121,12 @@ AATargetsManager = function() {};
   _.collectTargetsForPlayerSelector = function(aaSkill) {
     var e, targets;
     try {
-      targets = this.collectTargetsForSkillInScreenPoint(aaSkill, TouchInput);
+      // * Проверка range, если выходит за range, то не будут цели выделяться
+      if (AA.Utils.Math.getDistanceMapPlayerPoint(TouchInput.toMapPoint()) <= aaSkill.range) {
+        targets = this.collectTargetsForSkillInScreenPoint(aaSkill, TouchInput);
+      } else {
+        targets = [];
+      }
       // * Фильтр целей сразу
       return this.filteredTargetsForSubject($gamePlayer, aaSkill, targets);
     } catch (error) {

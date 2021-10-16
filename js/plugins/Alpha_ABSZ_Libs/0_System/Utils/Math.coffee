@@ -12,6 +12,14 @@ do ->
     # * Используется в проверке коллизий Map AA Skills Projectiles
     _.getXYDistance = (x1, y1, x2, y2) -> Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
 
+    # * Получить дистанцию между игроком и точкой (в масштабах карты)
+    _.getDistanceMapPlayerPoint = (point) ->
+        try
+            return $gameMap.distance($gamePlayer.x, $gamePlayer.y, point.x, point.y)
+        catch e
+            AA.warning(e)
+            return 0
+
     _.getProjectilePointByDirection = (startPoint, d) ->
         try
             "START POINT".p()

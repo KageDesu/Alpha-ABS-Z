@@ -126,8 +126,7 @@ do ->
         return unless String.any(paramName)
         paramValue = args[2]
         # * Преобразование числа
-        if isFinite(paramValue)
-            paramValue = Number(paramValue)
+        paramValue = Number(paramValue) if isFinite(paramValue)
         #TODO: Как быть с массивами данных??? approachMoveData
         if args[3]? # * evId
             event = @_getEventByArgId(args[4])

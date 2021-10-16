@@ -21,7 +21,7 @@ class EnemyAI_BattleFlow extends AIFlow
         #@char()._moveType = 0
         #@char().aaSetMoveTypeKeepBattleDistance()
         #TODO: filter skills
-
+        return
 
 
     onStateEnd: ->

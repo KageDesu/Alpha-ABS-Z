@@ -6,6 +6,7 @@
       super();
       this.anchor.set(0.5);
       this.visible = false;
+      this._createSelector();
       return;
     }
 
@@ -20,12 +21,19 @@
       this.visible = false;
     }
 
+    shake() {
+      return this.shakeTime = 20;
+    }
+
     update() {
       super.update();
       if (!this.visible) {
         return;
       }
-      return this.move(TouchInput);
+      this.move(TouchInput);
+      if (this.shakeTime >= 0) {
+        this._updateShake();
+      }
     }
 
   };
@@ -39,29 +47,45 @@
   var _;
   //@[DEFINES]
   _ = AA.Sprite_SkillImpactSelector.prototype;
+  // * Используем доп. слой, чтобы воссоздать Shake эффект
+  _._createSelector = function() {
+    this._selectorSpr = new KDCore.Sprite();
+    this._selectorSpr.anchor.set(0.5);
+    this.addChild(this._selectorSpr);
+  };
   // * Отрисовка зонвы выбора в зависимости от параметров навыка
   _._applyStyle = function({radius, selectorColor, selectorImg, selectorOpacity}) {
-    this._applyRadius(radius);
-    this._applyColor(selectorColor);
-    this._applyImage(selectorImg);
+    if (String.any(selectorImg)) {
+      KDCore.Utils.loadImageAsync("pictures", selectorImg).then(this._applyImage.bind(this));
+    } else {
+      this._applyRadius(radius);
+      this._applyColor(selectorColor);
+    }
     this.opacity = selectorOpacity;
+  };
+  // * Если не задан параметр картинки, то1 будет просто квадрат
+  // * Картинка не растягивается в зависимости от Radius
+  // * Предполагается что разработчик сам установит соответствующую картинку
+  _._applyImage = function(bitmap) {
+    return this._selectorSpr.bitmap = bitmap;
   };
   _._applyRadius = function(radius) {
     if (radius <= 0) {
-      this.bitmap = new Bitmap(0, 0);
+      this._selectorSpr.bitmap = new Bitmap(0, 0);
     } else {
-      this.bitmap = new Bitmap(radius * $gameMap.tileWidth(), radius * $gameMap.tileHeight());
+      this._selectorSpr.bitmap = new Bitmap(radius * $gameMap.tileWidth(), radius * $gameMap.tileHeight());
     }
   };
-  _._applyColor = function(color) {
-    return this.bitmap.fillAll(color.toCss());
+  _._applyColor = function(selectorColor) {
+    return this._selectorSpr.bitmap.fillAll(selectorColor.toCss());
   };
-  //TODO: If empty, load default from AABS folder
-  return _._applyImage = function(image) {
-    if (!String.any(image)) {
-      this.bitmap = ImageManager.loadAA("RadiusSelect");
-    } else {
-      this.bitmap = ImageManager.loadPicture(image);
+  return _._updateShake = function() {
+    this.shakeTime--;
+    // * Только по X
+    this._selectorSpr.x += Math.round(this.shakeTime * 0.2 * Math.cos(this.shakeTime));
+    if (this.shakeTime <= 0) {
+      this.shakeTime = 0;
+      this._selectorSpr.x = 0;
     }
   };
 })();

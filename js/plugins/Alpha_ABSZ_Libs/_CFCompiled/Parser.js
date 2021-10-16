@@ -117,7 +117,8 @@
       return values;
     }
     try {
-      return values.split(",").map(function(i) {
+      // * Тут надо toString, так как может быть только цифра одна
+      return values.toString().split(",").map(function(i) {
         return parseInt(i.trim());
       });
     } catch (error) {

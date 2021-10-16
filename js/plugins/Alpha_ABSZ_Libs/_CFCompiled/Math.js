@@ -13,6 +13,17 @@
   _.getXYDistance = function(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
   };
+  // * Получить дистанцию между игроком и точкой (в масштабах карты)
+  _.getDistanceMapPlayerPoint = function(point) {
+    var e;
+    try {
+      return $gameMap.distance($gamePlayer.x, $gamePlayer.y, point.x, point.y);
+    } catch (error) {
+      e = error;
+      AA.warning(e);
+      return 0;
+    }
+  };
   _.getProjectilePointByDirection = function(startPoint, d) {
     var diagTable, e, horVer, px, py, x, y;
     try {

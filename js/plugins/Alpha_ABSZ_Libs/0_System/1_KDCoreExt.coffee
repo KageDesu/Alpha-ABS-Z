@@ -16,6 +16,46 @@ do ->
 
     return
 
+#TODO: NOT USED YET
+# * Shake effect to Sprite
+
+do ->
+
+    _ = KDCore.Sprite::
+
+    _.startShake = (frames) ->
+        #"START SHAKE".p()
+        # * Создаём данные о движении
+        @_shakeData = [frames, @x, @y]
+        return
+
+    #@[ALIAS]
+    ALIAS__update = _.update
+    _.update = ->
+        ALIAS__update.call(@)
+        @_updateShakeEffect() if @_shakeData?
+
+    _._updateShakeEffect = ->
+        # * Отсчёт
+        @_shakeData[0]--
+        #console.log(@_shakeData[0])
+        remainingTime = @_shakeData[0]
+        # * Пока только по X
+        shakeX = Math.round(remainingTime * 0.4 * Math.cos(remainingTime))
+        @x += shakeX
+        @_endShake() if remainingTime <= 0
+        return
+
+    _._endShake = () ->
+        # * Возвращаем начальные значения
+        @x = @_shakeData[1]
+        #@y = @_shakeData[2]
+        # * Удаляем данные о движении
+        @_shakeData = null
+        return
+
+    return
+
 # * Draggable sprite
 #? KDCore.Sprite extension
 do ->

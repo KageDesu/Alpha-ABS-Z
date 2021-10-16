@@ -81,7 +81,8 @@ do ->
     _.convertArrayFromParameter = (values) ->
         return values if values instanceof Array
         try
-            return values.split(",").map((i) -> parseInt(i.trim()))
+            # * Тут надо toString, так как может быть только цифра одна
+            return values.toString().split(",").map((i) -> parseInt(i.trim()))
         catch e
             AA.w e
             return []

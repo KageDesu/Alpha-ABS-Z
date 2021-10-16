@@ -31,7 +31,7 @@ do ->
 
     #@[DEFINES]
     _ = AA.EV
- 
+
     _._initABSGEvents = ->
         # * Когда АБС ставиться на паузу
         @events.register("PauseABS")

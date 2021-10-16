@@ -86,6 +86,8 @@ do ->
         "SEE TARGET IN LINE".p()
         #TODO: if enemy have actions, then switch to battle state
         if @battler().isHaveAnyAASkill()
+            if @model().isHaveOnSeeTargetAction()
+                AA.SAaction.execute(@model().onSeeTarget, @char())
             @logic().switchToBattleState()
         else
             #TODO: if can't fight?

@@ -174,8 +174,8 @@ AA.SAaction = function() {};
       return;
     }
     paramValue = args[2];
-    // * Преобразование числа
     if (isFinite(paramValue)) {
+      // * Преобразование числа
       paramValue = Number(paramValue);
     }
     //TODO: Как быть с массивами данных??? approachMoveData

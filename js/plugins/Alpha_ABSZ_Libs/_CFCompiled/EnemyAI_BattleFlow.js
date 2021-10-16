@@ -21,7 +21,7 @@ EnemyAI_BattleFlow = class EnemyAI_BattleFlow extends AIFlow {
     // *
     this._canFightNow = true;
     // * Бот отступает из боя
-    return this._fleeFromBattle = false;
+    this._fleeFromBattle = false;
   }
 
   //TODO: change move type

@@ -23,6 +23,8 @@ class AAEnemyModelData
 
     isHaveOnDeathAction: -> AA.SAaction.isProper(@onDeath)
 
+    isHaveOnSeeTargetAction: -> AA.SAaction.isProper(@onSeeTarget)
+
     #╒═════════════════════════════════════════════════════════════════════════╛
     # ■ PRIVATE.coffee
     #╒═════════════════════════════════════════════════════════════════════════╛
@@ -46,9 +48,8 @@ class AAEnemyModelData
             @onDeath = 0 #AScript
             @returnRadius = 12
             @viewRadius = 5
-            #TODO: Каждый враг может иметь свои ограничения видимости
-            @noPassVisionRegions = 0
-            @noPassVisionTerrains = 0
+            @noPassVisionRegions = []
+            @noPassVisionTerrains = []
             return
 
         _._initOnMapSettings = ->
@@ -65,6 +66,7 @@ class AAEnemyModelData
             @miniHPGaugeOffset = [0, 0] #TODO: * no used
 
         _._initOtherSettings = ->
+            @onSeeTarget = 0 #AScript
 
         _._initAnimationSettings = ->
             @hitAnimationId = 1 # ID анимации
@@ -94,12 +96,16 @@ class AAEnemyModelData
 
         # * Преобразует некоторые параметры
         _._convertParameters = ->
-            @miniHPGaugeOffset = #TODO: * no used
-                AA.Utils.Parser.convertArrayFromParameter @miniHPGaugeOffset
+            ##@miniHPGaugeOffset = #TODO: * no used
+            ##    AA.Utils.Parser.convertArrayFromParameter @miniHPGaugeOffset
             @approachMoveData =
                 AA.Utils.Parser.convertArrayFromParameter @approachMoveData
             @inBattleMoveData =
                 AA.Utils.Parser.convertArrayFromParameter @inBattleMoveData
+            @noPassVisionRegions =
+                AA.Utils.Parser.convertArrayFromParameter @noPassVisionRegions
+            @noPassVisionTerrains =
+                AA.Utils.Parser.convertArrayFromParameter @noPassVisionTerrains
             return
 
         # * Не используются (для Selection circle)

@@ -76,8 +76,11 @@ do ->
     # * TRUE - нельзя "видеть" через эту точку
     _.isPointIsColiderForVision = (visor, x, y) ->
         try
-            noVisionRegions = AA.PP.getVisionRestrictedRegions()
-            noVisionTerrains = AA.PP.getVisionRestrictedTerrains()
+            model = visor.AAModel()
+            noVisionRegions =
+                AA.PP.getVisionRestrictedRegions().concat(model.noPassVisionRegions)
+            noVisionTerrains =
+                AA.PP.getVisionRestrictedTerrains().concat(model.noPassVisionTerrains)
             return true if noVisionRegions.contains($gameMap.regionId(x, y))
             return true if noVisionTerrains.contains($gameMap.terrainTag(x, y))
             # * События с расширенными HitBox участвуют в области видимости

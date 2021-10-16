@@ -37,6 +37,10 @@ AAEnemyModelData = (function() {
       return AA.SAaction.isProper(this.onDeath);
     }
 
+    isHaveOnSeeTargetAction() {
+      return AA.SAaction.isProper(this.onSeeTarget);
+    }
+
   };
 
   (function() {    //╒═════════════════════════════════════════════════════════════════════════╛
@@ -61,9 +65,8 @@ AAEnemyModelData = (function() {
       this.onDeath = 0; //AScript
       this.returnRadius = 12;
       this.viewRadius = 5;
-      //TODO: Каждый враг может иметь свои ограничения видимости
-      this.noPassVisionRegions = 0;
-      this.noPassVisionTerrains = 0;
+      this.noPassVisionRegions = [];
+      this.noPassVisionTerrains = [];
     };
     _._initOnMapSettings = function() {
       this.shatterEffect = 1;
@@ -80,7 +83,9 @@ AAEnemyModelData = (function() {
         0 //TODO: * no used
       ];
     };
-    _._initOtherSettings = function() {};
+    _._initOtherSettings = function() {
+      return this.onSeeTarget = 0; //AScript
+    };
     _._initAnimationSettings = function() {
       this.hitAnimationId = 1; // ID анимации
     };
@@ -117,9 +122,12 @@ AAEnemyModelData = (function() {
     };
     // * Преобразует некоторые параметры
     _._convertParameters = function() {
-      this.miniHPGaugeOffset = AA.Utils.Parser.convertArrayFromParameter(this.miniHPGaugeOffset); //TODO: * no used
+      //#@miniHPGaugeOffset = #TODO: * no used
+      //#    AA.Utils.Parser.convertArrayFromParameter @miniHPGaugeOffset
       this.approachMoveData = AA.Utils.Parser.convertArrayFromParameter(this.approachMoveData);
       this.inBattleMoveData = AA.Utils.Parser.convertArrayFromParameter(this.inBattleMoveData);
+      this.noPassVisionRegions = AA.Utils.Parser.convertArrayFromParameter(this.noPassVisionRegions);
+      this.noPassVisionTerrains = AA.Utils.Parser.convertArrayFromParameter(this.noPassVisionTerrains);
     };
   })();
 

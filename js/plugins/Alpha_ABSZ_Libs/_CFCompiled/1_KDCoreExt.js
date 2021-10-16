@@ -16,9 +16,48 @@
   };
 })();
 
+(function() {  //TODO: NOT USED YET
+  // * Shake effect to Sprite
+  // * NOTHING
+  var ALIAS__update, _;
+  _ = KDCore.Sprite.prototype;
+  _.startShake = function(frames) {
+    //"START SHAKE".p()
+    // * Создаём данные о движении
+    this._shakeData = [frames, this.x, this.y];
+  };
+  //@[ALIAS]
+  ALIAS__update = _.update;
+  _.update = function() {
+    ALIAS__update.call(this);
+    if (this._shakeData != null) {
+      return this._updateShakeEffect();
+    }
+  };
+  _._updateShakeEffect = function() {
+    var remainingTime, shakeX;
+    // * Отсчёт
+    this._shakeData[0]--;
+    //console.log(@_shakeData[0])
+    remainingTime = this._shakeData[0];
+    // * Пока только по X
+    shakeX = Math.round(remainingTime * 0.4 * Math.cos(remainingTime));
+    this.x += shakeX;
+    if (remainingTime <= 0) {
+      this._endShake();
+    }
+  };
+  _._endShake = function() {
+    // * Возвращаем начальные значения
+    this.x = this._shakeData[1];
+    //@y = @_shakeData[2]
+    // * Удаляем данные о движении
+    this._shakeData = null;
+  };
+})();
+
 (function() {  // * Draggable sprite
   //? KDCore.Sprite extension
-  // * NOTHING
   var ALIAS__update, _;
   _ = KDCore.Sprite.prototype;
   _.setDraggable = function(_isDragActive) {

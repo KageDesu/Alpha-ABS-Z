@@ -187,6 +187,11 @@ AA.UI = function() {};
       var ref;
       return (ref = this.skillSelector) != null ? ref.activate(aaSkill) : void 0;
     };
+    // * Эффект тряски (когда нажатие за зону поражения)
+    _.shakeSkillImpactSelector = function() {
+      var ref;
+      return (ref = this.skillSelector) != null ? ref.shake() : void 0;
+    };
     return _.resetSkillImpactSelector = function() {
       var ref;
       return (ref = this.skillSelector) != null ? ref.deactivate() : void 0;

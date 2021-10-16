@@ -105,6 +105,9 @@ EnemyAI_FreeFlow = class EnemyAI_FreeFlow extends AIFlow {
     "SEE TARGET IN LINE".p();
     //TODO: if enemy have actions, then switch to battle state
     if (this.battler().isHaveAnyAASkill()) {
+      if (this.model().isHaveOnSeeTargetAction()) {
+        AA.SAaction.execute(this.model().onSeeTarget, this.char());
+      }
       this.logic().switchToBattleState();
     } else {
 

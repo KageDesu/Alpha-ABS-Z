@@ -31,12 +31,21 @@
   };
   // * Когда игрок выбрал зону поражения навыка на карте (нажал левую кнопку мыши)
   _.onSkillTargetSelected = function() {
+    var point, skill;
     "SKILL ZONE SELECTED".p();
     console.info($gameTemp._aaSkillSelectorTargets);
-    this.startPerformAASkill(TouchInput.toMapPoint());
-    // * Сбрасываем состояние?
-    return this.onSkillTargetCancel();
+    // * Проверка радиуса
+    skill = this.activeAASkill();
+    point = TouchInput.toMapPoint();
+    if (AA.Utils.Math.getDistanceMapPlayerPoint(point) <= skill.range) {
+      this.startPerformAASkill(point);
+      // * Сбрасываем состояние
+      this.onSkillTargetCancel();
+    } else {
+      AA.UI.shakeSkillImpactSelector();
+    }
   };
+  //TODO: shake sprite
   _.onSkillTargetCancel = function() {
     return this._resetAAState();
   };
