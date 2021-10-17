@@ -100,11 +100,8 @@
     _._setAAStateToSelectSkillTarget = function() {
       // * Наверное должно быт в AAEntity!!! Так как у ботов тоже будет этот параметр
       this.aaState = 'skill';
-      //TODO: Так же рисовать круг области range навыка активного!
-      return AA.EV.call("PlayerSkillSelector");
+      AA.EV.call("PlayerSkillSelector");
     };
-    //AA.EV.call("PlayerChangeState")
-    //TODO: rise event -> Scene_Map pick event and change mode to select map zone
     _._setAAStateToSmartSkillUse = function(skillId, point) {
       this.aaState = 'smartAttack';
       this._aaSmartSkillId = skillId;
@@ -112,9 +109,8 @@
     };
     _._resetAAState = function() {
       this.aaState = null;
-      return AA.EV.call("PlayerSkillSelector");
+      AA.EV.call("PlayerSkillSelector");
     };
-    //AA.EV.call("PlayerChangeState")
     _._aaUpdatePlayerABS = function(sceneActive) {
       if (sceneActive === true) {
         this._aaUpdateStates();

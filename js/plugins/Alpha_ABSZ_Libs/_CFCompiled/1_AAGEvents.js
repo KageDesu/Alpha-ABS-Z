@@ -32,9 +32,6 @@ AA.EV = function() {};
   _._initABSGEvents = function() {
     // * Когда АБС ставиться на паузу
     this.events.register("PauseABS");
-    //TODO: Проверить эти два на использование
-    this.events.register("PlayerTarget");
-    this.events.register("PlayerChangeState");
     // * Когда игрок начинает выбирать зону действия навыка
     this.events.register("PlayerSkillSelector");
     // * Когда выполнился (закончился) навык Projectile на карте

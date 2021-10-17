@@ -27,7 +27,6 @@
   _.createTilemap = function() {
     ALIAS__createTilemap.call(this);
     this.aaCreateExtraMapDownLayer();
-    this.aaCreateSelectedCircle();
     this.aaCreateSkillImpactSelector();
   };
   //@[ALIAS]

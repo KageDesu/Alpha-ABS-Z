@@ -87,10 +87,8 @@ do ->
         _._setAAStateToSelectSkillTarget = ->
             # * Наверное должно быт в AAEntity!!! Так как у ботов тоже будет этот параметр
             @aaState = 'skill'
-            #TODO: Так же рисовать круг области range навыка активного!
             AA.EV.call("PlayerSkillSelector")
-            #AA.EV.call("PlayerChangeState")
-            #TODO: rise event -> Scene_Map pick event and change mode to select map zone
+            return
 
         _._setAAStateToSmartSkillUse = (skillId, point) ->
             @aaState = 'smartAttack'
@@ -101,7 +99,7 @@ do ->
         _._resetAAState = ->
             @aaState = null
             AA.EV.call("PlayerSkillSelector")
-            #AA.EV.call("PlayerChangeState")
+            return
 
         _._aaUpdatePlayerABS = (sceneActive) ->
             if sceneActive is true

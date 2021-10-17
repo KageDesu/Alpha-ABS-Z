@@ -36,10 +36,6 @@ do ->
         # * Когда АБС ставиться на паузу
         @events.register("PauseABS")
 
-        #TODO: Проверить эти два на использование
-        @events.register("PlayerTarget")
-        @events.register("PlayerChangeState")
-
         # * Когда игрок начинает выбирать зону действия навыка
         @events.register("PlayerSkillSelector")
 

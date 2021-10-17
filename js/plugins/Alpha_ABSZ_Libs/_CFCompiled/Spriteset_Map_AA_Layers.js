@@ -27,11 +27,6 @@
     _.aaGetDamagePopUpLayer = function() {
       return this._aaPopUpLayer;
     };
-    _.aaCreateSelectedCircle = function() {
-      this._aaSelectedCircle = new AA.Sprite_SelectedCircle();
-      this._aaLayer01.addChild(this._aaSelectedCircle);
-      AA.UI.setSelectedCircle(this._aaSelectedCircle);
-    };
     //TODO: Может над персонажами?
     _.aaCreateSkillImpactSelector = function() {
       this._aaSkillImpactSelector = new AA.Sprite_SkillImpactSelector();

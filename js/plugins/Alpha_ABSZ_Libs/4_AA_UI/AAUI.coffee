@@ -111,24 +111,6 @@ do ->
 
     # -----------------------------------------------------------------------
 
-    #TODO: Удалить этот код? (УЖЕ НЕ ИСПОЛЬЗУЕТСЯ)
-    # * Цель игрока
-    # -----------------------------------------------------------------------
-    do ->
-        # * Круг под выбранной целью (установить спрайт круга)
-        _.setSelectedCircle = (@selectedCircle) ->
-
-        # * Выбрать цель на карте
-        _.selectTargetOnMap = (char) -> @selectedCircle?.setTarget char
-
-        # * Сбросить выбор цели на карте
-        _.resetTargetSelection = -> _.selectTargetOnMap(null)
-
-        #TODO: Либо проверять спрайт либо есть ли цель у игрока (TargetManager)
-        _.isSelectedCircleVisible = -> @selectedCircle?.visible == true
-
-    # -----------------------------------------------------------------------
-
     # * Выбор зоны применения навыка на карте
     # -----------------------------------------------------------------------
     do ->
@@ -151,18 +133,7 @@ do ->
     do ->
 
         _._subscribeForEvents = ->
-            AA.EV.subscribeFor("PlayerTarget", @gev_onPlayerTargetChanged)
-            #AA.EV.subscribeFor("PlayerChangeState", @gev_onPlayerStateChanged)
             AA.EV.subscribeFor("PlayerSkillSelector", @gev_onPlayerSkillSelector)
-
-        # * Когда цель игрока была изменена
-        _.gev_onPlayerTargetChanged = ->
-            "PLAYER TARGET CHANGED".p()
-            AA.UI.selectTargetOnMap($gamePlayer.AATarget())
-
-        # * Когда статус (поведения, действия) игрока меняется
-        _.gev_onPlayerStateChanged = ->
-            
 
         _.gev_onPlayerSkillSelector = ->
             if $gamePlayer.isInSkillTargetingState()

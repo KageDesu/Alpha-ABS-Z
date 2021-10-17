@@ -28,7 +28,6 @@ do ->
     _.createTilemap = ->
         ALIAS__createTilemap.call(@)
         @aaCreateExtraMapDownLayer()
-        @aaCreateSelectedCircle()
         @aaCreateSkillImpactSelector()
         return
 

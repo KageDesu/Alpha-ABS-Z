@@ -31,12 +31,6 @@ do ->
 
         _.aaGetDamagePopUpLayer = -> @_aaPopUpLayer
 
-        _.aaCreateSelectedCircle = ->
-            @_aaSelectedCircle = new AA.Sprite_SelectedCircle()
-            @_aaLayer01.addChild @_aaSelectedCircle
-            AA.UI.setSelectedCircle @_aaSelectedCircle
-            return
-
         #TODO: Может над персонажами?
         _.aaCreateSkillImpactSelector = ->
             @_aaSkillImpactSelector = new AA.Sprite_SkillImpactSelector()

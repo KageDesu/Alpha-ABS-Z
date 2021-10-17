@@ -152,30 +152,6 @@ AA.UI = function() {};
   })();
   (function() {    // -----------------------------------------------------------------------
 
-    //TODO: Удалить этот код? (УЖЕ НЕ ИСПОЛЬЗУЕТСЯ)
-    // * Цель игрока
-    // -----------------------------------------------------------------------
-    // * Круг под выбранной целью (установить спрайт круга)
-    _.setSelectedCircle = function(selectedCircle) {
-      this.selectedCircle = selectedCircle;
-    };
-    // * Выбрать цель на карте
-    _.selectTargetOnMap = function(char) {
-      var ref;
-      return (ref = this.selectedCircle) != null ? ref.setTarget(char) : void 0;
-    };
-    // * Сбросить выбор цели на карте
-    _.resetTargetSelection = function() {
-      return _.selectTargetOnMap(null);
-    };
-    //TODO: Либо проверять спрайт либо есть ли цель у игрока (TargetManager)
-    return _.isSelectedCircleVisible = function() {
-      var ref;
-      return ((ref = this.selectedCircle) != null ? ref.visible : void 0) === true;
-    };
-  })();
-  (function() {    // -----------------------------------------------------------------------
-
     // * Выбор зоны применения навыка на карте
     // -----------------------------------------------------------------------
     // * Установить спрайт зоны поражаения навыка
@@ -202,17 +178,8 @@ AA.UI = function() {};
     // * Обработка АБС событий
     // -----------------------------------------------------------------------
     _._subscribeForEvents = function() {
-      AA.EV.subscribeFor("PlayerTarget", this.gev_onPlayerTargetChanged);
-      //AA.EV.subscribeFor("PlayerChangeState", @gev_onPlayerStateChanged)
       return AA.EV.subscribeFor("PlayerSkillSelector", this.gev_onPlayerSkillSelector);
     };
-    // * Когда цель игрока была изменена
-    _.gev_onPlayerTargetChanged = function() {
-      "PLAYER TARGET CHANGED".p();
-      return AA.UI.selectTargetOnMap($gamePlayer.AATarget());
-    };
-    // * Когда статус (поведения, действия) игрока меняется
-    _.gev_onPlayerStateChanged = function() {};
     _.gev_onPlayerSkillSelector = function() {
       if ($gamePlayer.isInSkillTargetingState()) {
         return AA.UI.activateSkillImpactSelector($gamePlayer.activeAASkill());
