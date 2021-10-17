@@ -45,11 +45,8 @@ do ->
     #TODO: Сделать параметр плагина - использовать боевую стойку или нет
     _._aaIsInBattleAnimaXState = ->
         return false unless AA.isABSActive()
-        myEnemies = AATargetsManager.getAllWhoHavePlayerAsTarget()
-        if myEnemies.length > 0
-            inRadius = AATargetsManager.getFilteredInRadius(@, 10, myEnemies)
-            return inRadius.length > 0
-        return false
+        myEnemies = AATargetsManager.getAllWhoHavePlayerAsTargetInRange(5)
+        return myEnemies.length > 0
 
     #@[EVENT]
     _.gev_onABSPaused = ->
@@ -122,10 +119,26 @@ do ->
                         else
                             @aaMoveTypeToPoint(@_aaSmartPoint)
                 else
-                    
+        
+        
 
         return
     # -----------------------------------------------------------------------
+
+    # * Методы ABS (Бой и состояния)
+    # -----------------------------------------------------------------------
+    do ->
+        # * Когда какое-либо действие было выполненно на мне
+        #@[ALIAS]
+        ALIAS__aaOnActionOnMe = _.aaOnActionOnMe
+        _.aaOnActionOnMe = (action) ->
+            ALIAS__aaOnActionOnMe.call(@, action)
+            #TODO: На будущее: тут можно определить кто именно атаковал, так как action имеет packedSubject
+            # * Сброс камеры (если есть опция)
+            $gameTemp.aaResetMapScrollOnAction()
+            return
+
+            
 
     return
 # ■ END Game_Player.coffee

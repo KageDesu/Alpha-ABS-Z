@@ -52,16 +52,12 @@
   //TODO: Возможно эта реализация довольно затратная по производительности
   //TODO: Сделать параметр плагина - использовать боевую стойку или нет
   _._aaIsInBattleAnimaXState = function() {
-    var inRadius, myEnemies;
+    var myEnemies;
     if (!AA.isABSActive()) {
       return false;
     }
-    myEnemies = AATargetsManager.getAllWhoHavePlayerAsTarget();
-    if (myEnemies.length > 0) {
-      inRadius = AATargetsManager.getFilteredInRadius(this, 10, myEnemies);
-      return inRadius.length > 0;
-    }
-    return false;
+    myEnemies = AATargetsManager.getAllWhoHavePlayerAsTargetInRange(5);
+    return myEnemies.length > 0;
   };
   //@[EVENT]
   _.gev_onABSPaused = function() {
@@ -137,8 +133,22 @@
       }
     };
   })();
+  (function() {    // -----------------------------------------------------------------------
+
+    // * Методы ABS (Бой и состояния)
+    // -----------------------------------------------------------------------
+    var ALIAS__aaOnActionOnMe;
+    // * Когда какое-либо действие было выполненно на мне
+    //@[ALIAS]
+    ALIAS__aaOnActionOnMe = _.aaOnActionOnMe;
+    return _.aaOnActionOnMe = function(action) {
+      ALIAS__aaOnActionOnMe.call(this, action);
+      //TODO: На будущее: тут можно определить кто именно атаковал, так как action имеет packedSubject
+      // * Сброс камеры (если есть опция)
+      $gameTemp.aaResetMapScrollOnAction();
+    };
+  })();
 })();
 
 // ■ END Game_Player.coffee
 //---------------------------------------------------------------------------
-// -----------------------------------------------------------------------

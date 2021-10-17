@@ -11,7 +11,8 @@
   if (Imported.PKD_AnimaX !== true) {
     return;
   }
-  
+  //TODO: НЕ РАБОТАЕТ!!!
+
   // * Логика состояний анимации (бой, смерть) (всегда работает)
   _.aaUpdateABSAnimaX = function() {
     if (!this.isAnimX()) {

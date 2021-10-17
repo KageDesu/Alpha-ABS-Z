@@ -13,7 +13,8 @@
   _.onMapLoaded = function() {
     ALIAS__onMapLoaded.call(this);
     AA.System.onMapSceneLoaded();
-    return this.aaCreateMouseDetectionThread();
+    this.aaCreateMouseDetectionThread();
+    this.aaInitMapScrollSystem();
   };
   //@[ALIAS]
   // * Создаём интерфейс боевой системы

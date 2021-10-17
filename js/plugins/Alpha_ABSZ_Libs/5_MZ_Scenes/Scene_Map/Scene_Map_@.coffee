@@ -13,6 +13,8 @@ do ->
         ALIAS__onMapLoaded.call(@)
         AA.System.onMapSceneLoaded()
         @aaCreateMouseDetectionThread()
+        @aaInitMapScrollSystem()
+        return
 
     #@[ALIAS]
     # * Создаём интерфейс боевой системы

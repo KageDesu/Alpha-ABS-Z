@@ -7,49 +7,73 @@
   var _;
   //@[DEFINES]
   _ = Game_Temp.prototype;
-  _._aaInitAILogicThreads = function() {
-    if (this.__aaAILogicThreads == null) {
-      return this.__aaAILogicThreads = {};
-    }
-  };
-  _.aaRegisterAILogicThread = function(eventId) {
-    var thread;
-    "THREAD REGISTERED FOR".p(eventId);
-    this._aaInitAILogicThreads();
-    thread = setInterval((function() {
-      var ev;
-      if (!AA.isABSMap()) {
+  (function() {    // * АИ обновление
+    // -----------------------------------------------------------------------
+    _._aaInitAILogicThreads = function() {
+      if (this.__aaAILogicThreads == null) {
+        return this.__aaAILogicThreads = {};
+      }
+    };
+    _.aaRegisterAILogicThread = function(eventId) {
+      var thread;
+      "THREAD REGISTERED FOR".p(eventId);
+      this._aaInitAILogicThreads();
+      thread = setInterval((function() {
+        var ev;
+        if (!AA.isABSMap()) {
+          return;
+        }
+        ev = $gameMap.event(eventId);
+        if (ev != null) {
+          return ev.aaUpdateAILogic();
+        } else {
+          return $gameTemp.aaClearAILogicThread(eventId);
+        }
+      }), 100);
+      this.__aaAILogicThreads[eventId] = thread;
+    };
+    _.aaClearAILogicThread = function(eventId) {
+      var thread;
+      this._aaInitAILogicThreads();
+      thread = this.__aaAILogicThreads[eventId];
+      if (thread != null) {
+        clearInterval(thread);
+      }
+      this.__aaAILogicThreads[eventId] = null;
+    };
+    return _.aaClearAllAILogicThreads = function() {
+      var key, ref, value;
+      if (this.__aaAILogicThreads == null) {
         return;
       }
-      ev = $gameMap.event(eventId);
-      if (ev != null) {
-        return ev.aaUpdateAILogic();
-      } else {
-        return $gameTemp.aaClearAILogicThread(eventId);
+      ref = this.__aaAILogicThreads;
+      for (key in ref) {
+        value = ref[key];
+        this.aaClearAILogicThread(key);
       }
-    }), 100);
-    this.__aaAILogicThreads[eventId] = thread;
-  };
-  _.aaClearAILogicThread = function(eventId) {
-    var thread;
-    this._aaInitAILogicThreads();
-    thread = this.__aaAILogicThreads[eventId];
-    if (thread != null) {
-      clearInterval(thread);
-    }
-    this.__aaAILogicThreads[eventId] = null;
-  };
-  _.aaClearAllAILogicThreads = function() {
-    var key, ref, value;
-    if (this.__aaAILogicThreads == null) {
-      return;
-    }
-    ref = this.__aaAILogicThreads;
-    for (key in ref) {
-      value = ref[key];
-      this.aaClearAILogicThread(key);
-    }
-  };
+    };
+  })();
+  (function() {    // * Скролл камеры
+    // -----------------------------------------------------------------------
+    _.aaSetMapScrolled = function(_aaIsScrollBeenApplied) {
+      this._aaIsScrollBeenApplied = _aaIsScrollBeenApplied;
+    };
+    _.aaIsMapScrolled = function() {
+      return this._aaIsScrollBeenApplied === true;
+    };
+    _.aaResetMapScrollOnAction = function() {
+      // * Сброс камеры (если есть опция) при действии
+      if ($gameTemp.aaIsMapScrolled() && AA.PP.getMapScrollingSettings().resetOnAction === true) {
+        uAPI.resetMapScroll();
+      }
+    };
+    return _.aaResetMapScrollOnMoving = function() {
+      // * Восстановить камеру при движении (если опция)
+      if (this.aaIsMapScrolled() && AA.PP.getMapScrollingSettings().resetOnMove === true) {
+        uAPI.resetMapScroll();
+      }
+    };
+  })();
 })();
 
 // ■ END Game_Temp.coffee

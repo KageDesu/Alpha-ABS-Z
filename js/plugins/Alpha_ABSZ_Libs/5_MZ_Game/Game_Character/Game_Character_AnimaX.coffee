@@ -7,10 +7,10 @@ do ->
     #@[DEFINES]
     _ = Game_Character::
 
-
     # * Методы ниже даже не учитываются, если плагин не подключён
     return unless Imported.PKD_AnimaX is true
 
+    #TODO: НЕ РАБОТАЕТ!!!
     
     # * Логика состояний анимации (бой, смерть) (всегда работает)
     _.aaUpdateABSAnimaX = ->

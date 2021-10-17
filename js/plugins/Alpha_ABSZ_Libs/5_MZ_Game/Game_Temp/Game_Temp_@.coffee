@@ -1,17 +1,20 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Scene_Map.coffee
+# ■ Game_Temp.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Scene_Map::
+    _ = Game_Temp::
 
-    _.updateABS = ->
-        @aaUpdateMouseDetection()
-        @aaUpdateMapScrlByMouse()
+    #@[ALIAS]
+    ALIAS__setDestination = _.setDestination
+    _.setDestination = ->
+        ALIAS__setDestination.call(@, ...arguments)
+        # * Восстановить камеру при движении (если опция)
+        @aaResetMapScrollOnMoving()
         return
     
     return
-# ■ END Scene_Map.coffee
+# ■ END Game_Temp.coffee
 #---------------------------------------------------------------------------

@@ -20,15 +20,12 @@ do ->
             "INIT ABS SYSTEM".p()
             AA.EV.init()
             @loadParameters()
-            @applyParameters()
             return
 
         _.loadParameters = ->
             AA.PP = new AA.ParamsManager()
-
-        # * В зависимости от параметров, добавление новых методов
-        _.applyParameters = ->
             AA.Input.init(AA.PP.getParam('inputSettings'))
+            return
 
         _.loadFonts = ->
             return unless AA.PP?
@@ -76,6 +73,8 @@ do ->
 
         # * Главное меню (или Scene_Boot)
         _.onGameDataLoaded = ->
+            # * Применяем динамические параметры
+            AA.PP.applyParameters()
             # * Парсим (читаем) АБС параметры в БД
             AA.Utils.Parser.processABSSkillsNotetags()
             AA.Utils.Parser.processABSEnemiesNotetags()

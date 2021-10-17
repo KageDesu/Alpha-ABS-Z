@@ -11,6 +11,14 @@
       return;
     }
 
+    // * Данный метод надо вызывать когда игра уже загружена (доступны $gameX объекты)
+    applyParameters() {
+      if (this.getMapScrollingSettings().isEnabled === false) {
+        // * Отключение Scroll камеры, если не задан параметр
+        uAPI.disableMapScroll();
+      }
+    }
+
     xAnimations() {
       if (Imported.PKD_AnimaX === true) {
         return PKD_ANIMAX.Animations;
@@ -433,6 +441,18 @@
       }
     }
 
+    // * Настройки для скролла карты курсором
+    getMapScrollingSettings() {
+      return {
+        isEnabled: true,
+        resetOnAction: true,
+        resetOnMove: true,
+        speed: 5,
+        scrollZone: 10,
+        delay: 30
+      };
+    }
+
   };
   AA.link(ParamsManager);
 })();
@@ -444,9 +464,10 @@
   var _;
   //@[DEFINES]
   _ = AA.ParamsManager.prototype;
+  // * Данный метод вызывается при старте системы, $game объекты ещё не доступны
+  // * Например для конвертирования каких-либо значений
   _._prepareParameters = function() {};
 })();
 
 // ■ END PRIVATE.coffee
 //---------------------------------------------------------------------------
-//TODO: Может и не надо этот метод, раньше тут был конверт анимаций

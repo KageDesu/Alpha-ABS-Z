@@ -9,6 +9,12 @@ do ->
             @_prepareParameters()
             return
 
+        # * Данный метод надо вызывать когда игра уже загружена (доступны $gameX объекты)
+        applyParameters: ->
+            # * Отключение Scroll камеры, если не задан параметр
+            uAPI.disableMapScroll() if @getMapScrollingSettings().isEnabled is false
+            return
+
         xAnimations: ->
             if Imported.PKD_AnimaX is true
                 return PKD_ANIMAX.Animations
@@ -274,6 +280,17 @@ do ->
                     }
                 }
 
+        # * Настройки для скролла карты курсором
+        getMapScrollingSettings: () ->
+            {
+                isEnabled: true,
+                resetOnAction: true,
+                resetOnMove: true,
+                speed: 5,
+                scrollZone: 10,
+                delay: 30
+            }
+
     AA.link ParamsManager
     return
 
@@ -286,8 +303,10 @@ do ->
     #@[DEFINES]
     _ = AA.ParamsManager::
 
+    # * Данный метод вызывается при старте системы, $game объекты ещё не доступны
+    # * Например для конвертирования каких-либо значений
     _._prepareParameters = ->
-        #TODO: Может и не надо этот метод, раньше тут был конверт анимаций
+        
 
     return
 # ■ END PRIVATE.coffee

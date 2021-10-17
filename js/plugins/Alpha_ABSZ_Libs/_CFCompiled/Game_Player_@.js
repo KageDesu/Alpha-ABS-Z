@@ -4,7 +4,7 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__canMove, ALIAS__initMembers, ALIAS__refresh, ALIAS__update, _;
+  var ALIAS__canMove, ALIAS__initMembers, ALIAS__moveStraight, ALIAS__refresh, ALIAS__update, _;
   //@[DEFINES]
   _ = Game_Player.prototype;
   //@[ALIAS]
@@ -42,6 +42,12 @@
     if (AA.isABSActive()) {
       return this._aaUpdatePlayerABS(sceneActive);
     }
+  };
+  //@[ALIAS]
+  ALIAS__moveStraight = _.moveStraight;
+  _.moveStraight = function() {
+    ALIAS__moveStraight.call(this, ...arguments);
+    $gameTemp.aaResetMapScrollOnMoving();
   };
   (function() {    // * Диагональное движение
     // -----------------------------------------------------------------------

@@ -40,6 +40,13 @@ do ->
         ALIAS__update.call(@, sceneActive)
         @_aaUpdatePlayerABS(sceneActive) if AA.isABSActive()
 
+    #@[ALIAS]
+    ALIAS__moveStraight = _.moveStraight
+    _.moveStraight = ->
+        ALIAS__moveStraight.call(@, ...arguments)
+        $gameTemp.aaResetMapScrollOnMoving()
+        return
+
     # * Диагональное движение
     # -----------------------------------------------------------------------
     do ->

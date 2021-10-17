@@ -82,6 +82,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_AASkills.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_Input.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_System.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Temp_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Temp_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Troop_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/GaugeController.js"
@@ -99,7 +100,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_Input.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_MouseDetection.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_Scroll_DEV.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_AA_Scroll.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Map_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_Title.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Scene_UIEditor_@.js"
@@ -276,6 +277,9 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
 
 
 

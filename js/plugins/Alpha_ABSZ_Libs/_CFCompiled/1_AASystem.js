@@ -16,14 +16,10 @@ AA.System = function() {};
       "INIT ABS SYSTEM".p();
       AA.EV.init();
       this.loadParameters();
-      this.applyParameters();
     };
     _.loadParameters = function() {
-      return AA.PP = new AA.ParamsManager();
-    };
-    // * В зависимости от параметров, добавление новых методов
-    _.applyParameters = function() {
-      return AA.Input.init(AA.PP.getParam('inputSettings'));
+      AA.PP = new AA.ParamsManager();
+      AA.Input.init(AA.PP.getParam('inputSettings'));
     };
     _.loadFonts = function() {
       var font, i, len, ref;
@@ -75,6 +71,8 @@ AA.System = function() {};
     // -----------------------------------------------------------------------
     // * Главное меню (или Scene_Boot)
     _.onGameDataLoaded = function() {
+      // * Применяем динамические параметры
+      AA.PP.applyParameters();
       // * Парсим (читаем) АБС параметры в БД
       AA.Utils.Parser.processABSSkillsNotetags();
       AA.Utils.Parser.processABSEnemiesNotetags();

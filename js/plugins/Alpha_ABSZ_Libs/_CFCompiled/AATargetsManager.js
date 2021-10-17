@@ -300,6 +300,15 @@ AATargetsManager = function() {};
       return e.AAEntity().isHasTarget();
     });
   };
+  // * Получить всех "врагов", которые имеют целью игрока с учётом радиуса
+  _.getAllWhoHavePlayerAsTargetInRange = function(range) {
+    var candidates;
+    candidates = this.getAllWhoHavePlayerAsTarget();
+    if (candidates.length > 0) {
+      candidates = AATargetsManager.getFilteredInRadius($gamePlayer, range, candidates);
+    }
+    return candidates;
+  };
 })();
 
 // ■ END IMPLEMENTATION.coffee
