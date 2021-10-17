@@ -31,7 +31,7 @@ do ->
         @__aaAILogicThreads[eventId] = null
         return
     
-    _.aaClearAILogicThreads = ->
+    _.aaClearAllAILogicThreads = ->
         return unless @__aaAILogicThreads?
         for key, value of @__aaAILogicThreads
             @aaClearAILogicThread(key)

@@ -68,7 +68,7 @@ do ->
                 if @isActive()
                     @AALogic().update() if AA.isABSActive()
                 else
-                    $gameTemp.aaClearAILogicThreads(@eventId())
+                    $gameTemp.aaClearAILogicThread(@eventId())
             catch e
                 AA.w e
 

@@ -39,7 +39,8 @@ AAVisionManager = function() {};
         // * Если между нет точек, то значит на линии видимости
         return true;
       }
-      console.log(betweenPoints);
+
+      //console.log(betweenPoints)
       for (l = 0, len1 = betweenPoints.length; l < len1; l++) {
         p = betweenPoints[l];
         // * Если в точке находится объект (зона), что мешает зрению, значит false

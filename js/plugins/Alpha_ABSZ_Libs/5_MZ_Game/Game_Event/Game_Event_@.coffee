@@ -12,6 +12,20 @@ do ->
     _.initMembers = ->
         ALIAS__initMembers.call(@)
         @aaInitExtraParams()
+
+    #@[ALIAS]
+    ALIAS__isCollidedWithEvents = _.isCollidedWithEvents
+    _.isCollidedWithEvents = (x, y) ->
+        # * АИ не учитывает события, которые выше или ниже по приоритету
+        if @isABS()
+            # * Собираем события в точке X, Y, которые с Normal Priority
+            events = $gameMap.eventsXyNt(x, y).filter (ev) -> ev.isNormalPriority()
+            # * Если таковых нет, то проходим (ниже и выше не учитываем)
+            return false if events.length <= 0
+            return @isNormalPriority() # * Если есть, то TRUE, если это событие тоже Normal Priority
+        else
+            return ALIAS__isCollidedWithEvents.call(@, x, y)
+        
     
     # * Система анимации XAnima
     # -----------------------------------------------------------------------

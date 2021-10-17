@@ -40,7 +40,7 @@
     }
     data = AADamagePopUpFactory.createDamagePopUpData(b);
     if (data != null) {
-      Sprite_AADamagePopUpItem.CreateOnCharacter(this._character, data.settings, data.value);
+      Sprite_AADamagePopUpItem.CreateOnCharacterBinded(this._character, data.settings, data.value);
     }
     this._aaRefreshExtraInfoOnDamage();
     b.clearDamagePopup();

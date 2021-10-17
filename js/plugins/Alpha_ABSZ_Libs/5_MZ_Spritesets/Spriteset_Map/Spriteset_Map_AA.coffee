@@ -16,6 +16,13 @@ do ->
         sprite._aaDynY = dy
         return
 
+    # * Удалить динамический спрайт
+    # * Используется также для PopUp, они сами себя удаляют
+    _.aaRemoveDynamicSprite = (sprite) ->
+        if @_aaMapDynamicSprites.contains(sprite)
+            @_aaMapDynamicSprites.delete(sprite)
+        return
+
     # * Обновление динамических спрайтов (обновление позиции относительно камеры)
     _.aaUpdateDynamicSprites = ->
         for sprite in @_aaMapDynamicSprites
@@ -25,7 +32,7 @@ do ->
                 dy = sprite._aaDynY
                 sprite.move(p.screenX() + dx, p.screenY() + dy)
             else
-                @_aaMapDynamicSprites.delete(sprite)
+                @aaRemoveDynamicSprite(sprite)
         return
 
     return

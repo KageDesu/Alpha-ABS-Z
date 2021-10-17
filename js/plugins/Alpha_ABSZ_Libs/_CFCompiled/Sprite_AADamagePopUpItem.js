@@ -19,6 +19,7 @@ Sprite_AADamagePopUpItem = class Sprite_AADamagePopUpItem extends KDCore.Sprite 
     var ref;
     this.disposed = true;
     this.visible = false;
+    this._removeDynamic();
     if ((ref = this.parent) != null) {
       ref.removeChild(this);
     }
@@ -48,8 +49,52 @@ Sprite_AADamagePopUpItem = class Sprite_AADamagePopUpItem extends KDCore.Sprite 
     }
   }
 
+  // * Привязан, надо удалять себя (aaRemoveDynamicSprite)
+  setDynamic() {
+    return this._isDynamic = true;
+  }
+
   // * Общие методы создания Pop объекта
   // * Находяться прямо в классе, чтобы не создавать доп. менеджер
+
+    // * Двигается вместе с персонажем (а не экраном)
+  static CreateOnCharacterBinded(char, settings, value) {
+    var charSprite, dy, e, popDynamicParentSpr, popItem, spriteset, x, y;
+    try {
+      if (!KDCore.Utils.isSceneMap()) {
+        return;
+      }
+      if (char == null) {
+        return;
+      }
+      if (settings == null) {
+        return;
+      }
+      spriteset = $gameMap.spriteset();
+      charSprite = spriteset.findTargetSprite(char);
+      if (charSprite == null) {
+        return;
+      }
+      ({x, y} = charSprite);
+      // * Создаётся спрайт "оболочка", которая будет привязана к координатам персонажа
+      popDynamicParentSpr = new Sprite();
+      popDynamicParentSpr.anchor.set(0.5);
+      popItem = new Sprite_AADamagePopUpItem(settings, value);
+      dy = -(charSprite.patternHeight() - $gameMap.tileWidth() / 2);
+      popItem.setStartPoint(0, dy);
+      // * Устанавливаем флаг, чтобы при Dispose удалять себя
+      popItem.setDynamic();
+      popDynamicParentSpr.addChild(popItem);
+      // * Регестрируем как динамический спрайт
+      spriteset.aaRegisterDynamicSprite(popDynamicParentSpr, char, 0, dy);
+      // * Добавляем на слой PopUp
+      return spriteset.aaGetDamagePopUpLayer().addChild(popDynamicParentSpr);
+    } catch (error) {
+      e = error;
+      return AA.w(e);
+    }
+  }
+
   static CreateOnCharacter(char, settings, value) {
     var charSprite, e, spriteset, x, y;
     try {
@@ -259,6 +304,22 @@ Sprite_AADamagePopUpItem = class Sprite_AADamagePopUpItem extends KDCore.Sprite 
       this.imageSprite.opacity += this.settings.image.fadeInSpeed;
     } catch (error) {
       e = error;
+    }
+  };
+  _._removeDynamic = function() {
+    var e, spriteset;
+    if (this._isDynamic !== true) {
+      return;
+    }
+    try {
+      spriteset = $gameMap.spriteset();
+      spriteset.aaRemoveDynamicSprite(this);
+      if (this.parent != null) {
+        return spriteset.aaRemoveDynamicSprite(this.parent);
+      }
+    } catch (error) {
+      e = error;
+      return AA.warning(e);
     }
   };
 })();

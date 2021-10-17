@@ -142,7 +142,7 @@ uAPI = function() {};
       if (settings == null) {
         AA.w("PopUp settings with ID " + styleId + " not found!");
       } else {
-        Sprite_AADamagePopUpItem.CreateOnCharacter(char, settings, value);
+        Sprite_AADamagePopUpItem.CreateOnCharacterBinded(char, settings, value);
       }
     } catch (error) {
       e = error;

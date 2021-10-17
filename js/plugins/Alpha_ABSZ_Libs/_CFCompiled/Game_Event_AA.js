@@ -82,7 +82,7 @@
             return this.AALogic().update();
           }
         } else {
-          return $gameTemp.aaClearAILogicThreads(this.eventId());
+          return $gameTemp.aaClearAILogicThread(this.eventId());
         }
       } catch (error) {
         e = error;

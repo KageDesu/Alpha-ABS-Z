@@ -88,7 +88,7 @@ AA.System = function() {};
     _.onMapSceneStopped = function() {
       AA.UI.terminate();
       $gamePlayer.aaOnMapSceneEnd();
-      $gameTemp.aaClearAILogicThreads();
+      $gameTemp.aaClearAllAILogicThreads();
     };
     _.onTitleScreen = function() {};
     // * Новая карта (Data)

@@ -15,6 +15,13 @@
     sprite._aaDynX = dx;
     sprite._aaDynY = dy;
   };
+  // * Удалить динамический спрайт
+  // * Используется также для PopUp, они сами себя удаляют
+  _.aaRemoveDynamicSprite = function(sprite) {
+    if (this._aaMapDynamicSprites.contains(sprite)) {
+      this._aaMapDynamicSprites.delete(sprite);
+    }
+  };
   // * Обновление динамических спрайтов (обновление позиции относительно камеры)
   _.aaUpdateDynamicSprites = function() {
     var dx, dy, i, len, p, ref, sprite;
@@ -27,7 +34,7 @@
         dy = sprite._aaDynY;
         sprite.move(p.screenX() + dx, p.screenY() + dy);
       } else {
-        this._aaMapDynamicSprites.delete(sprite);
+        this.aaRemoveDynamicSprite(sprite);
       }
     }
   };

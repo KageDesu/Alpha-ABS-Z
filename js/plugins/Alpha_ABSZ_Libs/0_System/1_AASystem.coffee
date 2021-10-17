@@ -91,7 +91,7 @@ do ->
         _.onMapSceneStopped = ->
             AA.UI.terminate()
             $gamePlayer.aaOnMapSceneEnd()
-            $gameTemp.aaClearAILogicThreads()
+            $gameTemp.aaClearAllAILogicThreads()
             return
 
         _.onTitleScreen = ->

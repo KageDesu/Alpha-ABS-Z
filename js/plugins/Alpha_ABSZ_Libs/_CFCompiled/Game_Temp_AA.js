@@ -39,7 +39,7 @@
     }
     this.__aaAILogicThreads[eventId] = null;
   };
-  _.aaClearAILogicThreads = function() {
+  _.aaClearAllAILogicThreads = function() {
     var key, ref, value;
     if (this.__aaAILogicThreads == null) {
       return;

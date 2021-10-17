@@ -102,7 +102,7 @@ do ->
             unless settings?
                 AA.w "PopUp settings with ID " + styleId + " not found!"
             else
-                Sprite_AADamagePopUpItem.CreateOnCharacter(char, settings, value)
+                Sprite_AADamagePopUpItem.CreateOnCharacterBinded(char, settings, value)
             return
         catch e
             KDCore.warning e

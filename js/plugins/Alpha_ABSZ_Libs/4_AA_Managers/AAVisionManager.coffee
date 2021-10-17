@@ -34,7 +34,7 @@ do ->
             # * Если между нет точек, то значит на линии видимости
             return true if betweenPoints.length == 0
             
-            console.log(betweenPoints)
+            #console.log(betweenPoints)
 
             for p in betweenPoints
                 # * Если в точке находится объект (зона), что мешает зрению, значит false

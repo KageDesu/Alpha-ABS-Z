@@ -32,7 +32,7 @@ do ->
         b = @_character.AABattler()
         return unless b.isDamagePopupRequested()
         data = AADamagePopUpFactory.createDamagePopUpData(b)
-        Sprite_AADamagePopUpItem.CreateOnCharacter(@_character, data.settings, data.value) if data?
+        Sprite_AADamagePopUpItem.CreateOnCharacterBinded(@_character, data.settings, data.value) if data?
         @_aaRefreshExtraInfoOnDamage()
         b.clearDamagePopup()
         b.clearResult()

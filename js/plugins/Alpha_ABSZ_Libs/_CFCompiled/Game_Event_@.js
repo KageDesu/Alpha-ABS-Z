@@ -4,7 +4,7 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__initMembers, ALIAS__list, _;
+  var ALIAS__initMembers, ALIAS__isCollidedWithEvents, ALIAS__list, _;
   //@[DEFINES]
   _ = Game_Event.prototype;
   //@[ALIAS]
@@ -12,6 +12,25 @@
   _.initMembers = function() {
     ALIAS__initMembers.call(this);
     return this.aaInitExtraParams();
+  };
+  //@[ALIAS]
+  ALIAS__isCollidedWithEvents = _.isCollidedWithEvents;
+  _.isCollidedWithEvents = function(x, y) {
+    var events;
+    // * АИ не учитывает события, которые выше или ниже по приоритету
+    if (this.isABS()) {
+      // * Собираем события в точке X, Y, которые с Normal Priority
+      events = $gameMap.eventsXyNt(x, y).filter(function(ev) {
+        return ev.isNormalPriority();
+      });
+      if (events.length <= 0) {
+        // * Если таковых нет, то проходим (ниже и выше не учитываем)
+        return false;
+      }
+      return this.isNormalPriority(); // * Если есть, то TRUE, если это событие тоже Normal Priority
+    } else {
+      return ALIAS__isCollidedWithEvents.call(this, x, y);
+    }
   };
   (function() {})();  
     // * Система анимации XAnima

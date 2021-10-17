@@ -13,6 +13,7 @@ class Sprite_AADamagePopUpItem extends KDCore.Sprite
     dispose: ->
         @disposed = true
         @visible = false
+        @_removeDynamic()
         @parent?.removeChild(@)
         return
 
@@ -34,8 +35,37 @@ class Sprite_AADamagePopUpItem extends KDCore.Sprite
             @y = @y + Math.randomInt(@settings.randDY)
         return
 
+    # * Привязан, надо удалять себя (aaRemoveDynamicSprite)
+    setDynamic: () -> @_isDynamic = true
+
     # * Общие методы создания Pop объекта
     # * Находяться прямо в классе, чтобы не создавать доп. менеджер
+
+    # * Двигается вместе с персонажем (а не экраном)
+    @CreateOnCharacterBinded = (char, settings, value) ->
+        try
+            return unless KDCore.Utils.isSceneMap()
+            return unless char?
+            return unless settings?
+            spriteset = $gameMap.spriteset()
+            charSprite = spriteset.findTargetSprite(char)
+            return unless charSprite?
+            { x, y } = charSprite
+            # * Создаётся спрайт "оболочка", которая будет привязана к координатам персонажа
+            popDynamicParentSpr = new Sprite()
+            popDynamicParentSpr.anchor.set(0.5)
+            popItem = new Sprite_AADamagePopUpItem(settings, value)
+            dy = -(charSprite.patternHeight() - $gameMap.tileWidth() / 2)
+            popItem.setStartPoint(0, dy)
+            # * Устанавливаем флаг, чтобы при Dispose удалять себя
+            popItem.setDynamic()
+            popDynamicParentSpr.addChild(popItem)
+            # * Регестрируем как динамический спрайт
+            spriteset.aaRegisterDynamicSprite(popDynamicParentSpr, char, 0, dy)
+            # * Добавляем на слой PopUp
+            spriteset.aaGetDamagePopUpLayer().addChild(popDynamicParentSpr)
+        catch e
+            AA.w e
 
     @CreateOnCharacter = (char, settings, value) ->
         try
@@ -187,6 +217,15 @@ do ->
         catch e
 
         return
+
+    _._removeDynamic = ->
+        return unless @_isDynamic is true
+        try
+            spriteset = $gameMap.spriteset()
+            spriteset.aaRemoveDynamicSprite(@)
+            spriteset.aaRemoveDynamicSprite(@parent) if @parent?
+        catch e
+            AA.warning e
 
     return
 # ■ END Sprite_AADamagePopUpItem.coffee
