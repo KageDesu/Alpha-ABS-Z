@@ -1,3 +1,69 @@
+
+
+/*~struct~LMapScrollSettings:
+
+@param isEnabled:b
+@text Is Enabled?
+@type boolean
+@on Yes
+@off No
+@default false
+@desc Is Map Scrolling enabled by default? For enable or disable during game you can use uAPI script calls.
+
+@param scrollZone:int
+@text Activation Border Size
+@type number
+@min 10
+@max 50
+@default 10
+@desc Scroll activation borders size on screen edges, in pixels
+
+@param speed:int
+@text Scrolling speed
+@type number
+@min 1
+@max 10
+@default 5
+@desc Camera scrolling speed
+
+@param delay:int
+@text Delay
+@type number
+@min 0
+@default 30
+@desc Delay in frames (60 = 1 second) before starts scrolling
+
+@param resetOnMove:b
+@text Reset when moving?
+@type boolean
+@on Reset
+@off No
+@default true
+@desc Center camera (reset scroll) when player starts moving?
+
+@param resetOnAction:b
+@text Reset on action?
+@type boolean
+@on Reset
+@off No
+@default true
+@desc Center camera (reset scroll) when player affected by any skill (get damage, attacked)?
+
+*/
+
+/*~struct~LSkillSlotItem:
+ * @param position:struct
+ * @text Position
+ * @type struct<XY2>
+ * @default
+ * @desc Skill slot position on screen
+ *
+ * @param symbol
+ * @text Key
+ * @default
+ * @desc Keyboard key for activate skill slot
+ */
+
 /*~struct~LInputSettings:
 
 @param LMBMapTouchMode

@@ -16,10 +16,21 @@ AA.System = function() {};
       "INIT ABS SYSTEM".p();
       AA.EV.init();
       this.loadParameters();
+      this.loadExtensions();
     };
     _.loadParameters = function() {
       AA.PP = new AA.ParamsManager();
       AA.Input.init(AA.PP.getParam('inputSettings'));
+    };
+    // * Загрузка доп. методов совместимости с другими плагинами
+    _.loadExtensions = function() {
+      var e;
+      try {
+        return AA.loadExtensions();
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
     };
     _.loadFonts = function() {
       var font, i, len, ref;

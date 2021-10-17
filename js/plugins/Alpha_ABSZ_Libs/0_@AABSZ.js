@@ -7,7 +7,7 @@ if(!Imported.Alpha_Core) {
 }
 //? Символ AA определяется в Alpha_Core
 
-AA.Version = 20; // 0.1.0
+AA.Version = 30; // 0.3.0
 
 
 //TODO: Задавать версию необходимого NET и проверять

@@ -18,6 +18,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/@@_Alpha_@Core_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/0_@AABSZ.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEntity.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAExtensions.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAGEvents.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAInput.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAScriptAction.js"
@@ -120,6 +121,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillImpactSelector.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillPanelItem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillPanelOutline.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillPanelOutlineDummy.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA_Animation.js"
@@ -277,6 +279,12 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
 
 
 

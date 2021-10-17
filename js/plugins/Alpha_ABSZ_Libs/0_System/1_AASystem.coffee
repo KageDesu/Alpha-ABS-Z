@@ -20,12 +20,21 @@ do ->
             "INIT ABS SYSTEM".p()
             AA.EV.init()
             @loadParameters()
+            @loadExtensions()
             return
 
         _.loadParameters = ->
             AA.PP = new AA.ParamsManager()
             AA.Input.init(AA.PP.getParam('inputSettings'))
             return
+
+        # * Загрузка доп. методов совместимости с другими плагинами
+        _.loadExtensions = ->
+            try
+                AA.loadExtensions()
+            catch e
+                AA.w e
+
 
         _.loadFonts = ->
             # * Загрузка стандартных шрифтов системы

@@ -1,5 +1,5 @@
 /*:
- * @plugindesc (v.0.2)[PRO] New Active Battle System
+ * @plugindesc (v.0.3)[PRO] New Active Battle System
  * @author Pheonix KageDesu
  * @target MZ
  * @url https://kdworkshop.net/
@@ -29,8 +29,62 @@
  * @parent visualSettingsGroup
  * @text Fonts
  * @type text[]
- * @default ["AABS_0","AABS_1","AABS_2","AABS_3"]
+ * @default []
  * @desc Font files names for preload (from fonts\ folder), without extension
+ * 
+ * @param spacer|skillPanel @text‏‏‎ ‎@desc ===============================================
+ * 
+ * @param skillPanelSettingsGroup
+ * @text Skill Panel settings
+ * 
+ * @param isAddNewSkillsOnPanelOnLearning:bool
+ * @parent skillPanelSettingsGroup
+ * @text Add Skill On Learning?
+ * @type boolean
+ * @on Add
+ * @off No
+ * @default true
+ * @desc When player learn new skill, add skill on skills panel automatically?
+ * 
+ * @param isAddNewItemOnPanelOnPickup:bool
+ * @parent skillPanelSettingsGroup
+ * @text Add Item On Pick up?
+ * @type boolean
+ * @on Add
+ * @off No
+ * @default true
+ * @desc When player pick up new item, add item on skills panel automatically?
+ * 
+ * @param isUseOutlineEffect:bool
+ * @parent skillPanelSettingsGroup
+ * @text Outline effect?
+ * @type boolean
+ * @on Yes (quality)
+ * @off No (performance)
+ * @default true
+ * @desc Outline glow effects for skill slots (when activated, ready, disabled) Turn OFF for better performance.
+ * 
+ * @param primaryAttackSlot:struct
+ * @parent skillPanelSettingsGroup
+ * @text Primary Attack Slot
+ * @type struct<LSkillSlotItem>
+ * @default {"position:struct":"{\"x:e\":\"218\",\"y:e\":\"583\"}","symbol":"E"}
+ * @desc Required. Skill slot for primary attack (main weapon)
+ * 
+ * @param secondaryAttackSlot:struct
+ * @parent skillPanelSettingsGroup
+ * @text Secondary Attack Slot
+ * @type struct<LSkillSlotItem>
+ * @default {"position:struct":"{\"x:e\":\"255\",\"y:e\":\"583\"}","symbol":"Q"}
+ * @desc Required. Skill slot for secondary attack
+ * 
+ * @param allSkillSlots:structA
+ * @parent skillPanelSettingsGroup
+ * @text Skill Slots
+ * @type struct<LSkillSlotItem>[]
+ * @default ["{\"position:struct\":\"{\\\"x:e\\\":\\\"302\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"1\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"339\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"2\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"376\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"3\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"413\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"4\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"450\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"5\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"487\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"6\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"524\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"7\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"561\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"8\"}"]
+ * @desc Optional. Skill slots.
+ * 
  * 
  * @param spacer|enemies @text‏‏‎ ‎@desc ===============================================
  * 
@@ -44,7 +98,7 @@
  * @min 1
  * @max 255
  * @default []
- * @desc The numbers of the regions through which the enemies can not see
+ * @desc The numbers of the regions through which the enemies can not see. Global, for all enemies.
  * 
  * @param enemies_noPassVision2:intA
  * @parent enemySettingsGroup
@@ -53,13 +107,29 @@
  * @min 1
  * @max 7
  * @default []
- * @desc The terrains tags (1-7) through which the enemies can not see
+ * @desc The terrains tags (1-7) through which the enemies can not see. Global, for all enemies.
  * 
  * 
  * @param spacer|map @text‏‏‎ ‎@desc ===============================================
  * 
  * @param mapSettingsGroup
  * @text Map settings
+ * 
+ * @param mapScrolling:s
+ * @text Map Scrolling
+ * @parent mapSettingsGroup
+ * @type struct<LMapScrollSettings>
+ * @default {"isEnabled:b":"false","scrollZone:int":"10","speed:int":"5","delay:int":"60","resetOnMove:b":"true","resetOnAction:b":"true"}
+ * @desc Mouse map scrolling settings
+ * 
+ * @param isShowItemGainNotify:bool
+ * @parent mapSettingsGroup
+ * @text Item gain notify
+ * @type boolean
+ * @on Show
+ * @off No
+ * @default true
+ * @desc Shows a pop-up notification when gain item
  * 
  * @param map_noProjectilePass:intA
  * @parent mapSettingsGroup
@@ -68,7 +138,7 @@
  * @min 1
  * @max 255
  * @default []
- * @desc The numbers of the regions through which the projectiles can not pass
+ * @desc The numbers of the regions through which the projectiles can not pass. Global, for all projectiles.
  * 
  * @param map_noProjectilePass2:intA
  * @parent mapSettingsGroup
@@ -77,7 +147,7 @@
  * @min 1
  * @max 7
  * @default []
- * @desc The terrains tags (1-7) through which the projectiles can not pass
+ * @desc The terrains tags (1-7) through which the projectiles can not pass. Global, for all projectiles.
  * 
  * 
  * 
@@ -186,6 +256,72 @@
 
 
  */
+
+
+/*~struct~LMapScrollSettings:
+
+@param isEnabled:b
+@text Is Enabled?
+@type boolean
+@on Yes
+@off No
+@default false
+@desc Is Map Scrolling enabled by default? For enable or disable during game you can use uAPI script calls.
+
+@param scrollZone:int
+@text Activation Border Size
+@type number
+@min 10
+@max 50
+@default 10
+@desc Scroll activation borders size on screen edges, in pixels
+
+@param speed:int
+@text Scrolling speed
+@type number
+@min 1
+@max 10
+@default 5
+@desc Camera scrolling speed
+
+@param delay:int
+@text Delay
+@type number
+@min 0
+@default 30
+@desc Delay in frames (60 = 1 second) before starts scrolling
+
+@param resetOnMove:b
+@text Reset when moving?
+@type boolean
+@on Reset
+@off No
+@default true
+@desc Center camera (reset scroll) when player starts moving?
+
+@param resetOnAction:b
+@text Reset on action?
+@type boolean
+@on Reset
+@off No
+@default true
+@desc Center camera (reset scroll) when player affected by any skill (get damage, attacked)?
+
+*/
+
+/*~struct~LSkillSlotItem:
+ * @param position:struct
+ * @text Position
+ * @type struct<XY2>
+ * @default
+ * @desc Skill slot position on screen
+ *
+ * @param symbol
+ * @text Key
+ * @default
+ * @desc Keyboard key for activate skill slot
+ */
+
 /*~struct~LInputSettings:
 
 @param LMBMapTouchMode
@@ -494,4 +630,3 @@
  * @min 0
  * @desc Outline stroke width in px
  */
-

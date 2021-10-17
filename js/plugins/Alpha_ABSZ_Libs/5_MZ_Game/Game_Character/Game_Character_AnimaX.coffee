@@ -2,16 +2,15 @@
 # ■ Game_Character.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
-do ->
-
-    #@[DEFINES]
-    _ = Game_Character::
+#@[EXTENSION]
+AA.extend ->
 
     # * Методы ниже даже не учитываются, если плагин не подключён
     return unless Imported.PKD_AnimaX is true
 
-    #TODO: НЕ РАБОТАЕТ!!!
-    
+    #@[DEFINES]
+    _ = Game_Character::
+
     # * Логика состояний анимации (бой, смерть) (всегда работает)
     _.aaUpdateABSAnimaX = ->
         return unless @isAnimX()
@@ -26,6 +25,7 @@ do ->
     # * Game_Event and Game_Player имеют разную реализацию
     _._aaIsInBattleAnimaXState = -> false
 
+    # * Из-за ALIAS пришлось выносить в Extenstion, чтобы не было зависимости от положения AnimaX плагина
     #@[ALIAS]
     ALIAS__createNewAnimaXForCharacter = _.createNewAnimaXForCharacter
     _.createNewAnimaXForCharacter = (animaXProfile) ->

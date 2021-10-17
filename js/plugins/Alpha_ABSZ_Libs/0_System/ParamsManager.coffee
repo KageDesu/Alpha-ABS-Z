@@ -15,12 +15,6 @@ do ->
             uAPI.disableMapScroll() if @getMapScrollingSettings().isEnabled is false
             return
 
-        xAnimations: ->
-            if Imported.PKD_AnimaX is true
-                return PKD_ANIMAX.Animations
-            else
-                return []
-
         # * Стандартные: ["AABS_0","AABS_1", "AABS_2"]
         fonts: -> @getParam("fonts", [])
 
@@ -173,76 +167,7 @@ do ->
             showOnDamage: true
         }
 
-        #TODO: Первые два обязательны, так как отвечают за атаку и защиту (мышка)
-        getUISkillsItems: () -> [
-            {
-                position: { x: 218, y: 583 },
-                visibleIfEmpty: true
-                symbol: "E"
-            }
-            {
-                position: { x: 255, y: 583 },
-                visibleIfEmpty: false
-                symbol: "Q"
-            }
-            {
-                position: { x: 302, y: 583 },
-                visibleIfEmpty: true
-                symbol: "1"
-            }
-            {
-                position: { x: 339, y: 583 },
-                visibleIfEmpty: true
-                symbol: "2"
-            }
-            {
-                position: { x: 376, y: 583 },
-                visibleIfEmpty: true
-                symbol: "3"
-            }
-            {
-                position: { x: 413, y: 583 },
-                visibleIfEmpty: true
-                symbol: "4"
-            }
-            {
-                position: { x: 450, y: 583 },
-                visibleIfEmpty: true
-                symbol: "5"
-            }
-            {
-                position: { x: 487, y: 583 },
-                visibleIfEmpty: true
-                symbol: "6"
-            }
-            {
-                position: { x: 524, y: 583 },
-                visibleIfEmpty: true
-                symbol: "7"
-            }
-            {
-                position: { x: 561, y: 583 },
-                visibleIfEmpty: true
-                symbol: "8"
-            }
-        ]
-
         isShakeScreenWhenPlayerGetDamage: () -> true
-
-        #TODO: ItemGain вынести в отдельный плагин
-        isShowItemGainNotify: -> true
-
-        # * Добавлять автоматически новый навык на панель навыков при изучении навыка
-        isAddNewSkillsOnPanelOnLearning: -> true
-
-        # * Добавлять автоматически АБС предметы на панель навыков
-        isAddNewItemOnPanelOnPickup: -> true
-
-        # * Глобальные непроходимые участки карты для визоров и Projectile
-        getVisionRestrictedRegions: -> @getParam("enemies_noPassVision", [])
-        getVisionRestrictedTerrains: -> @getParam("enemies_noPassVision2", [])
-        getProjectileRestrictedRegions: -> @getParam("map_noProjectilePass", [])
-        getProjectileRestrictedTerrains: -> @getParam("map_noProjectilePass2", [])
 
         #TODO: Всплывающий урон вынести в отдельный плагин
         #TODO: Сделать параметры всплывающего урона
@@ -280,18 +205,44 @@ do ->
                     }
                 }
 
-        # * Настройки для скролла карты курсором
-        getMapScrollingSettings: () ->
-            {
-                isEnabled: true,
-                resetOnAction: true,
-                resetOnMove: true,
-                speed: 5,
-                scrollZone: 10,
-                delay: 30
-            }
-
         isAutoExpAfterKillEnemy: -> true
+
+        # * Карта
+        # -----------------------------------------------------------------------
+
+        # * Глобальные непроходимые участки карты для визоров и Projectile
+        getVisionRestrictedRegions: -> @getParam("enemies_noPassVision", [])
+        getVisionRestrictedTerrains: -> @getParam("enemies_noPassVision2", [])
+        getProjectileRestrictedRegions: -> @getParam("map_noProjectilePass", [])
+        getProjectileRestrictedTerrains: -> @getParam("map_noProjectilePass2", [])
+
+        # * Настройки для скролла карты курсором
+        getMapScrollingSettings: () -> @getParam("mapScrolling", {
+            isEnabled: false
+        })
+
+        # * Показывать всплывающие предметы при получении
+        #TODO: ItemGain вынести в отдельный плагин
+        isShowItemGainNotify: -> @getParam("isShowItemGainNotify", true)
+
+
+        # * Панель навыков
+        # -----------------------------------------------------------------------
+
+        # * Добавлять автоматически новый навык на панель навыков при изучении навыка
+        isAddNewSkillsOnPanelOnLearning: -> @getParam("isAddNewSkillsOnPanelOnLearning", true)
+
+        # * Добавлять автоматически АБС предметы на панель навыков
+        isAddNewItemOnPanelOnPickup: -> @getParam("isAddNewItemOnPanelOnPickup", true)
+
+        # * Эффект подсветки слотов навыков на панели
+        isUseOutlineEffect: -> @getParam("isUseOutlineEffect", true)
+
+        getSkillPanelItemVisualSettings: -> {} #TODO:
+
+        # * Все слоты панели навыков
+        getUISkillsItems: () -> @_skillPanelSlots || []
+
 
     AA.link ParamsManager
     return
@@ -308,7 +259,64 @@ do ->
     # * Данный метод вызывается при старте системы, $game объекты ещё не доступны
     # * Например для конвертирования каких-либо значений
     _._prepareParameters = ->
-        
+        # * Если эффект отключён, заменяем класс на класс заглушку
+        if @isUseOutlineEffect() == false
+            AA.Sprite_SkillPanelOutline = AA.Sprite_SkillPanelOutlineDummy
+        # * Собираем все слоты в один массив
+        @_collectAllSkillSlots()
+        return
+
+    _._collectAllSkillSlots = ->
+        primary = @_getPrimarySkillSlot()
+        secondary = @_getSecondarySkillSlot()
+        slots = @_getSkillSlots()
+        @_skillPanelSlots = [primary, secondary, ...slots]
+        return
+
+    _._getPrimarySkillSlot = -> @getParam("primaryAttackSlot", {
+            position: { x: 218, y: 583 },
+            symbol: "E"
+        })
+
+    _._getSecondarySkillSlot = -> @getParam("secondaryAttackSlot", {
+            position: { x: 255, y: 583 },
+            symbol: "Q"
+        })
+
+    _._getSkillSlots = -> @getParam("allSkillSlots", [
+            {
+                position: { x: 302, y: 583 },
+                symbol: "1"
+            }
+            {
+                position: { x: 339, y: 583 },
+                symbol: "2"
+            }
+            {
+                position: { x: 376, y: 583 },
+                symbol: "3"
+            }
+            {
+                position: { x: 413, y: 583 },
+                symbol: "4"
+            }
+            {
+                position: { x: 450, y: 583 },
+                symbol: "5"
+            }
+            {
+                position: { x: 487, y: 583 },
+                symbol: "6"
+            }
+            {
+                position: { x: 524, y: 583 },
+                symbol: "7"
+            }
+            {
+                position: { x: 561, y: 583 },
+                symbol: "8"
+            }
+        ])
 
     return
 # ■ END PRIVATE.coffee

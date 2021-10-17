@@ -3,16 +3,15 @@
 // ■ Game_Character.coffee
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
-(function() {
+//@[EXTENSION]
+AA.extend(function() {
   var ALIAS__createNewAnimaXForCharacter, _;
-  //@[DEFINES]
-  _ = Game_Character.prototype;
   // * Методы ниже даже не учитываются, если плагин не подключён
   if (Imported.PKD_AnimaX !== true) {
     return;
   }
-  //TODO: НЕ РАБОТАЕТ!!!
-
+  //@[DEFINES]
+  _ = Game_Character.prototype;
   // * Логика состояний анимации (бой, смерть) (всегда работает)
   _.aaUpdateABSAnimaX = function() {
     if (!this.isAnimX()) {
@@ -32,6 +31,7 @@
   _._aaIsInBattleAnimaXState = function() {
     return false;
   };
+  // * Из-за ALIAS пришлось выносить в Extenstion, чтобы не было зависимости от положения AnimaX плагина
   //@[ALIAS]
   ALIAS__createNewAnimaXForCharacter = _.createNewAnimaXForCharacter;
   _.createNewAnimaXForCharacter = function(animaXProfile) {
@@ -48,7 +48,7 @@
       this.registerAnimaXState('dead', animaXStateDead);
     }
   };
-})();
+});
 
 // ■ END Game_Character.coffee
 //---------------------------------------------------------------------------
