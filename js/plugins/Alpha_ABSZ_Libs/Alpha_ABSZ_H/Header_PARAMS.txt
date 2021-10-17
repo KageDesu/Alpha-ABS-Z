@@ -15,7 +15,7 @@
 @parent visualSettingsGroup
 @text Fonts
 @type text[]
-@default ["AABS_0","AABS_1","AABS_2"]
+@default []
 @desc Font files names for preload (from fonts\ folder), without extension
 
 @param spacer|enemies @text‏‏‎ ‎@desc ===============================================

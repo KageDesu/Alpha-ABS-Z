@@ -28,6 +28,14 @@ do ->
             return
 
         _.loadFonts = ->
+            # * Загрузка стандартных шрифтов системы
+            for font in ["AABS_0", "AABS_1", "AABS_2", "AABS_3"]
+                KDCore.Utils.loadFont font
+            @loadUserFonts()
+            return
+
+        # * Загрузка пользовательских шрифтов (из параметров плагина)
+        _.loadUserFonts = ->
             return unless AA.PP?
             for font in AA.PP.fonts()
                 if String.any(font)

@@ -29,7 +29,7 @@
  * @parent visualSettingsGroup
  * @text Fonts
  * @type text[]
- * @default ["AABS_0","AABS_1","AABS_2"]
+ * @default ["AABS_0","AABS_1","AABS_2","AABS_3"]
  * @desc Font files names for preload (from fonts\ folder), without extension
  * 
  * @param spacer|enemies @text‏‏‎ ‎@desc ===============================================
@@ -466,6 +466,7 @@
  * @option AABS_0
  * @option AABS_1
  * @option AABS_2
+ * @option AABS_3
  * @default AABS_0
  *
  * @param size:int

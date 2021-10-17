@@ -7,6 +7,29 @@ do ->
     #@[DEFINES]
     _ = Game_Party::
 
+    #TODO: POP UP!
+
+    #TODO: Pop Up по опыту: текст какой (через format), стиль, опция на ком: игрок, враг (прикреплён к экрану или к персонажу)
+
+    # * Дать опыт всей группе (с учётом опций (разделение, для всех))
+    # * isVisible == true -> Показать PopUp
+    _.aaGainExpForParty = (value, isVisible = true) ->
+        try
+            #TODO: POP UP if isVisible = true
+            console.log("EXP value " + value)
+            #TODO: Пока что группы нету, реализацию оставлю на потом
+            ###
+            Опции:
+            1) Только игрок
+            2) Вся группа - одинаково
+            3) Вся группа - разделить
+            4) Кто убил
+            ###
+            @leader().gainExp(value)
+        catch e
+            AA.w e
+        return
+
     _.aaAddGainedItemToPanel = (item, count) ->
         return unless AA.Utils.isAAObject(item)
         # * Новый предмет (т.е. раньше не было)

@@ -53,7 +53,7 @@
       }
     };
   })();
-  (function() {    // * Скролл камеры
+  (function() {    // * Камера
     // -----------------------------------------------------------------------
     _.aaSetMapScrolled = function(_aaIsScrollBeenApplied) {
       this._aaIsScrollBeenApplied = _aaIsScrollBeenApplied;

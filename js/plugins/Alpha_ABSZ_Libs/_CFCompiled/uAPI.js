@@ -195,7 +195,58 @@ uAPI = function() {};
       }
     };
   })();
+  (function() {    // * Управление объектами
+    // -----------------------------------------------------------------------
+    // * Получить опыт за врага по номеру в БД (isVisible == true -> PopUp)
+    _.gainExpForEnemyDb = function(enemyId, isVisible = true) {
+      var e, enemy, expValue;
+      try {
+        enemy = $dataEnemies[enemyId];
+        if (enemy == null) {
+          return;
+        }
+        expValue = AA.Utils.getExpFromAAEnemy(enemy);
+        $gameParty.aaGainExpForParty(expValue, isVisible);
+      } catch (error) {
+        e = error;
+        KDCore.warning(e);
+      }
+    };
+    // * Получить опыт за врага по номеру события
+    return _.gainExpForEnemyEv = function(eventId, isVisible = true) {
+      var e, event, expValue, expVarId;
+      try {
+        event = $gameMap.event(eventId);
+        if (event == null) {
+          return;
+        }
+        // * Событие не АБС и не было АБС ранее
+        if (event.aaEventSettings == null) {
+          return;
+        }
+        // * Если есть специальная переменная для опыта, сразу из неё
+        expVarId = event.aaEventSettings.getExpVarId();
+        if (expVarId > 0) {
+          expValue = $gameVariables.value(expVarId);
+          $gameParty.aaGainExpForParty(expValue, isVisible);
+        } else {
+          this.gainExpForEnemyDb(event.aaEventSettings.getEnemyId());
+        }
+      } catch (error) {
+        e = error;
+        KDCore.warning(e);
+      }
+    };
+  })();
+  (function() {    
+    // * Навыки
+    // -----------------------------------------------------------------------
+    _.executeAASkillOnMap = function(skillId, x, y) {};
+    //TODO: Выполнить АА навык на карте
+    return _.executeAASkillOnChar = function(skillId, charId) {};
+  })();
 })();
 
 // ■ END IMPLEMENTATION.coffee
 //---------------------------------------------------------------------------
+//TODO: Выполнить АА навык на объекте

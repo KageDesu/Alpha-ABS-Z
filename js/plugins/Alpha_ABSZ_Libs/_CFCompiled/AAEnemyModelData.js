@@ -41,6 +41,10 @@ AAEnemyModelData = (function() {
       return AA.SAaction.isProper(this.onSeeTarget);
     }
 
+    isHaveSpecialExpValue() {
+      return this.expVar > 0;
+    }
+
   };
 
   (function() {    //╒═════════════════════════════════════════════════════════════════════════╛
@@ -84,7 +88,9 @@ AAEnemyModelData = (function() {
       ];
     };
     _._initOtherSettings = function() {
-      return this.onSeeTarget = 0; //AScript
+      this.onSeeTarget = 0; //AScript
+      // * Переменная для опыта (отдельное значение, а не из БД)
+      this.expVar = 0;
     };
     _._initAnimationSettings = function() {
       this.hitAnimationId = 1; // ID анимации

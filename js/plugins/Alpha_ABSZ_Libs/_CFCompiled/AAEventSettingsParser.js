@@ -28,6 +28,21 @@
       return this.parsedParams;
     }
 
+    // * Получить значение переменной опыта
+    // * Данный метод используется чтобы получить опыт с уже мёртвого врага (т.е. NOT ACTIVE ABS)
+    // * (нету модели и Entity, только остались эти данные)
+    // * (используется если коммент был задан на событии, а в БД нету)
+    getExpVarId() {
+      var param;
+      param = this.getParameters().find(function(p) {
+        return p[0] === 'expVar';
+      });
+      if (param == null) {
+        return 0;
+      }
+      return parseInt(param[1]);
+    }
+
     getEnemyId() {
       var param;
       param = AA.Utils.Parser.extractABSParameter(this.mainLine);

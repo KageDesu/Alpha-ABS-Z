@@ -25,6 +25,8 @@ class AAEnemyModelData
 
     isHaveOnSeeTargetAction: -> AA.SAaction.isProper(@onSeeTarget)
 
+    isHaveSpecialExpValue: -> @expVar > 0
+
     #╒═════════════════════════════════════════════════════════════════════════╛
     # ■ PRIVATE.coffee
     #╒═════════════════════════════════════════════════════════════════════════╛
@@ -67,6 +69,9 @@ class AAEnemyModelData
 
         _._initOtherSettings = ->
             @onSeeTarget = 0 #AScript
+            # * Переменная для опыта (отдельное значение, а не из БД)
+            @expVar = 0
+            return
 
         _._initAnimationSettings = ->
             @hitAnimationId = 1 # ID анимации

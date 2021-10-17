@@ -7,6 +7,8 @@ do ->
     #@[DEFINES]
     _ = Game_Interpreter::
 
+    #TODO: WIKI создать страничку
+
     # * Управление АБС событиями
     # -----------------------------------------------------------------------
     do ->
@@ -29,6 +31,15 @@ do ->
                 AA.SAaction.execute(action, char)
             catch e
                 AA.w e
+
+        # * Получить опыт с данного события "врага"
+        _.aaGainExp = () ->
+            try
+                return if @eventId() <= 0
+                uAPI.gainExpForEnemyEv(@eventId())
+            catch e
+                AA.w e
+            return
 
     return
     # -----------------------------------------------------------------------

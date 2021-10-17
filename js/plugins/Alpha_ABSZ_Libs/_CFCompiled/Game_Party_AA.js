@@ -7,6 +7,31 @@
   var _;
   //@[DEFINES]
   _ = Game_Party.prototype;
+  //TODO: POP UP!
+
+  //TODO: Pop Up по опыту: текст какой (через format), стиль, опция на ком: игрок, враг (прикреплён к экрану или к персонажу)
+
+  // * Дать опыт всей группе (с учётом опций (разделение, для всех))
+  // * isVisible == true -> Показать PopUp
+  _.aaGainExpForParty = function(value, isVisible = true) {
+    var e;
+    try {
+      //TODO: POP UP if isVisible = true
+      console.log("EXP value " + value);
+      //TODO: Пока что группы нету, реализацию оставлю на потом
+      /*
+      Опции:
+      1) Только игрок
+      2) Вся группа - одинаково
+      3) Вся группа - разделить
+      4) Кто убил
+      */
+      this.leader().gainExp(value);
+    } catch (error) {
+      e = error;
+      AA.w(e);
+    }
+  };
   _.aaAddGainedItemToPanel = function(item, count) {
     if (!AA.Utils.isAAObject(item)) {
       return;

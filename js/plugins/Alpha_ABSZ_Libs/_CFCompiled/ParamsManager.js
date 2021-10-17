@@ -418,7 +418,7 @@
           stayTime: 12,
           noFlyUp: false,
           noFadeOut: false,
-          changeFontSize: 26,
+          changeFontSize: 22,
           text: {
             visible: true,
             marginX: 0,
@@ -426,9 +426,9 @@
             position: "center",
             outlineColor: null,
             outlineWidth: 2,
-            fontFace: null,
+            fontFace: "AABS_3",
             textColor: "#E6E6E6",
-            fontSize: 22,
+            fontSize: 18,
             fontItalic: false
           },
           image: {
@@ -451,6 +451,10 @@
         scrollZone: 10,
         delay: 30
       };
+    }
+
+    isAutoExpAfterKillEnemy() {
+      return true;
     }
 
   };

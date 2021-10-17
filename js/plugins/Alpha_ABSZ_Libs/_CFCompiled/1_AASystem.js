@@ -23,6 +23,17 @@ AA.System = function() {};
     };
     _.loadFonts = function() {
       var font, i, len, ref;
+      ref = ["AABS_0", "AABS_1", "AABS_2", "AABS_3"];
+      // * Загрузка стандартных шрифтов системы
+      for (i = 0, len = ref.length; i < len; i++) {
+        font = ref[i];
+        KDCore.Utils.loadFont(font);
+      }
+      this.loadUserFonts();
+    };
+    // * Загрузка пользовательских шрифтов (из параметров плагина)
+    _.loadUserFonts = function() {
+      var font, i, len, ref;
       if (AA.PP == null) {
         return;
       }

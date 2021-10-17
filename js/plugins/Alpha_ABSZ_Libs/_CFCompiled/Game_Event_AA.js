@@ -51,6 +51,7 @@
         enemyId = AA.Utils.Parser.getABSEnemyId(ABSComment);
         if (enemyId > 0) {
           if (AA.Utils.Guard.isProperEnemyIdForABSEvent(enemyId)) {
+            // * Данный объект хранится даже после переключения страницы на НЕ АБС
             this.aaEventSettings = new AA.AAEventSettingsParser(this.list());
             //console.info @aaEventSettings
             return true;
@@ -153,17 +154,32 @@
     //@[ALIAS]
     //TODO: Что делать с xAnimaDead ???
     ALIAS__aaOnActionOnMe = _.aaOnActionOnMe;
-    _.aaOnActionOnMe = function() {
+    _.aaOnActionOnMe = function(action) {
       var result;
-      ALIAS__aaOnActionOnMe.call(this);
+      ALIAS__aaOnActionOnMe.call(this, action);
       result = this.AABattler().result();
       if (result == null) {
         return;
       }
-      //TODO: Может только если HP damage?
       if (result.isHit()) {
+        //TODO: Может только если HP damage?
         //TODO: model paramter or skill parameter (shake str)
         this.aaRequestShakeEffect();
+      }
+      if (!this.AABattler().isAlive()) {
+        this.aaOnKilledBy(action);
+      }
+    };
+    _.aaOnKilledBy = function(action) {
+      var e;
+      try {
+        //TODO: subject пока не учитываем, так как только игрок может убить врага
+        if (AA.PP.isAutoExpAfterKillEnemy()) {
+          return uAPI.gainExpForEnemyEv(this.eventId());
+        }
+      } catch (error) {
+        e = error;
+        return AA.w(e);
       }
     };
     _._aaUpdateDeadState = function() {

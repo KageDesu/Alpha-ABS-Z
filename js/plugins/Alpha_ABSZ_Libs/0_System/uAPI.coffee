@@ -149,6 +149,50 @@ do ->
             catch e
                 KDCore.warning e
 
+    # * Управление объектами
+    # -----------------------------------------------------------------------
+    do ->
+
+        # * Получить опыт за врага по номеру в БД (isVisible == true -> PopUp)
+        _.gainExpForEnemyDb = (enemyId, isVisible = true) ->
+            try
+                enemy = $dataEnemies[enemyId]
+                return unless enemy?
+                expValue = AA.Utils.getExpFromAAEnemy(enemy)
+                $gameParty.aaGainExpForParty(expValue, isVisible)
+            catch e
+                KDCore.warning e
+            return
+
+        # * Получить опыт за врага по номеру события
+        _.gainExpForEnemyEv = (eventId, isVisible = true) ->
+            try
+                event = $gameMap.event(eventId)
+                return unless event?
+                # * Событие не АБС и не было АБС ранее
+                return unless event.aaEventSettings?
+                # * Если есть специальная переменная для опыта, сразу из неё
+                expVarId = event.aaEventSettings.getExpVarId()
+                if expVarId > 0
+                    expValue = $gameVariables.value(expVarId)
+                    $gameParty.aaGainExpForParty(expValue, isVisible)
+                else
+                    @gainExpForEnemyDb(event.aaEventSettings.getEnemyId())
+            catch e
+                KDCore.warning e
+            return
+
+    
+    # * Навыки
+    # -----------------------------------------------------------------------
+    do ->
+
+        _.executeAASkillOnMap = (skillId, x, y) ->
+            #TODO: Выполнить АА навык на карте
+
+        _.executeAASkillOnChar = (skillId, charId) ->
+            #TODO: Выполнить АА навык на объекте
+
     return
 # ■ END IMPLEMENTATION.coffee
 #---------------------------------------------------------------------------

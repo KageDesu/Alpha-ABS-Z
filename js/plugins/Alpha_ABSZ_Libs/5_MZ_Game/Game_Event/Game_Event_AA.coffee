@@ -41,6 +41,7 @@ do ->
                 enemyId = AA.Utils.Parser.getABSEnemyId(ABSComment)
                 if enemyId > 0
                     if AA.Utils.Guard.isProperEnemyIdForABSEvent(enemyId)
+                        # * Данный объект хранится даже после переключения страницы на НЕ АБС
                         @aaEventSettings = new AA.AAEventSettingsParser(@list())
                         #console.info @aaEventSettings
                         return true
@@ -133,15 +134,23 @@ do ->
 
         #@[ALIAS]
         ALIAS__aaOnActionOnMe = _.aaOnActionOnMe
-        _.aaOnActionOnMe = ->
-            ALIAS__aaOnActionOnMe.call(@)
+        _.aaOnActionOnMe = (action) ->
+            ALIAS__aaOnActionOnMe.call(@, action)
             result = @AABattler().result()
             return unless result?
             #TODO: Может только если HP damage?
-            if result.isHit()
-                #TODO: model paramter or skill parameter (shake str)
-                @aaRequestShakeEffect()
+            #TODO: model paramter or skill parameter (shake str)
+            @aaRequestShakeEffect() if result.isHit()
+            @aaOnKilledBy(action) unless @AABattler().isAlive()
             return
+
+        _.aaOnKilledBy = (action) ->
+            try
+                #TODO: subject пока не учитываем, так как только игрок может убить врага
+                if AA.PP.isAutoExpAfterKillEnemy()
+                    uAPI.gainExpForEnemyEv(@eventId())
+            catch e
+                AA.w e
 
         _._aaUpdateDeadState = ->
             if @isActive() and !@AABattler().isAlive()

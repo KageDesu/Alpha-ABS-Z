@@ -7,7 +7,9 @@
   var _;
   //@[DEFINES]
   _ = Game_Interpreter.prototype;
-  (function() {    // * Управление АБС событиями
+  (function() {    //TODO: WIKI создать страничку
+
+    // * Управление АБС событиями
     // -----------------------------------------------------------------------
     // * Изменить параметр АА события (врага)
     _.aaChangeAIParam = function(paramName, newValue) {
@@ -30,7 +32,7 @@
       }
     };
     // * Выполнить SAction
-    return _.aaExecuteSAction = function(action) {
+    _.aaExecuteSAction = function(action) {
       var char, e;
       try {
         if (this.eventId() >= 0) {
@@ -40,6 +42,19 @@
       } catch (error) {
         e = error;
         return AA.w(e);
+      }
+    };
+    // * Получить опыт с данного события "врага"
+    return _.aaGainExp = function() {
+      var e;
+      try {
+        if (this.eventId() <= 0) {
+          return;
+        }
+        uAPI.gainExpForEnemyEv(this.eventId());
+      } catch (error) {
+        e = error;
+        AA.w(e);
       }
     };
   })();
