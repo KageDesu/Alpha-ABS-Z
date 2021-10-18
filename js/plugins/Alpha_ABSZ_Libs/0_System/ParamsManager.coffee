@@ -205,8 +205,6 @@ do ->
         
         # * Игрок и партия
         # -----------------------------------------------------------------------
-        # * Получать опыт автоматически при убийстве врагов
-        isAutoExpAfterKillEnemy: -> @getParam("isAutoExpAfterKillEnemy", true)
         # * Тряска экрана когда игрок получил урон
         isShakeScreenWhenPlayerGetDamage: () -> @getParam("isShakeScreenWhenPlayerGetDamage", true)
 

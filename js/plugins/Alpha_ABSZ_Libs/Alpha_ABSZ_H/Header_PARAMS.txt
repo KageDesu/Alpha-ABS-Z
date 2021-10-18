@@ -119,15 +119,6 @@
 @default true
 @desc Is shake screen when player receive damage?
 
-@param isAutoExpAfterKillEnemy:bool
-@parent playerAndPartySettingsGroup
-@text Is Auto Exp?
-@type boolean
-@on Yes
-@off No
-@default true
-@desc Is automatically receive exp from enemy after kill them?
-
 @param spacer|enemies @text‏‏‎ ‎@desc ===============================================
 
 @param enemySettingsGroup

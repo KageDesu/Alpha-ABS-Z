@@ -91,6 +91,8 @@ AAEnemyModelData = (function() {
       this.onSeeTarget = 0; //AScript
       // * Переменная для опыта (отдельное значение, а не из БД)
       this.expVar = 0;
+      // * За данного врага опыт даётся автоматически ( если 1)
+      this.autoExp = 1;
     };
     _._initAnimationSettings = function() {
       this.hitAnimationId = 1; // ID анимации

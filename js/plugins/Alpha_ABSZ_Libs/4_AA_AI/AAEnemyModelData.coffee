@@ -71,6 +71,8 @@ class AAEnemyModelData
             @onSeeTarget = 0 #AScript
             # * Переменная для опыта (отдельное значение, а не из БД)
             @expVar = 0
+            # * За данного врага опыт даётся автоматически ( если 1)
+            @autoExp = 1
             return
 
         _._initAnimationSettings = ->

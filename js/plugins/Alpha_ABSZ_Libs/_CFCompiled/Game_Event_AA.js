@@ -174,10 +174,11 @@
       var e;
       try {
         //TODO: subject пока не учитываем, так как только игрок может убить врага
-        if (AA.PP.isAutoExpAfterKillEnemy()) {
+        if (this.AAModel().autoExp === 1) {
           // * Если Exp Pop Up должен появляться над "дающим" опыт врагом
           $gameTemp.__aaExpGiver = this;
           uAPI.gainExpForEnemyEv(this.eventId());
+          // * Надо обнулять сразу
           return $gameTemp.__aaExpGiver = null;
         }
       } catch (error) {

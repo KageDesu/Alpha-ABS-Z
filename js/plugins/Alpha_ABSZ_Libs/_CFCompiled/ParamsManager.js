@@ -329,11 +329,6 @@
     
       // * Игрок и партия
     // -----------------------------------------------------------------------
-    // * Получать опыт автоматически при убийстве врагов
-    isAutoExpAfterKillEnemy() {
-      return this.getParam("isAutoExpAfterKillEnemy", true);
-    }
-
     // * Тряска экрана когда игрок получил урон
     isShakeScreenWhenPlayerGetDamage() {
       return this.getParam("isShakeScreenWhenPlayerGetDamage", true);
