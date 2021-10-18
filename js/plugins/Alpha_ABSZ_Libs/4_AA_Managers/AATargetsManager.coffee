@@ -49,7 +49,7 @@ do ->
     _.collectTargtesForSkill = (subject, absSkill, point) ->
         targets = []
         # * Точные цели селектора, если мнгновенный навык (только для игрока)
-        if absSkill.isInstant() && $gameTemp._aaSkillSelectorTargets?
+        if absSkill.isInstant() && subject == $gamePlayer && $gameTemp._aaSkillSelectorTargets?
             targets = $gameTemp._aaSkillSelectorTargets
         else
             targets = @collectTargetsForSkillInMapPoint(absSkill, point)

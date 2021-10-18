@@ -65,7 +65,7 @@ AATargetsManager = function() {};
     var targets;
     targets = [];
     // * Точные цели селектора, если мнгновенный навык (только для игрока)
-    if (absSkill.isInstant() && ($gameTemp._aaSkillSelectorTargets != null)) {
+    if (absSkill.isInstant() && subject === $gamePlayer && ($gameTemp._aaSkillSelectorTargets != null)) {
       targets = $gameTemp._aaSkillSelectorTargets;
     } else {
       targets = this.collectTargetsForSkillInMapPoint(absSkill, point);
