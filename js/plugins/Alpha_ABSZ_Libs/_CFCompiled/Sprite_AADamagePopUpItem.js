@@ -175,7 +175,7 @@ Sprite_AADamagePopUpItem = class Sprite_AADamagePopUpItem extends KDCore.Sprite 
     this.bitmap = new Bitmap(50, 50);
     this.anchor.set(0.5);
     try {
-      this.bitmap.fontSize = Math.max(this.settings.text.fontSize, this.settings.changeFontSize);
+      this.bitmap.fontSize = Math.max(this.settings.text.font.size, this.settings.changeFontSize);
       this._createValueText();
       if ((this.settings.image != null) && String.any(this.settings.image.name)) {
         return this._createImage();
@@ -189,10 +189,12 @@ Sprite_AADamagePopUpItem = class Sprite_AADamagePopUpItem extends KDCore.Sprite 
     var e, h, w;
     try {
       w = this.bitmap.measureTextWidth(this.value) + 4;
-      h = this.settings.text.fontSize + 10;
-      this.valueSprite = KDCore.Sprite.FromBitmap(w, h);
+      h = this.settings.text.font.size + 10;
+      // * Присваеваем новые значение (посчитанные)
+      this.settings.text.size.w = w;
+      this.settings.text.size.h = h;
+      this.valueSprite = KDCore.Sprite.FromParams(this.settings.text);
       this.valueSprite.anchor.set(0.5);
-      this.applyTextSettingsByJson(this.valueSprite, this.settings);
       this.valueSprite.onReady(this._drawValue.bind(this));
       return this.add(this.valueSprite);
     } catch (error) {
@@ -203,15 +205,15 @@ Sprite_AADamagePopUpItem = class Sprite_AADamagePopUpItem extends KDCore.Sprite 
   };
   _._drawValue = function() {
     this.valueSprite.clear();
-    return this.valueSprite.drawTextFull(this.value, this.settings.text.position);
+    return this.valueSprite.drawTextFull(this.value, this.settings.text.alignment);
   };
   _._createImage = function() {
     var e, settings;
     try {
       settings = this.settings.image;
       this.imageSprite = KDCore.Sprite.FromImg(settings.name);
-      this.imageSprite.x = settings.marginX;
-      this.imageSprite.y = settings.marginY;
+      this.imageSprite.x = settings.margins.x || 0;
+      this.imageSprite.y = settings.margins.y || 0;
       this.imageSprite.anchor.set(0.5);
       this.imageSprite.opacity = 0;
       return this.add(this.imageSprite);

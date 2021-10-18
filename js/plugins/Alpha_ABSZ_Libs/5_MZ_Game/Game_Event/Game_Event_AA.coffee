@@ -148,7 +148,10 @@ do ->
             try
                 #TODO: subject пока не учитываем, так как только игрок может убить врага
                 if AA.PP.isAutoExpAfterKillEnemy()
+                    # * Если Exp Pop Up должен появляться над "дающим" опыт врагом
+                    $gameTemp.__aaExpGiver = @
                     uAPI.gainExpForEnemyEv(@eventId())
+                    $gameTemp.__aaExpGiver = null
             catch e
                 AA.w e
 

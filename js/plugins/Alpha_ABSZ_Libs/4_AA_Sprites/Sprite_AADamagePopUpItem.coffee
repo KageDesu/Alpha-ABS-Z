@@ -121,7 +121,7 @@ do ->
         @bitmap = new Bitmap(50, 50)
         @anchor.set(0.5)
         try
-            @bitmap.fontSize = Math.max(@settings.text.fontSize, @settings.changeFontSize)
+            @bitmap.fontSize = Math.max(@settings.text.font.size, @settings.changeFontSize)
             @_createValueText()
             @_createImage() if @settings.image? and String.any(@settings.image.name)
         catch e
@@ -130,10 +130,12 @@ do ->
     _._createValueText = ->
         try
             w = @bitmap.measureTextWidth(@value) + 4
-            h = @settings.text.fontSize + 10
-            @valueSprite = KDCore.Sprite.FromBitmap(w, h)
+            h = @settings.text.font.size + 10
+            # * Присваеваем новые значение (посчитанные)
+            @settings.text.size.w = w
+            @settings.text.size.h = h
+            @valueSprite = KDCore.Sprite.FromParams(@settings.text)
             @valueSprite.anchor.set(0.5)
-            @applyTextSettingsByJson @valueSprite, @settings
             @valueSprite.onReady @_drawValue.bind(@)
             @add @valueSprite
         catch e
@@ -142,14 +144,14 @@ do ->
 
     _._drawValue = ->
         @valueSprite.clear()
-        @valueSprite.drawTextFull @value, @settings.text.position
+        @valueSprite.drawTextFull @value, @settings.text.alignment
 
     _._createImage = ->
         try
             settings = @settings.image
             @imageSprite = KDCore.Sprite.FromImg(settings.name)
-            @imageSprite.x = settings.marginX
-            @imageSprite.y = settings.marginY
+            @imageSprite.x = settings.margins.x || 0
+            @imageSprite.y = settings.margins.y || 0
             @imageSprite.anchor.set(0.5)
             @imageSprite.opacity = 0
             @add @imageSprite

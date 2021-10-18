@@ -19,7 +19,6 @@
       }
     }
 
-    // * Стандартные: ["AABS_0","AABS_1", "AABS_2"]
     fonts() {
       return this.getParam("fonts", []);
     }
@@ -264,20 +263,27 @@
       }
     }
 
-    getMiniHpGaugeSettings() {
-      return {
-        active: true,
-        showOnlyOnHover: true,
-        showOnDamage: true
-      };
+    // * POP UP
+    // -----------------------------------------------------------------------
+    isPopUpIsActive() {
+      return this.getParam("isShowPopUp", true);
     }
 
-    isShakeScreenWhenPlayerGetDamage() {
-      return true;
+    getTextForPopUpMiss() {
+      return this.getParam("popUpTextForMiss", "Miss");
+    }
+
+    getExpPopUpSettings() {
+      return this.getParam("popUpExpSettings", {
+        active: true,
+        textFormat: "+%1 exp",
+        styleId: "Experience",
+        aboveChar: false,
+        bindToChar: false
+      });
     }
 
     //TODO: Всплывающий урон вынести в отдельный плагин
-    //TODO: Сделать параметры всплывающего урона
     getPopUpDamageSettings(id) {
       var data, settings;
       settings = this.getParam("popUpDamageTable", []);
@@ -287,7 +293,7 @@
       } else {
         return {
           id: "default",
-          randDX: 10,
+          randDX: 15,
           randDY: 10,
           stayTime: 12,
           noFlyUp: false,
@@ -295,34 +301,47 @@
           changeFontSize: 22,
           text: {
             visible: true,
-            marginX: 0,
-            marginY: 0,
-            position: "center",
-            outlineColor: null,
-            outlineWidth: 2,
-            fontFace: "AABS_3",
-            textColor: "#E6E6E6",
-            fontSize: 18,
-            fontItalic: false
+            size: {
+              w: 0,
+              h: 0 // * not used
+            },
+            margins: {
+              x: 0,
+              y: 0
+            },
+            alignment: "center",
+            outline: {
+              color: null,
+              width: 2
+            },
+            font: {
+              face: "AABS_3",
+              size: 18,
+              italic: false
+            },
+            textColor: "#E6E6E6".toCss()
           },
-          image: {
-            name: "",
-            marginX: 0,
-            marginY: 0,
-            fadeInSpeed: 20
-          }
+          image: null
         };
       }
     }
 
+    
+      // * Игрок и партия
+    // -----------------------------------------------------------------------
+    // * Получать опыт автоматически при убийстве врагов
     isAutoExpAfterKillEnemy() {
-      return true;
+      return this.getParam("isAutoExpAfterKillEnemy", true);
     }
 
-    // * Карта
-    // -----------------------------------------------------------------------
+    // * Тряска экрана когда игрок получил урон
+    isShakeScreenWhenPlayerGetDamage() {
+      return this.getParam("isShakeScreenWhenPlayerGetDamage", true);
+    }
 
-      // * Глобальные непроходимые участки карты для визоров и Projectile
+    // * Враги
+    // -----------------------------------------------------------------------
+    // * Глобальные непроходимые участки карты для визоров
     getVisionRestrictedRegions() {
       return this.getParam("enemies_noPassVision", []);
     }
@@ -331,6 +350,10 @@
       return this.getParam("enemies_noPassVision2", []);
     }
 
+    // * Карта
+    // -----------------------------------------------------------------------
+
+      // * Глобальные непроходимые участки карты для Projectile
     getProjectileRestrictedRegions() {
       return this.getParam("map_noProjectilePass", []);
     }
@@ -350,6 +373,14 @@
     //TODO: ItemGain вынести в отдельный плагин
     isShowItemGainNotify() {
       return this.getParam("isShowItemGainNotify", true);
+    }
+
+    getMiniHpGaugeSettings() {
+      return this.getParam("miniHpGaugeSetings", {
+        active: true,
+        showOnlyOnHover: true,
+        showOnDamage: true
+      });
     }
 
     // * Панель навыков

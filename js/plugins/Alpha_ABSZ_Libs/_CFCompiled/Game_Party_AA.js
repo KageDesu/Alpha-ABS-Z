@@ -9,15 +9,11 @@
   _ = Game_Party.prototype;
   //TODO: POP UP!
 
-  //TODO: Pop Up по опыту: текст какой (через format), стиль, опция на ком: игрок, враг (прикреплён к экрану или к персонажу)
-
   // * Дать опыт всей группе (с учётом опций (разделение, для всех))
   // * isVisible == true -> Показать PopUp
   _.aaGainExpForParty = function(value, isVisible = true) {
-    var e;
+    var char, data, e, p;
     try {
-      //TODO: POP UP if isVisible = true
-      console.log("EXP value " + value);
       //TODO: Пока что группы нету, реализацию оставлю на потом
       /*
       Опции:
@@ -27,6 +23,36 @@
       4) Кто убил
       */
       this.leader().gainExp(value);
+      // * Не показывать если 0 опыта
+      if (value === 0) {
+        return;
+      }
+      // * Не показывать, если флаг отключён
+      if (!isVisible) {
+        return;
+      }
+      //TODO: Вынести этот код (НИЖЕ) отдельно куда-нибудь
+      p = AA.PP.getExpPopUpSettings();
+      // * Не показывать, если параметр плагина отключён
+      if (!p.active) {
+        return;
+      }
+      if (p.aboveChar === false) {
+        char = $gameTemp.__aaExpGiver;
+      }
+      if (char == null) {
+        //TODO: Или кто-то из группы*
+        char = $gamePlayer;
+      }
+      data = AADamagePopUpFactory.createExpPopUpData(value, char);
+      if (data == null) {
+        return;
+      }
+      if (p.bindToChar === true) {
+        Sprite_AADamagePopUpItem.CreateOnCharacterBinded(char, data.settings, data.value);
+      } else {
+        Sprite_AADamagePopUpItem.CreateOnCharacter(char, data.settings, data.value);
+      }
     } catch (error) {
       e = error;
       AA.w(e);

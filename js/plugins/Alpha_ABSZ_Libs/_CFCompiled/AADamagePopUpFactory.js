@@ -11,8 +11,24 @@ AADamagePopUpFactory = function() {};
   var _;
   //@[DEFINES]
   _ = AADamagePopUpFactory;
+  _.createExpPopUpData = function(value, charToShowAbove) {
+    var e, settings, valueText;
+    try {
+      valueText = AA.PP.getExpPopUpSettings().textFormat.replace("%1", value);
+      settings = AA.PP.getExpPopUpSettings().styleId;
+      return this._createFromSettings(settings, valueText);
+    } catch (error) {
+      e = error;
+      AA.w(e);
+      return null;
+    }
+  };
   _.createDamagePopUpData = function(battler) {
     var result;
+    if (!AA.PP.isPopUpIsActive()) {
+      // * Если отключены, то ничего не возвращяем
+      return null;
+    }
     result = battler.result();
     if (result.missed || result.evaded) {
       return this._createMiss();
@@ -23,10 +39,8 @@ AADamagePopUpFactory = function() {};
     }
     return null; // * Нет ничего
   };
-  
-  //TODO: Miss Вынести в словарь (параметры плагина)
   _._createMiss = function() {
-    return this._createFromSettings("Miss_For_All", "Miss");
+    return this._createFromSettings("Miss_For_All", AA.PP.getTextForPopUpMiss());
   };
   _._createFromSettings = function(styleId, value) {
     return {
@@ -63,7 +77,7 @@ AADamagePopUpFactory = function() {};
     if (this._isHaveSpecialStyle(result)) {
       return this._createFromSettings(result.getUsedAASkill().popUpStyleId, value);
     } else {
-      return this._createFromSettings("Damage_Other_Any", value);
+      return this._createFromSettings("Damage_Other_For_All", value);
     }
   };
   // * Чтобы лечение было с +

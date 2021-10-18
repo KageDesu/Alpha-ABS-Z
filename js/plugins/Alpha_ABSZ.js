@@ -20,17 +20,51 @@
  * @default {"LMBMapTouchMode":"Default (move)","RMBMapTouchMode":"Turn","LMBTargetTouchMode":"Smart attack (Primary)","RMBTargetTouchMode":"Smart attack (Secondary)","moveType":"WASD and Arrows","isDiagonalMovement:b":"true","isStaticAtkRot:b":"true","keybingind":"","kbReload":"R","kbCommandMenu":"C","kbRotate":"Control"}
  * @desc Controls and keybingind settings
  * 
- * @param spacer|visual @text‏‏‎ ‎@desc ===============================================
+ * @param spacer|common @text‏‏‎ ‎@desc ===============================================
  * 
- * @param visualSettingsGroup
- * @text Visual Parameters
+ * @param commonSettingsGroup
+ * @text Common Parameters
  * 
  * @param fonts:strA
- * @parent visualSettingsGroup
+ * @parent commonSettingsGroup
  * @text Fonts
  * @type text[]
  * @default []
  * @desc Font files names for preload (from fonts\ folder), without extension
+ * 
+ * @param spacer|popUpSettings @text‏‏‎ ‎@desc ===============================================
+ * 
+ * @param popUpDamageSettingsGroup
+ * @text Pop Up Settings
+ * 
+ * @param isShowPopUp:bool
+ * @parent popUpDamageSettingsGroup
+ * @type boolean
+ * @text Is Enable?
+ * @on Yes (enabled)
+ * @off No (disabled)
+ * @default true
+ * @desc Is Pop Up system enabled? false - not any Pop Up's at all
+ * 
+ * @param popUpTextForMiss
+ * @parent popUpDamageSettingsGroup
+ * @text Text for Miss
+ * @default Miss
+ * @desc Text for Miss PopUp
+ * 
+ * @param popUpExpSettings:struct
+ * @parent popUpDamageSettingsGroup
+ * @text Experience Pop Up
+ * @type struct<LDPUExp>
+ * @default {"active:b":"true","styleId":"Experience","textFormat":"+%1 exp","aboveChar:b":"false","bindToChar:b":"false"}
+ * @desc Settings for Experience Pop Up
+ * 
+ * @param popUpDamageTable:structA
+ * @parent popUpDamageSettingsGroup
+ * @text Pop Up Table
+ * @type struct<LDamagePopUpVisualSettings>[]
+ * @default ["{\"id\":\"Miss_For_All\",\"randDX:int\":\"15\",\"randDY:int\":\"12\",\"stayTime:int\":\"13\",\"changeFontSize:int\":\"20\",\"noFlyUp:bool\":\"false\",\"noFadeOut:bool\":\"false\",\"text:struct\":\"{\\\"visible:bool\\\":\\\"true\\\",\\\"size:struct\\\":\\\"{\\\\\\\"w:int\\\\\\\":\\\\\\\"100\\\\\\\",\\\\\\\"h:int\\\\\\\":\\\\\\\"100\\\\\\\"}\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"alignment:str\\\":\\\"center\\\",\\\"outline:struct\\\":\\\"{\\\\\\\"color:css\\\\\\\":\\\\\\\"#000000\\\\\\\",\\\\\\\"width:int\\\\\\\":\\\\\\\"2\\\\\\\"}\\\",\\\"font:struct\\\":\\\"{\\\\\\\"face:str\\\\\\\":\\\\\\\"AABS_1\\\\\\\",\\\\\\\"size:int\\\\\\\":\\\\\\\"16\\\\\\\",\\\\\\\"italic:bool\\\\\\\":\\\\\\\"true\\\\\\\"}\\\",\\\"textColor:css\\\":\\\"#E6E6E6\\\"}\",\"image:struct\":\"{\\\"name\\\":\\\"\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"fadeInSpeed:int\\\":\\\"20\\\"}\"}","{\"id\":\"Heal_For_All\",\"randDX:int\":\"15\",\"randDY:int\":\"10\",\"stayTime:int\":\"12\",\"changeFontSize:int\":\"22\",\"noFlyUp:bool\":\"true\",\"noFadeOut:bool\":\"false\",\"text:struct\":\"{\\\"visible:bool\\\":\\\"true\\\",\\\"size:struct\\\":\\\"{\\\\\\\"w:int\\\\\\\":\\\\\\\"100\\\\\\\",\\\\\\\"h:int\\\\\\\":\\\\\\\"100\\\\\\\"}\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"alignment:str\\\":\\\"center\\\",\\\"outline:struct\\\":\\\"{\\\\\\\"color:css\\\\\\\":\\\\\\\"#000000\\\\\\\",\\\\\\\"width:int\\\\\\\":\\\\\\\"2\\\\\\\"}\\\",\\\"font:struct\\\":\\\"{\\\\\\\"face:str\\\\\\\":\\\\\\\"AABS_3\\\\\\\",\\\\\\\"size:int\\\\\\\":\\\\\\\"18\\\\\\\",\\\\\\\"italic:bool\\\\\\\":\\\\\\\"false\\\\\\\"}\\\",\\\"textColor:css\\\":\\\"#80FF00\\\"}\",\"image:struct\":\"{\\\"name\\\":\\\"\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"fadeInSpeed:int\\\":\\\"20\\\"}\"}","{\"id\":\"Damage_HP_For_Enemy\",\"randDX:int\":\"15\",\"randDY:int\":\"10\",\"stayTime:int\":\"12\",\"changeFontSize:int\":\"22\",\"noFlyUp:bool\":\"false\",\"noFadeOut:bool\":\"false\",\"text:struct\":\"{\\\"visible:bool\\\":\\\"true\\\",\\\"size:struct\\\":\\\"{\\\\\\\"w:int\\\\\\\":\\\\\\\"100\\\\\\\",\\\\\\\"h:int\\\\\\\":\\\\\\\"100\\\\\\\"}\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"alignment:str\\\":\\\"center\\\",\\\"outline:struct\\\":\\\"{\\\\\\\"color:css\\\\\\\":\\\\\\\"#000000\\\\\\\",\\\\\\\"width:int\\\\\\\":\\\\\\\"2\\\\\\\"}\\\",\\\"font:struct\\\":\\\"{\\\\\\\"face:str\\\\\\\":\\\\\\\"AABS_3\\\\\\\",\\\\\\\"size:int\\\\\\\":\\\\\\\"18\\\\\\\",\\\\\\\"italic:bool\\\\\\\":\\\\\\\"false\\\\\\\"}\\\",\\\"textColor:css\\\":\\\"#FFFFFF\\\"}\",\"image:struct\":\"{\\\"name\\\":\\\"\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"fadeInSpeed:int\\\":\\\"20\\\"}\"}","{\"id\":\"Damage_HP_For_Player\",\"randDX:int\":\"20\",\"randDY:int\":\"5\",\"stayTime:int\":\"12\",\"changeFontSize:int\":\"21\",\"noFlyUp:bool\":\"false\",\"noFadeOut:bool\":\"false\",\"text:struct\":\"{\\\"visible:bool\\\":\\\"true\\\",\\\"size:struct\\\":\\\"{\\\\\\\"w:int\\\\\\\":\\\\\\\"100\\\\\\\",\\\\\\\"h:int\\\\\\\":\\\\\\\"100\\\\\\\"}\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"alignment:str\\\":\\\"center\\\",\\\"outline:struct\\\":\\\"{\\\\\\\"color:css\\\\\\\":\\\\\\\"#000000\\\\\\\",\\\\\\\"width:int\\\\\\\":\\\\\\\"2\\\\\\\"}\\\",\\\"font:struct\\\":\\\"{\\\\\\\"face:str\\\\\\\":\\\\\\\"AABS_3\\\\\\\",\\\\\\\"size:int\\\\\\\":\\\\\\\"17\\\\\\\",\\\\\\\"italic:bool\\\\\\\":\\\\\\\"true\\\\\\\"}\\\",\\\"textColor:css\\\":\\\"#e3483d\\\"}\",\"image:struct\":\"{\\\"name\\\":\\\"\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"fadeInSpeed:int\\\":\\\"20\\\"}\"}","{\"id\":\"Damage_HP_For_Enemy_Critical\",\"randDX:int\":\"15\",\"randDY:int\":\"10\",\"stayTime:int\":\"14\",\"changeFontSize:int\":\"22\",\"noFlyUp:bool\":\"true\",\"noFadeOut:bool\":\"true\",\"text:struct\":\"{\\\"visible:bool\\\":\\\"true\\\",\\\"size:struct\\\":\\\"{\\\\\\\"w:int\\\\\\\":\\\\\\\"100\\\\\\\",\\\\\\\"h:int\\\\\\\":\\\\\\\"100\\\\\\\"}\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"-5\\\\\\\"}\\\",\\\"alignment:str\\\":\\\"center\\\",\\\"outline:struct\\\":\\\"{\\\\\\\"color:css\\\\\\\":\\\\\\\"#000000\\\\\\\",\\\\\\\"width:int\\\\\\\":\\\\\\\"2\\\\\\\"}\\\",\\\"font:struct\\\":\\\"{\\\\\\\"face:str\\\\\\\":\\\\\\\"AABS_3\\\\\\\",\\\\\\\"size:int\\\\\\\":\\\\\\\"26\\\\\\\",\\\\\\\"italic:bool\\\\\\\":\\\\\\\"false\\\\\\\"}\\\",\\\"textColor:css\\\":\\\"#F3E107\\\"}\",\"image:struct\":\"{\\\"name\\\":\\\"\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"fadeInSpeed:int\\\":\\\"20\\\"}\"}","{\"id\":\"Damage_HP_For_Player_Critical\",\"randDX:int\":\"20\",\"randDY:int\":\"5\",\"stayTime:int\":\"14\",\"changeFontSize:int\":\"21\",\"noFlyUp:bool\":\"true\",\"noFadeOut:bool\":\"true\",\"text:struct\":\"{\\\"visible:bool\\\":\\\"true\\\",\\\"size:struct\\\":\\\"{\\\\\\\"w:int\\\\\\\":\\\\\\\"100\\\\\\\",\\\\\\\"h:int\\\\\\\":\\\\\\\"100\\\\\\\"}\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"alignment:str\\\":\\\"center\\\",\\\"outline:struct\\\":\\\"{\\\\\\\"color:css\\\\\\\":\\\\\\\"#000000\\\\\\\",\\\\\\\"width:int\\\\\\\":\\\\\\\"2\\\\\\\"}\\\",\\\"font:struct\\\":\\\"{\\\\\\\"face:str\\\\\\\":\\\\\\\"AABS_3\\\\\\\",\\\\\\\"size:int\\\\\\\":\\\\\\\"24\\\\\\\",\\\\\\\"italic:bool\\\\\\\":\\\\\\\"true\\\\\\\"}\\\",\\\"textColor:css\\\":\\\"#FF0000\\\"}\",\"image:struct\":\"{\\\"name\\\":\\\"\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"fadeInSpeed:int\\\":\\\"20\\\"}\"}","{\"id\":\"Damage_Other_For_All\",\"randDX:int\":\"15\",\"randDY:int\":\"10\",\"stayTime:int\":\"12\",\"changeFontSize:int\":\"22\",\"noFlyUp:bool\":\"false\",\"noFadeOut:bool\":\"false\",\"text:struct\":\"{\\\"visible:bool\\\":\\\"true\\\",\\\"size:struct\\\":\\\"{\\\\\\\"w:int\\\\\\\":\\\\\\\"100\\\\\\\",\\\\\\\"h:int\\\\\\\":\\\\\\\"100\\\\\\\"}\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"alignment:str\\\":\\\"center\\\",\\\"outline:struct\\\":\\\"{\\\\\\\"color:css\\\\\\\":\\\\\\\"#000000\\\\\\\",\\\\\\\"width:int\\\\\\\":\\\\\\\"2\\\\\\\"}\\\",\\\"font:struct\\\":\\\"{\\\\\\\"face:str\\\\\\\":\\\\\\\"AABS_3\\\\\\\",\\\\\\\"size:int\\\\\\\":\\\\\\\"18\\\\\\\",\\\\\\\"italic:bool\\\\\\\":\\\\\\\"false\\\\\\\"}\\\",\\\"textColor:css\\\":\\\"#008080\\\"}\",\"image:struct\":\"{\\\"name\\\":\\\"\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"fadeInSpeed:int\\\":\\\"20\\\"}\"}","{\"id\":\"Experience\",\"randDX:int\":\"15\",\"randDY:int\":\"12\",\"stayTime:int\":\"14\",\"changeFontSize:int\":\"20\",\"noFlyUp:bool\":\"false\",\"noFadeOut:bool\":\"false\",\"text:struct\":\"{\\\"visible:bool\\\":\\\"true\\\",\\\"size:struct\\\":\\\"{\\\\\\\"w:int\\\\\\\":\\\\\\\"100\\\\\\\",\\\\\\\"h:int\\\\\\\":\\\\\\\"100\\\\\\\"}\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"-10\\\\\\\"}\\\",\\\"alignment:str\\\":\\\"center\\\",\\\"outline:struct\\\":\\\"{\\\\\\\"color:css\\\\\\\":\\\\\\\"#000000\\\\\\\",\\\\\\\"width:int\\\\\\\":\\\\\\\"2\\\\\\\"}\\\",\\\"font:struct\\\":\\\"{\\\\\\\"face:str\\\\\\\":\\\\\\\"AABS_1\\\\\\\",\\\\\\\"size:int\\\\\\\":\\\\\\\"24\\\\\\\",\\\\\\\"italic:bool\\\\\\\":\\\\\\\"true\\\\\\\"}\\\",\\\"textColor:css\\\":\\\"#a365e6\\\"}\",\"image:struct\":\"{\\\"name\\\":\\\"\\\",\\\"margins:struct\\\":\\\"{\\\\\\\"x:int\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"y:int\\\\\\\":\\\\\\\"0\\\\\\\"}\\\",\\\"fadeInSpeed:int\\\":\\\"20\\\"}\"}"]
+ * @desc Damage (skills) PopUp's visual settings
  * 
  * @param spacer|skillPanel @text‏‏‎ ‎@desc ===============================================
  * 
@@ -85,6 +119,28 @@
  * @default ["{\"position:struct\":\"{\\\"x:e\\\":\\\"302\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"1\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"339\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"2\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"376\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"3\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"413\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"4\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"450\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"5\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"487\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"6\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"524\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"7\"}","{\"position:struct\":\"{\\\"x:e\\\":\\\"561\\\",\\\"y:e\\\":\\\"583\\\"}\",\"symbol\":\"8\"}"]
  * @desc Optional. Skill slots.
  * 
+ * @param spacer|playerAndParty @text‏‏‎ ‎@desc ===============================================
+ * 
+ * @param playerAndPartySettingsGroup
+ * @text Player and Party settings
+ * 
+ * @param isShakeScreenWhenPlayerGetDamage:bool
+ * @parent playerAndPartySettingsGroup
+ * @text Is Shake on Damage?
+ * @type boolean
+ * @on Shake
+ * @off No
+ * @default true
+ * @desc Is shake screen when player receive damage?
+ * 
+ * @param isAutoExpAfterKillEnemy:bool
+ * @parent playerAndPartySettingsGroup
+ * @text Is Auto Exp?
+ * @type boolean
+ * @on Yes
+ * @off No
+ * @default true
+ * @desc Is automatically receive exp from enemy after kill them?
  * 
  * @param spacer|enemies @text‏‏‎ ‎@desc ===============================================
  * 
@@ -148,6 +204,14 @@
  * @max 7
  * @default []
  * @desc The terrains tags (1-7) through which the projectiles can not pass. Global, for all projectiles.
+ * 
+ * @param miniHpGaugeSetings:s
+ * @text Mini HP Gauges
+ * @parent mapSettingsGroup
+ * @type struct<LMiniHpGaugeSettings>
+ * @default {"active:b":"true","showOnlyOnHover:b":"true","showOnDamage:b":"true"}
+ * @desc Mini HP gauges above ABS events settings
+ * 
  * 
  * 
  * 
@@ -257,58 +321,203 @@
 
  */
 
-
-/*~struct~LMapScrollSettings:
-
-@param isEnabled:b
-@text Is Enabled?
-@type boolean
-@on Yes
-@off No
-@default false
-@desc Is Map Scrolling enabled by default? For enable or disable during game you can use uAPI script calls.
-
-@param scrollZone:int
-@text Activation Border Size
-@type number
-@min 10
-@max 50
-@default 10
-@desc Scroll activation borders size on screen edges, in pixels
-
-@param speed:int
-@text Scrolling speed
-@type number
-@min 1
-@max 10
-@default 5
-@desc Camera scrolling speed
-
-@param delay:int
-@text Delay
-@type number
-@min 0
-@default 30
-@desc Delay in frames (60 = 1 second) before starts scrolling
-
-@param resetOnMove:b
-@text Reset when moving?
-@type boolean
-@on Reset
-@off No
-@default true
-@desc Center camera (reset scroll) when player starts moving?
-
-@param resetOnAction:b
-@text Reset on action?
-@type boolean
-@on Reset
-@off No
-@default true
-@desc Center camera (reset scroll) when player affected by any skill (get damage, attacked)?
-
+/*~struct~LDamagePopUpVisualSettings:
+ * @param id
+ * @text ID
+ * @default
+ * @desc Unique ID for refer to this settings in <popUpStyleId:X> parameter
+ *
+ * @param randDX:int
+ * @text Rand DX
+ * @type number
+ * @default 0
+ * @min 0
+ * @desc Random value in pixels (> 0) to add to X at Pop Up start (x +- DX)
+ *
+ * @param randDY:int
+ * @text Rand DY
+ * @type number
+ * @default 0
+ * @min 0
+ * @desc Random value in pixels (> 0) to add to Y at Pop Up start (y + DY)
+ *
+ * @param stayTime:int
+ * @text Life Time
+ * @type number
+ * @default 12
+ * @min 1
+ * @desc Life time before PopUp starts disapear
+ *
+ * @param changeFontSize:int
+ * @text Final Font Size
+ * @type number
+ * @default 22
+ * @min 1
+ * @desc Final value of font size. Can be more, equal or less that in Value text settings 
+ *
+ *
+ * @param noFlyUp:bool
+ * @text Is NO Fly?
+ * @type boolean
+ * @default false
+ * @on Stay still
+ * @off Fly Up
+ * @desc Will be pop up stay still? False - will fly up to disapear
+ * 
+ * @param noFadeOut:bool
+ * @text Is NO Fade?
+ * @type boolean
+ * @default false
+ * @on No Fade
+ * @off Fade out
+ * @desc Will be pop up stay opaque all time? False - will fade out to disapear
+ * 
+ * @param text:struct
+ * @text Value Text
+ * @type struct<CText>
+ * @default {"visible:bool":"true","size:struct":"{\"w:int\":\"100\",\"h:int\":\"100\"}","margins:struct":"{\"x:int\":\"0\",\"y:int\":\"0\"}","alignment:str":"center","outline:struct":"{\"color:css\":\"#000000\",\"width:int\":\"3\"}","font:struct":"{\"face:str\":\"AABS_0\",\"size:int\":\"14\",\"italic:bool\":\"false\"}","textColor:css":"#FFFFFF"}
+ * @desc Text settings. TextBox Size parameter NOT uses.
+ *
+ * @param image:struct
+ * @text Extra image
+ * @default {"name":"","margins:struct":"{\"x:int\":\"0\",\"y:int\":\"0\"}","fadeInSpeed:int":"20"}
+ * @type struct<LDPUImage>
 */
 
+/*~struct~LDPUImage:
+ * @param name
+ * @text Name
+ * @type file
+ * @dir img/pictures/
+ * @require 1
+ * @default
+ * @desc Optional. Addition image file for Pop Up Item.
+ * 
+ * @param margins:struct
+ * @text Margin
+ * @type struct<XY>
+ * @default {"x:int":"0","y:int":"0"}
+ * @desc Position of image, relative Pop Up item
+ *
+ * @param fadeInSpeed:int
+ * @text Fade speed
+ * @type number
+ * @default 20
+ * @min 1
+ * @desc Image fade in speed. Image starts transparent. Set to 255 to show image opaque immediately
+ */
+
+ /*~struct~LDPUExp:
+
+    @param active:b
+    @text Is Enabled?
+    @type boolean
+    @on Yes
+    @off No
+    @default true
+    @desc Is need show Pop Up when EXP given to character? No - disable at all
+
+    @param styleId
+    @text Settings ID
+    @default Experience
+    @desc Pop Up Settings ID from Pop Up Table parameter
+
+    @param textFormat
+    @text Text Format
+    @default +%1 exp
+    @desc Pop Up Text, %1 will be replaced to experience value
+
+    @param aboveChar:b
+    @text Is Above Character?
+    @type boolean
+    @on Yes (above char)
+    @off No (above enemy)
+    @default false
+    @desc Exp Pop Up show above character or above killed enemy?
+
+    @param bindToChar:b
+    @text Bind to char?
+    @type boolean
+    @on Yes (stay above char)
+    @off No (stay on screen)
+    @default false
+    @desc Pop Up will stay above character or (if false) on screen (and moved with screen)
+ */
+
+
+/*~struct~LMiniHpGaugeSettings:
+    @param active:b
+    @text Is Enabled?
+    @type boolean
+    @on Yes
+    @off No
+    @default true
+    @desc Is need show Mini HP gauges for ABS events on map? No - disable at all
+
+    @param showOnlyOnHover:b
+    @text Is Show only on Hover?
+    @type boolean
+    @on Yes (hover)
+    @off No (always)
+    @default true
+    @desc Is show Mini HP gauge only when event hovered? No - always
+
+    @param showOnDamage:b
+    @text Is Show on Damage?
+    @type boolean
+    @on Yes
+    @off No
+    @default true
+    @desc Is show Mini HP gauge for short time when ABS event receive damage?
+*/
+/*~struct~LMapScrollSettings:
+    @param isEnabled:b
+    @text Is Enabled?
+    @type boolean
+    @on Yes
+    @off No
+    @default false
+    @desc Is Map Scrolling enabled by default? For enable or disable during game you can use uAPI script calls.
+
+    @param scrollZone:int
+    @text Activation Border Size
+    @type number
+    @min 10
+    @max 50
+    @default 10
+    @desc Scroll activation borders size on screen edges, in pixels
+
+    @param speed:int
+    @text Scrolling speed
+    @type number
+    @min 1
+    @max 10
+    @default 5
+    @desc Camera scrolling speed
+
+    @param delay:int
+    @text Delay
+    @type number
+    @min 0
+    @default 30
+    @desc Delay in frames (60 = 1 second) before starts scrolling
+
+    @param resetOnMove:b
+    @text Reset when moving?
+    @type boolean
+    @on Reset
+    @off No
+    @default true
+    @desc Center camera (reset scroll) when player starts moving?
+
+    @param resetOnAction:b
+    @text Reset on action?
+    @type boolean
+    @on Reset
+    @off No
+    @default true
+    @desc Center camera (reset scroll) when player affected by any skill (get damage, attacked)?
+*/
 /*~struct~LSkillSlotItem:
  * @param position:struct
  * @text Position
@@ -324,93 +533,91 @@
 
 /*~struct~LInputSettings:
 
-@param LMBMapTouchMode
-@text LMB Map Touch
-@type select
-@option Primary attack
-@option Default (move)
-@option Nothing
-@default Default (move)
-@desc TODO: wiki page?
+    @param LMBMapTouchMode
+    @text LMB Map Touch
+    @type select
+    @option Primary attack
+    @option Default (move)
+    @option Nothing
+    @default Default (move)
+    @desc TODO: wiki page?
 
-@param RMBMapTouchMode
-@text RMB Map Touch
-@type select
-@option Default (menu)
-@option Secondary attack
-@option Move
-@option Turn
-@option Nothing
-@default Turn
-@desc TODO: wiki page?
+    @param RMBMapTouchMode
+    @text RMB Map Touch
+    @type select
+    @option Default (menu)
+    @option Secondary attack
+    @option Move
+    @option Turn
+    @option Nothing
+    @default Turn
+    @desc TODO: wiki page?
 
-@param LMBTargetTouchMode
-@text LMB Target Touch
-@type select
-@option Primary attack
-@option Default (move)
-@option Smart attack (Primary)
-@option Turn
-@default Smart attack (Primary)
-@desc TODO: wiki page?
+    @param LMBTargetTouchMode
+    @text LMB Target Touch
+    @type select
+    @option Primary attack
+    @option Default (move)
+    @option Smart attack (Primary)
+    @option Turn
+    @default Smart attack (Primary)
+    @desc TODO: wiki page?
 
-@param RMBTargetTouchMode
-@text RMB Target Touch
-@type select
-@option Secondary attack
-@option Move
-@option Smart attack (Secondary)
-@option Turn
-@default Smart attack (Secondary)
-@desc TODO: wiki page?
+    @param RMBTargetTouchMode
+    @text RMB Target Touch
+    @type select
+    @option Secondary attack
+    @option Move
+    @option Smart attack (Secondary)
+    @option Turn
+    @default Smart attack (Secondary)
+    @desc TODO: wiki page?
 
-@param moveType
-@text Movement
-@type select
-@option WASD and Arrows
-@option Arrows only
-@default WASD and Arrows
-@desc Keyboard keys for character movement
+    @param moveType
+    @text Movement
+    @type select
+    @option WASD and Arrows
+    @option Arrows only
+    @default WASD and Arrows
+    @desc Keyboard keys for character movement
 
-@param isDiagonalMovement:b
-@text Diagonal Movement?
-@type boolean
-@default true
-@on Yes
-@off No
-@desc Moving in 8 directions?
+    @param isDiagonalMovement:b
+    @text Diagonal Movement?
+    @type boolean
+    @default true
+    @on Yes
+    @off No
+    @desc Moving in 8 directions?
 
-@param isStaticAtkRot:b
-@text Attack when rotation?
-@type boolean
-@default true
-@on Yes
-@off No
-@desc Always only attack (no move) when rotating if mouse clicked on map?
+    @param isStaticAtkRot:b
+    @text Attack when rotation?
+    @type boolean
+    @default true
+    @on Yes
+    @off No
+    @desc Always only attack (no move) when rotating if mouse clicked on map?
 
-@param keybingind
-@text Key Bindings
+    @param keybingind
+    @text Key Bindings
 
-@param kbReload
-@text Reload
-@parent keybingind
-@default R
-@desc TODO:
+    @param kbReload
+    @text Reload
+    @parent keybingind
+    @default R
+    @desc TODO:
 
-@param kbCommandMenu
-@text Commands
-@parent keybingind
-@default C
-@desc TODO:
+    @param kbCommandMenu
+    @text Commands
+    @parent keybingind
+    @default C
+    @desc TODO:
 
-@param kbRotate
-@text Rotate
-@parent keybingind
-@default Control
-@desc TODO:
-
+    @param kbRotate
+    @text Rotate
+    @parent keybingind
+    @default Control
+    @desc TODO:
 */
-
 /*~struct~LActorGauge:
  * @param visible:bool
  * @text Is Visible?

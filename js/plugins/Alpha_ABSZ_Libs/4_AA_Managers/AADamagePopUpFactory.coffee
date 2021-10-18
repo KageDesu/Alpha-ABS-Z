@@ -11,7 +11,18 @@ do ->
     #@[DEFINES]
     _ = AADamagePopUpFactory
 
+    _.createExpPopUpData = (value, charToShowAbove) ->
+        try
+            valueText = AA.PP.getExpPopUpSettings().textFormat.replace("%1", value)
+            settings = AA.PP.getExpPopUpSettings().styleId
+            return @_createFromSettings(settings, valueText)
+        catch e
+            AA.w e
+            return null
+
     _.createDamagePopUpData = (battler) ->
+        # * Если отключены, то ничего не возвращяем
+        return null unless AA.PP.isPopUpIsActive()
         result = battler.result()
         if result.missed or result.evaded
             return @_createMiss()
@@ -21,8 +32,7 @@ do ->
             return @_createMpDamage(result)
         return null # * Нет ничего
 
-    #TODO: Miss Вынести в словарь (параметры плагина)
-    _._createMiss = () -> @_createFromSettings("Miss_For_All", "Miss")
+    _._createMiss = () -> @_createFromSettings("Miss_For_All", AA.PP.getTextForPopUpMiss())
 
     _._createFromSettings = (styleId, value) ->
         return {
@@ -52,7 +62,7 @@ do ->
         if @_isHaveSpecialStyle(result)
             return @_createFromSettings(result.getUsedAASkill().popUpStyleId, value)
         else
-            return @_createFromSettings("Damage_Other_Any", value)
+            return @_createFromSettings("Damage_Other_For_All", value)
 
     # * Чтобы лечение было с +
     _._convertValue = (value) ->

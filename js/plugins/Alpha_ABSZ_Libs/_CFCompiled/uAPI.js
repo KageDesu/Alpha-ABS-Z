@@ -132,7 +132,7 @@ uAPI = function() {};
     };
     //TODO: Этот метод добавить в SActions !!!
     //TODO: show on map point, show on screen point
-    return _.showPopUpOnChar = function(charId, styleId, value, isVariable) {
+    _.showPopUpOnChar = function(charId, styleId, value, isVariable) {
       var char, e, settings;
       try {
         if (!KDCore.Utils.isSceneMap()) {
@@ -157,6 +157,9 @@ uAPI = function() {};
         return KDCore.warning(e);
       }
     };
+    //TODO: Доделать и надо Wiki страницу и демку карту с примерами
+    _.showPopUpOnMap = function() {};
+    return _.showPopUpOnScreen = function() {};
   })();
   (function() {    // * Камера
     // -----------------------------------------------------------------------

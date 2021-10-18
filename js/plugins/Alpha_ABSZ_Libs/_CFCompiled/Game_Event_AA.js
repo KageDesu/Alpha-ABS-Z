@@ -175,7 +175,10 @@
       try {
         //TODO: subject пока не учитываем, так как только игрок может убить врага
         if (AA.PP.isAutoExpAfterKillEnemy()) {
-          return uAPI.gainExpForEnemyEv(this.eventId());
+          // * Если Exp Pop Up должен появляться над "дающим" опыт врагом
+          $gameTemp.__aaExpGiver = this;
+          uAPI.gainExpForEnemyEv(this.eventId());
+          return $gameTemp.__aaExpGiver = null;
         }
       } catch (error) {
         e = error;

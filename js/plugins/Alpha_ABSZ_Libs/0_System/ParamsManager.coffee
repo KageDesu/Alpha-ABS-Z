@@ -15,7 +15,6 @@ do ->
             uAPI.disableMapScroll() if @getMapScrollingSettings().isEnabled is false
             return
 
-        # * Стандартные: ["AABS_0","AABS_1", "AABS_2"]
         fonts: -> @getParam("fonts", [])
 
         uiData: (tag) ->
@@ -161,16 +160,22 @@ do ->
                 else
                     null
 
-        getMiniHpGaugeSettings: () -> {
-            active: true
-            showOnlyOnHover: true
-            showOnDamage: true
-        }
+        # * POP UP
+        # -----------------------------------------------------------------------
 
-        isShakeScreenWhenPlayerGetDamage: () -> true
+        isPopUpIsActive: () -> @getParam("isShowPopUp", true)
+
+        getTextForPopUpMiss: () -> @getParam("popUpTextForMiss", "Miss")
+
+        getExpPopUpSettings: () -> @getParam("popUpExpSettings", {
+            active: true
+            textFormat: "+%1 exp"
+            styleId: "Experience"
+            aboveChar: false,
+            bindToChar: false
+        })
 
         #TODO: Всплывающий урон вынести в отдельный плагин
-        #TODO: Сделать параметры всплывающего урона
         getPopUpDamageSettings: (id) ->
             settings = @getParam("popUpDamageTable", [])
             data = settings.getById(id)
@@ -179,7 +184,7 @@ do ->
             else
                 return {
                     id: "default",
-                    randDX: 10,
+                    randDX: 15,
                     randDY: 10,
                     stayTime: 12,
                     noFlyUp: false,
@@ -187,32 +192,34 @@ do ->
                     changeFontSize: 22,
                     text: {
                         visible: true,
-                        marginX: 0,
-                        marginY: 0,
-                        position: "center",
-                        outlineColor: null,
-                        outlineWidth: 2,
-                        fontFace: "AABS_3",
-                        textColor: "#E6E6E6",
-                        fontSize: 18,
-                        fontItalic: false
+                        size: { w: 0, h: 0 }, # * not used
+                        margins: { x: 0, y: 0 }
+                        alignment: "center",
+                        outline: { color: null, width: 2 },
+                        font: { face: "AABS_3", size: 18, italic: false },
+                        textColor: "#E6E6E6".toCss()
                     },
-                    image: {
-                        name: "",
-                        marginX: 0,
-                        marginY: 0,
-                        fadeInSpeed: 20
-                    }
+                    image: null
                 }
 
-        isAutoExpAfterKillEnemy: -> true
+        
+        # * Игрок и партия
+        # -----------------------------------------------------------------------
+        # * Получать опыт автоматически при убийстве врагов
+        isAutoExpAfterKillEnemy: -> @getParam("isAutoExpAfterKillEnemy", true)
+        # * Тряска экрана когда игрок получил урон
+        isShakeScreenWhenPlayerGetDamage: () -> @getParam("isShakeScreenWhenPlayerGetDamage", true)
+
+        # * Враги
+        # -----------------------------------------------------------------------
+        # * Глобальные непроходимые участки карты для визоров
+        getVisionRestrictedRegions: -> @getParam("enemies_noPassVision", [])
+        getVisionRestrictedTerrains: -> @getParam("enemies_noPassVision2", [])
 
         # * Карта
         # -----------------------------------------------------------------------
 
-        # * Глобальные непроходимые участки карты для визоров и Projectile
-        getVisionRestrictedRegions: -> @getParam("enemies_noPassVision", [])
-        getVisionRestrictedTerrains: -> @getParam("enemies_noPassVision2", [])
+        # * Глобальные непроходимые участки карты для Projectile
         getProjectileRestrictedRegions: -> @getParam("map_noProjectilePass", [])
         getProjectileRestrictedTerrains: -> @getParam("map_noProjectilePass2", [])
 
@@ -225,6 +232,11 @@ do ->
         #TODO: ItemGain вынести в отдельный плагин
         isShowItemGainNotify: -> @getParam("isShowItemGainNotify", true)
 
+        getMiniHpGaugeSettings: () -> @getParam("miniHpGaugeSetings", {
+            active: true
+            showOnlyOnHover: true
+            showOnDamage: true
+        })
 
         # * Панель навыков
         # -----------------------------------------------------------------------
