@@ -21,6 +21,9 @@ uAPI = function() {};
     _.setSkillToPanel = function(skillId, slotSymbol) {
       var e, ref, ref1, ref2;
       try {
+        if (slotSymbol != null) {
+          slotSymbol = slotSymbol.toString();
+        }
         if (skillId <= 0) { // * Удаляем навык из панели
           if (AA.Utils.isSkillPanelSymbol(slotSymbol)) {
             if ((ref = $gamePlayer.aaSkillsSet) != null) {
@@ -68,6 +71,9 @@ uAPI = function() {};
     // * Если навыка нет или неверно указан slotSymbol - будет возвращён 0
     return _.getSkillIdFromPanel = function(slotSymbol) {
       var ref;
+      if (slotSymbol != null) {
+        slotSymbol = slotSymbol.toString();
+      }
       return (ref = $gamePlayer.aaSkillsSet) != null ? ref.getSkillForSymbol(slotSymbol) : void 0;
     };
   })();

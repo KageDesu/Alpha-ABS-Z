@@ -22,6 +22,7 @@ do ->
         # * slotSymbol == null - в любое не занятое место
         _.setSkillToPanel = (skillId, slotSymbol) ->
             try
+                slotSymbol = slotSymbol.toString() if slotSymbol?
                 if skillId <= 0 # * Удаляем навык из панели
                     if AA.Utils.isSkillPanelSymbol(slotSymbol)
                         $gamePlayer.aaSkillsSet?.setSymbolForSkill(0, slotSymbol, null)
@@ -51,7 +52,9 @@ do ->
             return
 
         # * Если навыка нет или неверно указан slotSymbol - будет возвращён 0
-        _.getSkillIdFromPanel = (slotSymbol) -> $gamePlayer.aaSkillsSet?.getSkillForSymbol(slotSymbol)
+        _.getSkillIdFromPanel = (slotSymbol) ->
+            slotSymbol = slotSymbol.toString() if slotSymbol?
+            return $gamePlayer.aaSkillsSet?.getSkillForSymbol(slotSymbol)
 
     # * Система АБС
     # -----------------------------------------------------------------------

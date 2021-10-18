@@ -46,7 +46,7 @@
       }
       // * Для сохранения производительности, сперва просто смотрим есть ли ABS комментарий
       ABSComment = KDCore.Utils.getEventCommentValue("ABS", this.list());
-      if (ABSComment != null) {
+      if ((ABSComment != null) && (ABSComment.match(/<ABS:\s*\d+>/) != null)) {
         // * Дополнительная проверка, что указан правильный ID
         enemyId = AA.Utils.Parser.getABSEnemyId(ABSComment);
         if (enemyId > 0) {
