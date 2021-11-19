@@ -133,7 +133,7 @@
   };
   // * Все эти режимы движения, не имеют собственной логики окончания (выхода из режима)
   _.aaUpdateSelfMovementForAI = function() {
-    if (!this._locked && !this.isMoving() && this.isNearTheScreen()) {
+    if (!this._locked && !this.isMoving()) {
       switch (this._moveType) {
         case 91: // * Approach target
           this.aaMoveTypeToTarget(); //TODO: Пока просто к игроку

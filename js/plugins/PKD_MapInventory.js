@@ -7,7 +7,7 @@
 
  // * CHANGELOG ===================
  /*
- * v 2.0 (18.09.2021)
+ * v 2.0 (19.09.2021)
  * - New: Gamepad support
  * - New: Addition weapons and equipment's parameters (SP, EX) (PRO)
  * - New: Addition custom weapons and equipment's descriptions (PRO)
@@ -17,6 +17,7 @@
  * - Fixed: Battle Test from RPG Maker Editor not works with Map Inventory Plugin
  * - Fixed: Sticky inventory (chest) windows when dragging
  * - Added support for: Alpha NET Z multiplayer plugin
+ * - Added support for: Alpha ABS Z active battle system plugin
  * - Some small fixes and changes
  *
  * v 1.9 (11.05.2021)
@@ -1298,7 +1299,7 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
         if (Input._kdIsGamepadExtended === true) {
           KDGamepad.update();
         }
-        if ($gameTemp.__kdgpStopDefaultGamepad === true) {
+        if ((typeof $gameTemp !== "undefined" && $gameTemp !== null ? $gameTemp.__kdgpStopDefaultGamepad : void 0) === true) {
           return;
         }
         // * Режим перемещения без DPad

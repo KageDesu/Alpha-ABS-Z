@@ -4,6 +4,15 @@ Imported.Alpha_ABSZ = true;
 // * Проверка Alpha_Core
 if(!Imported.Alpha_Core) {
     alert("Alpha ABSZ require Alpha_@Core plugin!");
+} else {
+    try {
+        if(AA.Core.version < 0.4) {
+            alert("Alpha ABSZ require Alpha_@Core version 0.4 or above!");
+        }
+    } catch (e) {
+        console.warn("Something wrong with Alpha_@Core plugin");
+        console.warn(e);
+    }
 }
 //? Символ AA определяется в Alpha_Core
 

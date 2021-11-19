@@ -5,6 +5,7 @@ class Window_SkillSelectorList extends Window_Selectable
         @setBackgroundType(2)
         @catIndex = -1
         @skillSymbol = null
+        #TODO: not used variable!!!
         @skills = []
         return
 

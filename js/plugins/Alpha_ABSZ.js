@@ -8,9 +8,6 @@
  *
  * Documentation: https://github.com/KageDesu/Alpha-ABS-Z/wiki
  *
- * Alpha ABS Z - PREVIEW build
- * Not recommended making game with this plugins yet
- * Only for testing and preview purposes
 
  * @param AABSZ @text @desc
  * 
