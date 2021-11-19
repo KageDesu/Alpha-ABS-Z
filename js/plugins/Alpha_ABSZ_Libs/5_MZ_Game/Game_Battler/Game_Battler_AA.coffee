@@ -24,6 +24,26 @@ do ->
         @removeBuffsAuto()
         return
 
+    # * Запросить анимацию взмаха оружия (не AnimaX, а стандартная как было в АБС)
+    # * См. в редакторе System -> [SV] Attack Motions
+    # * Файлы -> System\weapons
+    _.aaPlayAAWeaponMotionAnimation = (skill) ->
+        try
+            # * ID номер оружия указа в навыке
+            if skill.isHaveWeaponMotionSpecialType()
+                @startWeaponAnimation(skill.weaponMotionType)
+            else # * Иначе стандартная (0 или оружие в руках)
+                weaponId = @getDefaultWeaponMotionAnimationWeaponId()
+                @startWeaponAnimation(weaponId) if weaponId > 0
+        catch e
+            AA.w e
+        return
+
+    # * Если параметр навыка weaponMotionType == 0, то этот метод вызывается
+    # * Реализация на Actor и Enemy разная
+    _.getDefaultWeaponMotionAnimationWeaponId = -> 0 # * 0 - нету
+
+
     #TODO: attackSkillId - метод у МЗ лучше, чем у МВ (там капец)
 
     return

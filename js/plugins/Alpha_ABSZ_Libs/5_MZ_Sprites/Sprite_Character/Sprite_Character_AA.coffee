@@ -10,6 +10,7 @@ do ->
     # * Создать дополнительные спрайты для ABS системы
     _.initABS = ->
         @_aaSetupExtraInfo()
+        @_aaSetupWeaponMotionSprite()
 
     _.isPlayer = -> @_character == $gamePlayer
 
@@ -25,6 +26,7 @@ do ->
         @_aaUpdateSelectionBlend()
         @_aaUpdateDamagePopUps()
         @_aaUpdateSpriteEffects()
+        @_aaUpdateWeaponMotion()
         return
 
     _._aaUpdateDamagePopUps = ->

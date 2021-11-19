@@ -9,7 +9,8 @@
   _ = Sprite_Character.prototype;
   // * Создать дополнительные спрайты для ABS системы
   _.initABS = function() {
-    return this._aaSetupExtraInfo();
+    this._aaSetupExtraInfo();
+    return this._aaSetupWeaponMotionSprite();
   };
   _.isPlayer = function() {
     return this._character === $gamePlayer;
@@ -28,6 +29,7 @@
     this._aaUpdateSelectionBlend();
     this._aaUpdateDamagePopUps();
     this._aaUpdateSpriteEffects();
+    this._aaUpdateWeaponMotion();
   };
   _._aaUpdateDamagePopUps = function() {
     var b, data;

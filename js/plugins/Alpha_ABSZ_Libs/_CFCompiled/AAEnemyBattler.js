@@ -47,6 +47,18 @@ AAEnemyBattler = class AAEnemyBattler extends Game_Enemy {
     return 0;
   }
 
+  //$[OVER]
+  getDefaultWeaponMotionAnimationWeaponId() {
+    var e;
+    try {
+      return this.char().AAModel().weaponMotionType;
+    } catch (error) {
+      e = error;
+      AA.w(e);
+    }
+    return 0;
+  }
+
 };
 
 (function() {  //╒═════════════════════════════════════════════════════════════════════════╛

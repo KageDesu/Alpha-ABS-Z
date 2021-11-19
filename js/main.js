@@ -115,6 +115,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AAEffects.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AAInfo.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Character_AAWeapMotion.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_CharacterMiniGauge.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_EnemyInfo.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_PopTreasureItem.js"
@@ -122,6 +123,8 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillPanelItem.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillPanelOutline.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_SkillPanelOutlineDummy.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Weapon_@.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Sprite_Weapon_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Spriteset_Map_AA_Animation.js"
@@ -279,6 +282,9 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
 
 
 

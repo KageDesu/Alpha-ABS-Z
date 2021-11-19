@@ -76,6 +76,8 @@ AAEnemyModelData = (function() {
       this.shatterEffect = 1;
       this.deadSwitch = 0; //Switch (A, B, C, D)
       this.eraseOnDead = 1;
+      // * Тип атаки Motion, если у навыка есть isHaveWeaponMotion
+      this.weaponMotionType = 3; //0
     };
     _._initVisualSettings = function() {
       this.faceName = ""; // имя файла в папке faces

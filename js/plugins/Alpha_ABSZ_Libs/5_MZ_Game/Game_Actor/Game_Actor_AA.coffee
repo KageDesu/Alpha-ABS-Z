@@ -24,6 +24,18 @@ do ->
     #$[OVER]
     _.getAAItems = -> $gameParty.items().filter (item) -> AA.Utils.isAAObject(item)
     
+    #$[OVER]
+    # * По умолчанию (если тип weaponMotionType не указан анимации, то по типу оружия в руках)
+    _.getDefaultWeaponMotionAnimationWeaponId = ->
+        try
+            weapons = @weapons()
+            wtypeId = if weapons[0]? then weapons[0].wtypeId else 0
+            attackMotion = $dataSystem.attackMotions[wtypeId]
+            return attackMotion.weaponImageId if attackMotion?
+        catch e
+            AA.w
+        return 0
+
     return
 # ■ END Game_Actor.coffee
 #---------------------------------------------------------------------------

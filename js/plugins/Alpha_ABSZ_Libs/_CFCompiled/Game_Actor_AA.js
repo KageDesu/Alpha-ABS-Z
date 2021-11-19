@@ -31,6 +31,24 @@
       return AA.Utils.isAAObject(item);
     });
   };
+  
+  //$[OVER]
+  // * По умолчанию (если тип weaponMotionType не указан анимации, то по типу оружия в руках)
+  _.getDefaultWeaponMotionAnimationWeaponId = function() {
+    var attackMotion, e, weapons, wtypeId;
+    try {
+      weapons = this.weapons();
+      wtypeId = weapons[0] != null ? weapons[0].wtypeId : 0;
+      attackMotion = $dataSystem.attackMotions[wtypeId];
+      if (attackMotion != null) {
+        return attackMotion.weaponImageId;
+      }
+    } catch (error) {
+      e = error;
+      AA.w;
+    }
+    return 0;
+  };
 })();
 
 // ■ END Game_Actor.coffee

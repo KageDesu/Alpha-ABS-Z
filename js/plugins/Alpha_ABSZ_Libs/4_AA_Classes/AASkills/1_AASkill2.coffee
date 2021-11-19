@@ -85,6 +85,10 @@ class AASkill2
 
     isForFriendsOnly: -> @isForFriends() and !@isForEnemies()
 
+    isHaveWeaponMotion: -> true #@weaponMotion > 1
+
+    isHaveWeaponMotionSpecialType: -> @weaponMotionType > 0
+
     # * Время перезарядки навыка (cooldown)
     getReloadTime: (battlerOrChar) ->
         if isFinite(@reloadTime)
@@ -109,6 +113,7 @@ class AASkill2
         @skillImg = ""
         @animaXAction = "Attack"
         @actionStartDelay = 10
+        @weaponMotion = 0
         return
 
 
@@ -168,6 +173,10 @@ do ->
         @noPassTerrains = []
         # * Селектор карты
         @_initSelector()
+        # * Анимация взмаха оружием (стандартная)
+        @weaponMotion = 0 # * 0 - нету, 1 - есть (перекрывает AnimaX)
+        # * Только если weaponMotion > 0
+        @weaponMotionType = 0 #* 0 - оружие в руке (Actor), 1-X тип оружия из списка Types
         return
 
     # * Параметры селектора на карте

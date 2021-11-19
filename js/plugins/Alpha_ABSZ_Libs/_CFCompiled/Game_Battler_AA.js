@@ -28,8 +28,34 @@
     this.removeStatesAuto(1);
     this.removeBuffsAuto();
   };
+  // * Запросить анимацию взмаха оружия (не AnimaX, а стандартная как было в АБС)
+  // * См. в редакторе System -> [SV] Attack Motions
+  // * Файлы -> System\weapons
+  _.aaPlayAAWeaponMotionAnimation = function(skill) {
+    var e, weaponId;
+    try {
+      // * ID номер оружия указа в навыке
+      if (skill.isHaveWeaponMotionSpecialType()) {
+        this.startWeaponAnimation(skill.weaponMotionType); // * Иначе стандартная (0 или оружие в руках)
+      } else {
+        weaponId = this.getDefaultWeaponMotionAnimationWeaponId();
+        if (weaponId > 0) {
+          this.startWeaponAnimation(weaponId);
+        }
+      }
+    } catch (error) {
+      e = error;
+      AA.w(e);
+    }
+  };
+  // * Если параметр навыка weaponMotionType == 0, то этот метод вызывается
+  // * Реализация на Actor и Enemy разная
+  _.getDefaultWeaponMotionAnimationWeaponId = function() {
+    return 0; // * 0 - нету
+  };
 })();
 
 // ■ END Game_Battler.coffee
 //---------------------------------------------------------------------------
+
 //TODO: attackSkillId - метод у МЗ лучше, чем у МВ (там капец)

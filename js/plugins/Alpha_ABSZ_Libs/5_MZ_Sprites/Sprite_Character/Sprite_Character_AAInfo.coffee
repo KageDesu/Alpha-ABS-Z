@@ -7,6 +7,9 @@ do ->
     #@[DEFINES]
     _ = Sprite_Character::
 
+    #TODO: Тут стоит условие return unless @isABSEntity(), возможно если сначала событие было
+    # * не АБС, а потом станет АБС, то не будет MiniHP Bar видно, проверить и исправить!
+
     _._aaSetupExtraInfo = ->
         return unless @isABSEntity()
         # * Игрок не имеет дополнительной информации

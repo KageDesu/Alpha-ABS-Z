@@ -7,6 +7,8 @@
   var _;
   //@[DEFINES]
   _ = Sprite_Character.prototype;
+  //TODO: Тут стоит условие return unless @isABSEntity(), возможно если сначала событие было
+  // * не АБС, а потом станет АБС, то не будет MiniHP Bar видно, проверить и исправить!
   _._aaSetupExtraInfo = function() {
     if (!this.isABSEntity()) {
       return;

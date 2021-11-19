@@ -25,7 +25,12 @@
     }
     //TODO: Тут можно ещё дополнительную проверку canUse
     // так как пока шёл выборо цели (например) мана могла закончиться
-    this.aaPlayAASkillXAnimation(skill);
+    // * Если есть анимация motion оружия, то анимация навыка пропускается
+    if (skill.isHaveWeaponMotion()) {
+      this.AABattler().aaPlayAAWeaponMotionAnimation(skill);
+    } else {
+      this.aaPlayAASkillXAnimation(skill);
+    }
     // * Персонаж "платит" за навык как только использует его
     this.AABattler().useItem(skill.dbItem());
     // * Стоит ограничение задержки для безопасности

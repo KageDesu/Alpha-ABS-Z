@@ -58,6 +58,8 @@ class AAEnemyModelData
             @shatterEffect = 1
             @deadSwitch = 0 #Switch (A, B, C, D)
             @eraseOnDead = 1
+            # * Тип атаки Motion, если у навыка есть isHaveWeaponMotion
+            @weaponMotionType = 3#0
             return
 
         _._initVisualSettings = ->

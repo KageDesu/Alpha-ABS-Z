@@ -130,6 +130,14 @@ AASkill2 = class AASkill2 {
     return this.isForFriends() && !this.isForEnemies();
   }
 
+  isHaveWeaponMotion() {
+    return true; //@weaponMotion > 1
+  }
+
+  isHaveWeaponMotionSpecialType() {
+    return this.weaponMotionType > 0;
+  }
+
   // * Время перезарядки навыка (cooldown)
   getReloadTime(battlerOrChar) {
     if (isFinite(this.reloadTime)) {
@@ -158,6 +166,7 @@ AASkill2 = class AASkill2 {
     this.skillImg = "";
     this.animaXAction = "Attack";
     this.actionStartDelay = 10;
+    this.weaponMotion = 0;
   }
 
 };
@@ -216,6 +225,10 @@ AASkill2 = class AASkill2 {
     this.noPassTerrains = [];
     // * Селектор карты
     this._initSelector();
+    // * Анимация взмаха оружием (стандартная)
+    this.weaponMotion = 0; // * 0 - нету, 1 - есть (перекрывает AnimaX)
+    // * Только если weaponMotion > 0
+    this.weaponMotionType = 0; //* 0 - оружие в руке (Actor), 1-X тип оружия из списка Types
   };
   // * Параметры селектора на карте
   _._initSelector = function() {

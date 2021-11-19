@@ -25,6 +25,14 @@ class AAEnemyBattler extends Game_Enemy
     # * У монстров не может быть двуручной атаки, поэтому всегда 0
     attackAnimationId2: -> 0
 
+    #$[OVER]
+    getDefaultWeaponMotionAnimationWeaponId: ->
+        try
+            return @char().AAModel().weaponMotionType
+        catch e
+            AA.w e
+        return 0
+
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AAEnemyBattler.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛

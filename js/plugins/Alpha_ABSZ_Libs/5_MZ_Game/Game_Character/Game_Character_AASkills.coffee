@@ -20,7 +20,11 @@ do ->
         @turnTowardCharacter(point) if skill.isInPoint()
         #TODO: Тут можно ещё дополнительную проверку canUse
         # так как пока шёл выборо цели (например) мана могла закончиться
-        @aaPlayAASkillXAnimation(skill)
+        # * Если есть анимация motion оружия, то анимация навыка пропускается
+        if skill.isHaveWeaponMotion()
+            @AABattler().aaPlayAAWeaponMotionAnimation(skill)
+        else
+            @aaPlayAASkillXAnimation(skill)
         # * Персонаж "платит" за навык как только использует его
         @AABattler().useItem(skill.dbItem())
         # * Стоит ограничение задержки для безопасности
