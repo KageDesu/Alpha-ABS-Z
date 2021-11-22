@@ -34,7 +34,8 @@ do ->
             # * Если игрок не настроил навык Атаки, то применим стандартные настройки
             unless attackSkill.meta.ABS?
                 attackSkill.meta.ABS = true
-                attackSkill.AASkill = new AASkill2(1, false)
+                attackSkill.idA = 1
+                attackSkill.AASkill = new AASkill2(attackSkill.idA)
                 attackSkill.AASkill.applyDefaultAttack001()
         catch e
             AA.cre e, 'Something wrong with Attack skill [1] settings'

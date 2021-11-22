@@ -48,7 +48,8 @@
       // * Если игрок не настроил навык Атаки, то применим стандартные настройки
       if (attackSkill.meta.ABS == null) {
         attackSkill.meta.ABS = true;
-        attackSkill.AASkill = new AASkill2(1, false);
+        attackSkill.idA = 1;
+        attackSkill.AASkill = new AASkill2(attackSkill.idA);
         attackSkill.AASkill.applyDefaultAttack001();
       }
     } catch (error) {

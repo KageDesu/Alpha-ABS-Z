@@ -23,14 +23,13 @@
     if (skill.isInPoint()) {
       this.turnTowardCharacter(point);
     }
-    //TODO: Тут можно ещё дополнительную проверку canUse
-    // так как пока шёл выборо цели (например) мана могла закончиться
-    // * Если есть анимация motion оружия, то анимация навыка пропускается
     if (skill.isHaveWeaponMotion()) {
+      //TODO: Тут можно ещё дополнительную проверку canUse
+      // так как пока шёл выборо цели (например) мана могла закончиться
+      // * Анимация Motion и AnimaX могут работать вместе
       this.AABattler().aaPlayAAWeaponMotionAnimation(skill);
-    } else {
-      this.aaPlayAASkillXAnimation(skill);
     }
+    this.aaPlayAASkillXAnimation(skill);
     // * Персонаж "платит" за навык как только использует его
     this.AABattler().useItem(skill.dbItem());
     // * Стоит ограничение задержки для безопасности

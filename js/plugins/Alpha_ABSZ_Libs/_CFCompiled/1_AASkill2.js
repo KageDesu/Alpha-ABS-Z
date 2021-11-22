@@ -131,7 +131,7 @@ AASkill2 = class AASkill2 {
   }
 
   isHaveWeaponMotion() {
-    return true; //@weaponMotion > 1
+    return this.weaponMotion >= 1;
   }
 
   isHaveWeaponMotionSpecialType() {
@@ -164,9 +164,14 @@ AASkill2 = class AASkill2 {
     this.noContact = 0;
     this.reloadTime = 2;
     this.skillImg = "";
-    this.animaXAction = "Attack";
     this.actionStartDelay = 10;
-    this.weaponMotion = 0;
+    this.reloadTime = 1.2;
+    // * По умолчанию выборка
+    if (Imported.PKD_AnimaX === true) {
+      this.animaXAction = "Attack";
+    } else {
+      this.weaponMotion = 1;
+    }
   }
 
 };
@@ -226,7 +231,7 @@ AASkill2 = class AASkill2 {
     // * Селектор карты
     this._initSelector();
     // * Анимация взмаха оружием (стандартная)
-    this.weaponMotion = 0; // * 0 - нету, 1 - есть (перекрывает AnimaX)
+    this.weaponMotion = 0; // * 0 - нету, 1 - есть
     // * Только если weaponMotion > 0
     this.weaponMotionType = 0; //* 0 - оружие в руке (Actor), 1-X тип оружия из списка Types
   };

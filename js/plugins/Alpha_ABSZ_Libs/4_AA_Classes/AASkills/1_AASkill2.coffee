@@ -85,7 +85,7 @@ class AASkill2
 
     isForFriendsOnly: -> @isForFriends() and !@isForEnemies()
 
-    isHaveWeaponMotion: -> true #@weaponMotion > 1
+    isHaveWeaponMotion: -> @weaponMotion >= 1
 
     isHaveWeaponMotionSpecialType: -> @weaponMotionType > 0
 
@@ -111,9 +111,13 @@ class AASkill2
         @noContact = 0
         @reloadTime = 2
         @skillImg = ""
-        @animaXAction = "Attack"
         @actionStartDelay = 10
-        @weaponMotion = 0
+        @reloadTime = 1.2
+        # * По умолчанию выборка
+        if Imported.PKD_AnimaX is true
+            @animaXAction = "Attack"
+        else
+            @weaponMotion = 1
         return
 
 
@@ -174,7 +178,7 @@ do ->
         # * Селектор карты
         @_initSelector()
         # * Анимация взмаха оружием (стандартная)
-        @weaponMotion = 0 # * 0 - нету, 1 - есть (перекрывает AnimaX)
+        @weaponMotion = 0 # * 0 - нету, 1 - есть
         # * Только если weaponMotion > 0
         @weaponMotionType = 0 #* 0 - оружие в руке (Actor), 1-X тип оружия из списка Types
         return
