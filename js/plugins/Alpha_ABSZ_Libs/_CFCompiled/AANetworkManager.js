@@ -14,30 +14,59 @@ AANetworkManager = function() {};
   (function() {    // * Методы (запросы - отправка на сервер, requests)
     // * ======================================================================
     // -----------------------------------------------------------------------
+    // * В этих методах всегда много проверок, чтобы не загружать лишний раз севрер
+
     //TODO: В MV другой метод немного
-    _.playAnimationOnCharacter = function(target, animationId) {
+    _.playAnimationOnCharacter = function(character, animationId) {
       var e;
       try {
-        if (target == null) {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        if (character == null) {
           return;
         }
         if (animationId <= 0) {
           return;
         }
-        target = AA.Network.packMapChar(target);
-        return this.sendToServer("playAnimationOnCharacter", {target, animationId});
+        character = AA.Network.packMapChar(character);
+        return this.sendToServer("playAnimationOnCharacter", {character, animationId});
       } catch (error) {
         e = error;
         return AA.w(e);
       }
     };
-    return _.playAnimationOnMap = function(x, y, animationId) {
+    _.playAnimationOnMap = function(x, y, animationId) {
       var e;
       try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
         if (animationId <= 0) {
           return;
         }
         return this.sendToServer("playAnimationOnMap", {x, y, animationId});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.showDamagePopUpOnCharacter = function(character, data) {
+      var e, styleId, value;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        if (character == null) {
+          return;
+        }
+        if (data == null) {
+          return;
+        }
+        character = AA.Network.packMapChar(character);
+        styleId = data.settings.id;
+        value = data.value;
+        return this.sendToServer("showDamagePopUpOnCharacter", {character, styleId, value});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -48,23 +77,23 @@ AANetworkManager = function() {};
     // * ======================================================================
     // -----------------------------------------------------------------------
     _.playAnimationOnCharacter_RESP = function(response) {
-      var animationId, e, target;
+      var animationId, character, e;
       try {
         if (!AA.Network.isAvailableForVisual(response)) {
           return;
         }
-        ({target, animationId} = response.content);
-        target = AA.Network.unpackMapChar(target);
-        if (target == null) {
+        ({character, animationId} = response.content);
+        character = AA.Network.unpackMapChar(character);
+        if (character == null) {
           return;
         }
-        return AABattleActionsManager.playAnimationOnCharacter(target, animationId);
+        return AABattleActionsManager.playAnimationOnCharacter(character, animationId);
       } catch (error) {
         e = error;
         return AA.w(e);
       }
     };
-    return _.playAnimationOnMap_RESP = function(response) {
+    _.playAnimationOnMap_RESP = function(response) {
       var animationId, e, x, y;
       try {
         if (!AA.Network.isAvailableForVisual(response)) {
@@ -72,6 +101,29 @@ AANetworkManager = function() {};
         }
         ({x, y, animationId} = response.content);
         return AABattleActionsManager.playAnimationOnMap(x, y, animationId);
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.showDamagePopUpOnCharacter_RESP = function(response) {
+      var character, data, e, ref, styleId, value;
+      try {
+        if (!AA.Network.isAvailableForVisual(response)) {
+          return;
+        }
+        ({character, styleId, value} = response.content);
+        character = AA.Network.unpackMapChar(character);
+        if (character == null) {
+          return;
+        }
+        data = AADamagePopUpFactory._createFromSettings(styleId, value);
+        if (data == null) {
+          return;
+        }
+        Sprite_AADamagePopUpItem.CreateOnCharacterBinded(character, data.settings, data.value);
+        // * Чтобы HP минибар обновился
+        return (ref = character.AASprite()) != null ? ref._aaRefreshExtraInfoOnDamage() : void 0;
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -93,7 +145,12 @@ AANetworkManager = function() {};
         method = this[cmd + "_RESP"];
         if (method != null) {
           $gameTemp.aaIsLocalOnly = true;
-          method(response);
+          try {
+            method(response);
+          } catch (error) {
+            e = error;
+            AA.w(cmd, e);
+          }
           return $gameTemp.aaIsLocalOnly = false;
         } else {
           return AA.w('Network: Handler for ' + cmd + ' not found');

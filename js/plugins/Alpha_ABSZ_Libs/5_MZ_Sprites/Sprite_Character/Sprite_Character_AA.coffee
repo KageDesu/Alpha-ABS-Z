@@ -34,7 +34,9 @@ do ->
         b = @_character.AABattler()
         return unless b.isDamagePopupRequested()
         data = AADamagePopUpFactory.createDamagePopUpData(b)
-        Sprite_AADamagePopUpItem.CreateOnCharacterBinded(@_character, data.settings, data.value) if data?
+        if data?
+            Sprite_AADamagePopUpItem.CreateOnCharacterBinded(@_character, data.settings, data.value)
+            AANetworkManager.showDamagePopUpOnCharacter(@_character, data)
         @_aaRefreshExtraInfoOnDamage()
         b.clearDamagePopup()
         b.clearResult()
