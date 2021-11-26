@@ -85,7 +85,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.requestCharacterShatterEffect = function(character, dx, dy) {
+    _.requestCharacterShatterEffect = function(character, dx, dy) {
       var e;
       try {
         if (!AA.Network.isNetworkGame()) {
@@ -93,6 +93,20 @@ AANetworkManager = function() {};
         }
         character = AA.Network.packMapChar(character);
         return this.sendToServer("requestCharacterShatterEffect", {character, dx, dy});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    //TODO: Есть действия которые нельзя выполнять не на карте
+    return _.executeSA = function(action, character) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        character = AA.Network.packMapChar(character);
+        return this.sendToServer("executeSA", {action, character});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -177,7 +191,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.requestCharacterShatterEffect_RESP = function(response) {
+    _.requestCharacterShatterEffect_RESP = function(response) {
       var character, dx, dy, e;
       try {
         if (!AA.Network.isAvailableForVisual(response)) {
@@ -192,6 +206,32 @@ AANetworkManager = function() {};
           return;
         }
         return character.aaRequestShatterEffect(dx, dy);
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.executeSA_RESP = function(response) {
+      var action, character, cmd, e, mapId, unpackedCharacter;
+      try {
+        "CALL SA".p();
+        ({mapId} = response);
+        ({action, character} = response.content);
+        cmd = action.split("_")[0];
+        // * Self.Switch - своя обработка
+        if (cmd === "ss") {
+          // * Тут используется  запакованный персонаж (чтобы передать EVENT ID другой карты)
+          return AA.SAaction.executeSelfSwitchActionFromNetwork(action, character, mapId);
+        } else {
+          // * Проверки определённых действий (только на карте и на сцене)
+          if (["an", "ef", "ba", "se", "ev", "ce"].contains(cmd)) {
+            if (!AA.Network.isAvailableForVisual(response)) {
+              return;
+            }
+          }
+          unpackedCharacter = AA.Network.unpackMapChar(character);
+          return AA.SAaction.execute(action, unpackedCharacter);
+        }
       } catch (error) {
         e = error;
         return AA.w(e);

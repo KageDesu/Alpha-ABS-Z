@@ -65,6 +65,15 @@ do ->
             catch e
                 AA.w e
 
+        #TODO: Есть действия которые нельзя выполнять не на карте
+        _.executeSA = (action, character) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                character = AA.Network.packMapChar(character)
+                @sendToServer("executeSA", { action, character })
+            catch e
+                AA.w e
+
     # * Обработка методов ОТ сервера (responses)
     # * ======================================================================
     # -----------------------------------------------------------------------
@@ -122,6 +131,25 @@ do ->
                 return unless character?
                 return if character.aaIsShatterRequested()
                 character.aaRequestShatterEffect(dx, dy)
+            catch e
+                AA.w e
+
+        _.executeSA_RESP = (response) ->
+            try
+                "CALL SA".p()
+                { mapId } = response
+                { action, character } = response.content
+                cmd = action.split("_")[0]
+                # * Self.Switch - своя обработка
+                if cmd == "ss"
+                    # * Тут используется  запакованный персонаж (чтобы передать EVENT ID другой карты)
+                    AA.SAaction.executeSelfSwitchActionFromNetwork(action, character, mapId)
+                else
+                    # * Проверки определённых действий (только на карте и на сцене)
+                    if ["an", "ef", "ba", "se", "ev", "ce"].contains(cmd)
+                        return unless AA.Network.isAvailableForVisual(response)
+                    unpackedCharacter = AA.Network.unpackMapChar(character)
+                    AA.SAaction.execute(action, unpackedCharacter)
             catch e
                 AA.w e
 

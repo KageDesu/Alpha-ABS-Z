@@ -27,6 +27,7 @@ do ->
     # * Выполнить AA Script Action
     _.execute = (action, char) ->
         return unless _.isProper(action)
+        AANetworkManager.executeSA(action, char)
         try
             cmd = action.split("_")[0]
             switch cmd
@@ -70,6 +71,28 @@ do ->
             evId = char.eventId()
         key = [$gameMap.mapId(), evId, switchId]
         $gameSelfSwitches.setValue(key, switchState)
+        return
+
+    # * ss_A_true_2 , ss_B_false, ss_C_false_3 (evId)
+    # * Данный метод вызывается от севрера, поддерживает смену переключателя на другой карте
+    _.executeSelfSwitchActionFromNetwork = (action, forceEventId, mapId) ->
+        # * Если карта текущая, то как обычное SS действие (распаковка персонажа)
+        if mapId == $gameMap.mapId()
+            @executeSelfSwitchAction(action, AA.Network.unpackMapChar(forceEventId))
+        else
+            args = action.split("_")
+            return if args.length < 3
+            switchId = args[1]
+            return unless AA.Utils.checkSwitch(switchId)
+            switchState = Boolean(args[2].toLowerCase())
+            if args[3]?
+                evId = parseInt(args[3])
+            else
+                return unless forceEventId?
+                return if forceEventId <= 0
+                evId = forceEventId
+            key = [mapId, evId, switchId]
+            $gameSelfSwitches.setValue(key, switchState)
         return
 
     # * sw_43_true, sw_222_false
