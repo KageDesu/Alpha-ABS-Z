@@ -49,6 +49,13 @@ do ->
             catch e
                 AA.w e
 
+        _.requestCharacterShakeEffect = (character, time) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                character = AA.Network.packMapChar(character)
+                @sendToServer("requestCharacterShakeEffect", { character, time })
+            catch e
+                AA.w e
 
     # * Обработка методов ОТ сервера (responses)
     # * ======================================================================
@@ -85,6 +92,15 @@ do ->
                 )
                 # * Чтобы HP минибар обновился
                 character.AASprite()?._aaRefreshExtraInfoOnDamage()
+            catch e
+                AA.w e
+
+        _.requestCharacterShakeEffect_RESP = (response) ->
+            try
+                return unless AA.Network.isAvailableForVisual(response)
+                { character, time } = response.content
+                character = AA.Network.unpackMapChar(character)
+                character?.aaRequestShakeEffect(time) if time? and time > 0
             catch e
                 AA.w e
 

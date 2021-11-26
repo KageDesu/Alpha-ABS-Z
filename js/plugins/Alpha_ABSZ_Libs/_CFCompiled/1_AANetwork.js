@@ -69,7 +69,7 @@ AA.Network = function() {};
     return null;
   };
   return _.loadExtensions = function() {
-    var __alias_ANPM_bar, _alias_nAPI_onCustomCommandABSZ;
+    var __alias_ANPM_bar, _alias_GCB_fillNetworkObserver, _alias_nAPI_onCustomCommandABSZ;
     // * Запускать АБС по готовности персонажа
     __alias_ANPM_bar = ANPlayersManager.bindActorResult;
     ANPlayersManager.bindActorResult = function(result) {
@@ -88,6 +88,11 @@ AA.Network = function() {};
       if (name.contains(AA.Network.NETCmdPrefix)) {
         AANetworkManager.onServerCommand(...arguments);
       }
+    };
+    _alias_GCB_fillNetworkObserver = Game_CharacterBase.prototype._fillNetworkObserver;
+    Game_CharacterBase.prototype._fillNetworkObserver = function() {
+      _alias_GCB_fillNetworkObserver.call(this);
+      this.aaFillNetworkDataObserver();
     };
   };
 })();

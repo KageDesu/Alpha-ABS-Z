@@ -51,7 +51,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.showDamagePopUpOnCharacter = function(character, data) {
+    _.showDamagePopUpOnCharacter = function(character, data) {
       var e, styleId, value;
       try {
         if (!AA.Network.isNetworkGame()) {
@@ -67,6 +67,19 @@ AANetworkManager = function() {};
         styleId = data.settings.id;
         value = data.value;
         return this.sendToServer("showDamagePopUpOnCharacter", {character, styleId, value});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.requestCharacterShakeEffect = function(character, time) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        character = AA.Network.packMapChar(character);
+        return this.sendToServer("requestCharacterShakeEffect", {character, time});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -106,7 +119,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.showDamagePopUpOnCharacter_RESP = function(response) {
+    _.showDamagePopUpOnCharacter_RESP = function(response) {
       var character, data, e, ref, styleId, value;
       try {
         if (!AA.Network.isAvailableForVisual(response)) {
@@ -124,6 +137,22 @@ AANetworkManager = function() {};
         Sprite_AADamagePopUpItem.CreateOnCharacterBinded(character, data.settings, data.value);
         // * Чтобы HP минибар обновился
         return (ref = character.AASprite()) != null ? ref._aaRefreshExtraInfoOnDamage() : void 0;
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.requestCharacterShakeEffect_RESP = function(response) {
+      var character, e, time;
+      try {
+        if (!AA.Network.isAvailableForVisual(response)) {
+          return;
+        }
+        ({character, time} = response.content);
+        character = AA.Network.unpackMapChar(character);
+        if ((time != null) && time > 0) {
+          return character != null ? character.aaRequestShakeEffect(time) : void 0;
+        }
       } catch (error) {
         e = error;
         return AA.w(e);

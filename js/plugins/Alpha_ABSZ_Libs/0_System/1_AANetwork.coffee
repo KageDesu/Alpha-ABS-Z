@@ -77,6 +77,12 @@ do ->
                 AANetworkManager.onServerCommand(...arguments)
             return
 
+        _alias_GCB_fillNetworkObserver = Game_CharacterBase::_fillNetworkObserver
+        Game_CharacterBase::_fillNetworkObserver = ->
+            _alias_GCB_fillNetworkObserver.call(@)
+            @aaFillNetworkDataObserver()
+            return
+
         return
 
 # ■ END IMPLEMENTATION.coffee

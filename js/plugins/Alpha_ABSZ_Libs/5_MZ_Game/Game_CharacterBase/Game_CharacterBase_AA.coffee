@@ -69,7 +69,9 @@ do ->
 
         _.aaMotionDX = -> @_aaShakeEffectData[1]
 
-        _.aaRequestShakeEffect = (time = 10) -> @_aaShakeEffectData[0] = time
+        _.aaRequestShakeEffect = (time = 10) ->
+            @_aaShakeEffectData[0] = time
+            AANetworkManager.requestCharacterShakeEffect(@, time)
 
         _.aaIsShakeRequested = -> @_aaShakeEffectData[0] > 0
 
@@ -160,6 +162,15 @@ do ->
     _.aaIsHaveExtendedHitBoxes = -> @_aaExtendedHitBox?
 
     _.aaUpdateABSAnimaX = -> # * EMPTY (Переопределяется в Game_Character_AnimaX)
+
+    # * Дополнительный метод для сетевой игры
+    # * Вызывается в AA.Network (через Alias метода Alpha NET Z)
+    _.aaFillNetworkDataObserver = ->
+        return unless @netDataObserver?
+        try
+            
+        catch e
+            AA.w e
 
     return
 # ■ END Game_CharacterBase.coffee
