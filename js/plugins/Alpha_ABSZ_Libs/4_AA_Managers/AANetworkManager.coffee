@@ -57,6 +57,14 @@ do ->
             catch e
                 AA.w e
 
+        _.requestCharacterShatterEffect = (character, dx, dy) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                character = AA.Network.packMapChar(character)
+                @sendToServer("requestCharacterShatterEffect", { character, dx, dy })
+            catch e
+                AA.w e
+
     # * Обработка методов ОТ сервера (responses)
     # * ======================================================================
     # -----------------------------------------------------------------------
@@ -100,7 +108,20 @@ do ->
                 return unless AA.Network.isAvailableForVisual(response)
                 { character, time } = response.content
                 character = AA.Network.unpackMapChar(character)
+                return unless character?
+                return if character.aaIsShakeRequested()
                 character?.aaRequestShakeEffect(time) if time? and time > 0
+            catch e
+                AA.w e
+
+        _.requestCharacterShatterEffect_RESP = (response) ->
+            try
+                return unless AA.Network.isAvailableForVisual(response)
+                { character, dx, dy } = response.content
+                character = AA.Network.unpackMapChar(character)
+                return unless character?
+                return if character.aaIsShatterRequested()
+                character.aaRequestShatterEffect(dx, dy)
             catch e
                 AA.w e
 

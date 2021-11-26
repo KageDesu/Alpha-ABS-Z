@@ -101,6 +101,7 @@
     };
     _.aaRequestShatterEffect = function(dx = 0.5, dy = -4) {
       this._aaShatterEffectData = [true, [], true, dx, dy];
+      AANetworkManager.requestCharacterShatterEffect(this, dx, dy);
     };
     return _.aaOnShatterEffectCreated = function() {
       return this._aaShatterEffectData[0] = false;

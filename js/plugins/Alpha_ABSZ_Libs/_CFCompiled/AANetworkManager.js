@@ -72,7 +72,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.requestCharacterShakeEffect = function(character, time) {
+    _.requestCharacterShakeEffect = function(character, time) {
       var e;
       try {
         if (!AA.Network.isNetworkGame()) {
@@ -80,6 +80,19 @@ AANetworkManager = function() {};
         }
         character = AA.Network.packMapChar(character);
         return this.sendToServer("requestCharacterShakeEffect", {character, time});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.requestCharacterShatterEffect = function(character, dx, dy) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        character = AA.Network.packMapChar(character);
+        return this.sendToServer("requestCharacterShatterEffect", {character, dx, dy});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -142,7 +155,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.requestCharacterShakeEffect_RESP = function(response) {
+    _.requestCharacterShakeEffect_RESP = function(response) {
       var character, e, time;
       try {
         if (!AA.Network.isAvailableForVisual(response)) {
@@ -150,9 +163,35 @@ AANetworkManager = function() {};
         }
         ({character, time} = response.content);
         character = AA.Network.unpackMapChar(character);
+        if (character == null) {
+          return;
+        }
+        if (character.aaIsShakeRequested()) {
+          return;
+        }
         if ((time != null) && time > 0) {
           return character != null ? character.aaRequestShakeEffect(time) : void 0;
         }
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.requestCharacterShatterEffect_RESP = function(response) {
+      var character, dx, dy, e;
+      try {
+        if (!AA.Network.isAvailableForVisual(response)) {
+          return;
+        }
+        ({character, dx, dy} = response.content);
+        character = AA.Network.unpackMapChar(character);
+        if (character == null) {
+          return;
+        }
+        if (character.aaIsShatterRequested()) {
+          return;
+        }
+        return character.aaRequestShatterEffect(dx, dy);
       } catch (error) {
         e = error;
         return AA.w(e);

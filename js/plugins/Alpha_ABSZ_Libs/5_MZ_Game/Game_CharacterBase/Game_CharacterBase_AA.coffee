@@ -79,6 +79,7 @@ do ->
 
         _.aaRequestShatterEffect = (dx = 0.5, dy = -4) ->
             @_aaShatterEffectData = [true, [], true, dx, dy]
+            AANetworkManager.requestCharacterShatterEffect(@, dx, dy)
             return
 
         _.aaOnShatterEffectCreated = ->
