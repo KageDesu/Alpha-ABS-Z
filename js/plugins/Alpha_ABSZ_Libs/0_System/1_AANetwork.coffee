@@ -31,6 +31,32 @@ do ->
             content
         }
 
+    _.packMapChar = (character) ->
+        try
+            if character == $gamePlayer
+                return ANNetwork.myId()
+            else if character instanceof Game_Event
+                return character.eventId()
+            else if character instanceof NETCharacter
+                return character.id
+        catch e
+            AA.w e
+        return null # * Unknown
+
+    _.unpackMapChar = (netId) ->
+        try
+            return null unless netId?
+            if isFinite(netId)
+                return $gameMap.event(netId)
+            else
+                if netId == ANNetwork.myId()
+                    return $gamePlayer
+                else
+                    return $gameMap.networkCharacterById(netId)
+        catch e
+            AA.w e
+        return null
+
     _.loadExtensions = ->
 
         # * Запускать АБС по готовности персонажа

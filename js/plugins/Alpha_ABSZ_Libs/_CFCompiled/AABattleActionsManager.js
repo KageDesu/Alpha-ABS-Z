@@ -95,6 +95,7 @@ AABattleActionsManager = function() {};
     var e;
     try {
       if ((animationId != null) && animationId > 0) {
+        AANetworkManager.playAnimationOnCharacter(char, animationId);
         $gameTemp.requestAnimation([char], animationId, false);
       }
     } catch (error) {
@@ -110,6 +111,7 @@ AABattleActionsManager = function() {};
     }
     try {
       if ((animationId != null) && animationId > 0) {
+        AANetworkManager.playAnimationOnMap(x, y, animationId);
         $gameMap.aaRequestMapAnimation(x, y, animationId);
       }
     } catch (error) {

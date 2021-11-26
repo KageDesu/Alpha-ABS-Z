@@ -31,6 +31,43 @@ AA.Network = function() {};
       content
     };
   };
+  _.packMapChar = function(character) {
+    var e;
+    try {
+      if (character === $gamePlayer) {
+        return ANNetwork.myId();
+      } else if (character instanceof Game_Event) {
+        return character.eventId();
+      } else if (character instanceof NETCharacter) {
+        return character.id;
+      }
+    } catch (error) {
+      e = error;
+      AA.w(e);
+    }
+    return null; // * Unknown
+  };
+  _.unpackMapChar = function(netId) {
+    var e;
+    try {
+      if (netId == null) {
+        return null;
+      }
+      if (isFinite(netId)) {
+        return $gameMap.event(netId);
+      } else {
+        if (netId === ANNetwork.myId()) {
+          return $gamePlayer;
+        } else {
+          return $gameMap.networkCharacterById(netId);
+        }
+      }
+    } catch (error) {
+      e = error;
+      AA.w(e);
+    }
+    return null;
+  };
   return _.loadExtensions = function() {
     var __alias_ANPM_bar, _alias_nAPI_onCustomCommandABSZ;
     // * Запускать АБС по готовности персонажа

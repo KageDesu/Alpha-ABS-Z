@@ -11,28 +11,115 @@ AANetworkManager = function() {};
   var _;
   //@[DEFINES]
   _ = AANetworkManager;
-  _.onServerCommand = function(name, response) {
-    var cmd, e;
-    try {
-      // * Получить только имя команды (без префикса)
-      return cmd = name.replace(AA.Network.NETCmdPrefix, "");
-    } catch (error) {
-      e = error;
-      return AA.w(e, "onServerCommand");
-    }
-  };
-  return _.sendToServer = function(cmd, content) {
-    var e;
-    try {
-      if (!AA.Network.isNetworkGame()) {
-        return;
+  (function() {    // * Методы (запросы - отправка на сервер, requests)
+    // * ======================================================================
+    // -----------------------------------------------------------------------
+    //TODO: В MV другой метод немного
+    _.playAnimationOnCharacter = function(target, animationId) {
+      var e;
+      try {
+        if (target == null) {
+          return;
+        }
+        if (animationId <= 0) {
+          return;
+        }
+        target = AA.Network.packMapChar(target);
+        return this.sendToServer("playAnimationOnCharacter", {target, animationId});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
       }
-      return nAPI.sendCustomCommand(AA.Network.NETCmdPrefix + cmd, AA.Network.createServCommand(content));
-    } catch (error) {
-      e = error;
-      return AA.w(e, "sendToServer");
-    }
-  };
+    };
+    return _.playAnimationOnMap = function(x, y, animationId) {
+      var e;
+      try {
+        if (animationId <= 0) {
+          return;
+        }
+        return this.sendToServer("playAnimationOnMap", {x, y, animationId});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+  })();
+  (function() {    // * Обработка методов ОТ сервера (responses)
+    // * ======================================================================
+    // -----------------------------------------------------------------------
+    _.playAnimationOnCharacter_RESP = function(response) {
+      var animationId, e, target;
+      try {
+        if (!AA.Network.isAvailableForVisual(response)) {
+          return;
+        }
+        ({target, animationId} = response.content);
+        target = AA.Network.unpackMapChar(target);
+        if (target == null) {
+          return;
+        }
+        return AABattleActionsManager.playAnimationOnCharacter(target, animationId);
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.playAnimationOnMap_RESP = function(response) {
+      var animationId, e, x, y;
+      try {
+        if (!AA.Network.isAvailableForVisual(response)) {
+          return;
+        }
+        ({x, y, animationId} = response.content);
+        return AABattleActionsManager.playAnimationOnMap(x, y, animationId);
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+  })();
+  return (function() {    // * Общие методы отправки и приёма команд
+    // * ======================================================================
+    // -----------------------------------------------------------------------
+    // * Обработка ответа (команды) от сервера (общий метод)
+    _.onServerCommand = function(name, response) {
+      var cmd, e, method;
+      try {
+        if (AA.Network.isShouldIgnoreServerCommand(response)) {
+          return;
+        }
+        // * Получить только имя команды (без префикса)
+        cmd = name.replace(AA.Network.NETCmdPrefix, "");
+        method = this[cmd + "_RESP"];
+        if (method != null) {
+          $gameTemp.aaIsLocalOnly = true;
+          method(response);
+          return $gameTemp.aaIsLocalOnly = false;
+        } else {
+          return AA.w('Network: Handler for ' + cmd + ' not found');
+        }
+      } catch (error) {
+        e = error;
+        return AA.w(e, "onServerCommand");
+      }
+    };
+    // * Отправка команды на сервер (общий метод)
+    return _.sendToServer = function(cmd, content) {
+      var e;
+      try {
+        if ($gameTemp.aaIsLocalOnly === true) {
+          return;
+        }
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        return nAPI.sendCustomCommand(AA.Network.NETCmdPrefix + cmd, AA.Network.createServCommand(content));
+      } catch (error) {
+        e = error;
+        return AA.w(e, "sendToServer");
+      }
+    };
+  })();
 })();
 
 // ■ END IMPLEMENTATION.coffee

@@ -76,6 +76,7 @@ do ->
     _.playAnimationOnCharacter = (char, animationId) ->
         try
             if animationId? and animationId > 0
+                AANetworkManager.playAnimationOnCharacter(char, animationId)
                 $gameTemp.requestAnimation([char], animationId, false)
         catch e
             KDCore.warning("playAnimationOnCharacter", e)
@@ -86,6 +87,7 @@ do ->
         return unless KDCore.Utils.isSceneMap()
         try
             if animationId? and animationId > 0
+                AANetworkManager.playAnimationOnMap(x, y, animationId)
                 $gameMap.aaRequestMapAnimation(x, y, animationId)
         catch e
             KDCore.warning("playAnimationOnMap", e)
