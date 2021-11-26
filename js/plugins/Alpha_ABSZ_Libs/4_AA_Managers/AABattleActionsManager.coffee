@@ -34,10 +34,6 @@ do ->
             $gameMap.startAASkill(aaSkill, subject, targetPoint)
         return
     
-    _.startNonProjectileAASkill = () ->
-
-    _.startProjectileAASkill = () ->
-
     # * Выполнение действия АБС навыка на карте или Entity
     _.applySkillAction = (subject, target, absSkill) ->
         try

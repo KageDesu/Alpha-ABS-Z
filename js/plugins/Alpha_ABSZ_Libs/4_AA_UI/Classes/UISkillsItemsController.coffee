@@ -1,5 +1,3 @@
-#TODO: Систематизация класса (Наследовать от )
-
 # * Данный класс работает только на Game_Player
 class UISkillsItemsController
     constructor: (@skillItems) ->
@@ -28,6 +26,7 @@ class UISkillsItemsController
 
     refresh: ->
         @_clearItems()
+        return unless @battler?
         @_setupItem(skill) for skill in @battler.getAASkills()
         # * Предметы отдельно, так как могут быть не в наличии
         panelItems = @skillSet.getAllItemsFromPanel().map (id) -> AA.Utils.getAASkillObject(id)

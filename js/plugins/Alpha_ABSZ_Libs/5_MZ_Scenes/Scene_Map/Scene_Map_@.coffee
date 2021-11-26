@@ -8,6 +8,14 @@ do ->
     _ = Scene_Map::
     
     #@[ALIAS]
+    ALIAS__create = _.create
+    _.create = ->
+        ALIAS__create.call(@)
+        AA.EV.subscribeFor("ABSPartyLeaderReady", @addABSUI.bind(@))
+        AA.EV.subscribeFor("ABSPartyLeaderNone", @removeABSUI.bind(@))
+        return
+
+    #@[ALIAS]
     ALIAS__onMapLoaded = _.onMapLoaded
     _.onMapLoaded = ->
         ALIAS__onMapLoaded.call(@)
@@ -21,8 +29,8 @@ do ->
     ALIAS__createSpriteset = _.createSpriteset
     _.createSpriteset = ->
         ALIAS__createSpriteset.call(@)
-        @_aaUI = new AA.Spriteset_UI()
-        @addChild @_aaUI
+        @_aaUILayer = new Sprite()
+        @addChild @_aaUILayer
         return
 
     #@[ALIAS]

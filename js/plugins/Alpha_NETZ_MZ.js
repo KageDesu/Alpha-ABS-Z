@@ -275,7 +275,7 @@ ANET.Version = 60; // 0.6.0
 ANET.ServerRev = 112; // * Необходимая ревизия сервера
 
 // * Данный символ переопределяется в 1_DevSymbol_TEST как dev
-ANET._define = 'build'; // * По умолчанию -> сборка
+ANET._define = 'dev'; // * По умолчанию -> сборка
 
 ANET.link = function (library) {
     this[library.name] = library;

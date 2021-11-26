@@ -32,6 +32,7 @@ do ->
         _.loadExtensions = ->
             try
                 AA.loadExtensions()
+                AA.Network.loadExtensions()
             catch e
                 AA.w e
 
@@ -63,23 +64,49 @@ do ->
         _.startABS = ->
             "START ABS SESSION ON MAP".p()
             # * По умлочанию, система всегда активированна
-            @resumeABS() unless $gameSystem._isABS?
-            $gamePlayer.initABS()
+            $gameSystem._isABS = true unless $gameSystem._isABS?
             $gameMap.initABS()
+            @checkABSPlayerExists()
             return
 
         _.resumeABS = ->
+            # * Нельзя возобновить, если игрока нету
+            return unless $gamePlayer.isABS()
             $gameSystem._isABS = true
+            return
 
         _.pauseABS = ->
             return unless @isABSActive()
+            "PAUSE ABS SESSION ON MAP".p()
             $gameSystem._isABS = false
             AA.EV.call("PauseABS")
             return
 
-        _.isABSActive = -> $gameSystem._isABS is true
+        _.isABSActive = -> $gameSystem._isABS is true && !$gameTemp._noABSPlayer
 
         _.update = ->
+
+        _.checkABSPlayerExists = ->
+            # * Если нет персонажа, АБС не запускаем
+            unless $gameParty.leader()?
+                @onNoABSPlayer()
+            else
+                @onNewABSPlayer()
+            return
+
+        # * Когда в партии стало пусто (убрали всех, нет gameParty.leader())
+        _.onNoABSPlayer = ->
+            $gameTemp._noABSPlayer = true
+            @pauseABS()
+            AA.EV.call("ABSPartyLeaderNone")
+            return
+
+        # * Когда появился хоть один член партии (gameParty.leader())
+        _.onNewABSPlayer = ->
+            $gameTemp._noABSPlayer = false
+            @resumeABS()
+            AA.EV.call("ABSPartyLeaderReady")
+            return
 
         return
     # -----------------------------------------------------------------------

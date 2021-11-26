@@ -12,6 +12,7 @@ do ->
     _.initMembers = ->
         ALIAS__initMembers.call(@)
         AA.EV.subscribeFor("PauseABS", @gev_onABSPaused.bind(@))
+        AA.EV.subscribeFor("ABSPartyLeaderReady", @initABS.bind(@))
         @_initMembersABS()
 
     # ======================================================================
@@ -20,16 +21,10 @@ do ->
     #TODO: TEST
 
     #@[ALIAS]
-    ALIAS__refresh = _.refresh
-    _.refresh = ->
-        ALIAS__refresh.call(@)
-        return
-
-    #@[ALIAS]
     ALIAS__canMove = _.canMove
     _.canMove = ->
         canMove = ALIAS__canMove.call(@)
-        if canMove && @isABS() & AA.isABSActive()
+        if canMove && @isABS() && AA.isABSActive() && @AABattler()?
             return @AABattler().canMove()
         else
             return canMove

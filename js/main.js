@@ -21,6 +21,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAExtensions.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAGEvents.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAInput.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AANetwork.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAScriptAction.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill2.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AASkill2MapAction.js"
@@ -40,6 +41,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyModelData.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEventSettingsParser.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAMapEntitiesSet.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AANetworkManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAPlayerEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AATargetsManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAUI.js"
@@ -282,6 +284,21 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

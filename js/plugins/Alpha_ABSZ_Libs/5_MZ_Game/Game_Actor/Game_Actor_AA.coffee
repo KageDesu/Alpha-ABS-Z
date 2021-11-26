@@ -8,7 +8,7 @@ do ->
     _ = Game_Actor::
 
     #$[OVER]
-    _.isPlayer = -> @ == $gameParty.leader()
+    _.isPlayer = -> AA.System.isABSActive() && @ == $gameParty.leader()
 
     #$[OVER]
     _.getAASkills = ->

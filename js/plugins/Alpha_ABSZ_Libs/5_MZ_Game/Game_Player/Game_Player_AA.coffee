@@ -7,6 +7,11 @@ do ->
     #@[DEFINES]
     _ = Game_Player::
 
+    # * Доп. проверка
+    #@[ALIAS]
+    ALIAS__isABS = _.isABS
+    _.isABS = -> ALIAS__isABS.call(@) && $gameParty.leader()?
+
     # * Когда сцена карты останавливается (сменяется другой)
     _.aaOnMapSceneEnd = ->
         @onSkillTargetCancel() if @isInSkillTargetingState()

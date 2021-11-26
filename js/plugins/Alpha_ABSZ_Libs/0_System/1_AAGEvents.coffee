@@ -46,6 +46,12 @@ do ->
         # * Смена события под курсором
         @events.register("UnderMouseEventChanged")
 
+        # * Персонаж игрока готов
+        @events.register("ABSPartyLeaderReady")
+
+        # * Больше нет персонажа игрока (пустая партия)
+        @events.register("ABSPartyLeaderNone")
+
         return
 
 
