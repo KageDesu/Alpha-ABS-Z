@@ -4,9 +4,15 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var _;
+  var ALIAS__startWeaponAnimation, _;
   //@[DEFINES]
   _ = Game_Battler.prototype;
+  //@[ALIAS]
+  ALIAS__startWeaponAnimation = _.startWeaponAnimation;
+  _.startWeaponAnimation = function(weaponImageId) {
+    AANetworkManager.requestWeaponAnimation(this, weaponImageId);
+    ALIAS__startWeaponAnimation.call(this, ...arguments);
+  };
 })();
 
 // ■ END Game_Battler.coffee

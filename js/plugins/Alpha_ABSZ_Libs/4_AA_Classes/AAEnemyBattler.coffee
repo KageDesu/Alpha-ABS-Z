@@ -7,6 +7,8 @@ class AAEnemyBattler extends Game_Enemy
         @_aaAttackHitAnimationId = @char().AAModel().hitAnimationId
         return
 
+    AACharacter: -> @char()
+
     char: -> $gameMap.event(@eventId)
 
     getAASkills: -> @_selectAASkillsFromActions().map (skillId) -> $dataSkills[skillId]

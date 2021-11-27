@@ -65,6 +65,16 @@ do ->
             catch e
                 AA.w e
 
+        _.requestWeaponAnimation = (battler, weaponImageId) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                character = battler.AACharacter()
+                return unless character?
+                character = AA.Network.packMapChar(character)
+                @sendToServer("requestWeaponAnimation", { character, weaponImageId })
+            catch e
+                AA.w e
+
         #TODO: Есть действия которые нельзя выполнять не на карте
         _.executeSA = (action, character) ->
             try
@@ -153,6 +163,16 @@ do ->
                 return unless character?
                 return if character.aaIsShatterRequested()
                 character.aaRequestShatterEffect(dx, dy)
+            catch e
+                AA.w e
+
+        _.requestWeaponAnimation_RESP = (response) ->
+            try
+                return unless AA.Network.isAvailableForVisual(response)
+                { character, weaponImageId } = response.content
+                character = AA.Network.unpackMapChar(character)
+                return unless character?
+                character.AABattler()?.startWeaponAnimation(weaponImageId)
             catch e
                 AA.w e
 

@@ -7,6 +7,21 @@
   var _;
   //@[DEFINES]
   _ = Game_Actor.prototype;
+  _.AACharacter = function() {
+    var id;
+    //TODO: party followers
+    if (AA.Network.isNetworkGame()) {
+      if (this.isPlayer()) {
+        return $gamePlayer;
+      } else {
+        id = ANGameManager.getPlayerDataByActorId(this.actorId());
+        return $gameMap.networkCharacterById(id);
+      }
+    } else {
+      //TODO: Нет поддержки сопартийцев, поэтому всегда игрок
+      return $gamePlayer;
+    }
+  };
   //$[OVER]
   _.isPlayer = function() {
     return AA.System.isABSActive() && this === $gameParty.leader();

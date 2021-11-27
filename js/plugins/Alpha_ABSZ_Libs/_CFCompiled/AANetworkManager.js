@@ -98,6 +98,23 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
+    _.requestWeaponAnimation = function(battler, weaponImageId) {
+      var character, e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        character = battler.AACharacter();
+        if (character == null) {
+          return;
+        }
+        character = AA.Network.packMapChar(character);
+        return this.sendToServer("requestWeaponAnimation", {character, weaponImageId});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
     //TODO: Есть действия которые нельзя выполнять не на карте
     _.executeSA = function(action, character) {
       var e;
@@ -243,6 +260,23 @@ AANetworkManager = function() {};
           return;
         }
         return character.aaRequestShatterEffect(dx, dy);
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    _.requestWeaponAnimation_RESP = function(response) {
+      var character, e, ref, weaponImageId;
+      try {
+        if (!AA.Network.isAvailableForVisual(response)) {
+          return;
+        }
+        ({character, weaponImageId} = response.content);
+        character = AA.Network.unpackMapChar(character);
+        if (character == null) {
+          return;
+        }
+        return (ref = character.AABattler()) != null ? ref.startWeaponAnimation(weaponImageId) : void 0;
       } catch (error) {
         e = error;
         return AA.w(e);

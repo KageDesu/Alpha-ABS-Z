@@ -7,6 +7,18 @@ do ->
     #@[DEFINES]
     _ = Game_Actor::
 
+    _.AACharacter = ->
+        #TODO: party followers
+        if AA.Network.isNetworkGame()
+            if @isPlayer()
+                return $gamePlayer
+            else
+                id = ANGameManager.getPlayerDataByActorId(@actorId())
+                return $gameMap.networkCharacterById(id)
+        else
+            #TODO: Нет поддержки сопартийцев, поэтому всегда игрок
+            return $gamePlayer
+
     #$[OVER]
     _.isPlayer = -> AA.System.isABSActive() && @ == $gameParty.leader()
 

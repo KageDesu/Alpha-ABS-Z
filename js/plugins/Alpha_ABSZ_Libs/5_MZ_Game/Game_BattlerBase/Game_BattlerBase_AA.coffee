@@ -7,6 +7,8 @@ do ->
     #@[DEFINES]
     _ = Game_BattlerBase::
 
+    _.AACharacter = -> null
+
     _.isPlayer = -> false
 
     _.aaUpdateABS = ->
