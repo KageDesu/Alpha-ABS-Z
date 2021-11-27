@@ -13,7 +13,7 @@ do ->
     _._aaSetupExtraInfo = ->
         return unless @isABSEntity()
         # * Игрок не имеет дополнительной информации
-        return if @isPlayer()
+        return unless @isEnemy()
         @_characterAASettings = @_character.AAEntity().model()
         return unless @_characterAASettings?
         @_aaSetupMiniHpGauge()

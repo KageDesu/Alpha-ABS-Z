@@ -68,10 +68,23 @@
       return this.AAEntity().isMyEnemy(character.AAEntity());
     };
     // * Логика АБС (только если АБС включена)
-    return _.aaUpdateABS = function() {
+    _.aaUpdateABS = function() {
       var ref;
       this._aaUpdateDelayedSkillActions();
-      return (ref = this.AABattler()) != null ? ref.aaUpdateABS() : void 0;
+      if ((ref = this.AABattler()) != null) {
+        ref.aaUpdateABS();
+      }
+      return this.aaUpdateForNetwork();
+    };
+    return _.aaUpdateForNetwork = function() {
+      var ref;
+      if (!AA.Network.isNetworkGame()) {
+        return;
+      }
+      if (!ANGameManager.isMapMaster()) {
+        return;
+      }
+      return (ref = this.AAEntity()) != null ? ref.updateDataObserver() : void 0;
     };
   })();
   (function() {    // -----------------------------------------------------------------------

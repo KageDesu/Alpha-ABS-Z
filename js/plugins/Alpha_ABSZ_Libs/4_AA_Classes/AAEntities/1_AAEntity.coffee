@@ -45,6 +45,7 @@ class AAEntity
     # * Эти поля используются для опеределения типа дочернего класса
     isPlayer: -> false
     isAlly: -> false
+    isNetChar: -> false
     isEnemy: -> false
 
     # * TARGET
@@ -77,14 +78,42 @@ class AAEntity
     _setupForNetwork: ->
         @_createNetworkObserver()
 
+    #TODO: Возможно нужен Instant режим?
     _createNetworkObserver: ->
+        @netDataObserver = new DataObserver()
+        @netDataObserver.setCheckInterval(ANET.PP.playerDataRefreshRate())
+        @_fillNetworkObserver()
+        @netDataObserver.refreshAll(@)
+        return
         
     _fillNetworkObserver: ->
+        @netDataObserver.addFields(@, [
+                "_target",
+                "_active"
+            ])
+        return
 
-    _updateDataObserver: ->
+    updateDataObserver: ->
+        return unless @netDataObserver?
+        @netDataObserver.check(@)
+        if @netDataObserver.isDataChanged()
+            @dataObserverHaveChanges()
+            @netDataObserver.refreshAll(@)
+        return
 
-    _dataObserverHaveChanges: ->
+    # * Этот метод вызывается, когда изменились сихнронизируеммые данные
+    dataObserverHaveChanges: ->
+        AANetworkManager.syncAAEntityObserver(
+            @character(),
+            @getObserverDataForNetwork()
+        )
+        return
 
-    _getObserverDataForNetwork: ->
+    getObserverDataForNetwork: ->
+        data = @netDataObserver.getDataForNetwork(@)
+        return data
 
-    _applyObserverData: (data) ->
+    applyObserverData: (data) ->
+        return unless @netDataObserver?
+        @netDataObserver.setDataFromNetwork(@, data)
+        return

@@ -7,12 +7,6 @@
   var _;
   //@[DEFINES]
   _ = Game_Event.prototype;
-  _._aaUpdateForNetwork = function() {
-    if (!ANGameManager.isMapMaster()) {
-      return;
-    }
-    return this.AAEntity()._updateDataObserver();
-  };
 })();
 
 // ■ END Game_Event.coffee

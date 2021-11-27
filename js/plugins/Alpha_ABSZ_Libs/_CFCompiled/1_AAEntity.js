@@ -71,6 +71,10 @@ AAEntity = class AAEntity {
     return false;
   }
 
+  isNetChar() {
+    return false;
+  }
+
   isEnemy() {
     return false;
   }
@@ -139,16 +143,45 @@ AAEntity = class AAEntity {
     return this._createNetworkObserver();
   }
 
-  _createNetworkObserver() {}
+  //TODO: Возможно нужен Instant режим?
+  _createNetworkObserver() {
+    this.netDataObserver = new DataObserver();
+    this.netDataObserver.setCheckInterval(ANET.PP.playerDataRefreshRate());
+    this._fillNetworkObserver();
+    this.netDataObserver.refreshAll(this);
+  }
 
-  _fillNetworkObserver() {}
+  _fillNetworkObserver() {
+    this.netDataObserver.addFields(this, ["_target", "_active"]);
+  }
 
-  _updateDataObserver() {}
+  updateDataObserver() {
+    if (this.netDataObserver == null) {
+      return;
+    }
+    this.netDataObserver.check(this);
+    if (this.netDataObserver.isDataChanged()) {
+      this.dataObserverHaveChanges();
+      this.netDataObserver.refreshAll(this);
+    }
+  }
 
-  _dataObserverHaveChanges() {}
+  // * Этот метод вызывается, когда изменились сихнронизируеммые данные
+  dataObserverHaveChanges() {
+    AANetworkManager.syncAAEntityObserver(this.character(), this.getObserverDataForNetwork());
+  }
 
-  _getObserverDataForNetwork() {}
+  getObserverDataForNetwork() {
+    var data;
+    data = this.netDataObserver.getDataForNetwork(this);
+    return data;
+  }
 
-  _applyObserverData(data) {}
+  applyObserverData(data) {
+    if (this.netDataObserver == null) {
+      return;
+    }
+    this.netDataObserver.setDataFromNetwork(this, data);
+  }
 
 };

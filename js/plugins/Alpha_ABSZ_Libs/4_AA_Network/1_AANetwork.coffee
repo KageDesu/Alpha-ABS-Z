@@ -67,6 +67,8 @@ do ->
 
         return unless Imported.Alpha_NETZ is true
 
+        @SetupNETCharacter() # 3_NETCharacter_AA.coffee
+
         # * Запускать АБС по готовности персонажа
         __alias_ANPM_bar = ANPlayersManager.bindActorResult
         ANPlayersManager.bindActorResult = (result) ->

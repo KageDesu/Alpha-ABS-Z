@@ -7,9 +7,6 @@ do ->
     #@[DEFINES]
     _ = Game_Event::
 
-    _._aaUpdateForNetwork = ->
-        return unless ANGameManager.isMapMaster()
-        @AAEntity()._updateDataObserver()
     
     return
 # ■ END Game_Event.coffee

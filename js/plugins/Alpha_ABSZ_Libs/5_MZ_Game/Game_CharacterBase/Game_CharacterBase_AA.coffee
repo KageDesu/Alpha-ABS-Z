@@ -51,6 +51,12 @@ do ->
         _.aaUpdateABS = ->
             @_aaUpdateDelayedSkillActions()
             @AABattler()?.aaUpdateABS()
+            @aaUpdateForNetwork()
+
+        _.aaUpdateForNetwork = ->
+            return unless AA.Network.isNetworkGame()
+            return unless ANGameManager.isMapMaster()
+            @AAEntity()?.updateDataObserver()
 
     # -----------------------------------------------------------------------
 

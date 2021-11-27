@@ -115,9 +115,6 @@
     _.aaUpdateABS = function() {
       ALIAS_aaUpdateABS.call(this);
       this._aaUpdateDeadState();
-      if (AA.Network.isNetworkGame()) {
-        this._aaUpdateForNetwork();
-      }
     };
     //@[ALIAS]
     ALIAS__aaOnShatterEffectCreated = _.aaOnShatterEffectCreated;

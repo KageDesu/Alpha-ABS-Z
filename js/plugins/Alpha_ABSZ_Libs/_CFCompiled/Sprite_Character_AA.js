@@ -18,12 +18,11 @@
   _.isABSEntity = function() {
     return (this._character != null) && this._character.isABS() && (this._character.AABattler() != null);
   };
-  //TODO: this two methods
   _.isAllyParty = function() {
-    return false;
+    return this.isABSEntity() && this._character.AAEntity().isAlly();
   };
   _.isEnemy = function() {
-    return false;
+    return this.isABSEntity() && this._character.AAEntity().isEnemy();
   };
   _._aaUpdate = function() {
     this._aaUpdateSelectionBlend();

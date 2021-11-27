@@ -142,13 +142,14 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    _.syncAAEntityObserver = function(eventId, observerData) {
+    _.syncAAEntityObserver = function(character, observerData) {
       var e;
       try {
         if (!AA.Network.isNetworkGame()) {
           return;
         }
-        return this.sendToServer("syncAAEntityObserver", {eventId, observerData});
+        character = AA.Network.packMapChar(character);
+        return this.sendToServer("syncAAEntityObserver", {character, observerData});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -330,26 +331,20 @@ AANetworkManager = function() {};
       }
     };
     _.syncAAEntityObserver_RESP = function(response) {
-      var e, event, eventId, observerData, ref;
+      var character, e, observerData, ref;
       try {
         if (!AA.Network.isOnSameMap(response)) {
           return;
         }
-        ({eventId, observerData} = response.content);
-        if (eventId <= 0) {
-          return;
-        }
+        ({character, observerData} = response.content);
         if (observerData == null) {
           return;
         }
-        event = $gameMap.event(eventId);
-        if (event == null) {
+        character = AA.Network.unpackMapChar(character);
+        if (character == null) {
           return;
         }
-        if (event.isABS() == null) {
-          return;
-        }
-        return (ref = event.AAEntity()) != null ? ref.applyObserverData(observerData) : void 0;
+        return (ref = character.AAEntity()) != null ? ref.applyObserverData(observerData) : void 0;
       } catch (error) {
         e = error;
         return AA.w(e);

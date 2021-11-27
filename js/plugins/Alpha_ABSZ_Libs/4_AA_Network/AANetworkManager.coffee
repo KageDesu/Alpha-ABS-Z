@@ -92,10 +92,11 @@ do ->
             catch e
                 AA.w e
 
-        _.syncAAEntityObserver = (eventId, observerData) ->
+        _.syncAAEntityObserver = (character, observerData) ->
             try
                 return unless AA.Network.isNetworkGame()
-                @sendToServer("syncAAEntityObserver", { eventId, observerData })
+                character = AA.Network.packMapChar(character)
+                @sendToServer("syncAAEntityObserver", { character, observerData })
             catch e
                 AA.w e
 
@@ -210,13 +211,11 @@ do ->
         _.syncAAEntityObserver_RESP = (response) ->
             try
                 return unless AA.Network.isOnSameMap(response)
-                { eventId, observerData } = response.content
-                return if eventId <= 0
+                { character, observerData } = response.content
                 return unless observerData?
-                event = $gameMap.event(eventId)
-                return unless event?
-                return unless event.isABS()?
-                event.AAEntity()?.applyObserverData(observerData)
+                character = AA.Network.unpackMapChar(character)
+                return unless character?
+                character.AAEntity()?.applyObserverData(observerData)
             catch e
                 AA.w e
 

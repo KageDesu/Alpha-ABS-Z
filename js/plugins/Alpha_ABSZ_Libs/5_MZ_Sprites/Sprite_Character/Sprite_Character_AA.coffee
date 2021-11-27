@@ -16,11 +16,9 @@ do ->
 
     _.isABSEntity = -> @_character? and @_character.isABS() and @_character.AABattler()?
 
-    #TODO: this two methods
+    _.isAllyParty = -> @isABSEntity() and @_character.AAEntity().isAlly()
 
-    _.isAllyParty = -> false
-
-    _.isEnemy = -> false
+    _.isEnemy = -> @isABSEntity() and @_character.AAEntity().isEnemy()
 
     _._aaUpdate = ->
         @_aaUpdateSelectionBlend()
