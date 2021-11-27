@@ -99,6 +99,7 @@ do ->
         _.aaUpdateABS = ->
             ALIAS_aaUpdateABS.call(@)
             @_aaUpdateDeadState()
+            @_aaUpdateForNetwork() if AA.Network.isNetworkGame()
             return
 
         #@[ALIAS]

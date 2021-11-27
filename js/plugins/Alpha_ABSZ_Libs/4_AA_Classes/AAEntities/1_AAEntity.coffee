@@ -5,6 +5,7 @@
 class AAEntity
     constructor: () ->
         @_setup()
+        @_setupForNetwork() if AA.Network.isNetworkGame()
 
     _setup: ->
         @_active = false
@@ -71,4 +72,19 @@ class AAEntity
     setDead: -> @_dead = true
     resetDead: -> @_dead = false
 
-    
+    # * NETWORK
+    # -----------------------------------------------------------------------
+    _setupForNetwork: ->
+        @_createNetworkObserver()
+
+    _createNetworkObserver: ->
+        
+    _fillNetworkObserver: ->
+
+    _updateDataObserver: ->
+
+    _dataObserverHaveChanges: ->
+
+    _getObserverDataForNetwork: ->
+
+    _applyObserverData: (data) ->

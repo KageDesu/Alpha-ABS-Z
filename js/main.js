@@ -29,6 +29,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AIFlowMachine.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_DevSymbol_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_KDCoreExt.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AIFlowMachine_Network.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsTimers.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AABattleAction.js"
@@ -71,6 +72,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_CharacterBase_AAMoving.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AANet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AI.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AIMove.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_ExtraAAParams.js"
@@ -284,6 +286,8 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
 
 
 

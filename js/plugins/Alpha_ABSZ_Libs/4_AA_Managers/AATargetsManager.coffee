@@ -120,6 +120,7 @@ do ->
         aaEntities = []
         aaEntities.push(...@_collectAAEventsInPoints(points))
         aaEntities.push(...@_collectPartyMembersInPoints(points))
+        #TODO: collect network characters as well
         return aaEntities
 
     # * Собирает все АБС события (Активные) в точках карты
@@ -200,7 +201,7 @@ do ->
 
     # * Цель подходящая (проверки, см. BattleManagerABS.isValidTarget)
     #TODO: isValidTarget
-    _.isValidTarget = (char, targetChar) -> true
+    _.isValidTarget = (char, targetChar) -> targetChar? and targetChar.isActive()
 
     # * Находится ли точка (цель) в области дейтсвия навыка (range)
     _.isInSkillRange = (char, skillId, targetPoint) ->

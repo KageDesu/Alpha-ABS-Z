@@ -151,7 +151,7 @@ do ->
                 "EEXECUTGE".p()
                 char = @char()
                 char.setActiveAASkill(@_currentAction.idA)
-                char.startPerformAASkill($gamePlayer)
+                char.startPerformAASkill(@target())
         catch e
             AA.w e
 

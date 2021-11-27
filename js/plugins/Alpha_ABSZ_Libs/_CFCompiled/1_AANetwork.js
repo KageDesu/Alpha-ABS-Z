@@ -19,9 +19,12 @@ AA.Network = function() {};
     return actorId === ANGameManager.myActorId();
   };
   _.isAvailableForVisual = function(servCommand) {
+    return this.isOnSameMap(servCommand) && KDCore.Utils.isSceneMap();
+  };
+  _.isOnSameMap = function(servCommand) {
     var mapId;
     ({mapId} = servCommand);
-    return $gameMap.mapId() === mapId && KDCore.Utils.isSceneMap();
+    return $gameMap.mapId() === mapId;
   };
   // * Собирает базовую команду для отправки на сервер
   _.createServCommand = function(content) {
@@ -33,6 +36,9 @@ AA.Network = function() {};
   };
   _.packMapChar = function(character) {
     var e;
+    if (character == null) {
+      return null;
+    }
     try {
       if (character === $gamePlayer) {
         return ANNetwork.myId();

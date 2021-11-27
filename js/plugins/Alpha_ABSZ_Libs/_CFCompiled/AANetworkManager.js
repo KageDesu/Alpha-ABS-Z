@@ -113,13 +113,37 @@ AANetworkManager = function() {};
       }
     };
     // * Враги с eraseOnDead = 1 синхронизируются автоматически
-    return _.executeEraseOnDeadAAEvent = function(eventId) {
+    _.executeEraseOnDeadAAEvent = function(eventId) {
       var e;
       try {
         if (!AA.Network.isNetworkGame()) {
           return;
         }
         return this.sendToServer("executeEraseOnDeadAAEvent", eventId);
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    _.syncAAEntityObserver = function(eventId, observerData) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        return this.sendToServer("syncAAEntityObserver", {eventId, observerData});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.syncAIFlowMachineObserver = function(eventId, observerData) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        return this.sendToServer("syncAIFlowMachineObserver", {eventId, observerData});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -249,19 +273,76 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.executeEraseOnDeadAAEvent_RESP = function(response) {
-      var e, eventId, mapId, ref;
+    _.executeEraseOnDeadAAEvent_RESP = function(response) {
+      var e, event, eventId;
       try {
         // * Тут сцена не важна
-        ({mapId} = response);
-        if ($gameMap.mapId() !== mapId) {
+        if (!AA.Network.isOnSameMap(response)) {
           return;
         }
         eventId = response.content;
         if (eventId <= 0) {
           return;
         }
-        return (ref = $gameMap.event(eventId)) != null ? ref.erase() : void 0;
+        event = $gameMap.event(eventId);
+        if (event == null) {
+          return;
+        }
+        //TODO: Может проверку что это ABS событие?
+        return event.erase();
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    _.syncAAEntityObserver_RESP = function(response) {
+      var e, event, eventId, observerData, ref;
+      try {
+        if (!AA.Network.isOnSameMap(response)) {
+          return;
+        }
+        ({eventId, observerData} = response.content);
+        if (eventId <= 0) {
+          return;
+        }
+        if (observerData == null) {
+          return;
+        }
+        event = $gameMap.event(eventId);
+        if (event == null) {
+          return;
+        }
+        if (event.isABS() == null) {
+          return;
+        }
+        return (ref = event.AAEntity()) != null ? ref.applyObserverData(observerData) : void 0;
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.syncAIFlowMachineObserver_RESP = function(response) {
+      var e, event, eventId, observerData, ref;
+      try {
+        if (!AA.Network.isOnSameMap(response)) {
+          return;
+        }
+        ({eventId, observerData} = response.content);
+        if (eventId <= 0) {
+          return;
+        }
+        if (observerData == null) {
+          return;
+        }
+        event = $gameMap.event(eventId);
+        if (event == null) {
+          return;
+        }
+        if (event.isABS() == null) {
+          return;
+        }
+        "APPLY AI FLOW DATA".p();
+        return (ref = event.AALogic()) != null ? ref.applyObserverData(observerData) : void 0;
       } catch (error) {
         e = error;
         return AA.w(e);

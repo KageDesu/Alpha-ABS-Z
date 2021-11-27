@@ -20,8 +20,11 @@ do ->
         return actorId == ANGameManager.myActorId()
 
     _.isAvailableForVisual = (servCommand) ->
+        @isOnSameMap(servCommand) && KDCore.Utils.isSceneMap()
+
+    _.isOnSameMap = (servCommand) ->
         { mapId } = servCommand
-        $gameMap.mapId() == mapId && KDCore.Utils.isSceneMap()
+        $gameMap.mapId() == mapId
 
     # * Собирает базовую команду для отправки на сервер
     _.createServCommand = (content) ->
@@ -32,6 +35,7 @@ do ->
         }
 
     _.packMapChar = (character) ->
+        return null unless character?
         try
             if character == $gamePlayer
                 return ANNetwork.myId()
@@ -56,6 +60,8 @@ do ->
         catch e
             AA.w e
         return null
+
+    
 
     _.loadExtensions = ->
 

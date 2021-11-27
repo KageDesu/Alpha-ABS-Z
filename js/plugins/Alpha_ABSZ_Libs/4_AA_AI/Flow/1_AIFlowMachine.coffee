@@ -3,8 +3,11 @@
 class AIFlowMachine
     constructor: (@id) ->
         @state = 0
+        @prevState = -1
         @_stateFlows = []
         @_setup()
+        @_setupForNetwork() if AA.Network.isNetworkGame()
+        return
 
     registerFlowForState: (stateId, flowObject) ->
         @_stateFlows[stateId] = flowObject
@@ -43,7 +46,11 @@ class AIFlowMachine
     update: ->
         return unless @char()?
         return unless @isActive()
+        # * Логика состояний работает только на мастере карты
+        return if AA.Network.isNetworkGame() and !ANGameManager.isMapMaster()
         @_updateStates()
+        @_updateForNetwork()
+        return
 
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ AIFlowMachine.coffee
@@ -55,6 +62,11 @@ do ->
     _ = AIFlowMachine::
 
     _._setup = -> # * EMPTY
+
+    _._setupForNetwork = ->
+        # * Сетевые методы вынесенны отдельно
+        @_createNetworkObserver()
+        return
 
     _._updateStates = ->
         return if @state < 0
@@ -70,6 +82,9 @@ do ->
         @_stateFlows[@prevState].onStatePause() if @prevState >= 0
         @_stateFlows[@state].onStateResume(@prevState)
         return
+
+    _._updateForNetwork = ->
+        @_updateDataObserver()
     
     return
 # ■ END AIFlowMachine.coffee

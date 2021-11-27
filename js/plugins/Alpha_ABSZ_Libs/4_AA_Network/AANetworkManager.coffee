@@ -82,6 +82,20 @@ do ->
             catch e
                 AA.w e
 
+        _.syncAAEntityObserver = (eventId, observerData) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                @sendToServer("syncAAEntityObserver", { eventId, observerData })
+            catch e
+                AA.w e
+
+        _.syncAIFlowMachineObserver = (eventId, observerData) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                @sendToServer("syncAIFlowMachineObserver", { eventId, observerData })
+            catch e
+                AA.w e
+
     # * Обработка методов ОТ сервера (responses)
     # * ======================================================================
     # -----------------------------------------------------------------------
@@ -163,13 +177,43 @@ do ->
         _.executeEraseOnDeadAAEvent_RESP = (response) ->
             try
                 # * Тут сцена не важна
-                { mapId } = response
-                return if $gameMap.mapId() != mapId
+                return unless AA.Network.isOnSameMap(response)
                 eventId = response.content
                 return if eventId <= 0
-                $gameMap.event(eventId)?.erase()
+                event = $gameMap.event(eventId)
+                return unless event?
+                #TODO: Может проверку что это ABS событие?
+                event.erase()
             catch e
                 AA.w e
+
+        _.syncAAEntityObserver_RESP = (response) ->
+            try
+                return unless AA.Network.isOnSameMap(response)
+                { eventId, observerData } = response.content
+                return if eventId <= 0
+                return unless observerData?
+                event = $gameMap.event(eventId)
+                return unless event?
+                return unless event.isABS()?
+                event.AAEntity()?.applyObserverData(observerData)
+            catch e
+                AA.w e
+
+        _.syncAIFlowMachineObserver_RESP = (response) ->
+            try
+                return unless AA.Network.isOnSameMap(response)
+                { eventId, observerData } = response.content
+                return if eventId <= 0
+                return unless observerData?
+                event = $gameMap.event(eventId)
+                return unless event?
+                return unless event.isABS()?
+                "APPLY AI FLOW DATA".p()
+                event.AALogic()?.applyObserverData(observerData)
+            catch e
+                AA.w e
+
 
     # * Общие методы отправки и приёма команд
     # * ======================================================================

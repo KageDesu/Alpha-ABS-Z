@@ -103,30 +103,38 @@ do ->
 
         _.packAAEntity = (entity) ->
             return null unless entity?
-            if entity == $gamePlayer
-                return { type: 0 }
-            else if entity instanceof Game_Event
-                return { type: 1, id: entity.eventId(), mapId: $gameMap.mapId() }
-            else # * PARTY MEMBER
-                # < 0 ?
-            #    @subject = 1000 +
-            #TODO: party member pack
-                #$gamePlayer.followers().follower(index), from 0 to 3
-                return { type: 2 }
+            # * Для сетевой игры отдельный метод с учётом NetCharacter
+            if AA.Network.isNetworkGame()
+                return AA.Network.packMapChar(entity)
+            else
+                if entity == $gamePlayer
+                    return { type: 0 }
+                else if entity instanceof Game_Event
+                    return { type: 1, id: entity.eventId(), mapId: $gameMap.mapId() }
+                else # * PARTY MEMBER
+                    # < 0 ?
+                #    @subject = 1000 +
+                #TODO: party member pack
+                    #$gamePlayer.followers().follower(index), from 0 to 3
+                    return { type: 2 }
 
         _.unpackAAEntity = (data) ->
             return null unless data?
-            switch data.type
-                when 0
-                    return $gamePlayer
-                when 1
-                    if $gameMap.mapId() == data.mapId
-                        return $gameMap.event(data.id)
-                    else
+            # * Для сетевой игры отдельный метод с учётом NetCharacter
+            if AA.Network.isNetworkGame()
+                return AA.Network.unpackMapChar(data)
+            else
+                switch data.type
+                    when 0
+                        return $gamePlayer
+                    when 1
+                        if $gameMap.mapId() == data.mapId
+                            return $gameMap.event(data.id)
+                        else
+                            return null
+                    when 2
+                        #TODO: party member
                         return null
-                when 2
-                    #TODO: party member
-                    return null
             return null
 
 
