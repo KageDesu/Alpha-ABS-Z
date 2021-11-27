@@ -59,6 +59,8 @@ do ->
 
     _.loadExtensions = ->
 
+        return unless Imported.Alpha_NETZ is true
+
         # * Запускать АБС по готовности персонажа
         __alias_ANPM_bar = ANPlayersManager.bindActorResult
         ANPlayersManager.bindActorResult = (result) ->

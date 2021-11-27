@@ -17,6 +17,7 @@ null,
 {"id":15,"expanded":false,"name":"VisionRegions","order":5,"parentId":10,"scrollX":678.6,"scrollY":525},
 {"id":16,"expanded":false,"name":"MapScroll","order":16,"parentId":11,"scrollX":1038.6,"scrollY":1105.8},
 {"id":17,"expanded":true,"name":"NETZ","order":18,"parentId":0,"scrollX":0,"scrollY":0},
-{"id":18,"expanded":false,"name":"NetworkTest","order":19,"parentId":17,"scrollX":709.8,"scrollY":717.6},
-{"id":19,"expanded":false,"name":"ActorAddRemove","order":17,"parentId":11,"scrollX":709.8,"scrollY":416.4}
+{"id":18,"expanded":true,"name":"NetworkTest","order":19,"parentId":17,"scrollX":709.8,"scrollY":789.5999999999999},
+{"id":19,"expanded":false,"name":"ActorAddRemove","order":17,"parentId":11,"scrollX":709.8,"scrollY":416.4},
+{"id":20,"expanded":false,"name":"Fishing Village","order":20,"parentId":18,"scrollX":709.8,"scrollY":639.6}
 ]

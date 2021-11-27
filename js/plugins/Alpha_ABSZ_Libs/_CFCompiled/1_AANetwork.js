@@ -70,6 +70,9 @@ AA.Network = function() {};
   };
   return _.loadExtensions = function() {
     var __alias_ANPM_bar, _alias_GCB_fillNetworkObserver, _alias_nAPI_onCustomCommandABSZ;
+    if (Imported.Alpha_NETZ !== true) {
+      return;
+    }
     // * Запускать АБС по готовности персонажа
     __alias_ANPM_bar = ANPlayersManager.bindActorResult;
     ANPlayersManager.bindActorResult = function(result) {

@@ -126,7 +126,11 @@ do ->
                 # * Включаем self.switch
                 AA.SAaction.execute("ss_" + model.deadSwitch + "_true", @)
             else
-                @erase() if model.eraseOnDead is 1
+                if model.eraseOnDead is 1
+                    @erase()
+                    # * Только Erase синхронизируется, onDeathAction нет в данном методе
+                    # * SA синхронизируются отдельно
+                    AANetworkManager.executeEraseOnDeadAAEvent(@eventId())
             if model.isHaveOnDeathAction()
                 AA.SAaction.execute(model.onDeath, @)
             #TODO: Что делать с xAnimaDead ???

@@ -99,7 +99,7 @@ AANetworkManager = function() {};
       }
     };
     //TODO: Есть действия которые нельзя выполнять не на карте
-    return _.executeSA = function(action, character) {
+    _.executeSA = function(action, character) {
       var e;
       try {
         if (!AA.Network.isNetworkGame()) {
@@ -107,6 +107,19 @@ AANetworkManager = function() {};
         }
         character = AA.Network.packMapChar(character);
         return this.sendToServer("executeSA", {action, character});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    // * Враги с eraseOnDead = 1 синхронизируются автоматически
+    return _.executeEraseOnDeadAAEvent = function(eventId) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        return this.sendToServer("executeEraseOnDeadAAEvent", eventId);
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -211,10 +224,9 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.executeSA_RESP = function(response) {
+    _.executeSA_RESP = function(response) {
       var action, character, cmd, e, mapId, unpackedCharacter;
       try {
-        "CALL SA".p();
         ({mapId} = response);
         ({action, character} = response.content);
         cmd = action.split("_")[0];
@@ -232,6 +244,24 @@ AANetworkManager = function() {};
           unpackedCharacter = AA.Network.unpackMapChar(character);
           return AA.SAaction.execute(action, unpackedCharacter);
         }
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.executeEraseOnDeadAAEvent_RESP = function(response) {
+      var e, eventId, mapId, ref;
+      try {
+        // * Тут сцена не важна
+        ({mapId} = response);
+        if ($gameMap.mapId() !== mapId) {
+          return;
+        }
+        eventId = response.content;
+        if (eventId <= 0) {
+          return;
+        }
+        return (ref = $gameMap.event(eventId)) != null ? ref.erase() : void 0;
       } catch (error) {
         e = error;
         return AA.w(e);

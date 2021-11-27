@@ -74,6 +74,14 @@ do ->
             catch e
                 AA.w e
 
+        # * Враги с eraseOnDead = 1 синхронизируются автоматически
+        _.executeEraseOnDeadAAEvent = (eventId) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                @sendToServer("executeEraseOnDeadAAEvent", eventId)
+            catch e
+                AA.w e
+
     # * Обработка методов ОТ сервера (responses)
     # * ======================================================================
     # -----------------------------------------------------------------------
@@ -136,7 +144,6 @@ do ->
 
         _.executeSA_RESP = (response) ->
             try
-                "CALL SA".p()
                 { mapId } = response
                 { action, character } = response.content
                 cmd = action.split("_")[0]
@@ -150,6 +157,17 @@ do ->
                         return unless AA.Network.isAvailableForVisual(response)
                     unpackedCharacter = AA.Network.unpackMapChar(character)
                     AA.SAaction.execute(action, unpackedCharacter)
+            catch e
+                AA.w e
+
+        _.executeEraseOnDeadAAEvent_RESP = (response) ->
+            try
+                # * Тут сцена не важна
+                { mapId } = response
+                return if $gameMap.mapId() != mapId
+                eventId = response.content
+                return if eventId <= 0
+                $gameMap.event(eventId)?.erase()
             catch e
                 AA.w e
 
