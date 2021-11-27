@@ -41,11 +41,21 @@ AA.Network = function() {};
     }
     try {
       if (character === $gamePlayer) {
-        return ANNetwork.myId();
+        return {
+          type: 0,
+          id: ANNetwork.myId()
+        };
       } else if (character instanceof Game_Event) {
-        return character.eventId();
+        return {
+          type: 1,
+          id: character.eventId(),
+          mapId: $gameMap.mapId()
+        };
       } else if (character instanceof NETCharacter) {
-        return character.id;
+        return {
+          type: 0,
+          id: character.id
+        };
       }
     } catch (error) {
       e = error;
@@ -53,20 +63,27 @@ AA.Network = function() {};
     }
     return null; // * Unknown
   };
-  _.unpackMapChar = function(netId) {
+  _.unpackMapChar = function(packed) {
     var e;
     try {
-      if (netId == null) {
+      if (packed == null) {
         return null;
       }
-      if (isFinite(netId)) {
-        return $gameMap.event(netId);
-      } else {
-        if (netId === ANNetwork.myId()) {
-          return $gamePlayer;
-        } else {
-          return $gameMap.networkCharacterById(netId);
-        }
+      if (packed.type == null) {
+        return null;
+      }
+      switch (packed.type) {
+        case 0:
+          if (packed.id === ANNetwork.myId()) {
+            return $gamePlayer;
+          } else {
+            return $gameMap.networkCharacterById(packed.id);
+          }
+          break;
+        case 1:
+          if ($gameMap.mapId() === packed.mapId) {
+            return $gameMap.event(packed.id);
+          }
       }
     } catch (error) {
       e = error;

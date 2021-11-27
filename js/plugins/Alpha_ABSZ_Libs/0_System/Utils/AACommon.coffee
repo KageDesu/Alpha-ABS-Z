@@ -111,7 +111,8 @@ do ->
                     return { type: 0 }
                 else if entity instanceof Game_Event
                     return { type: 1, id: entity.eventId(), mapId: $gameMap.mapId() }
-                else # * PARTY MEMBER
+                else
+                    # * PARTY MEMBER
                     # < 0 ?
                 #    @subject = 1000 +
                 #TODO: party member pack

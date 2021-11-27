@@ -38,30 +38,31 @@ do ->
         return null unless character?
         try
             if character == $gamePlayer
-                return ANNetwork.myId()
+                return { type: 0, id: ANNetwork.myId() }
             else if character instanceof Game_Event
-                return character.eventId()
+                return { type: 1, id: character.eventId(), mapId: $gameMap.mapId() }
             else if character instanceof NETCharacter
-                return character.id
+                return { type: 0, id: character.id }
         catch e
             AA.w e
         return null # * Unknown
 
-    _.unpackMapChar = (netId) ->
+    _.unpackMapChar = (packed) ->
         try
-            return null unless netId?
-            if isFinite(netId)
-                return $gameMap.event(netId)
-            else
-                if netId == ANNetwork.myId()
-                    return $gamePlayer
-                else
-                    return $gameMap.networkCharacterById(netId)
+            return null unless packed?
+            return null unless packed.type?
+            switch packed.type
+                when 0
+                    if packed.id == ANNetwork.myId()
+                        return $gamePlayer
+                    else
+                        return $gameMap.networkCharacterById(packed.id)
+                when 1
+                    if $gameMap.mapId() == packed.mapId
+                        return $gameMap.event(packed.id)
         catch e
             AA.w e
         return null
-
-    
 
     _.loadExtensions = ->
 

@@ -46,6 +46,11 @@ class AASkill2MapAction
 
     isSubjectIsPlayer: -> @packedSubject? and @packedSubject.type is 0
 
+    isSubjectIsNetChar: -> @packedSubject?
+
+    #TODO:
+    isSubjectIsAlly: -> @packedSubject? and @packedSubject.type is 2
+
     isSubjectIsEvent: -> @packedSubject? and @packedSubject.type is 1
 
     getSubjectEvId: ->

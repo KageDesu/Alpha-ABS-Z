@@ -149,10 +149,11 @@
           return {
             type: 1,
             id: entity.eventId(),
-            mapId: $gameMap.mapId() // * PARTY MEMBER
+            mapId: $gameMap.mapId()
           };
         } else {
           return {
+            // * PARTY MEMBER
             // < 0 ?
             //    @subject = 1000 +
             //TODO: party member pack
