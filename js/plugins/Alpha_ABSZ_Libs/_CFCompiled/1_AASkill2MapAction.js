@@ -57,15 +57,15 @@ AASkill2MapAction = class AASkill2MapAction {
     }
   }
 
+  //TODO: Если будет Friendly Fire или PVP, то поменять
   isSubjectIsPlayer() {
     return (this.packedSubject != null) && this.packedSubject.type === 0;
   }
 
   isSubjectIsNetChar() {
-    return this.packedSubject != null;
+    return AA.Network.isNetworkGame() && this.isSubjectIsPlayer() && this.packedSubject.id !== ANNetwork.myId();
   }
 
-  //TODO:
   isSubjectIsAlly() {
     return (this.packedSubject != null) && this.packedSubject.type === 2;
   }

@@ -72,7 +72,7 @@
 
     // * Основная логика АБС
     // -----------------------------------------------------------------------
-    var ALIAS__aaOnActionOnMe, ALIAS__aaOnDeath, ALIAS__aaOnDefeat, ALIAS__aaOnShatterEffectCreated, ALIAS__clearABS, ALIAS__initABS, ALIAS__isActive, ALIAS_aaUpdateABS;
+    var ALIAS__aaOnActionOnMe, ALIAS__aaOnDeath, ALIAS__aaOnDefeat, ALIAS__aaOnShatterEffectCreated, ALIAS__clearABS, ALIAS__erase, ALIAS__initABS, ALIAS__isActive, ALIAS_aaUpdateABS;
     // * Этот метод выполняется из отдельного потока для логики АИ
     //$[OUTER]
     _.aaUpdateAILogic = function() {
@@ -126,6 +126,17 @@
       this.aaOnDefeat();
     };
     //@[ALIAS]
+    ALIAS__erase = _.erase;
+    _.erase = function() {
+      var ref;
+      if (Imported.PKD_AnimaX === true) {
+        if ((ref = this.AASprite()) != null) {
+          ref._destroyAnimaXParts();
+        }
+      }
+      ALIAS__erase.call(this);
+    };
+    //@[ALIAS]
     ALIAS__aaOnDefeat = _.aaOnDefeat;
     _.aaOnDefeat = function() {
       ALIAS__aaOnDefeat.call(this);
@@ -138,6 +149,9 @@
     _.aaOnDeath = function() {
       var model;
       ALIAS__aaOnDeath.call(this);
+      if (Imported.PKD_AnimaX === true && this.isAnimX()) {
+        this.clearXAnimParts();
+      }
       model = this.AAModel();
       if (model.isHaveDeadSwitch()) {
         // * Включаем self.switch

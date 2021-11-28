@@ -110,6 +110,14 @@ do ->
             return
 
         #@[ALIAS]
+        ALIAS__erase = _.erase
+        _.erase = ->
+            if Imported.PKD_AnimaX is true
+                @AASprite()?._destroyAnimaXParts()
+            ALIAS__erase.call(@)
+            return
+
+        #@[ALIAS]
         ALIAS__aaOnDefeat = _.aaOnDefeat
         _.aaOnDefeat = ->
             ALIAS__aaOnDefeat.call(@)
@@ -121,6 +129,7 @@ do ->
         ALIAS__aaOnDeath = _.aaOnDeath
         _.aaOnDeath = ->
             ALIAS__aaOnDeath.call(@)
+            @clearXAnimParts() if Imported.PKD_AnimaX is true and @isAnimX()
             model = @AAModel()
             if model.isHaveDeadSwitch()
                 # * Включаем self.switch

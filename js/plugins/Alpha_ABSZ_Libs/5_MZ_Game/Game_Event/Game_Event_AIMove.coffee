@@ -92,6 +92,8 @@ do ->
 
     # * Все эти режимы движения, не имеют собственной логики окончания (выхода из режима)
     _.aaUpdateSelfMovementForAI = ->
+        #TODO: Проверить
+        return if AA.Network.isNetworkGame() and !ANGameManager.isMapMaster()
         if !@_locked && !@isMoving()
             switch @_moveType
                 when 91 # * Approach target

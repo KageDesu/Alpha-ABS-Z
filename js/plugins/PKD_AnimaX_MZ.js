@@ -1663,9 +1663,354 @@ PKD_ANIMAX.ApplyNETZPatch = function() {
 // ■ END Game_Actor.coffee
 //---------------------------------------------------------------------------
 
-//Compressed by MV Plugin Builder
-(function(){var a0_0x3b6f=['prototype','clearAnimaX','LSybI','dash','base','isInMovementAnimaX','ySsZt','isAction','isAnimX','1234lhjmcg','_updateMovingAnimX','switchToXAnimaState','_xAnimaPartsRequireRefresh','poKqZ','zqMUf','_axPreloadedActions','DvNir','moveToIdleDelay','519DXFYNx','animXId','getXAnimaParamsForAction','AbGYB','isHaveAnimaXState','hpXka','isHaveAnimaXActionWithName','miXkd','Hskqz','hIRBM','isAnimXPartsChanged','_setAnimaXToIdle','_axState','645183tAqgGy','jbqDZ','animaXParts','removeXAnimPart','_initMembersAnimaX','initAnimaX','_getAnimaXMoveToIdleDelay','iilyv','HAXjq','_updateAnimX','lsXHR','IsNetworkGame','isAnimaXActionIsPreloaded','resetXAnimaState','_updateMoveIdleAnimaX','onAnimaXActionEnd','_setAnimaXToDashing','InLocalMode','8dzpVvJ','startAnimaXAction','isInIdleAnimaX','move','1QiqWTv','isInAnimXAction','eoeGF','_isHaveAnimaX','1746525BONyby','preLoad','registerAnimaXState','_updateMovingDashingAnimX','getCurrentAnimX','netAnimaXLocal','gLNOq','obkcs','92926kWSSGt','_xAnimaToIdleTimer','Gcpuy','isHaveIdleAnimaX','createAnimaXActionSet','dashSet','fXDED','KxsaY','_axMovement','_createXAnimaSetsForState','oIHed','createXAnimaSetForIdle','resetXAnima','_updateAnimXRefresh','_axCurrent','_axStates','_axDashing','isHaveDashAnimaX','1149yuhlKS','sshRN','61029aVaZtH','createXAnimaSetForMove','registerAnimaXAction','zLjOx','yanuB','startAnimaXCustomAction','sVFaZ','rEkhu','NLkgA','idle','_createAnimaXSetFromParams','isShouldWaitAnimaXAction','wIfkB','VEgPy','createXAnimaPart','idleSet','isLoop','_axId','push','VySaV','isInAnyMovementAnimaX','DuKqK','isInDashingAnimaX','TDchw','cspER','_axAvailableActionsList','clearXAnimParts','kPauc','DbcFA','_axIdle','_setAnimaXToMovement','createXAnimaSetForDashing','isWait','isMoving','uMILA','935WHNmjb','warn','504518ywJzbo','addNewXAnimPart'];function a0_0x11dc(_0x5b8962,_0x360145){_0x5b8962=_0x5b8962-0x12a;var _0x3b6f12=a0_0x3b6f[_0x5b8962];return _0x3b6f12;}(function(_0x209325,_0x534686){var _0x241666=a0_0x11dc;while(!![]){try{var _0x1add3d=-parseInt(_0x241666(0x152))+parseInt(_0x241666(0x131))+parseInt(_0x241666(0x168))*parseInt(_0x241666(0x188))+parseInt(_0x241666(0x174))*parseInt(_0x241666(0x164))+parseInt(_0x241666(0x186))*parseInt(_0x241666(0x12f))+-parseInt(_0x241666(0x145))*-parseInt(_0x241666(0x13c))+-parseInt(_0x241666(0x16c));if(_0x1add3d===_0x534686)break;else _0x209325['push'](_0x209325['shift']());}catch(_0x598564){_0x209325['push'](_0x209325['shift']());}}}(a0_0x3b6f,0x9a4c8),function(){var _0x514e8c=a0_0x11dc,_0xf4fa3b;_0xf4fa3b=Game_Character[_0x514e8c(0x133)],function(){var _0xb05d7c=_0x514e8c;_0xf4fa3b[_0xb05d7c(0x13b)]=function(){var _0x143413=_0xb05d7c;if('rEkhu'===_0x143413(0x18f))return this[_0x143413(0x16b)]===!![];else{function _0x38785b(){var _0xf688d=_0x143413;return this['_axCurrent']=this[_0xf688d(0x184)]();}}},_0xf4fa3b[_0xb05d7c(0x146)]=function(){var _0x3a2ab9=_0xb05d7c;if(_0x3a2ab9(0x17a)!=='pczez')return this['_axId'];else{function _0x54c7ca(){var _0x4fc187=_0x3a2ab9;this[_0x4fc187(0x199)]=_0x4d9edd,this[_0x4fc187(0x1a2)](),this[_0x4fc187(0x1a1)]=[],this[_0x4fc187(0x142)]={},this[_0x4fc187(0x183)]={},this[_0x4fc187(0x151)]='base',this['registerAnimaXState'](this['_axState'],_0x34af7e);if(this[_0x4fc187(0x183)][this['_axState']]==null)return;this[_0x4fc187(0x180)](),this[_0x4fc187(0x16b)]=!![],this['getCurrentAnimX']()[_0x4fc187(0x16d)]();}}},_0xf4fa3b[_0xb05d7c(0x177)]=function(){var _0x17d25b=_0xb05d7c;if(_0x17d25b(0x195)==='VEgPy')return this['_axIdle']()!=null;else{function _0x486863(){return this['_axCurrent'];}}},_0xf4fa3b['isHaveDashAnimaX']=function(){var _0x786b6e=_0xb05d7c;if('HViLA'!=='JqPae')return this[_0x786b6e(0x184)]()!=null;else{function _0x1f009e(){var _0x44bc63=_0x786b6e,_0x4f25cd;if(this['animaXParts'][_0x495063]!=null)return;_0x4f25cd=_0x24eb19['createXAnimaPart'](this[_0x44bc63(0x146)](),_0x5ac993,_0x5a0058);if(_0x4f25cd==null)return;this['animaXParts'][_0x593c70]=_0x4f25cd,this['_xAnimaPartsRequireRefresh']=!![];}}},_0xf4fa3b[_0xb05d7c(0x149)]=function(_0x127f7f){return this['_axStates'][_0x127f7f]!=null;},_0xf4fa3b[_0xb05d7c(0x169)]=function(){var _0x50a2e5=_0xb05d7c;return this[_0x50a2e5(0x13b)]()&&this[_0x50a2e5(0x170)]()[_0x50a2e5(0x13a)]();},_0xf4fa3b[_0xb05d7c(0x138)]=function(){var _0xe79559=_0xb05d7c;return this[_0xe79559(0x182)]===this[_0xe79559(0x17c)]();},_0xf4fa3b[_0xb05d7c(0x19c)]=function(){var _0x1be73c=_0xb05d7c;if(_0x1be73c(0x190)===_0x1be73c(0x190))return this[_0x1be73c(0x138)]()||this[_0x1be73c(0x19e)]();else{function _0x16e915(){var _0xd7fbbc=_0x1be73c;return this[_0xd7fbbc(0x138)]()||this['isInDashingAnimaX']();}}},_0xf4fa3b[_0xb05d7c(0x166)]=function(){var _0x4462fc=_0xb05d7c;if(_0x4462fc(0x15a)!==_0x4462fc(0x15a)){function _0x217aa1(){return this['_isHaveAnimaX']===!![];}}else return this[_0x4462fc(0x182)]===this[_0x4462fc(0x1a5)]();},_0xf4fa3b[_0xb05d7c(0x19e)]=function(){var _0x14ad60=_0xb05d7c;if(_0x14ad60(0x148)!==_0x14ad60(0x148)){function _0x34f4db(){var _0x5269f0=_0x14ad60;return this[_0x5269f0(0x160)]();}}else return this[_0x14ad60(0x182)]===this[_0x14ad60(0x184)]();},_0xf4fa3b['onAnimaXActionStart']=function(){return this['_xAnimaToIdleTimer']=0x0;},_0xf4fa3b[_0xb05d7c(0x161)]=function(){var _0x28365b=_0xb05d7c;if(_0x28365b(0x1a0)===_0x28365b(0x18b)){function _0x5afe4d(){var _0x5f1a69=_0x28365b;return this[_0x5f1a69(0x199)];}}else return this['resetXAnima']();},_0xf4fa3b[_0xb05d7c(0x193)]=function(){var _0x3e982e=_0xb05d7c;if(_0x3e982e(0x153)!==_0x3e982e(0x153)){function _0x66ff8a(){var _0x526749=_0x3e982e;this[_0x526749(0x180)](),this[_0x526749(0x16b)]=![],this[_0x526749(0x157)](null,null);}}else{var _0x4f49ec;if(this['isInAnyMovementAnimaX']())return![];if(!this[_0x3e982e(0x169)]()){if(_0x3e982e(0x14a)==='hpXka')return![];else{function _0x208427(){var _0xdeeccb=_0x3e982e;_0x4a801b[_0xdeeccb(0x16d)]();}}}return _0x4f49ec=this[_0x3e982e(0x170)](),_0x4f49ec[_0x3e982e(0x13a)]()&&_0x4f49ec[_0x3e982e(0x12c)]();}},_0xf4fa3b['isHaveAnimaXActionWithName']=function(_0x5c3ebe){var _0xdb849c=_0xb05d7c;return this[_0xdb849c(0x1a1)]['contains'](_0x5c3ebe);},_0xf4fa3b[_0xb05d7c(0x170)]=function(){var _0x5f33b5=_0xb05d7c;return this[_0x5f33b5(0x182)];},_0xf4fa3b[_0xb05d7c(0x165)]=function(_0x69e84){var _0x13e0d6=_0xb05d7c;return this[_0x13e0d6(0x182)]=_0x69e84;},_0xf4fa3b[_0xb05d7c(0x13e)]=function(_0x4ac448){var _0x16efe2=_0xb05d7c;if(this[_0x16efe2(0x149)](_0x4ac448)){if(_0x16efe2(0x176)===_0x16efe2(0x176))this[_0x16efe2(0x151)]=_0x4ac448,!this['isInAnimXAction']()&&this[_0x16efe2(0x180)]();else{function _0x5b4a2f(){var _0x4caaf4=_0x16efe2;this[_0x4caaf4(0x154)][_0x4f894a]=null,delete this[_0x4caaf4(0x154)][_0x266653],this[_0x4caaf4(0x13f)]=!![];}}}else{if(_0x16efe2(0x172)===_0x16efe2(0x172))this[_0x16efe2(0x15f)]();else{function _0x30ec22(){var _0x5373e5=_0x16efe2;_0x559034!=null&&(_0x497486=_0x19e248[_0x5373e5(0x189)](this[_0x5373e5(0x146)](),_0x19fdf5,_0x31891f));}}}},_0xf4fa3b['initAnimaX']=function(_0x3ded27,_0x26694b){var _0x1fb3b3=_0xb05d7c;if('smLtv'==='smLtv'){this[_0x1fb3b3(0x199)]=_0x3ded27,this['clearXAnimParts'](),this[_0x1fb3b3(0x1a1)]=[],this['_axPreloadedActions']={},this[_0x1fb3b3(0x183)]={},this[_0x1fb3b3(0x151)]=_0x1fb3b3(0x137),this['registerAnimaXState'](this[_0x1fb3b3(0x151)],_0x26694b);if(this['_axStates'][this[_0x1fb3b3(0x151)]]==null)return;this[_0x1fb3b3(0x180)](),this[_0x1fb3b3(0x16b)]=!![],this[_0x1fb3b3(0x170)]()[_0x1fb3b3(0x16d)]();}else{function _0x472e12(){var _0x438768=_0x1fb3b3;return this[_0x438768(0x1a5)]()[_0x438768(0x144)];}}},_0xf4fa3b[_0xb05d7c(0x16e)]=function(_0x4ad753,_0x56c310){var _0xa0c5bc=_0xb05d7c,_0x4fc47e,_0xf54bfc,_0x5bb894,_0x1788dd;try{if(_0x56c310==null){if('jriKD'==='jriKD')return;else{function _0xbcd7(){var _0x11ebee=a0_0x11dc;_0x2dfd1d=_0x29398e[_0x11ebee(0x147)](_0x10f159,this['animXId']()),_0x5c051f=this[_0x11ebee(0x178)](_0x217b79);}}}_0x1788dd=this['_createAnimaXSetFromParams'](0x0,_0x4ad753,_0x56c310[_0xa0c5bc(0x167)]);if(_0x1788dd==null){if(_0xa0c5bc(0x14d)==='GDJDQ'){function _0x14263d(){return this['resetXAnima']();}}else return;}_0x1788dd[_0xa0c5bc(0x16d)](),_0x5bb894=null,_0x4fc47e=null,_0x5bb894=this[_0xa0c5bc(0x192)](0x1,_0x4ad753,_0x56c310[_0xa0c5bc(0x191)]);_0x5bb894!=null&&_0x5bb894[_0xa0c5bc(0x16d)]();if(_0x5bb894!=null&&_0x56c310['moveToIdleDelay']!=null){if(_0xa0c5bc(0x16a)!==_0xa0c5bc(0x16a)){function _0x19836e(){var _0x2b913c=_0xa0c5bc;return this[_0x2b913c(0x183)][this[_0x2b913c(0x151)]][_0x2b913c(0x197)];}}else _0x5bb894[_0xa0c5bc(0x144)]=_0x56c310[_0xa0c5bc(0x144)];}_0x4fc47e=this[_0xa0c5bc(0x192)](0x3,_0x4ad753,_0x56c310[_0xa0c5bc(0x136)]),_0x4fc47e!=null&&_0x4fc47e[_0xa0c5bc(0x16d)](),this[_0xa0c5bc(0x17d)](_0x4ad753,_0x1788dd,_0x5bb894,_0x4fc47e);}catch(_0x2784c8){if(_0xa0c5bc(0x17e)!==_0xa0c5bc(0x14c))_0xf54bfc=_0x2784c8,console[_0xa0c5bc(0x130)](_0xf54bfc),this['_axStates'][_0x4ad753]=null;else{function _0x29d641(){return![];}}}},_0xf4fa3b['resetXAnimaState']=function(){var _0x3b8657=_0xb05d7c;if(_0x3b8657(0x143)===_0x3b8657(0x143)){this[_0x3b8657(0x151)]='base';if(!this[_0x3b8657(0x169)]()){if(_0x3b8657(0x15c)!==_0x3b8657(0x135))this[_0x3b8657(0x180)]();else{function _0x28951c(){return;}}}}else{function _0x117801(){var _0x385fcb=_0x3b8657;return this[_0x385fcb(0x182)]=this[_0x385fcb(0x1a5)]();}}},_0xf4fa3b['resetXAnima']=function(){this['_inAnimXAction']=![],this['_xAnimaToIdleTimer']=0x0,this['_setAnimaXToMovement']();},_0xf4fa3b[_0xb05d7c(0x18a)]=function(_0x1f12fb){var _0xe45a20=_0xb05d7c;return this[_0xe45a20(0x1a1)][_0xe45a20(0x19a)](_0x1f12fb);},_0xf4fa3b[_0xb05d7c(0x156)]=function(){var _0x354626=_0xb05d7c;if('HllaK'!==_0x354626(0x1a3))return this[_0x354626(0x13f)]=![],this[_0x354626(0x175)]=0x0,this[_0x354626(0x16b)]=![];else{function _0x4754a5(){return this['_axStates'][this['_axState']]['dashSet'];}}},_0xf4fa3b['_createXAnimaSetsForState']=function(_0x60f712,_0x10d60e,_0x2c310d,_0x19d4da){var _0x588cea=_0xb05d7c;if('xwVmL'==='gIbjH'){function _0x871ad7(){var _0x3c8be7=a0_0x11dc;return this[_0x3c8be7(0x182)]=this[_0x3c8be7(0x17c)]();}}else{this[_0x588cea(0x183)][_0x60f712]={},_0x10d60e[_0x588cea(0x16d)](),this[_0x588cea(0x183)][_0x60f712]['moveSet']=_0x10d60e;if(_0x2c310d!=null){if(_0x588cea(0x139)!==_0x588cea(0x139)){function _0x58ea53(){var _0x21ecb9=_0x588cea;this[_0x21ecb9(0x175)]++;if(this[_0x21ecb9(0x175)]>=this[_0x21ecb9(0x158)]())return this['_setAnimaXToIdle']();}}else _0x2c310d['isLoop']=!![],_0x2c310d[_0x588cea(0x16d)](),this['_axStates'][_0x60f712][_0x588cea(0x197)]=_0x2c310d;}else this['_axStates'][_0x60f712]['idleSet']=null;_0x19d4da!=null?(this[_0x588cea(0x183)][_0x60f712]['dashSet']=_0x19d4da,_0x19d4da[_0x588cea(0x16d)]()):this['_axStates'][_0x60f712][_0x588cea(0x179)]=null;}},_0xf4fa3b[_0xb05d7c(0x192)]=function(_0x46337d,_0x320183,_0x549c3f){var _0x3be584=_0xb05d7c,_0x4162da,_0x189854;_0x4162da=null;try{if('YhBOS'!==_0x3be584(0x173)){if(_0x46337d===0x0){if(_0x549c3f!=null){if(_0x3be584(0x14e)!==_0x3be584(0x14e)){function _0x4972b7(){var _0x8d3e7d=_0x3be584;_0x450113=_0xb809f9[_0x8d3e7d(0x12b)](this[_0x8d3e7d(0x146)](),_0x9af279,_0x315d9f);}}else _0x4162da=XAnimaTools[_0x3be584(0x189)](this[_0x3be584(0x146)](),_0x320183,_0x549c3f);}}else{if(_0x46337d===0x1)_0x549c3f!=null&&(_0x4162da=XAnimaTools[_0x3be584(0x17f)](this[_0x3be584(0x146)](),_0x320183,_0x549c3f));else _0x46337d===0x3&&(_0x549c3f!=null&&(_0x4162da=XAnimaTools[_0x3be584(0x12b)](this[_0x3be584(0x146)](),_0x320183,_0x549c3f)));}}else{function _0x2cde4a(){return this['_axDashing']()!=null;}}}catch(_0x28ffff){_0x189854=_0x28ffff,console['warn'](_0x189854),_0x4162da=null;}return _0x4162da;},_0xf4fa3b[_0xb05d7c(0x15b)]=function(){var _0x31be4c=_0xb05d7c;if(_0x31be4c(0x140)!==_0x31be4c(0x194)){this[_0x31be4c(0x181)]();if(this[_0x31be4c(0x193)]())return;this[_0x31be4c(0x13d)]();if(this[_0x31be4c(0x177)]()&&this['isInAnyMovementAnimaX']()){if(_0x31be4c(0x17b)!==_0x31be4c(0x17b)){function _0x46570e(){var _0x57cf9c=_0x31be4c;_0x7d434f['moveToIdleDelay']=_0x3b7a46[_0x57cf9c(0x144)];}}else return this['_updateMoveIdleAnimaX']();}}else{function _0x47766b(){var _0x3a297e=_0x31be4c;_0x266c00=_0x2c9696,_0xf3661f['warn'](_0x4e6275),this[_0x3a297e(0x183)][_0x2970f0]=null;}}},_0xf4fa3b[_0xb05d7c(0x13d)]=function(){var _0x490be5=_0xb05d7c;if(!this[_0x490be5(0x12d)]())return;if(this[_0x490be5(0x185)]()){if(_0x490be5(0x12e)===_0x490be5(0x141)){function _0x3347a8(){var _0x5a0745=_0x490be5;this[_0x5a0745(0x180)]();}}else this[_0x490be5(0x16f)]();}this[_0x490be5(0x175)]=0x0;if(!this[_0x490be5(0x19c)]())return this[_0x490be5(0x180)]();},_0xf4fa3b[_0xb05d7c(0x16f)]=function(){var _0xdcd865=_0xb05d7c;if(this['isDashingForAnimaX']())!this[_0xdcd865(0x19e)]()&&this[_0xdcd865(0x162)]();else{if(this[_0xdcd865(0x19e)]()){if('iilyv'===_0xdcd865(0x159))this[_0xdcd865(0x12a)]();else{function _0x1d49a8(){var _0xa82017=_0xdcd865;return this[_0xa82017(0x183)][_0x3a7120]!=null;}}}}},_0xf4fa3b[_0xb05d7c(0x160)]=function(){var _0x31592b=_0xb05d7c;if(!this['isMoving']()){this[_0x31592b(0x175)]++;if(this[_0x31592b(0x175)]>=this[_0x31592b(0x158)]())return this[_0x31592b(0x150)]();}},_0xf4fa3b['_getAnimaXMoveToIdleDelay']=function(){var _0x7027e4=_0xb05d7c;return this[_0x7027e4(0x1a5)]()['moveToIdleDelay'];},_0xf4fa3b['_axMovement']=function(){var _0x7b1a47=_0xb05d7c;return this[_0x7b1a47(0x183)][this[_0x7b1a47(0x151)]]['moveSet'];},_0xf4fa3b[_0xb05d7c(0x1a5)]=function(){var _0x3b0d43=_0xb05d7c;return this[_0x3b0d43(0x183)][this[_0x3b0d43(0x151)]][_0x3b0d43(0x197)];},_0xf4fa3b['_axDashing']=function(){var _0x8341ab=_0xb05d7c;return this[_0x8341ab(0x183)][this[_0x8341ab(0x151)]][_0x8341ab(0x179)];},_0xf4fa3b[_0xb05d7c(0x150)]=function(){var _0x15af10=_0xb05d7c;if(_0x15af10(0x18c)===_0x15af10(0x19f)){function _0x230af8(){return![];}}else return this[_0x15af10(0x182)]=this['_axIdle']();},_0xf4fa3b[_0xb05d7c(0x12a)]=function(){var _0x676e9b=_0xb05d7c;return this[_0x676e9b(0x182)]=this['_axMovement']();},_0xf4fa3b[_0xb05d7c(0x162)]=function(){var _0x237349=_0xb05d7c;return this[_0x237349(0x182)]=this[_0x237349(0x184)]();},_0xf4fa3b[_0xb05d7c(0x134)]=function(){var _0x46c786=_0xb05d7c;this[_0x46c786(0x180)](),this[_0x46c786(0x16b)]=![],this[_0x46c786(0x157)](null,null);},_0xf4fa3b[_0xb05d7c(0x14f)]=function(){var _0x10e244=_0xb05d7c;return this[_0x10e244(0x13f)]===!![];},_0xf4fa3b['onAnimXPartsRefreshed']=function(){var _0x476f0b=_0xb05d7c;if(_0x476f0b(0x187)==='GHLSs'){function _0x55e240(){var _0x1a0bd0=_0x476f0b;if(!this[_0x1a0bd0(0x12d)]()){this[_0x1a0bd0(0x175)]++;if(this[_0x1a0bd0(0x175)]>=this[_0x1a0bd0(0x158)]())return this[_0x1a0bd0(0x150)]();}}}else return this[_0x476f0b(0x13f)]=![];},_0xf4fa3b[_0xb05d7c(0x132)]=function(_0x44257d,_0xbe028d=![]){var _0x59ad79=_0xb05d7c;if('xWsmg'!=='MNidJ'){var _0x129ce3;if(this[_0x59ad79(0x154)][_0x44257d]!=null){if(_0x59ad79(0x19d)!==_0x59ad79(0x19d)){function _0x13d8ef(){var _0x26f2ef=_0x59ad79;this[_0x26f2ef(0x16f)]();}}else return;}_0x129ce3=XAnimaTools[_0x59ad79(0x196)](this[_0x59ad79(0x146)](),_0x44257d,_0xbe028d);if(_0x129ce3==null){if('DbcFA'!==_0x59ad79(0x1a4)){function _0x389e19(){var _0x3d5e85=_0x59ad79;this[_0x3d5e85(0x180)]();}}else return;}this[_0x59ad79(0x154)][_0x44257d]=_0x129ce3,this['_xAnimaPartsRequireRefresh']=!![];}else{function _0x64826a(){var _0x2ea6fa=_0x59ad79;this[_0x2ea6fa(0x181)]();if(this[_0x2ea6fa(0x193)]())return;this[_0x2ea6fa(0x13d)]();if(this[_0x2ea6fa(0x177)]()&&this[_0x2ea6fa(0x19c)]())return this['_updateMoveIdleAnimaX']();}}},_0xf4fa3b[_0xb05d7c(0x155)]=function(_0x1219ef){var _0x1d92cd=_0xb05d7c;this['animaXParts'][_0x1219ef]=null,delete this[_0x1d92cd(0x154)][_0x1219ef],this[_0x1d92cd(0x13f)]=!![];},_0xf4fa3b['clearXAnimParts']=function(){var _0x56af0e=_0xb05d7c;this[_0x56af0e(0x154)]={},this['_xAnimaPartsRequireRefresh']=!![];},_0xf4fa3b[_0xb05d7c(0x18d)]=function(_0x382089,_0x8b9bfa=![],_0x55ea72=![]){var _0x1f57ab=_0xb05d7c;if('rpfag'===_0x1f57ab(0x18e)){function _0x1a976e(){return;}}else{var _0xf107d7,_0xace736;if(!this[_0x1f57ab(0x14b)](_0x382089))return![];this[_0x1f57ab(0x15e)](_0x382089)?_0xace736=this['getPreloadAnimaXActionSet'](_0x382089):(_0xf107d7=XAnimaTools[_0x1f57ab(0x147)](_0x382089,this[_0x1f57ab(0x146)]()),_0xace736=this[_0x1f57ab(0x178)](_0xf107d7));if(_0xace736!=null){_0xace736['waitActionEnd']=_0x55ea72,_0xace736[_0x1f57ab(0x198)]=_0x8b9bfa,this[_0x1f57ab(0x165)](_0xace736);if(PKD_ANIMAX[_0x1f57ab(0x15d)]()&&!PKD_ANIMAX[_0x1f57ab(0x163)]()){if(_0x1f57ab(0x19b)!==_0x1f57ab(0x19b)){function _0x1b0bdf(){return this['_axCurrent']=_0x2d8048;}}else PKD_ANIMAX['SendNetworkAnimaXAction'](_0x382089,_0x8b9bfa,_0x55ea72);}return $gameTemp[_0x1f57ab(0x171)]=null,!![];}return![];}};}();}());
+// Generated by CoffeeScript 2.6.1
+//╒═════════════════════════════════════════════════════════════════════════╛
+// ■ Game_Character.coffee
+//╒═════════════════════════════════════════════════════════════════════════╛
+//---------------------------------------------------------------------------
+//$[ENCODE]
+(function() {
+  var _;
+  //@[DEFINES]
+  _ = Game_Character.prototype;
+  (function() {    // * Система анимации XAnima
+    // -----------------------------------------------------------------------
+    
+    //@[FROM Game_CharacterBase]
+
+    // * Персонаж использует XAnima
+    _.isAnimX = function() {
+      return this._isHaveAnimaX === true;
+    };
+    // * ID набора анимаций (по нему определяется имя папки)
+    _.animXId = function() {
+      return this._axId;
+    };
+    // * Есть ли Idle анимация у текущего состояния
+    _.isHaveIdleAnimaX = function() {
+      return this._axIdle() != null;
+    };
+    // * Есть ли Dashing (бег) анимация у текущего состояния
+    _.isHaveDashAnimaX = function() {
+      return this._axDashing() != null;
+    };
+    // * Есть ли анимация для состояния
+    _.isHaveAnimaXState = function(state) {
+      return this._axStates[state] != null;
+    };
+    // * Находится ли анимация в действии
+    _.isInAnimXAction = function() {
+      return this.isAnimX() && this.getCurrentAnimX().isAction();
+    };
+    // * Находится ли анимация в движении (имеется в виду moveSet)
+    // * Также Dashing тоже является анимацией движения
+    _.isInMovementAnimaX = function() {
+      return this._axCurrent === this._axMovement();
+    };
+    _.isInAnyMovementAnimaX = function() {
+      return this.isInMovementAnimaX() || this.isInDashingAnimaX();
+    };
+    // * Находится ли анимация текущая в состоянии Idle
+    _.isInIdleAnimaX = function() {
+      return this._axCurrent === this._axIdle();
+    };
+    // * Находится ли анимация текущая в состоянии Dashing (Бег)
+    _.isInDashingAnimaX = function() {
+      return this._axCurrent === this._axDashing();
+    };
+    // * Когда запускается действие
+    _.onAnimaXActionStart = function() {
+      return this._xAnimaToIdleTimer = 0; // * Сбро таймера перехода в Idle
+    };
+    
+    // * Когда действие заканчивается
+    _.onAnimaXActionEnd = function() {
+      return this.resetXAnima();
+    };
+    // * Должен ли ждать завершения действия
+    _.isShouldWaitAnimaXAction = function() {
+      var anima;
+      if (this.isInAnyMovementAnimaX()) {
+        return false;
+      }
+      if (!this.isInAnimXAction()) {
+        // * Если не в действии, то нет (т.к. нет действия)
+        return false;
+      }
+      anima = this.getCurrentAnimX();
+      // * Idle тоже считается действием! Поэтому доп. проверка isAction
+      return anima.isAction() && anima.isWait();
+    };
+    // * Есть ли данное действие у текущей XAnima конфигурации
+    _.isHaveAnimaXActionWithName = function(name) {
+      return this._axAvailableActionsList.contains(name);
+    };
+    // -----------------------------------------------------------------------
+
+    // * Текущий XAnimaSet
+    _.getCurrentAnimX = function() {
+      return this._axCurrent;
+    };
+    // * Запустить действие
+    _.startAnimaXAction = function(animX) {
+      return this._axCurrent = animX;
+    };
+    // * Переключить состояние анимации (обычное, бой, и т.д.)
+    _.switchToXAnimaState = function(state) {
+      if (this.isHaveAnimaXState(state)) {
+        this._axState = state;
+        if (!this.isInAnimXAction()) {
+          this.resetXAnima();
+        }
+      } else {
+        //console.warn 'AnimaX Set for ' + state + ' not registed'
+        this.resetXAnimaState();
+      }
+    };
+    // * Инициализация
+    // * Base состояние - стандартное, инициализируется всегда
+    // * Если нет Base или нет movement, то не акитвируется система
+    _.initAnimaX = function(_axId, data) {
+      this._axId = _axId;
+      this.clearXAnimParts();
+      this._axAvailableActionsList = [];
+      this._axPreloadedActions = {};
+      this._axStates = {};
+      this._axState = 'base'; // * Базовое состояние
+      this.registerAnimaXState(this._axState, data);
+      if (this._axStates[this._axState] == null) {
+        return;
+      }
+      this.resetXAnima();
+      this._isHaveAnimaX = true;
+      this.getCurrentAnimX().preLoad();
+    };
+    // * Добавить анимацию для состояния
+    _.registerAnimaXState = function(state, data) {
+      var dashSet, e, idleSet, moveSet;
+      try {
+        if (data == null) {
+          return;
+        }
+        moveSet = this._createAnimaXSetFromParams(0, state, data.move);
+        // * moveSet обязателен!
+        if (moveSet == null) {
+          return;
+        }
+        moveSet.preLoad();
+        // * idleSet и dashSet - опционально
+        idleSet = null;
+        dashSet = null;
+        idleSet = this._createAnimaXSetFromParams(1, state, data.idle);
+        if (idleSet != null) {
+          idleSet.preLoad();
+        }
+        if ((idleSet != null) && (data.moveToIdleDelay != null)) {
+          idleSet.moveToIdleDelay = data.moveToIdleDelay;
+        }
+        dashSet = this._createAnimaXSetFromParams(3, state, data.dash);
+        if (dashSet != null) {
+          dashSet.preLoad();
+        }
+        this._createXAnimaSetsForState(state, moveSet, idleSet, dashSet);
+      } catch (error) {
+        e = error;
+        console.warn(e);
+        this._axStates[state] = null;
+      }
+    };
+    // * Сбросить состояние до базового
+    _.resetXAnimaState = function() {
+      this._axState = 'base';
+      if (!this.isInAnimXAction()) {
+        this.resetXAnima();
+      }
+    };
+    // * Сбросить анимацию
+    _.resetXAnima = function() {
+      this._inAnimXAction = false;
+      this._xAnimaToIdleTimer = 0;
+      this._setAnimaXToMovement();
+    };
+    // * Добавить действие (зарегестрировать, чтобы не было ошибок если вызвано, а нету файлов)
+    _.registerAnimaXAction = function(actionName) {
+      return this._axAvailableActionsList.push(actionName);
+    };
+    // -----------------------------------------------------------------------
+    _._initMembersAnimaX = function() {
+      this._xAnimaPartsRequireRefresh = false;
+      this._xAnimaToIdleTimer = 0;
+      return this._isHaveAnimaX = false;
+    };
+    _._createXAnimaSetsForState = function(state, moveSet, idleSet, dashSet) {
+      this._axStates[state] = {};
+      moveSet.preLoad();
+      this._axStates[state].moveSet = moveSet;
+      if (idleSet != null) {
+        idleSet.isLoop = true;
+        idleSet.preLoad();
+        this._axStates[state].idleSet = idleSet;
+      } else {
+        this._axStates[state].idleSet = null;
+      }
+      // * Dashing был введён с обновлением 1.1, является опциональным как и Idle
+      if (dashSet != null) {
+        this._axStates[state].dashSet = dashSet;
+        dashSet.preLoad();
+      } else {
+        this._axStates[state].dashSet = null;
+      }
+    };
+    _._createAnimaXSetFromParams = function(type, state, data) {
+      var axSet, e;
+      axSet = null;
+      try {
+        if (type === 0) {
+          if (data != null) {
+            axSet = XAnimaTools.createXAnimaSetForMove(this.animXId(), state, data);
+          }
+        } else if (type === 1) { // * IDLE
+          if (data != null) {
+            axSet = XAnimaTools.createXAnimaSetForIdle(this.animXId(), state, data);
+          }
+        } else if (type === 3) { // * DASHING
+          if (data != null) {
+            axSet = XAnimaTools.createXAnimaSetForDashing(this.animXId(), state, data);
+          }
+        }
+      } catch (error) {
+        e = error;
+        console.warn(e);
+        axSet = null;
+      }
+      return axSet;
+    };
+    _._updateAnimX = function() {
+      this._updateAnimXRefresh();
+      if (this.isShouldWaitAnimaXAction()) {
+        return;
+      }
+      this._updateMovingAnimX();
+      if (this.isHaveIdleAnimaX() && this.isInAnyMovementAnimaX()) {
+        return this._updateMoveIdleAnimaX();
+      }
+    };
+    _._updateMovingAnimX = function() {
+      if (!this.isMoving()) {
+        return;
+      }
+      if (this.isHaveDashAnimaX()) {
+        this._updateMovingDashingAnimX();
+      }
+      this._xAnimaToIdleTimer = 0;
+      if (!this.isInAnyMovementAnimaX()) {
+        return this.resetXAnima();
+      }
+    };
+    _._updateMovingDashingAnimX = function() {
+      if (this.isDashingForAnimaX()) {
+        if (!this.isInDashingAnimaX()) {
+          this._setAnimaXToDashing();
+        }
+      } else if (this.isInDashingAnimaX()) {
+        this._setAnimaXToMovement();
+      }
+    };
+    _._updateMoveIdleAnimaX = function() {
+      if (!this.isMoving()) {
+        this._xAnimaToIdleTimer++;
+        if (this._xAnimaToIdleTimer >= this._getAnimaXMoveToIdleDelay()) {
+          return this._setAnimaXToIdle();
+        }
+      }
+    };
+    _._getAnimaXMoveToIdleDelay = function() {
+      return this._axIdle().moveToIdleDelay;
+    };
+    _._axMovement = function() {
+      return this._axStates[this._axState].moveSet;
+    };
+    _._axIdle = function() {
+      return this._axStates[this._axState].idleSet;
+    };
+    _._axDashing = function() {
+      return this._axStates[this._axState].dashSet;
+    };
+    _._setAnimaXToIdle = function() {
+      return this._axCurrent = this._axIdle();
+    };
+    _._setAnimaXToMovement = function() {
+      return this._axCurrent = this._axMovement();
+    };
+    _._setAnimaXToDashing = function() {
+      return this._axCurrent = this._axDashing();
+    };
+    _.clearAnimaX = function() {
+      this.resetXAnima();
+      this._isHaveAnimaX = false;
+      this.initAnimaX(null, null);
+    };
+    // PARTS (LAYERS)
+    // ----------------------------------------------------------------------
+    _.isAnimXPartsChanged = function() {
+      return this._xAnimaPartsRequireRefresh === true;
+    };
+    _.onAnimXPartsRefreshed = function() {
+      return this._xAnimaPartsRequireRefresh = false;
+    };
+    _.addNewXAnimPart = function(partId, isRelative = false) {
+      var partSet;
+      if (this.animaXParts[partId] != null) {
+        return;
+      }
+      partSet = XAnimaTools.createXAnimaPart(this.animXId(), partId, isRelative);
+      if (partSet == null) {
+        return;
+      }
+      this.animaXParts[partId] = partSet;
+      this._xAnimaPartsRequireRefresh = true;
+    };
+    _.removeXAnimPart = function(partId) {
+      this.animaXParts[partId] = null;
+      delete this.animaXParts[partId];
+      this._xAnimaPartsRequireRefresh = true;
+    };
+    _.clearXAnimParts = function() {
+      this.animaXParts = {};
+      this._xAnimaPartsRequireRefresh = true;
+    };
+    // -----------------------------------------------------------------------
+
+    // * Запустить кастомное действие с параметрами (проверка предзагруженных)
+    _.startAnimaXCustomAction = function(name, isLoop = false, isWait = false) {
+      var actionParams, animaX;
+      if (!this.isHaveAnimaXActionWithName(name)) {
+        return false;
+      }
+      if (this.isAnimaXActionIsPreloaded(name)) {
+        animaX = this.getPreloadAnimaXActionSet(name);
+      } else {
+        actionParams = XAnimaTools.getXAnimaParamsForAction(name, this.animXId());
+        animaX = this.createAnimaXActionSet(actionParams);
+      }
+      if (animaX != null) {
+        animaX.waitActionEnd = isWait;
+        animaX.isLoop = isLoop;
+        this.startAnimaXAction(animaX);
+        if (PKD_ANIMAX.IsNetworkGame() && !PKD_ANIMAX.InLocalMode()) {
+          PKD_ANIMAX.SendNetworkAnimaXAction(name, isLoop, isWait);
+        }
+        $gameTemp.netAnimaXLocal = null;
+        return true;
+      }
+      return false;
+    };
+  })();
 })();
+
+// ■ END Game_Character.coffee
+//---------------------------------------------------------------------------
+// -----------------------------------------------------------------------
 
 // Generated by CoffeeScript 2.6.1
 //╒═════════════════════════════════════════════════════════════════════════╛
@@ -1931,15 +2276,23 @@ PKD_ANIMAX.ApplyNETZPatch = function() {
 //---------------------------------------------------------------------------
 // -----------------------------------------------------------------------
 
-// Generated by CoffeeScript 2.5.1
+// Generated by CoffeeScript 2.6.1
 //╒═════════════════════════════════════════════════════════════════════════╛
 // ■ Game_Event.coffee
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__setupPage, ALIAS__update, _;
+  var ALIAS__erase, ALIAS__setupPage, ALIAS__update, _;
   //@[DEFINES]
   _ = Game_Event.prototype;
+  //@[ALIAS]
+  ALIAS__erase = _.erase;
+  _.erase = function() {
+    if (this.isAnimX()) {
+      this.clearXAnimParts();
+    }
+    ALIAS__erase.call(this);
+  };
   //@[ALIAS]
   ALIAS__setupPage = _.setupPage;
   _.setupPage = function() {
@@ -3610,4 +3963,4 @@ XAnimaTools = function() {};
 // ■ END XAnimaTools.coffee
 //---------------------------------------------------------------------------
 
-//Plugin PKD_AnimaX automatic build by PKD PluginBuilder 1.9.2 26.11.2021
+//Plugin PKD_AnimaX automatic build by PKD PluginBuilder 1.9.2 28.11.2021

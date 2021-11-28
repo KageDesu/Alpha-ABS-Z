@@ -44,11 +44,12 @@ class AASkill2MapAction
             return AA.Utils.Math.getProjectilePointByDirection(subject.toPoint(), direction)
         return
 
+    #TODO: Если будет Friendly Fire или PVP, то поменять
     isSubjectIsPlayer: -> @packedSubject? and @packedSubject.type is 0
 
-    isSubjectIsNetChar: -> @packedSubject?
+    isSubjectIsNetChar: ->
+        AA.Network.isNetworkGame() && @isSubjectIsPlayer() and @packedSubject.id != ANNetwork.myId()
 
-    #TODO:
     isSubjectIsAlly: -> @packedSubject? and @packedSubject.type is 2
 
     isSubjectIsEvent: -> @packedSubject? and @packedSubject.type is 1
