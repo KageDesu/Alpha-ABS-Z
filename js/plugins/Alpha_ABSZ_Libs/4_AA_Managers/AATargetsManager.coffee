@@ -120,6 +120,8 @@ do ->
         aaEntities = []
         aaEntities.push(...@_collectAAEventsInPoints(points))
         aaEntities.push(...@_collectPartyMembersInPoints(points))
+        if AA.Network.isNetworkGame()
+            aaEntities.push(...@_collectNetworkCharsInPoints(points))
         #TODO: collect network characters as well
         return aaEntities
 
@@ -142,6 +144,15 @@ do ->
                 if $gamePlayer.posExt(p.x, p.y)
                     members.push($gamePlayer)
                     break
+        catch e
+            AA.w e
+        return members
+
+    _._collectNetworkCharsInPoints = (points) ->
+        members = []
+        try
+            for p in points
+                members.push ...$gameMap.netChars().filter (c) -> c.posExt(p.x, p.y)
         catch e
             AA.w e
         return members

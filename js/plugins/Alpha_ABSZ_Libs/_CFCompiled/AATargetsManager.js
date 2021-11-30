@@ -159,6 +159,9 @@ AATargetsManager = function() {};
     aaEntities = [];
     aaEntities.push(...this._collectAAEventsInPoints(points));
     aaEntities.push(...this._collectPartyMembersInPoints(points));
+    if (AA.Network.isNetworkGame()) {
+      aaEntities.push(...this._collectNetworkCharsInPoints(points));
+    }
     //TODO: collect network characters as well
     return aaEntities;
   };
@@ -189,6 +192,22 @@ AATargetsManager = function() {};
           members.push($gamePlayer);
           break;
         }
+      }
+    } catch (error) {
+      e = error;
+      AA.w(e);
+    }
+    return members;
+  };
+  _._collectNetworkCharsInPoints = function(points) {
+    var e, k, len, members, p;
+    members = [];
+    try {
+      for (k = 0, len = points.length; k < len; k++) {
+        p = points[k];
+        members.push(...$gameMap.netChars().filter(function(c) {
+          return c.posExt(p.x, p.y);
+        }));
       }
     } catch (error) {
       e = error;

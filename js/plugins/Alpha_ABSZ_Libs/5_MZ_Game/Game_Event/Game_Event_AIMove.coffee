@@ -97,7 +97,7 @@ do ->
         if !@_locked && !@isMoving()
             switch @_moveType
                 when 91 # * Approach target
-                    @aaMoveTypeToTarget() #TODO: Пока просто к игроку
+                    @aaMoveTypeToTarget()
                 when 92
                     @aaMoveTypeKeepDistance()
                 when 93

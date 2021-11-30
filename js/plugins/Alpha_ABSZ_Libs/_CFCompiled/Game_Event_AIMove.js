@@ -140,7 +140,7 @@
     if (!this._locked && !this.isMoving()) {
       switch (this._moveType) {
         case 91: // * Approach target
-          this.aaMoveTypeToTarget(); //TODO: Пока просто к игроку
+          this.aaMoveTypeToTarget();
           break;
         case 92:
           this.aaMoveTypeKeepDistance();

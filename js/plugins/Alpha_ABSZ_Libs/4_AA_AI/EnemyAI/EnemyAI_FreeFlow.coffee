@@ -68,11 +68,13 @@ do ->
             @_checkVisionTimer = 0
             #TODO: Тут надо сделать умную проверку с учётом TEAM ID
             if AA.Network.isNetworkGame()
-                targetsAround = AATargetsManager.getAvailableTargetsInRadius(@char(), @model().viewRadius)
+                targetsAround =
+                    AATargetsManager.getAvailableTargetsInRadius(@char(), @model().viewRadius)
                 @_isTargetInViewRadius = targetsAround? and targetsAround.length > 0
             else
                 #TODO: Сейчас идёт проверка только на игрока (БЕЗ СОЮЗНИКОВ)
-                @_isTargetInViewRadius = AATargetsManager.isPlayerInRadius(@char(), @model().viewRadius)
+                @_isTargetInViewRadius =
+                    AATargetsManager.isPlayerInRadius(@char(), @model().viewRadius)
             "PL IN RADIUS".p() if @_isTargetInViewRadius is true
         return
 
@@ -83,14 +85,17 @@ do ->
             @_checkTargetInRangeTimer = 0
             if AA.Network.isNetworkGame()
                 # * Довольно сложный методы, можно вынести отедльно
-                targetsAround = AATargetsManager.getAvailableTargetsInRadius(@char(), @model().viewRadius)
+                targetsAround =
+                    AATargetsManager.getAvailableTargetsInRadius(@char(), @model().viewRadius)
                 if targetsAround.length > 0
-                    targetsAround = targetsAround.filter (t) => AAVisionManager.isVisionLineIsFree(@char(), t)
+                    targetsAround =
+                        targetsAround.filter (t) => AAVisionManager.isVisionLineIsFree(@char(), t)
                     if targetsAround.length > 0
                         @_onSeeTarget(targetsAround.sample())
             else
                 #TODO: Тут надо фильтры применять, чтобы проверять только врагов, а не всех подряд
-                @_onSeeTarget($gamePlayer) if AAVisionManager.isVisionLineIsFree(@char(), $gamePlayer)
+                if AAVisionManager.isVisionLineIsFree(@char(), $gamePlayer)
+                    @_onSeeTarget($gamePlayer)
         return
 
     _._onSeeTarget = (target) ->

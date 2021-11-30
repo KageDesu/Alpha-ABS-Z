@@ -113,8 +113,8 @@ EnemyAI_FreeFlow = class EnemyAI_FreeFlow extends AIFlow {
           }
         }
       } else {
+        //TODO: Тут надо фильтры применять, чтобы проверять только врагов, а не всех подряд
         if (AAVisionManager.isVisionLineIsFree(this.char(), $gamePlayer)) {
-          //TODO: Тут надо фильтры применять, чтобы проверять только врагов, а не всех подряд
           this._onSeeTarget($gamePlayer);
         }
       }

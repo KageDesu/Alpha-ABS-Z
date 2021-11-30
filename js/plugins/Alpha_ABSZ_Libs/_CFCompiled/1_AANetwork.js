@@ -19,7 +19,7 @@ AA.Network = function() {};
     return actorId === ANGameManager.myActorId();
   };
   _.isAvailableForVisual = function(servCommand) {
-    return this.isOnSameMap(servCommand) && KDCore.Utils.isSceneMap();
+    return this.isOnSameMap(servCommand) && KDCore.Utils.isSceneMap() && !SceneManager.isSceneChanging();
   };
   _.isOnSameMap = function(servCommand) {
     var mapId;
