@@ -19,13 +19,24 @@ AA.extend ->
     _.aaUpdateABSAnimaXInBattleState = ->
         if @_aaIsInBattleAnimaXState()
             if @_axState != 'inBattle'
-                @switchToXAnimaState('inBattle')
-                AANetworkManager.animaXChangeState('inBattle', @)
+                @_aaOnGoInBattleAnimaXState()
         else
             if @_axState != 'base'
-                @resetXAnimaState()
-                AANetworkManager.animaXChangeState('base', @)
+                @_aaOnOutFromInBattleAnimaXState()
         return
+
+    _._aaOnGoInBattleAnimaXState = ->
+        @switchToXAnimaState('inBattle')
+        # * Только персонаж игрока сам определяет состояние "В бою"
+        # * NET Character не определяет, только получает от севрера
+        # * Game_Event - у него по AAEntity, target через Observer синхронизируется
+        if AA.Network.isNetworkGame() and @ is $gamePlayer
+            AANetworkManager.animaXChangeState('inBattle', @)
+
+    _._aaOnOutFromInBattleAnimaXState = ->
+        @resetXAnimaState()
+        if AA.Network.isNetworkGame() and @ is $gamePlayer
+            AANetworkManager.animaXChangeState('base', @)
 
     # * Game_Event and Game_Player имеют разную реализацию
     _._aaIsInBattleAnimaXState = -> false

@@ -22,14 +22,27 @@ AA.extend(function() {
   _.aaUpdateABSAnimaXInBattleState = function() {
     if (this._aaIsInBattleAnimaXState()) {
       if (this._axState !== 'inBattle') {
-        this.switchToXAnimaState('inBattle');
-        AANetworkManager.animaXChangeState('inBattle', this);
+        this._aaOnGoInBattleAnimaXState();
       }
     } else {
       if (this._axState !== 'base') {
-        this.resetXAnimaState();
-        AANetworkManager.animaXChangeState('base', this);
+        this._aaOnOutFromInBattleAnimaXState();
       }
+    }
+  };
+  _._aaOnGoInBattleAnimaXState = function() {
+    this.switchToXAnimaState('inBattle');
+    // * Только персонаж игрока сам определяет состояние "В бою"
+    // * NET Character не определяет, только получает от севрера
+    // * Game_Event - у него по AAEntity, target через Observer синхронизируется
+    if (AA.Network.isNetworkGame() && this === $gamePlayer) {
+      return AANetworkManager.animaXChangeState('inBattle', this);
+    }
+  };
+  _._aaOnOutFromInBattleAnimaXState = function() {
+    this.resetXAnimaState();
+    if (AA.Network.isNetworkGame() && this === $gamePlayer) {
+      return AANetworkManager.animaXChangeState('base', this);
     }
   };
   // * Game_Event and Game_Player имеют разную реализацию
