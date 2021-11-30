@@ -196,6 +196,16 @@ AATargetsManager = function() {};
     }
     return members;
   };
+  _.collectAllABSEntitiesOnMap = function() {
+    var aaEntities;
+    aaEntities = [$gamePlayer];
+    aaEntities.push(...$gameMap.eventsAA());
+    //TODO: party members
+    if (AA.Network.isNetworkGame()) {
+      aaEntities.push(...$gameMap.netChars());
+    }
+    return aaEntities.filter(this.isValidTarget);
+  };
   // * Быстрый метод проверки, находится ли игрок в определённом радиусе
   _.isPlayerInRadius = function(point, radius) {
     var e;
@@ -205,6 +215,21 @@ AATargetsManager = function() {};
       e = error;
       AA.w(e);
       return false;
+    }
+  };
+  _.getAvailableTargetsInRadius = function(forWho, radius) {
+    var candidates, e;
+    try {
+      // * forWho идёт как Point тоже
+      candidates = this.collectAllABSEntitiesOnMap();
+      candidates = candidates.filter(function(t) {
+        return forWho.isMyEnemy(t);
+      });
+      return this.getFilteredInRadius(forWho, radius, candidates);
+    } catch (error) {
+      e = error;
+      AA.w(e);
+      return [];
     }
   };
   // * Получить сущности в радиусе (из набора сущностей)
@@ -273,7 +298,7 @@ AATargetsManager = function() {};
   };
   // * Цель подходящая (проверки, см. BattleManagerABS.isValidTarget)
   //TODO: isValidTarget
-  _.isValidTarget = function(char, targetChar) {
+  _.isValidTarget = function(targetChar) {
     return (targetChar != null) && targetChar.isActive();
   };
   // * Находится ли точка (цель) в области дейтсвия навыка (range)

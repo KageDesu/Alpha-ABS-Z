@@ -4,7 +4,7 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__aaUpdateForNetwork, _;
+  var ALIAS__aaFillNetworkDataObserver, ALIAS__aaUpdateForNetwork, _;
   //@[DEFINES]
   _ = Game_Event.prototype;
   //@[ALIAS]
@@ -19,11 +19,21 @@
       ref._updateDataObserver();
     }
   };
+  
+  //@[ALIAS]
+  ALIAS__aaFillNetworkDataObserver = _.aaFillNetworkDataObserver;
+  _.aaFillNetworkDataObserver = function() {
+    ALIAS__aaFillNetworkDataObserver.call(this);
+    // * Будем хранить точку "дома", чтобы АИ
+    // мог вернуться домой, даже если
+    // мастер карты был сменён в бою
+    this.aaResetHomePoint();
+    this.netDataObserver.addFields(this, ["homePoint"]);
+  };
 })();
 
 // ■ END Game_Event.coffee
 //---------------------------------------------------------------------------
-
 //TODO: Помимо обновления раз в 1 секундку
 // * Сделать так что когда приходит какой-либо Action
 // * на событие, то ещё раз сразу обновить DataObserver 

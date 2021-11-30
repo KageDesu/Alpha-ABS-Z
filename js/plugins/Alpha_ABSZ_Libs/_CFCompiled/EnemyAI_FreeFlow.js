@@ -76,27 +76,47 @@ EnemyAI_FreeFlow = class EnemyAI_FreeFlow extends AIFlow {
     return this._updateVisionRadius();
   };
   _._updateVisionRadius = function() {
+    var targetsAround;
     this._checkVisionTimer++;
     if (this._checkVisionTimer >= 4) {
       this._checkVisionTimer = 0;
-      //TODO: Сейчас идёт проверка только на игрока
-      //TODO: Добавить фильтр isActive (например когда игрок в технике)
-      this._isTargetInViewRadius = AATargetsManager.isPlayerInRadius(this.char(), this.model().viewRadius);
+      //TODO: Тут надо сделать умную проверку с учётом TEAM ID
+      if (AA.Network.isNetworkGame()) {
+        targetsAround = AATargetsManager.getAvailableTargetsInRadius(this.char(), this.model().viewRadius);
+        this._isTargetInViewRadius = (targetsAround != null) && targetsAround.length > 0;
+      } else {
+        //TODO: Сейчас идёт проверка только на игрока (БЕЗ СОЮЗНИКОВ)
+        this._isTargetInViewRadius = AATargetsManager.isPlayerInRadius(this.char(), this.model().viewRadius);
+      }
       if (this._isTargetInViewRadius === true) {
         "PL IN RADIUS".p();
       }
     }
   };
   _._updateVisionLine = function() {
+    var targetsAround;
     if (this._isTargetInViewRadius === false) {
       return;
     }
     this._checkTargetInRangeTimer++;
     if (this._checkTargetInRangeTimer >= 2) {
       this._checkTargetInRangeTimer = 0;
-      if (AAVisionManager.isVisionLineIsFree(this.char(), $gamePlayer)) {
-        //TODO: Тут надо фильтры применять, чтобы проверять только врагов, а не всех подряд
-        this._onSeeTarget($gamePlayer);
+      if (AA.Network.isNetworkGame()) {
+        // * Довольно сложный методы, можно вынести отедльно
+        targetsAround = AATargetsManager.getAvailableTargetsInRadius(this.char(), this.model().viewRadius);
+        if (targetsAround.length > 0) {
+          targetsAround = targetsAround.filter((t) => {
+            return AAVisionManager.isVisionLineIsFree(this.char(), t);
+          });
+          if (targetsAround.length > 0) {
+            this._onSeeTarget(targetsAround.sample());
+          }
+        }
+      } else {
+        if (AAVisionManager.isVisionLineIsFree(this.char(), $gamePlayer)) {
+          //TODO: Тут надо фильтры применять, чтобы проверять только врагов, а не всех подряд
+          this._onSeeTarget($gamePlayer);
+        }
       }
     }
   };

@@ -15,6 +15,19 @@ do ->
         @AABattler()?._updateDataObserver()
         return
     
+    #@[ALIAS]
+    ALIAS__aaFillNetworkDataObserver = _.aaFillNetworkDataObserver
+    _.aaFillNetworkDataObserver = ->
+        ALIAS__aaFillNetworkDataObserver.call(@)
+        # * Будем хранить точку "дома", чтобы АИ
+        # мог вернуться домой, даже если
+        # мастер карты был сменён в бою
+        @aaResetHomePoint()
+        @netDataObserver.addFields(@, [
+            "homePoint"
+        ])
+        return
+
     #TODO: Помимо обновления раз в 1 секундку
     # * Сделать так что когда приходит какой-либо Action
     # * на событие, то ещё раз сразу обновить DataObserver 

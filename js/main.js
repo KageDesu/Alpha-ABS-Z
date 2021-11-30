@@ -75,10 +75,10 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_CharacterBase_AAMoving.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AA.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AANet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AI.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AIMove.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_ExtraAAParams.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_Network.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Interpreter_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AA.js"
@@ -289,6 +289,8 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
 
 
 

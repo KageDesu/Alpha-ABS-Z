@@ -89,7 +89,7 @@ EnemyAI_BattleFlow = class EnemyAI_BattleFlow extends AIFlow {
     }
   };
   _._isTargetValid = function() {
-    return this._isTargetInViewRadius() && AATargetsManager.isValidTarget(this.char(), this.target());
+    return this._isTargetInViewRadius() && AATargetsManager.isValidTarget(this.target());
   };
   //TODO: Сделать параметр SeekTime - когда цель вне видимости, какой-то время (в сек) всё равно преследовать
   // * или следовать в точку где последний раз видел

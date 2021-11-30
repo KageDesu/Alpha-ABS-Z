@@ -146,6 +146,14 @@ do ->
             AA.w e
         return members
 
+    _.collectAllABSEntitiesOnMap = () ->
+        aaEntities = [$gamePlayer]
+        aaEntities.push(...$gameMap.eventsAA())
+        #TODO: party members
+        if AA.Network.isNetworkGame()
+            aaEntities.push(...$gameMap.netChars())
+        return aaEntities.filter(@isValidTarget)
+
     # * Быстрый метод проверки, находится ли игрок в определённом радиусе
     _.isPlayerInRadius = (point, radius) ->
         try
@@ -153,6 +161,16 @@ do ->
         catch e
             AA.w e
             return false
+
+    _.getAvailableTargetsInRadius = (forWho, radius) ->
+        try
+            # * forWho идёт как Point тоже
+            candidates = @collectAllABSEntitiesOnMap()
+            candidates = candidates.filter (t) -> forWho.isMyEnemy(t)
+            return @getFilteredInRadius(forWho, radius, candidates)
+        catch e
+            AA.w e
+            return []
 
     # * Получить сущности в радиусе (из набора сущностей)
     _.getFilteredInRadius = (point, radius, candidates) ->
@@ -201,7 +219,7 @@ do ->
 
     # * Цель подходящая (проверки, см. BattleManagerABS.isValidTarget)
     #TODO: isValidTarget
-    _.isValidTarget = (char, targetChar) -> targetChar? and targetChar.isActive()
+    _.isValidTarget = (targetChar) -> targetChar? and targetChar.isActive()
 
     # * Находится ли точка (цель) в области дейтсвия навыка (range)
     _.isInSkillRange = (char, skillId, targetPoint) ->

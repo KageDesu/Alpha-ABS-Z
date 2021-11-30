@@ -77,7 +77,7 @@ do ->
 
 
     _._isTargetValid = ->
-        @_isTargetInViewRadius() and AATargetsManager.isValidTarget(@char(), @target())
+        @_isTargetInViewRadius() and AATargetsManager.isValidTarget(@target())
 
     #TODO: Сделать параметр SeekTime - когда цель вне видимости, какой-то время (в сек) всё равно преследовать
     # * или следовать в точку где последний раз видел

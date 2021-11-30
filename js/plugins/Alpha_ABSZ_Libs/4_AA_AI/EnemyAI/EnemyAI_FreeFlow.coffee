@@ -66,9 +66,13 @@ do ->
         @_checkVisionTimer++
         if @_checkVisionTimer >= 4
             @_checkVisionTimer = 0
-            #TODO: Сейчас идёт проверка только на игрока
-            #TODO: Добавить фильтр isActive (например когда игрок в технике)
-            @_isTargetInViewRadius = AATargetsManager.isPlayerInRadius(@char(), @model().viewRadius)
+            #TODO: Тут надо сделать умную проверку с учётом TEAM ID
+            if AA.Network.isNetworkGame()
+                targetsAround = AATargetsManager.getAvailableTargetsInRadius(@char(), @model().viewRadius)
+                @_isTargetInViewRadius = targetsAround? and targetsAround.length > 0
+            else
+                #TODO: Сейчас идёт проверка только на игрока (БЕЗ СОЮЗНИКОВ)
+                @_isTargetInViewRadius = AATargetsManager.isPlayerInRadius(@char(), @model().viewRadius)
             "PL IN RADIUS".p() if @_isTargetInViewRadius is true
         return
 
@@ -77,8 +81,16 @@ do ->
         @_checkTargetInRangeTimer++
         if @_checkTargetInRangeTimer >= 2
             @_checkTargetInRangeTimer = 0
-            #TODO: Тут надо фильтры применять, чтобы проверять только врагов, а не всех подряд
-            @_onSeeTarget($gamePlayer) if AAVisionManager.isVisionLineIsFree(@char(), $gamePlayer)
+            if AA.Network.isNetworkGame()
+                # * Довольно сложный методы, можно вынести отедльно
+                targetsAround = AATargetsManager.getAvailableTargetsInRadius(@char(), @model().viewRadius)
+                if targetsAround.length > 0
+                    targetsAround = targetsAround.filter (t) => AAVisionManager.isVisionLineIsFree(@char(), t)
+                    if targetsAround.length > 0
+                        @_onSeeTarget(targetsAround.sample())
+            else
+                #TODO: Тут надо фильтры применять, чтобы проверять только врагов, а не всех подряд
+                @_onSeeTarget($gamePlayer) if AAVisionManager.isVisionLineIsFree(@char(), $gamePlayer)
         return
 
     _._onSeeTarget = (target) ->
