@@ -4,10 +4,26 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var _;
+  var ALIAS__aaUpdateForNetwork, _;
   //@[DEFINES]
   _ = Game_Event.prototype;
+  //@[ALIAS]
+  ALIAS__aaUpdateForNetwork = _.aaUpdateForNetwork;
+  _.aaUpdateForNetwork = function() {
+    var ref;
+    ALIAS__aaUpdateForNetwork.call(this);
+    if (!ANGameManager.isMapMaster()) {
+      return;
+    }
+    if ((ref = this.AABattler()) != null) {
+      ref._updateDataObserver();
+    }
+  };
 })();
 
 // ■ END Game_Event.coffee
 //---------------------------------------------------------------------------
+
+//TODO: Помимо обновления раз в 1 секундку
+// * Сделать так что когда приходит какой-либо Action
+// * на событие, то ещё раз сразу обновить DataObserver 

@@ -51,12 +51,14 @@ do ->
         _.aaUpdateABS = ->
             @_aaUpdateDelayedSkillActions()
             @AABattler()?.aaUpdateABS()
-            @aaUpdateForNetwork()
+            @aaUpdateForNetwork() if AA.Network.isNetworkGame()
 
         _.aaUpdateForNetwork = ->
-            return unless AA.Network.isNetworkGame()
             return unless ANGameManager.isMapMaster()
+            # * AABattler тут не обновляется, так как у Game_Actor он отдельно
+            # * обновляется уже в Alpha NET Z по стандарту
             @AAEntity()?.updateDataObserver()
+            return
 
     # -----------------------------------------------------------------------
 

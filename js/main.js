@@ -17,6 +17,7 @@ const scriptUrls = [
      "js/plugins.js"
 ,"js/plugins/Alpha_ABSZ_Libs/@@_Alpha_@Core_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/0_@AABSZ.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEnemyBattler.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAExtensions.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AAGEvents.js"
@@ -29,6 +30,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_AIFlowMachine.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_DevSymbol_TEST.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/1_KDCoreExt.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AAEnemyBattler_Network.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AIFlowMachine_Network.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsTimers.js"
@@ -38,7 +40,6 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AABattleManager.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AACommon.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AADamagePopUpFactory.js"
-,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyBattler.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyEntity.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEnemyModelData.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AAEventSettingsParser.js"
@@ -288,6 +289,9 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
 
 
 

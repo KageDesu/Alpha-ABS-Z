@@ -136,7 +136,6 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    //TODO: Есть действия которые нельзя выполнять не на карте
     _.executeSA = function(action, character) {
       var e;
       try {
@@ -176,13 +175,26 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.syncAIFlowMachineObserver = function(eventId, observerData) {
+    _.syncAIFlowMachineObserver = function(eventId, observerData) {
       var e;
       try {
         if (!AA.Network.isNetworkGame()) {
           return;
         }
         return this.sendToServer("syncAIFlowMachineObserver", {eventId, observerData});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.syncAAEnemyBattlerObserver = function(character, observerData) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        character = AA.Network.packMapChar(character);
+        return this.sendToServer("syncAAEnemyBattlerObserver", {character, observerData});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -392,6 +404,26 @@ AANetworkManager = function() {};
           return;
         }
         return (ref = event.AALogic()) != null ? ref.applyObserverData(observerData) : void 0;
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    _.syncAAEnemyBattlerObserver_RESP = function(response) {
+      var character, e, observerData, ref;
+      try {
+        if (!AA.Network.isOnSameMap(response)) {
+          return;
+        }
+        ({character, observerData} = response.content);
+        if (observerData == null) {
+          return;
+        }
+        character = AA.Network.unpackMapChar(character);
+        if (character == null) {
+          return;
+        }
+        return (ref = character.AABattler()) != null ? ref.applyObserverData(observerData) : void 0;
       } catch (error) {
         e = error;
         return AA.w(e);

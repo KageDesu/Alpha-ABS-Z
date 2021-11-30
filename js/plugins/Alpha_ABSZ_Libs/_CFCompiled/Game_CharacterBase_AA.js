@@ -74,17 +74,20 @@
       if ((ref = this.AABattler()) != null) {
         ref.aaUpdateABS();
       }
-      return this.aaUpdateForNetwork();
+      if (AA.Network.isNetworkGame()) {
+        return this.aaUpdateForNetwork();
+      }
     };
     return _.aaUpdateForNetwork = function() {
       var ref;
-      if (!AA.Network.isNetworkGame()) {
-        return;
-      }
       if (!ANGameManager.isMapMaster()) {
         return;
       }
-      return (ref = this.AAEntity()) != null ? ref.updateDataObserver() : void 0;
+      // * AABattler тут не обновляется, так как у Game_Actor он отдельно
+      // * обновляется уже в Alpha NET Z по стандарту
+      if ((ref = this.AAEntity()) != null) {
+        ref.updateDataObserver();
+      }
     };
   })();
   (function() {    // -----------------------------------------------------------------------

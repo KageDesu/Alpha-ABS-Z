@@ -1,24 +1,17 @@
 #╒═════════════════════════════════════════════════════════════════════════╛
-# ■ Game_Event.coffee
+# ■ AAEnemyBattler.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛
 #---------------------------------------------------------------------------
 do ->
 
     #@[DEFINES]
-    _ = Game_Event::
+    _ = AAEnemyBattler::
 
-    #@[ALIAS]
-    ALIAS__aaUpdateForNetwork = _.aaUpdateForNetwork
-    _.aaUpdateForNetwork = ->
-        ALIAS__aaUpdateForNetwork.call(@)
-        return unless ANGameManager.isMapMaster()
-        @AABattler()?._updateDataObserver()
+    #$[OVER]
+    _.dataObserverHaveChanges = ->
+        AANetworkManager.syncAAEnemyBattlerObserver(@AACharacter(), @getObserverDataForNetwork())
         return
-    
-    #TODO: Помимо обновления раз в 1 секундку
-    # * Сделать так что когда приходит какой-либо Action
-    # * на событие, то ещё раз сразу обновить DataObserver 
 
     return
-# ■ END Game_Event.coffee
+# ■ END AAEnemyBattler.coffee
 #---------------------------------------------------------------------------

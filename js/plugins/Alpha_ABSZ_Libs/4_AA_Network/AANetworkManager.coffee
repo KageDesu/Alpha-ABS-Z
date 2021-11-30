@@ -87,7 +87,6 @@ do ->
             catch e
                 AA.w e
 
-        #TODO: Есть действия которые нельзя выполнять не на карте
         _.executeSA = (action, character) ->
             try
                 return unless AA.Network.isNetworkGame()
@@ -116,6 +115,14 @@ do ->
             try
                 return unless AA.Network.isNetworkGame()
                 @sendToServer("syncAIFlowMachineObserver", { eventId, observerData })
+            catch e
+                AA.w e
+
+        _.syncAAEnemyBattlerObserver = (character, observerData) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                character = AA.Network.packMapChar(character)
+                @sendToServer("syncAAEnemyBattlerObserver", { character, observerData })
             catch e
                 AA.w e
 
@@ -241,6 +248,17 @@ do ->
                 return unless event?
                 return unless event.isABS()?
                 event.AALogic()?.applyObserverData(observerData)
+            catch e
+                AA.w e
+
+        _.syncAAEnemyBattlerObserver_RESP = (response) ->
+            try
+                return unless AA.Network.isOnSameMap(response)
+                { character, observerData } = response.content
+                return unless observerData?
+                character = AA.Network.unpackMapChar(character)
+                return unless character?
+                character.AABattler()?.applyObserverData(observerData)
             catch e
                 AA.w e
 
