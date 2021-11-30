@@ -23,6 +23,10 @@ AA.Network.SetupNETCharacter = function() {
   _.isABS = function() {
     return ALIAS__isABS.call(this) && (this.playerData() != null) && (this.actor() != null);
   };
+  //$[OVER]
+  // * Сам ничего не обновляет, принимает команду от сервера (если надо)
+  _.aaUpdateABSAnimaXInBattleState = function() {}; // * EMPTY
+  
   // * =================================================================
   _._initMembersABS = function() {
     if (this.id == null) {

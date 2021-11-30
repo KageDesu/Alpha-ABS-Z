@@ -14,12 +14,17 @@ AA.extend ->
     # * Логика состояний анимации (бой, смерть) (всегда работает)
     _.aaUpdateABSAnimaX = ->
         return unless @isAnimX()
+        @aaUpdateABSAnimaXInBattleState()
+
+    _.aaUpdateABSAnimaXInBattleState = ->
         if @_aaIsInBattleAnimaXState()
             if @_axState != 'inBattle'
                 @switchToXAnimaState('inBattle')
+                AANetworkManager.animaXChangeState('inBattle', @)
         else
             if @_axState != 'base'
                 @resetXAnimaState()
+                AANetworkManager.animaXChangeState('base', @)
         return
 
     # * Game_Event and Game_Player имеют разную реализацию

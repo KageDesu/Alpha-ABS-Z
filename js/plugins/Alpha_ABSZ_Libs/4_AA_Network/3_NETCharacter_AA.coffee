@@ -25,6 +25,10 @@ AA.Network.SetupNETCharacter = ->
     _.isABS = ->
         ALIAS__isABS.call(@) and @playerData()? and @actor()?
 
+    #$[OVER]
+    # * Сам ничего не обновляет, принимает команду от сервера (если надо)
+    _.aaUpdateABSAnimaXInBattleState = -> # * EMPTY
+
     # * =================================================================
 
     _._initMembersABS = ->

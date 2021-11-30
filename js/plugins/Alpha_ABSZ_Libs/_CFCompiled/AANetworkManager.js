@@ -115,6 +115,27 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
+    // * Смена состояния AnimaX (боевая стойка, кастинг, смерть и т.д.)
+    // * Свой метод (у AnimaX 1.2 и ниже нету автосинхронизации на этот метод)
+    _.animaXChangeState = function(newState, character) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        if (character == null) {
+          return;
+        }
+        if (!String.any(newState)) {
+          return;
+        }
+        character = AA.Network.packMapChar(character);
+        return this.sendToServer("animaXChangeState", {newState, character});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
     //TODO: Есть действия которые нельзя выполнять не на карте
     _.executeSA = function(action, character) {
       var e;
@@ -350,7 +371,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.syncAIFlowMachineObserver_RESP = function(response) {
+    _.syncAIFlowMachineObserver_RESP = function(response) {
       var e, event, eventId, observerData, ref;
       try {
         if (!AA.Network.isOnSameMap(response)) {
@@ -370,8 +391,34 @@ AANetworkManager = function() {};
         if (event.isABS() == null) {
           return;
         }
-        "APPLY AI FLOW DATA".p();
         return (ref = event.AALogic()) != null ? ref.applyObserverData(observerData) : void 0;
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.animaXChangeState_RESP = function(response) {
+      var character, e, newState;
+      try {
+        if (!AA.Network.isOnSameMap(response)) {
+          return;
+        }
+        ({character, newState} = response.content);
+        character = AA.Network.unpackMapChar(character);
+        if (character == null) {
+          return;
+        }
+        if (String.any(newState) == null) {
+          return;
+        }
+        if (!character.isAnimX()) {
+          return;
+        }
+        if (newState === 'base') {
+          return character.resetXAnimaState();
+        } else {
+          return character.switchToXAnimaState(newState);
+        }
       } catch (error) {
         e = error;
         return AA.w(e);

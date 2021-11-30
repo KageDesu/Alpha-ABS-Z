@@ -75,6 +75,18 @@ do ->
             catch e
                 AA.w e
 
+        # * Смена состояния AnimaX (боевая стойка, кастинг, смерть и т.д.)
+        # * Свой метод (у AnimaX 1.2 и ниже нету автосинхронизации на этот метод)
+        _.animaXChangeState = (newState, character) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                return unless character?
+                return unless String.any(newState)
+                character = AA.Network.packMapChar(character)
+                @sendToServer("animaXChangeState", { newState, character })
+            catch e
+                AA.w e
+
         #TODO: Есть действия которые нельзя выполнять не на карте
         _.executeSA = (action, character) ->
             try
@@ -228,8 +240,22 @@ do ->
                 event = $gameMap.event(eventId)
                 return unless event?
                 return unless event.isABS()?
-                "APPLY AI FLOW DATA".p()
                 event.AALogic()?.applyObserverData(observerData)
+            catch e
+                AA.w e
+
+        _.animaXChangeState_RESP = (response) ->
+            try
+                return unless AA.Network.isOnSameMap(response)
+                { character, newState } = response.content
+                character = AA.Network.unpackMapChar(character)
+                return unless character?
+                return unless String.any(newState)?
+                return unless character.isAnimX()
+                if newState == 'base'
+                    character.resetXAnimaState()
+                else
+                    character.switchToXAnimaState(newState)
             catch e
                 AA.w e
 

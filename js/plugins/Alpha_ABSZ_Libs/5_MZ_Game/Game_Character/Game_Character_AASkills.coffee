@@ -36,11 +36,20 @@ do ->
         try
             return unless Imported.PKD_AnimaX
             return unless @isAnimX()
+            # * For AnimaX network
+            # * Команда startAnimaXCustomAction отправляет
+            if @ instanceof Game_Event
+                # * по номеру события
+                $gameTemp._lastAxNetworkChar = @eventId()
+            else
+                # * 0 - значит будет по Actor ID, который отправляет
+                $gameTemp._lastAxNetworkChar = 0
             if String.any(skill.animaXAction)
                 # * Special
                 @startAnimaXCustomAction(skill.animaXAction, false, true)
             else # * Default one
                 @startAnimaXCustomAction("Skill", false, true)
+            $gameTemp._lastAxNetworkChar = null
         catch e
             AA.w e
 

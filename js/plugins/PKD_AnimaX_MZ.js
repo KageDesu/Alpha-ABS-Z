@@ -2,7 +2,8 @@
  * Copyright (c) 2021 Vladimir Skrypnikov (Pheonix KageDesu)
  * <http://kdworkshop.net/>
  *
-* License: Creative Commons 4.0 Attribution, Share Alike, Commercial
+* License: Creative Commons 4.0 Attribution, Share Alike, Commercial
+
  */
 
 /*:
@@ -59,7 +60,8 @@
  *
  * You can use this plugin in your game thanks to all my Patrons!
  * 
- * License: Creative Commons 4.0 Attribution, Share Alike, Commercial
+ * License: Creative Commons 4.0 Attribution, Share Alike, Commercial
+
  * 
 
  * @param xAnimations:structA
