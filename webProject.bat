@@ -1,0 +1,1 @@
+browser-sync start --server --files "js/*.js,html/*.html,js/plugins/*.js,js/plugins/Alpha_ABSZ_Libs/*.js,js/plugins/Alpha_ABSZ_Libs/_CFCompiled/*.js,*.*"
