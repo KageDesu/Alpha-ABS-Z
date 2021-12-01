@@ -110,6 +110,10 @@ do ->
         try
             action = new AABattleAction(subject, skill)
             return unless action.isValid()
+            # * Если сетевая игра, то только МАСТЕР карты может выполнить действие
+            #if AA.Network.isNetworkGame() && !ANGameManager.isMapMaster()
+            #    AANetworkManager.performBattleAction(subject, skill, targets)
+            #else
             @_startAction(action, targets)
             @_endAction(action)
         catch e
@@ -128,15 +132,39 @@ do ->
 
     _._invokeAction = (target, action) ->
         try
-            #TODO: repeats time?
-            action.apply(target)
-            #TODO: CE on Use
-            #TODO: Impulse?
-            @_onActionResult(target, action)
+            #TODO: Возможно Drain с текущим алгоритмом работать не будут
+            # * Сейчас каждый игрок отправляет свой Observer, т.е. нельзя
+            # * изменить значение HP персонажа на другом клиенте, надо
+            # * вызывать метод, который меняет на текущем клиенте (собственнике персонажа)
+            if AA.Network.isNetworkGame()
+                if target instanceof Game_Event
+                    if ANGameManager.isMapMaster()
+                        @_applyActionOnTarget(target, action)
+                    else
+                        AANetworkManager.applyActionOnTarget(target, action)
+                else if target instanceof NETCharacter
+                        AANetworkManager.applyActionOnTarget(target, action)
+                else # * Game_Player (SELF)
+                    @_applyActionOnTarget(target, action)
+            else
+                @_applyActionOnTarget(target, action)
         catch e
             KDCore.warning("_invokeAction", e)
         return
-            
+
+    _._applyActionOnTarget = (target, action) ->
+        try
+            return unless action?
+            return unless target?
+            #TODO: repeats time?
+            #TODO: CE on Use
+            #TODO: Impulse?
+            action.apply(target)
+            @_onActionResult(target, action)
+        catch e
+            AA.w e
+        return
+
     _._onActionResult = (target, action) ->
         try
             battler = target.AABattler()

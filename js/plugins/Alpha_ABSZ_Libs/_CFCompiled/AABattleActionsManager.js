@@ -143,6 +143,10 @@ AABattleActionsManager = function() {};
       if (!action.isValid()) {
         return;
       }
+      // * Если сетевая игра, то только МАСТЕР карты может выполнить действие
+      //if AA.Network.isNetworkGame() && !ANGameManager.isMapMaster()
+      //    AANetworkManager.performBattleAction(subject, skill, targets)
+      //else
       this._startAction(action, targets);
       this._endAction(action);
     } catch (error) {
@@ -168,14 +172,47 @@ AABattleActionsManager = function() {};
   _._invokeAction = function(target, action) {
     var e;
     try {
-      //TODO: repeats time?
-      action.apply(target);
-      //TODO: CE on Use
-      //TODO: Impulse?
-      this._onActionResult(target, action);
+      //TODO: Возможно Drain с текущим алгоритмом работать не будут
+      // * Сейчас каждый игрок отправляет свой Observer, т.е. нельзя
+      // * изменить значение HP персонажа на другом клиенте, надо
+      // * вызывать метод, который меняет на текущем клиенте (собственнике персонажа)
+      if (AA.Network.isNetworkGame()) {
+        if (target instanceof Game_Event) {
+          if (ANGameManager.isMapMaster()) {
+            this._applyActionOnTarget(target, action);
+          } else {
+            AANetworkManager.applyActionOnTarget(target, action);
+          }
+        } else if (target instanceof NETCharacter) {
+          AANetworkManager.applyActionOnTarget(target, action); // * Game_Player (SELF)
+        } else {
+          this._applyActionOnTarget(target, action);
+        }
+      } else {
+        this._applyActionOnTarget(target, action);
+      }
     } catch (error) {
       e = error;
       KDCore.warning("_invokeAction", e);
+    }
+  };
+  _._applyActionOnTarget = function(target, action) {
+    var e;
+    try {
+      if (action == null) {
+        return;
+      }
+      if (target == null) {
+        return;
+      }
+      //TODO: repeats time?
+      //TODO: CE on Use
+      //TODO: Impulse?
+      action.apply(target);
+      this._onActionResult(target, action);
+    } catch (error) {
+      e = error;
+      AA.w(e);
     }
   };
   _._onActionResult = function(target, action) {

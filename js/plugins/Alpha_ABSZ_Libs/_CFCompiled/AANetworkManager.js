@@ -200,7 +200,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.sendTurnTowardTarget = function(character) {
+    _.sendTurnTowardTarget = function(character) {
       var e;
       try {
         if (!AA.Network.isNetworkGame()) {
@@ -208,6 +208,44 @@ AANetworkManager = function() {};
         }
         character = AA.Network.packMapChar(character);
         return this.sendToServer("sendTurnTowardTarget", {character});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    _.performBattleAction = function(subject, skill, targets) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        subject = AA.Network.packMapChar(subject);
+        skill = skill.idA;
+        targets = targets.map(function(t) {
+          return AA.Network.packMapChar(t);
+        });
+        return this.sendToServer("performBattleAction", {subject, skill, targets});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.applyActionOnTarget = function(target, action) {
+      var e, skill, subject;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        if (target == null) {
+          return;
+        }
+        if (action == null) {
+          return;
+        }
+        target = AA.Network.packMapChar(target);
+        subject = action._packedSubject;
+        skill = action.AASkill().idA;
+        return this.sendToServer("applyActionOnTarget", {subject, skill, target});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -469,7 +507,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.sendTurnTowardTarget_RESP = function(response) {
+    _.sendTurnTowardTarget_RESP = function(response) {
       var character, e;
       try {
         if (!AA.Network.isAvailableForVisual(response)) {
@@ -478,6 +516,55 @@ AANetworkManager = function() {};
         ({character} = response.content);
         character = AA.Network.unpackMapChar(character);
         return character != null ? character.aaTurnTowardTarget() : void 0;
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    _.performBattleAction_RESP = function(response) {
+      var e, skill, subject, targets;
+      try {
+        if (!AA.Network.isOnSameMap(response)) {
+          return;
+        }
+        // * Только мастер карты может выполнить данное действие
+        if (!ANGameManager.isMapMaster()) {
+          return;
+        }
+        ({subject, skill, targets} = response.content);
+        subject = AA.Network.unpackMapChar(subject);
+        skill = AA.Utils.unpackAASkill(skill);
+        targets = targets.map(function(t) {
+          return AA.Network.unpackMapChar(t);
+        });
+        return AABattleActionsManager.performBattleAction(subject, skill, targets);
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.applyActionOnTarget_RESP = function(response) {
+      var action, e, skill, subject, target;
+      try {
+        if (!AA.Network.isOnSameMap(response)) {
+          return;
+        }
+        ({subject, skill, target} = response.content);
+        // * Мы брали запакованный Subject из Game_Action напрямую, а там он так упакован (через AA.Utils)
+        subject = AA.Utils.unpackAAEntity(subject);
+        if (subject == null) {
+          return;
+        }
+        skill = AA.Utils.unpackAASkill(skill);
+        if (skill == null) {
+          return;
+        }
+        action = new AABattleAction(subject, skill);
+        target = AA.Network.unpackMapChar(target);
+        if (target == null) {
+          return;
+        }
+        return AABattleActionsManager._applyActionOnTarget(target, action);
       } catch (error) {
         e = error;
         return AA.w(e);

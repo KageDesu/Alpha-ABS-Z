@@ -134,6 +134,30 @@ do ->
             catch e
                 AA.w e
 
+        _.performBattleAction = (subject, skill, targets) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                subject = AA.Network.packMapChar(subject)
+                skill = skill.idA
+                targets = targets.map (t) -> AA.Network.packMapChar(t)
+                @sendToServer("performBattleAction", { subject, skill, targets })
+            catch e
+                AA.w e
+
+        _.applyActionOnTarget = (target, action) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                return unless target?
+                return unless action?
+                target = AA.Network.packMapChar(target)
+                subject = action._packedSubject
+                skill = action.AASkill().idA
+                @sendToServer("applyActionOnTarget", { subject, skill, target })
+            catch e
+                AA.w e
+
+
+
     # * Обработка методов ОТ сервера (responses)
     # * ======================================================================
     # -----------------------------------------------------------------------
@@ -291,6 +315,37 @@ do ->
                 { character } = response.content
                 character = AA.Network.unpackMapChar(character)
                 character?.aaTurnTowardTarget()
+            catch e
+                AA.w e
+
+        _.performBattleAction_RESP = (response) ->
+            try
+                return unless AA.Network.isOnSameMap(response)
+                # * Только мастер карты может выполнить данное действие
+                return unless ANGameManager.isMapMaster()
+                { subject, skill, targets } = response.content
+                subject = AA.Network.unpackMapChar(subject)
+                skill = AA.Utils.unpackAASkill(skill)
+                targets = targets.map (t) -> AA.Network.unpackMapChar(t)
+                AABattleActionsManager.performBattleAction(
+                    subject, skill, targets
+                )
+            catch e
+                AA.w e
+
+        _.applyActionOnTarget_RESP = (response) ->
+            try
+                return unless AA.Network.isOnSameMap(response)
+                { subject, skill, target } = response.content
+                # * Мы брали запакованный Subject из Game_Action напрямую, а там он так упакован (через AA.Utils)
+                subject = AA.Utils.unpackAAEntity(subject)
+                return unless subject?
+                skill = AA.Utils.unpackAASkill(skill)
+                return unless skill?
+                action = new AABattleAction(subject, skill)
+                target = AA.Network.unpackMapChar(target)
+                return unless target?
+                AABattleActionsManager._applyActionOnTarget(target, action)
             catch e
                 AA.w e
 

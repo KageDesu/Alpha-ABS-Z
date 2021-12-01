@@ -96,7 +96,7 @@ AA.Network = function() {};
     if (Imported.Alpha_NETZ !== true) {
       return;
     }
-    this.SetupNETCharacter(); // 3_NETCharacter_AA.coffee
+    this.SetupNETCharacter(); // AA_Network/3_NETCharacter_AA.coffee
     
     // * Запускать АБС по готовности персонажа
     __alias_ANPM_bar = ANPlayersManager.bindActorResult;
