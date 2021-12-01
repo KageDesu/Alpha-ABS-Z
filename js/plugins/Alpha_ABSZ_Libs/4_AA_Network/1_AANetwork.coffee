@@ -20,7 +20,10 @@ do ->
         return actorId == ANGameManager.myActorId()
 
     _.isAvailableForVisual = (servCommand) ->
-        @isOnSameMap(servCommand) && KDCore.Utils.isSceneMap() && !SceneManager.isSceneChanging()
+        $gameTemp._aaCanReceiveVisualFromServer is true &&
+        @isOnSameMap(servCommand) &&
+        KDCore.Utils.isSceneMap() &&
+        !SceneManager.isSceneChanging()
 
     _.isOnSameMap = (servCommand) ->
         { mapId } = servCommand

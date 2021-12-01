@@ -285,6 +285,7 @@ do ->
         # * Обработка ответа (команды) от сервера (общий метод)
         _.onServerCommand = (name, response) ->
             try
+                return if SceneManager.isSceneChanging()
                 return if AA.Network.isShouldIgnoreServerCommand(response)
                 # * Получить только имя команды (без префикса)
                 cmd = name.replace(AA.Network.NETCmdPrefix, "")
@@ -306,6 +307,9 @@ do ->
             try
                 return if $gameTemp.aaIsLocalOnly is true
                 return unless AA.Network.isNetworkGame()
+                return if SceneManager.isSceneChanging()
+                # * Все команды только с карыт можно отправлять
+                return unless KDCore.Utils.isSceneMap()
                 nAPI.sendCustomCommand(
                     AA.Network.NETCmdPrefix + cmd,
                     AA.Network.createServCommand(content)

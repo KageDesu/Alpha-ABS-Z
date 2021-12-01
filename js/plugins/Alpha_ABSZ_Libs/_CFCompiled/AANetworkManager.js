@@ -464,6 +464,9 @@ AANetworkManager = function() {};
     _.onServerCommand = function(name, response) {
       var cmd, e, method;
       try {
+        if (SceneManager.isSceneChanging()) {
+          return;
+        }
         if (AA.Network.isShouldIgnoreServerCommand(response)) {
           return;
         }
@@ -495,6 +498,13 @@ AANetworkManager = function() {};
           return;
         }
         if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        if (SceneManager.isSceneChanging()) {
+          return;
+        }
+        // * Все команды только с карыт можно отправлять
+        if (!KDCore.Utils.isSceneMap()) {
           return;
         }
         return nAPI.sendCustomCommand(AA.Network.NETCmdPrefix + cmd, AA.Network.createServCommand(content));

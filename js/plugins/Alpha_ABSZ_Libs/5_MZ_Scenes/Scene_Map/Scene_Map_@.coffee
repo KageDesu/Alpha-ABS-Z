@@ -22,6 +22,10 @@ do ->
         AA.System.onMapSceneLoaded()
         @aaCreateMouseDetectionThread()
         @aaInitMapScrollSystem()
+        # * Небольшая задержка на приём визуальных эффектов от сервера
+        setTimeout (->
+                $gameTemp._aaCanReceiveVisualFromServer = true
+            ), 100
         return
 
     #@[ALIAS]
@@ -36,6 +40,7 @@ do ->
     #@[ALIAS]
     ALIAS__stop = _.stop
     _.stop = ->
+        $gameTemp._aaCanReceiveVisualFromServer = false
         ALIAS__stop.call(@)
         AA.System.onMapSceneStopped()
         return

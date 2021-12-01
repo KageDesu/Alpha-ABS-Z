@@ -22,6 +22,10 @@
     AA.System.onMapSceneLoaded();
     this.aaCreateMouseDetectionThread();
     this.aaInitMapScrollSystem();
+    // * Небольшая задержка на приём визуальных эффектов от сервера
+    setTimeout((function() {
+      return $gameTemp._aaCanReceiveVisualFromServer = true;
+    }), 100);
   };
   //@[ALIAS]
   // * Создаём интерфейс боевой системы
@@ -34,6 +38,7 @@
   //@[ALIAS]
   ALIAS__stop = _.stop;
   _.stop = function() {
+    $gameTemp._aaCanReceiveVisualFromServer = false;
     ALIAS__stop.call(this);
     AA.System.onMapSceneStopped();
   };
