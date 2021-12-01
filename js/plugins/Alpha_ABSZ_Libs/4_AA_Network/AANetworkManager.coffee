@@ -126,6 +126,14 @@ do ->
             catch e
                 AA.w e
 
+        _.sendTurnTowardTarget = (character) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                character = AA.Network.packMapChar(character)
+                @sendToServer("sendTurnTowardTarget", { character })
+            catch e
+                AA.w e
+
     # * Обработка методов ОТ сервера (responses)
     # * ======================================================================
     # -----------------------------------------------------------------------
@@ -277,6 +285,14 @@ do ->
             catch e
                 AA.w e
 
+        _.sendTurnTowardTarget_RESP = (response) ->
+            try
+                return unless AA.Network.isAvailableForVisual(response)
+                { character } = response.content
+                character = AA.Network.unpackMapChar(character)
+                character?.aaTurnTowardTarget()
+            catch e
+                AA.w e
 
     # * Общие методы отправки и приёма команд
     # * ======================================================================

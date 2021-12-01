@@ -44,6 +44,12 @@ do ->
                 else if Math.abs(direction % 2) is 1
                     [horz, vert] = AA.Utils.get8Dir(direction)
                     @moveDiagonally(horz, vert)
+                    #TODO: В ANETZ до версии 0.7 нет автосинхронизации диагонального движения
+                    #TODO: УБРАТЬ ЭТО ПОТОМ!!
+                    if AA.Network.isNetworkGame()
+                        if @ instanceof Game_Event
+                            if ANET.Version < 70
+                                ANMapManager.sendEventMove(@eventId())
             else
                 @aaMoveToPointStraight(point)
         catch e
@@ -54,11 +60,18 @@ do ->
         return unless point?
         dir = @findDirectionTo(point.x, point.y)
         @moveStraight(dir) if dir > 0
+        return
             
     # * Повернуться к цели
     _.aaTurnTowardTarget = ->
         try
-            @turnTowardCharacter(@AAEntity().getTarget())
+            target = @AAEntity().getTarget()
+            return unless target?
+            @turnTowardCharacter(target)
+            # * Дополнительно синхронизируем поворот к цели
+            # * (сама цель уже синхронизирована у события)
+            if AA.Network.isNetworkGame()
+                AANetworkManager.sendTurnTowardTarget(@)
         catch e
             AA.w e
 

@@ -4,7 +4,7 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__initMembers, ALIAS__isCollidedWithEvents, ALIAS__list, _;
+  var ALIAS__initMembers, ALIAS__isCollidedWithEvents, ALIAS__list, ALIAS__updateSelfMovement, _;
   //@[DEFINES]
   _ = Game_Event.prototype;
   //@[ALIAS]
@@ -30,6 +30,16 @@
       return this.isNormalPriority(); // * Если есть, то TRUE, если это событие тоже Normal Priority
     } else {
       return ALIAS__isCollidedWithEvents.call(this, x, y);
+    }
+  };
+  
+  //@[ALIAS]
+  ALIAS__updateSelfMovement = _.updateSelfMovement;
+  _.updateSelfMovement = function() {
+    if (this._moveType > 3) {
+      return this.aaUpdateSelfMovementForAI();
+    } else {
+      return ALIAS__updateSelfMovement.call(this);
     }
   };
   (function() {})();  

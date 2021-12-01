@@ -38,14 +38,6 @@ do ->
         return
 
     _.aaResetHomePoint = -> @homePoint = null
-
-    #@[ALIAS]
-    ALIAS__updateSelfMovement = _.updateSelfMovement
-    _.updateSelfMovement = ->
-        if @_moveType > 3
-            @aaUpdateSelfMovementForAI()
-        else
-            ALIAS__updateSelfMovement.call(@)
         
 
     # * AI Free State управляет этим процессом (начинает и завершает)
@@ -92,8 +84,6 @@ do ->
 
     # * Все эти режимы движения, не имеют собственной логики окончания (выхода из режима)
     _.aaUpdateSelfMovementForAI = ->
-        #TODO: Проверить
-        return if AA.Network.isNetworkGame() and !ANGameManager.isMapMaster()
         if !@_locked && !@isMoving()
             switch @_moveType
                 when 91 # * Approach target

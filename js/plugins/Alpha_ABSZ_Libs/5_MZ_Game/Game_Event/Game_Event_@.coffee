@@ -26,6 +26,13 @@ do ->
         else
             return ALIAS__isCollidedWithEvents.call(@, x, y)
         
+    #@[ALIAS]
+    ALIAS__updateSelfMovement = _.updateSelfMovement
+    _.updateSelfMovement = ->
+        if @_moveType > 3
+            @aaUpdateSelfMovementForAI()
+        else
+            ALIAS__updateSelfMovement.call(@)
     
     # * Система анимации XAnima
     # -----------------------------------------------------------------------

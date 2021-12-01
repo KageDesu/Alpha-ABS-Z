@@ -187,7 +187,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.syncAAEnemyBattlerObserver = function(character, observerData) {
+    _.syncAAEnemyBattlerObserver = function(character, observerData) {
       var e;
       try {
         if (!AA.Network.isNetworkGame()) {
@@ -195,6 +195,19 @@ AANetworkManager = function() {};
         }
         character = AA.Network.packMapChar(character);
         return this.sendToServer("syncAAEnemyBattlerObserver", {character, observerData});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.sendTurnTowardTarget = function(character) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        character = AA.Network.packMapChar(character);
+        return this.sendToServer("sendTurnTowardTarget", {character});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -429,7 +442,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.animaXChangeState_RESP = function(response) {
+    _.animaXChangeState_RESP = function(response) {
       var character, e, newState;
       try {
         if (!AA.Network.isOnSameMap(response)) {
@@ -451,6 +464,20 @@ AANetworkManager = function() {};
         } else {
           return character.switchToXAnimaState(newState);
         }
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.sendTurnTowardTarget_RESP = function(response) {
+      var character, e;
+      try {
+        if (!AA.Network.isAvailableForVisual(response)) {
+          return;
+        }
+        ({character} = response.content);
+        character = AA.Network.unpackMapChar(character);
+        return character != null ? character.aaTurnTowardTarget() : void 0;
       } catch (error) {
         e = error;
         return AA.w(e);

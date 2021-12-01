@@ -4,7 +4,7 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__updateSelfMovement, _;
+  var _;
   //@[DEFINES]
   _ = Game_Event.prototype;
   //TODO: Параметр, может ли враг двигаться диагонально
@@ -57,15 +57,6 @@
   };
   _.aaResetHomePoint = function() {
     return this.homePoint = null;
-  };
-  //@[ALIAS]
-  ALIAS__updateSelfMovement = _.updateSelfMovement;
-  _.updateSelfMovement = function() {
-    if (this._moveType > 3) {
-      return this.aaUpdateSelfMovementForAI();
-    } else {
-      return ALIAS__updateSelfMovement.call(this);
-    }
   };
   
   // * AI Free State управляет этим процессом (начинает и завершает)
@@ -133,10 +124,6 @@
   };
   // * Все эти режимы движения, не имеют собственной логики окончания (выхода из режима)
   _.aaUpdateSelfMovementForAI = function() {
-    //TODO: Проверить
-    if (AA.Network.isNetworkGame() && !ANGameManager.isMapMaster()) {
-      return;
-    }
     if (!this._locked && !this.isMoving()) {
       switch (this._moveType) {
         case 91: // * Approach target
