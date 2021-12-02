@@ -115,9 +115,13 @@ UISkillsItemsController = class UISkillsItemsController {
   _._updateItemState = function(item) {
     var e, useCases;
     try {
-      useCases = this.battler.getUsableAASkills().map(function(skill) {
-        return skill.idA;
-      });
+      if (AA.isABSActive()) {
+        useCases = this.battler.getUsableAASkills().map(function(skill) {
+          return skill.idA;
+        });
+      } else {
+        useCases = [];
+      }
       this._updateItemUseState(item, useCases);
     } catch (error) {
       e = error;

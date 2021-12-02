@@ -65,7 +65,10 @@ do ->
     # * Обновить состояние (таймер, доступность)
     _._updateItemState = (item) ->
         try
-            useCases = @battler.getUsableAASkills().map (skill) -> skill.idA
+            if AA.isABSActive()
+                useCases = @battler.getUsableAASkills().map (skill) -> skill.idA
+            else
+                useCases = []
             @_updateItemUseState(item, useCases)
         catch e
             AA.w e
