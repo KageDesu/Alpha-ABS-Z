@@ -28,7 +28,7 @@
       return symbols.contains(symbol);
     };
     // * Получить значение опыта с врага (с учётом специальной переменной для опыта)
-    return _.getExpFromAAEnemy = function(enemyDbData) {
+    _.getExpFromAAEnemy = function(enemyDbData) {
       var e, expVarId, param;
       try {
         if (enemyDbData == null) {
@@ -50,6 +50,22 @@
         e = error;
         AA.w(e);
         return 0;
+      }
+    };
+    // * Вызвать с задержкой в time миллисекунд
+    // * Не забываем про bind
+    return _.callDelayed = function(method, time = 1) {
+      var e;
+      try {
+        if (method == null) {
+          return;
+        }
+        setTimeout((function() {
+          return method();
+        }), time);
+      } catch (error) {
+        e = error;
+        AA.w(e);
       }
     };
   })();

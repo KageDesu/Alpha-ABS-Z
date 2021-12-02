@@ -43,15 +43,11 @@
   ALIAS__gainItem = _.gainItem;
   _.gainItem = function(item, amount, includeEquip) {
     ALIAS__gainItem.call(this, item, amount, includeEquip);
-    //TODO: Вынести Notify отсюда в Game_Interpreter!!!
     //TODO: Пока так, но вообще это будет отдельный плагин
     if (amount > 0 && (this.itemContainer(item) != null)) {
-      if (AA.PP.isShowItemGainNotify()) {
-        this.aaShowNotifyForItemGain(item, amount);
-      }
-      if (AA.PP.isAddNewItemOnPanelOnPickup()) {
-        this.aaAddGainedItemToPanel(item, amount);
-      }
+      $gameTemp._pLastItemGainedToParty = [item, amount];
+    } else {
+      $gameTemp._pLastItemGainedToParty = null;
     }
   };
 })();

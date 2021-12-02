@@ -15,9 +15,7 @@ AA.Network.SetupNETCharacter = ->
     _.initMembers = ->
         ALIAS__initMembersAABSZNET.call(@, ...arguments)
         # * Чтобы ID определился (Character_Base вызывает initMembers без ID)
-        setTimeout (=>
-                @_initMembersABS()
-            ), 100
+        AA.Utils.callDelayed(@_initMembersABS.bind(@), 100)
         return
 
     #@[ALIAS]

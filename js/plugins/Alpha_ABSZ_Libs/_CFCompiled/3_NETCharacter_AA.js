@@ -14,9 +14,7 @@ AA.Network.SetupNETCharacter = function() {
   _.initMembers = function() {
     ALIAS__initMembersAABSZNET.call(this, ...arguments);
     // * Чтобы ID определился (Character_Base вызывает initMembers без ID)
-    setTimeout((() => {
-      return this._initMembersABS();
-    }), 100);
+    AA.Utils.callDelayed(this._initMembersABS.bind(this), 100);
   };
   //@[ALIAS]
   ALIAS__isABS = _.isABS;

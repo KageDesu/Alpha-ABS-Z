@@ -106,9 +106,7 @@ AA.Network = function() {};
         return;
       }
       // * На всякий случай с задержкой
-      setTimeout((function() {
-        return AA.System.checkABSPlayerExists();
-      }), 10);
+      AA.Utils.callDelayed(AA.System.checkABSPlayerExists.bind(AA.System), 10);
     };
     _alias_nAPI_onCustomCommandABSZ = nAPI.onCustomCommand;
     nAPI.onCustomCommand = function(name) {

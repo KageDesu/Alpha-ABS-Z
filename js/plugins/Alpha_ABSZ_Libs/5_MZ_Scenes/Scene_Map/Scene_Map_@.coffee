@@ -23,9 +23,10 @@ do ->
         @aaCreateMouseDetectionThread()
         @aaInitMapScrollSystem()
         # * Небольшая задержка на приём визуальных эффектов от сервера
-        setTimeout (->
-                $gameTemp._aaCanReceiveVisualFromServer = true
-            ), 100
+        AA.Utils.callDelayed(
+            () -> $gameTemp._aaCanReceiveVisualFromServer = true,
+            100
+        )
         return
 
     #@[ALIAS]

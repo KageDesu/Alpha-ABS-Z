@@ -23,9 +23,9 @@
     this.aaCreateMouseDetectionThread();
     this.aaInitMapScrollSystem();
     // * Небольшая задержка на приём визуальных эффектов от сервера
-    setTimeout((function() {
+    AA.Utils.callDelayed(function() {
       return $gameTemp._aaCanReceiveVisualFromServer = true;
-    }), 100);
+    }, 100);
   };
   //@[ALIAS]
   // * Создаём интерфейс боевой системы

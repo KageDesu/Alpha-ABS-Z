@@ -79,9 +79,7 @@ do ->
             __alias_ANPM_bar.call(@, ...arguments)
             return unless result
             # * На всякий случай с задержкой
-            setTimeout (->
-                    AA.System.checkABSPlayerExists()
-                ), 10
+            AA.Utils.callDelayed(AA.System.checkABSPlayerExists.bind(AA.System), 10)
             return
 
         _alias_nAPI_onCustomCommandABSZ = nAPI.onCustomCommand

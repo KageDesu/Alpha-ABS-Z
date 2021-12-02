@@ -37,6 +37,18 @@ do ->
                 AA.w e
                 return 0
 
+        # * Вызвать с задержкой в time миллисекунд
+        # * Не забываем про bind
+        _.callDelayed = (method, time = 1) ->
+            try
+                return unless method?
+                setTimeout (->
+                        method()
+                    ), time
+            catch e
+                AA.w e
+            return
+
     # * Навыки и предметы
     # -----------------------------------------------------------------------
     do ->

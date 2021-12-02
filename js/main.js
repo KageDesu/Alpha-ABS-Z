@@ -34,6 +34,7 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/2_AIFlowMachine_Network.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsSet.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_AASkillsTimers.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_MI_Compatibility.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/3_NETCharacter_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AABattleAction.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/AABattleActionsManager.js"
@@ -79,12 +80,15 @@ const scriptUrls = [
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_AIMove.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_ExtraAAParams.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Event_Network.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Interpreter_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Interpreter_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Interpreter_Notify.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Map_AASkills.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_AA.js"
+,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Party_Notify.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_@.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_AA.js"
 ,"js/plugins/Alpha_ABSZ_Libs/_CFCompiled/Game_Player_AASkills.js"
@@ -289,6 +293,12 @@ const main = new Main();
 main.run();
 
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
 
 
 

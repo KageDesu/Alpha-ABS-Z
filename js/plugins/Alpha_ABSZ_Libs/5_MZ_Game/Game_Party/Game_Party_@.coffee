@@ -41,11 +41,11 @@ do ->
     ALIAS__gainItem = _.gainItem
     _.gainItem = (item, amount, includeEquip) ->
         ALIAS__gainItem.call(@, item, amount, includeEquip)
-        #TODO: Вынести Notify отсюда в Game_Interpreter!!!
         #TODO: Пока так, но вообще это будет отдельный плагин
         if amount > 0 and @itemContainer(item)?
-            @aaShowNotifyForItemGain(item, amount) if AA.PP.isShowItemGainNotify()
-            @aaAddGainedItemToPanel(item, amount) if AA.PP.isAddNewItemOnPanelOnPickup()
+            $gameTemp._pLastItemGainedToParty = [item, amount]
+        else
+            $gameTemp._pLastItemGainedToParty = null
         return
 
     return
