@@ -39,6 +39,20 @@ do ->
                 uAPI.setSkillToPanel(skillId)
         return
     
+    #@[ALIAS]
+    ALIAS__changeEquip = _.changeEquip
+    _.changeEquip = ->
+        ALIAS__changeEquip.call(@, ...arguments)
+        uAPI.refreshSkillPanelSafe()
+        return
+
+    #@[ALIAS]
+    ALIAS__forceChangeEquip = _.forceChangeEquip
+    _.forceChangeEquip = ->
+        ALIAS__forceChangeEquip.call(@, ...arguments)
+        uAPI.refreshSkillPanelSafe()
+        return
+
     return
 # ■ END Game_Actor.coffee
 #---------------------------------------------------------------------------

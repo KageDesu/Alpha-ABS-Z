@@ -56,6 +56,17 @@ do ->
             slotSymbol = slotSymbol.toString() if slotSymbol?
             return $gamePlayer.aaSkillsSet?.getSkillForSymbol(slotSymbol)
 
+        # * Безопасно обновить панель навыков
+        _.refreshSkillPanelSafe = ->
+            setTimeout (->
+                    try
+                        if KDCore.Utils.isSceneMap() and !SceneManager.isSceneChanging()
+                            AA.UI.refreshElement('skills')
+                    catch e
+                        KDCore.warning e
+                ), 1
+            return
+
     # * Система АБС
     # -----------------------------------------------------------------------
     do ->

@@ -4,7 +4,7 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__learnSkill, ALIAS__performDamage, _;
+  var ALIAS__changeEquip, ALIAS__forceChangeEquip, ALIAS__learnSkill, ALIAS__performDamage, _;
   //@[DEFINES]
   _ = Game_Actor.prototype;
   //@[ALIAS]
@@ -43,6 +43,19 @@
         uAPI.setSkillToPanel(skillId);
       }
     }
+  };
+  
+  //@[ALIAS]
+  ALIAS__changeEquip = _.changeEquip;
+  _.changeEquip = function() {
+    ALIAS__changeEquip.call(this, ...arguments);
+    uAPI.refreshSkillPanelSafe();
+  };
+  //@[ALIAS]
+  ALIAS__forceChangeEquip = _.forceChangeEquip;
+  _.forceChangeEquip = function() {
+    ALIAS__forceChangeEquip.call(this, ...arguments);
+    uAPI.refreshSkillPanelSafe();
   };
 })();
 

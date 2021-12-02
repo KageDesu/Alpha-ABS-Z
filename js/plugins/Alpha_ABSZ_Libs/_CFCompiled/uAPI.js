@@ -69,12 +69,26 @@ uAPI = function() {};
       }
     };
     // * Если навыка нет или неверно указан slotSymbol - будет возвращён 0
-    return _.getSkillIdFromPanel = function(slotSymbol) {
+    _.getSkillIdFromPanel = function(slotSymbol) {
       var ref;
       if (slotSymbol != null) {
         slotSymbol = slotSymbol.toString();
       }
       return (ref = $gamePlayer.aaSkillsSet) != null ? ref.getSkillForSymbol(slotSymbol) : void 0;
+    };
+    // * Безопасно обновить панель навыков
+    return _.refreshSkillPanelSafe = function() {
+      setTimeout((function() {
+        var e;
+        try {
+          if (KDCore.Utils.isSceneMap() && !SceneManager.isSceneChanging()) {
+            return AA.UI.refreshElement('skills');
+          }
+        } catch (error) {
+          e = error;
+          return KDCore.warning(e);
+        }
+      }), 1);
     };
   })();
   (function() {    // * Система АБС
