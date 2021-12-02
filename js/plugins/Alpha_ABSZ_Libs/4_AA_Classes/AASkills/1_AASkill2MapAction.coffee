@@ -10,6 +10,8 @@ class AASkill2MapAction
         @totalFlyTime = @_calculateFlyTime()
         @setSubject(subject)
         @setTargetPoint(point)
+        # * Сгенерировать новый уникальный ID для сети
+        @setUniqueId() if AA.Network.isNetworkGame() and !@isPhantom()
         return
 
     setSubject: (subject) ->
@@ -18,6 +20,18 @@ class AASkill2MapAction
         @packedSubject = AA.Utils.packAAEntity(subject)
         @_initStartPoint()
         return
+
+    # * Уникальный ID для сетевой игры, чтобы можнобыло найти конкретный Projectile
+    # * из запроса от сервера (завершить Projectile например)
+    setUniqueId: (uniqueId) ->
+        unless uniqueId?
+            @uniqueId = KDCore.makeid(6) + "_" + @aaSkill.idA
+        else
+            @uniqueId = uniqueId
+
+    # * Данный навык обрабатвается на мастере карты
+    # * Просчёт коллизий на данном клиенте должен быть отключён
+    isPhantom: () -> AA.Network.isNetworkGame() and !ANGameManager.isMapMaster()
 
     setTargetPoint: (point) ->
         point = @preparePoint(point) if @packedSubject?

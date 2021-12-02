@@ -213,7 +213,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.applyActionOnTarget = function(target, action) {
+    _.applyActionOnTarget = function(target, action) {
       var e, skill, subject;
       try {
         if (!AA.Network.isNetworkGame()) {
@@ -229,6 +229,49 @@ AANetworkManager = function() {};
         subject = action._packedSubject;
         skill = action.AASkill().idA;
         return this.sendToServer("applyActionOnTarget", {subject, skill, target});
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    // * Добавить MapSkill на карту (визуально, расчёт на мастере карты)
+    _.startAASkillOnMap = function(skill, subject, targetPoint, uniqueId) {
+      var e, x, y;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        if (subject == null) {
+          return;
+        }
+        if (skill == null) {
+          return;
+        }
+        if (targetPoint == null) {
+          return;
+        }
+        subject = AA.Network.packMapChar(subject);
+        skill = skill.idA;
+        ({x, y} = targetPoint);
+        return this.sendToServer("startAASkillOnMap", {
+          subject,
+          skill,
+          targetPoint: {x, y},
+          uniqueId
+        });
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    // * Удалить MapSkill (чисто визуально)
+    return _.endAASkillOnMap = function(uniqueId) {
+      var e;
+      try {
+        if (!AA.Network.isNetworkGame()) {
+          return;
+        }
+        return this.sendToServer("endAASkillOnMap", uniqueId);
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -504,7 +547,7 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    return _.applyActionOnTarget_RESP = function(response) {
+    _.applyActionOnTarget_RESP = function(response) {
       var action, e, skill, subject, target;
       try {
         if (!AA.Network.isOnSameMap(response)) {
@@ -526,6 +569,54 @@ AANetworkManager = function() {};
           return;
         }
         return AABattleActionsManager._applyActionOnTarget(target, action);
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    _.startAASkillOnMap_RESP = function(response) {
+      var e, skill, subject, targetPoint, uniqueId;
+      try {
+        if (!AA.Network.isOnSameMap(response)) {
+          return;
+        }
+        ({subject, skill, targetPoint, uniqueId} = response.content);
+        subject = AA.Network.unpackMapChar(subject);
+        if (subject == null) {
+          return;
+        }
+        skill = AA.Utils.unpackAASkill(skill);
+        if (skill == null) {
+          return;
+        }
+        $gameMap.startAASkill(skill, subject, targetPoint);
+        // * Метод на gameMap () сохраняет последний созданный
+        // * навык в $gameTemp.__lastAAMapSkill, чтобы можно
+        // * было установить ID из сети (по индексу нельзя)
+        if ($gameTemp.__lastAAMapSkill != null) {
+          $gameTemp.__lastAAMapSkill.setUniqueId(uniqueId);
+          return $gameTemp.__lastAAMapSkill = null;
+        }
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
+    };
+    return _.endAASkillOnMap_RESP = function(response) {
+      var e, skill, uniqueId;
+      try {
+        if (!AA.Network.isOnSameMap(response)) {
+          return;
+        }
+        uniqueId = response.content;
+        skill = $gameMap.aaMapSkills().find(function(s) {
+          return (s != null) && s.uniqueId === uniqueId;
+        });
+        if (skill == null) {
+          return;
+        }
+        // * Намеренно устанавливаем время в 0, чтобы удалился
+        return skill.totalFlyTime = 0;
       } catch (error) {
         e = error;
         return AA.w(e);

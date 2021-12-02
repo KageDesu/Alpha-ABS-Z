@@ -146,6 +146,30 @@ do ->
             catch e
                 AA.w e
 
+        # * Добавить MapSkill на карту (визуально, расчёт на мастере карты)
+        _.startAASkillOnMap = (skill, subject, targetPoint, uniqueId) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                return unless subject?
+                return unless skill?
+                return unless targetPoint?
+                subject = AA.Network.packMapChar(subject)
+                skill = skill.idA
+                { x, y } = targetPoint
+                @sendToServer("startAASkillOnMap", {
+                    subject, skill, targetPoint: { x, y } , uniqueId
+                    }
+                )
+            catch e
+                AA.w e
+
+        # * Удалить MapSkill (чисто визуально)
+        _.endAASkillOnMap = (uniqueId) ->
+            try
+                return unless AA.Network.isNetworkGame()
+                @sendToServer("endAASkillOnMap", uniqueId)
+            catch e
+                AA.w e
 
 
     # * Обработка методов ОТ сервера (responses)
@@ -321,6 +345,35 @@ do ->
                 target = AA.Network.unpackMapChar(target)
                 return unless target?
                 AABattleActionsManager._applyActionOnTarget(target, action)
+            catch e
+                AA.w e
+
+        _.startAASkillOnMap_RESP = (response) ->
+            try
+                return unless AA.Network.isOnSameMap(response)
+                { subject, skill, targetPoint, uniqueId } = response.content
+                subject = AA.Network.unpackMapChar(subject)
+                return unless subject?
+                skill = AA.Utils.unpackAASkill(skill)
+                return unless skill?
+                $gameMap.startAASkill(skill, subject, targetPoint)
+                # * Метод на gameMap () сохраняет последний созданный
+                # * навык в $gameTemp.__lastAAMapSkill, чтобы можно
+                # * было установить ID из сети (по индексу нельзя)
+                if $gameTemp.__lastAAMapSkill?
+                    $gameTemp.__lastAAMapSkill.setUniqueId(uniqueId)
+                    $gameTemp.__lastAAMapSkill = null
+            catch e
+                AA.w e
+
+        _.endAASkillOnMap_RESP = (response) ->
+            try
+                return unless AA.Network.isOnSameMap(response)
+                uniqueId = response.content
+                skill = $gameMap.aaMapSkills().find (s) -> s? and s.uniqueId == uniqueId
+                return unless skill?
+                # * Намеренно устанавливаем время в 0, чтобы удалился
+                skill.totalFlyTime = 0
             catch e
                 AA.w e
 

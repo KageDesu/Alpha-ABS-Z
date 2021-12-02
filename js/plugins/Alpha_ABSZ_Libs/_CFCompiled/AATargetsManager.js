@@ -318,7 +318,7 @@ AATargetsManager = function() {};
   // * Цель подходящая (проверки, см. BattleManagerABS.isValidTarget)
   //TODO: isValidTarget
   _.isValidTarget = function(targetChar) {
-    return (targetChar != null) && targetChar.isActive();
+    return (targetChar != null) && targetChar.isActive() && targetChar.AABattler().isAlive();
   };
   // * Находится ли точка (цель) в области дейтсвия навыка (range)
   _.isInSkillRange = function(char, skillId, targetPoint) {

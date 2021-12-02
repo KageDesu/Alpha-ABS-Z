@@ -230,7 +230,8 @@ do ->
 
     # * Цель подходящая (проверки, см. BattleManagerABS.isValidTarget)
     #TODO: isValidTarget
-    _.isValidTarget = (targetChar) -> targetChar? and targetChar.isActive()
+    _.isValidTarget = (targetChar) ->
+        targetChar? and targetChar.isActive() and targetChar.AABattler().isAlive()
 
     # * Находится ли точка (цель) в области дейтсвия навыка (range)
     _.isInSkillRange = (char, skillId, targetPoint) ->

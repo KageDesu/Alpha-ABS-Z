@@ -1,5 +1,5 @@
 /*:
- * @plugindesc (v.0.4) Alpha Core Plugin
+ * @plugindesc (v.0.4.1) Alpha Core Plugin
  * @author Pheonix KageDesu
  * @target MZ MV
  * @url https://kdworkshop.net/
@@ -23,7 +23,7 @@ Imported.Alpha_Core = true;
 // * ALPHA FAMILY PLUGINS GLOBAL DEFINITION
 var AA = AA || {};
 AA.Core = AA.Core || {};
-AA.Core.version = 0.4;
+AA.Core.version = 0.41;
 
 AA.Utils = {};
 
@@ -49,13 +49,13 @@ AA.link = function (library) {
 // * LIBRARY WITH MZ AND MZ SUPPORT
 //! {OUTER FILE}
 
-//?rev 18.09.21
+//?rev 17.11.21
 var KDCore;
 
 KDCore = KDCore || {};
 
 // * Двузначные числа нельзя в версии, сравнение идёт по первой цифре поулчается
-KDCore._fileVersion = '2.6';
+KDCore._fileVersion = '2.6.1';
 
 if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
   // * ПРОПУСКАЕМ ЗАГРУЗКУ, так как уже загруженна более новая
@@ -2786,6 +2786,18 @@ if ((KDCore.Version != null) && KDCore.Version > KDCore._fileVersion) {
       if (error != null) {
         console.warn(error);
       }
+    };
+    KDCore.makeid = function(length) {
+      var characters, charactersLength, result;
+      result = '';
+      characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      charactersLength = characters.length;
+      i = 0;
+      while (i < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        i++;
+      }
+      return result;
     };
     (function() {      //--------------------------------------------------------------------------------
       // Word Wrapping =================================================================
@@ -5554,4 +5566,4 @@ AA.Utils.Parser = function() {};
   AA.link(Window_ExtTextLineBase);
 })();
 
-//Plugin Alpha_@Core automatic build by PKD PluginBuilder 1.9.2 14.10.2021
+//Plugin Alpha_@Core automatic build by PKD PluginBuilder 1.9.2 02.12.2021

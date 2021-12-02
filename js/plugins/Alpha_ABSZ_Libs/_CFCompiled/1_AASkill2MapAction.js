@@ -14,6 +14,10 @@ AASkill2MapAction = class AASkill2MapAction {
     this.totalFlyTime = this._calculateFlyTime();
     this.setSubject(subject);
     this.setTargetPoint(point);
+    if (AA.Network.isNetworkGame() && !this.isPhantom()) {
+      // * Сгенерировать новый уникальный ID для сети
+      this.setUniqueId();
+    }
     return;
   }
 
@@ -24,6 +28,22 @@ AASkill2MapAction = class AASkill2MapAction {
     }
     this.packedSubject = AA.Utils.packAAEntity(subject);
     this._initStartPoint();
+  }
+
+  // * Уникальный ID для сетевой игры, чтобы можнобыло найти конкретный Projectile
+  // * из запроса от сервера (завершить Projectile например)
+  setUniqueId(uniqueId) {
+    if (uniqueId == null) {
+      return this.uniqueId = KDCore.makeid(6) + "_" + this.aaSkill.idA;
+    } else {
+      return this.uniqueId = uniqueId;
+    }
+  }
+
+  // * Данный навык обрабатвается на мастере карты
+  // * Просчёт коллизий на данном клиенте должен быть отключён
+  isPhantom() {
+    return AA.Network.isNetworkGame() && !ANGameManager.isMapMaster();
   }
 
   setTargetPoint(point) {

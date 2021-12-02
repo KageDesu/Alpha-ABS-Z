@@ -23,6 +23,7 @@ do ->
         return unless aaSkill?
         #TODO: Возможно не надо полный навык хранить, а только ID из базы
         mapSkill = new AASkill2MapAction(aaSkill, subject, targetPoint)
+        AANetworkManager.startAASkillOnMap(aaSkill, subject, targetPoint, mapSkill.uniqueId)
         @_registerNewAASkill(mapSkill)
         return
 
@@ -34,8 +35,13 @@ do ->
                 index = i
                 break
         @_aaMapSkills[index] = skill
+        # * Запоминаем последний навык (если это сетевая игра и навык внешний)
+        # * чтобы установить в него уникальный ID от сервера
+        if AA.Network.isNetworkGame() and skill.isPhantom()
+            $gameTemp.__lastAAMapSkill = skill
         "PROJECTILE REGISTRED ON MAP".p(index)
-        $gameMap.spriteset().aaCreateNewMapSkill(index)
+        if KDCore.Utils.isSceneMap()
+            $gameMap.spriteset().aaCreateNewMapSkill(index)
         return
 
     

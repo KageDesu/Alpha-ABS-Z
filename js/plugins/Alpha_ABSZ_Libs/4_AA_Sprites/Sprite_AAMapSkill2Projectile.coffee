@@ -115,17 +115,22 @@ do ->
         if @_framesBeforeStartFadeToEnd < 0
             @opacity -= 40
             if @opacity <= 0
-                @_ended = true
-                # * Если навык без контактный и его "время" закончено, он должен сработать всё равно
-                if @_hasHit is false and @skill.isNoContact()
-                    x = Math.floor(@skill.x / $gameMap.tileWidth())
-                    y = Math.floor(@skill.y / $gameMap.tileWidth())
-                    @onHit({ x, y })
-                AA.EV.call("MapSkillsRequestsClean")
+                @_onTimeEnded()
         else
             @_framesBeforeStartFadeToEnd -= 1
 
+    _._onTimeEnded = ->
+        @_ended = true
+        # * Если навык без контактный и его "время" закончено, он должен сработать всё равно
+        if @_hasHit is false and @skill.isNoContact() and !@skill.isPhantom()
+            x = Math.floor(@skill.x / $gameMap.tileWidth())
+            y = Math.floor(@skill.y / $gameMap.tileWidth())
+            @onHit({ x, y })
+        AA.EV.call("MapSkillsRequestsClean")
+        return
+
     _._checkCollision = ->
+        return if @skill.isPhantom()
         return if @opacity < 255
         playerHit = @_checkHitPlayer()
         if playerHit is true
@@ -207,6 +212,7 @@ do ->
         # * Vector On Hit Actions работают отдельно, не в AABattleActionsManager
         if target instanceof Game_Event
             target.aaOnVectorHit(@skill.id())
+        AANetworkManager.endAASkillOnMap(@skill.uniqueId) unless @skill.isPhantom()
         return
     
     return
