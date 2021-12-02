@@ -126,11 +126,12 @@ do ->
             catch e
                 AA.w e
 
-        _.sendTurnTowardTarget = (character) ->
+        _.sendTurnTowardCharacter = (character, point) ->
             try
                 return unless AA.Network.isNetworkGame()
                 character = AA.Network.packMapChar(character)
-                @sendToServer("sendTurnTowardTarget", { character })
+                { x, y } = point
+                @sendToServer("sendTurnTowardCharacter", { character, x, y })
             catch e
                 AA.w e
 
@@ -323,12 +324,12 @@ do ->
             catch e
                 AA.w e
 
-        _.sendTurnTowardTarget_RESP = (response) ->
+        _.sendTurnTowardCharacter_RESP = (response) ->
             try
                 return unless AA.Network.isAvailableForVisual(response)
-                { character } = response.content
+                { character, x, y } = response.content
                 character = AA.Network.unpackMapChar(character)
-                character?.aaTurnTowardTarget()
+                character?.turnTowardCharacter( { x, y } )
             catch e
                 AA.w e
 

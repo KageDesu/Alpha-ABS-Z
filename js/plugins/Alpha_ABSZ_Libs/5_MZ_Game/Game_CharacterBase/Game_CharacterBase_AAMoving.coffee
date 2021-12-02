@@ -68,10 +68,6 @@ do ->
             target = @AAEntity().getTarget()
             return unless target?
             @turnTowardCharacter(target)
-            # * Дополнительно синхронизируем поворот к цели
-            # * (сама цель уже синхронизирована у события)
-            if AA.Network.isNetworkGame()
-                AANetworkManager.sendTurnTowardTarget(@)
         catch e
             AA.w e
 

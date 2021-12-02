@@ -200,14 +200,15 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    _.sendTurnTowardTarget = function(character) {
-      var e;
+    _.sendTurnTowardCharacter = function(character, point) {
+      var e, x, y;
       try {
         if (!AA.Network.isNetworkGame()) {
           return;
         }
         character = AA.Network.packMapChar(character);
-        return this.sendToServer("sendTurnTowardTarget", {character});
+        ({x, y} = point);
+        return this.sendToServer("sendTurnTowardCharacter", {character, x, y});
       } catch (error) {
         e = error;
         return AA.w(e);
@@ -533,15 +534,15 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    _.sendTurnTowardTarget_RESP = function(response) {
-      var character, e;
+    _.sendTurnTowardCharacter_RESP = function(response) {
+      var character, e, x, y;
       try {
         if (!AA.Network.isAvailableForVisual(response)) {
           return;
         }
-        ({character} = response.content);
+        ({character, x, y} = response.content);
         character = AA.Network.unpackMapChar(character);
-        return character != null ? character.aaTurnTowardTarget() : void 0;
+        return character != null ? character.turnTowardCharacter({x, y}) : void 0;
       } catch (error) {
         e = error;
         return AA.w(e);
