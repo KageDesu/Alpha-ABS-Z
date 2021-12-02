@@ -21,8 +21,7 @@ do ->
         #TODO: Тут можно ещё дополнительную проверку canUse
         # так как пока шёл выборо цели (например) мана могла закончиться
         # * Анимация Motion и AnimaX могут работать вместе
-        @AABattler().aaPlayAAWeaponMotionAnimation(skill) if skill.isHaveWeaponMotion()
-        @aaPlayAASkillXAnimation(skill)
+        @aaDetermineAndPlaySkillAnimation(skill)
         # * Персонаж "платит" за навык как только использует его
         @AABattler().useItem(skill.dbItem())
         # * Стоит ограничение задержки для безопасности
@@ -31,6 +30,32 @@ do ->
         else
             AABattleActionsManager.startAASkill(skill, @, point)
         return
+
+    _.aaDetermineAndPlaySkillAnimation = (skill) ->
+        if skill.animaXPriority > 1
+            # * Анимация Motion и AnimaX могут работать вместе
+            @AABattler().aaPlayAAWeaponMotionAnimation(skill) if skill.isHaveWeaponMotion()
+            @aaPlayAASkillXAnimation(skill)
+        else
+            # * Если в приоритете AnimaX
+            if skill.animaXPriority == 1
+                # * Если есть анимация для действия, то проиграть её
+                if @aaIsAvailableAnimaXForSkill(skill)
+                    @aaPlayAASkillXAnimation(skill)
+                else # * Иначе анимаци Weapon Motion
+                    @AABattler().aaPlayAAWeaponMotionAnimation(skill) if skill.isHaveWeaponMotion()
+            else # * Если в приоритете Weapon Motion
+                if skill.isHaveWeaponMotion()
+                    @AABattler().aaPlayAAWeaponMotionAnimation(skill)
+                else # * Если нет Weapon Motion, то AnimaX (если есть)
+                    if @aaIsAvailableAnimaXForSkill(skill)
+                        @aaPlayAASkillXAnimation(skill)
+        return
+
+    _.aaIsAvailableAnimaXForSkill = (skill) ->
+        return false unless Imported.PKD_AnimaX is true
+        return false unless @isAnimX()
+        return @isHaveAnimaXActionWithName(skill.getAnimaXActionName())
 
     _.aaPlayAASkillXAnimation = (skill) ->
         try
@@ -44,11 +69,7 @@ do ->
             else
                 # * 0 - значит будет по Actor ID, который отправляет
                 $gameTemp._lastAxNetworkChar = 0
-            if String.any(skill.animaXAction)
-                # * Special
-                @startAnimaXCustomAction(skill.animaXAction, false, true)
-            else # * Default one
-                @startAnimaXCustomAction("Skill", false, true)
+            @startAnimaXCustomAction(skill.getAnimaXActionName(), false, true)
             $gameTemp._lastAxNetworkChar = null
         catch e
             AA.w e

@@ -89,6 +89,12 @@ class AASkill2
 
     isHaveWeaponMotionSpecialType: -> @weaponMotionType > 0
 
+    getAnimaXActionName: ->
+        if String.any(@animaXAction)
+            return @animaXAction
+        else
+            return "Skill" # * По умолчанию
+
     # * Время перезарядки навыка (cooldown)
     getReloadTime: (battlerOrChar) ->
         if isFinite(@reloadTime)
@@ -113,11 +119,9 @@ class AASkill2
         @skillImg = ""
         @actionStartDelay = 10
         @reloadTime = 1.2
-        # * По умолчанию выборка
-        if Imported.PKD_AnimaX is true
-            @animaXAction = "Attack"
-        else
-            @weaponMotion = 1
+        @animaXAction = "Attack"
+        @animaXPriority = 1
+        @weaponMotion = 1
         return
 
 
@@ -181,6 +185,8 @@ do ->
         @weaponMotion = 0 # * 0 - нету, 1 - есть
         # * Только если weaponMotion > 0
         @weaponMotionType = 0 #* 0 - оружие в руке (Actor), 1-X тип оружия из списка Types
+        # * Приоритет анимации ( 1 - в приоритете, 0 - нет. 2 - вместе)
+        @animaXPriority = 1
         return
 
     # * Параметры селектора на карте

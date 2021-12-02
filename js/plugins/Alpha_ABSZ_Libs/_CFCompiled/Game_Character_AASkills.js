@@ -23,13 +23,10 @@
     if (skill.isInPoint()) {
       this.turnTowardCharacter(point);
     }
-    if (skill.isHaveWeaponMotion()) {
-      //TODO: Тут можно ещё дополнительную проверку canUse
-      // так как пока шёл выборо цели (например) мана могла закончиться
-      // * Анимация Motion и AnimaX могут работать вместе
-      this.AABattler().aaPlayAAWeaponMotionAnimation(skill);
-    }
-    this.aaPlayAASkillXAnimation(skill);
+    //TODO: Тут можно ещё дополнительную проверку canUse
+    // так как пока шёл выборо цели (например) мана могла закончиться
+    // * Анимация Motion и AnimaX могут работать вместе
+    this.aaDetermineAndPlaySkillAnimation(skill);
     // * Персонаж "платит" за навык как только использует его
     this.AABattler().useItem(skill.dbItem());
     // * Стоит ограничение задержки для безопасности
@@ -38,6 +35,44 @@
     } else {
       AABattleActionsManager.startAASkill(skill, this, point);
     }
+  };
+  _.aaDetermineAndPlaySkillAnimation = function(skill) {
+    if (skill.animaXPriority > 1) {
+      if (skill.isHaveWeaponMotion()) {
+        // * Анимация Motion и AnimaX могут работать вместе
+        this.AABattler().aaPlayAAWeaponMotionAnimation(skill);
+      }
+      this.aaPlayAASkillXAnimation(skill);
+    } else {
+      // * Если в приоритете AnimaX
+      if (skill.animaXPriority === 1) {
+        // * Если есть анимация для действия, то проиграть её
+        if (this.aaIsAvailableAnimaXForSkill(skill)) {
+          this.aaPlayAASkillXAnimation(skill); // * Иначе анимаци Weapon Motion
+        } else {
+          if (skill.isHaveWeaponMotion()) { // * Если в приоритете Weapon Motion
+            this.AABattler().aaPlayAAWeaponMotionAnimation(skill);
+          }
+        }
+      } else {
+        if (skill.isHaveWeaponMotion()) {
+          this.AABattler().aaPlayAAWeaponMotionAnimation(skill); // * Если нет Weapon Motion, то AnimaX (если есть)
+        } else {
+          if (this.aaIsAvailableAnimaXForSkill(skill)) {
+            this.aaPlayAASkillXAnimation(skill);
+          }
+        }
+      }
+    }
+  };
+  _.aaIsAvailableAnimaXForSkill = function(skill) {
+    if (Imported.PKD_AnimaX !== true) {
+      return false;
+    }
+    if (!this.isAnimX()) {
+      return false;
+    }
+    return this.isHaveAnimaXActionWithName(skill.getAnimaXActionName());
   };
   _.aaPlayAASkillXAnimation = function(skill) {
     var e;
@@ -57,12 +92,7 @@
         // * 0 - значит будет по Actor ID, который отправляет
         $gameTemp._lastAxNetworkChar = 0;
       }
-      if (String.any(skill.animaXAction)) {
-        // * Special
-        this.startAnimaXCustomAction(skill.animaXAction, false, true); // * Default one
-      } else {
-        this.startAnimaXCustomAction("Skill", false, true);
-      }
+      this.startAnimaXCustomAction(skill.getAnimaXActionName(), false, true);
       return $gameTemp._lastAxNetworkChar = null;
     } catch (error) {
       e = error;

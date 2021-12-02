@@ -138,7 +138,16 @@ AASkill2 = class AASkill2 {
     return this.weaponMotionType > 0;
   }
 
-  // * Время перезарядки навыка (cooldown)
+  getAnimaXActionName() {
+    if (String.any(this.animaXAction)) {
+      return this.animaXAction;
+    } else {
+      return "Skill"; // * По умолчанию
+    }
+  }
+
+  
+    // * Время перезарядки навыка (cooldown)
   getReloadTime(battlerOrChar) {
     if (isFinite(this.reloadTime)) {
       return this.reloadTime;
@@ -166,12 +175,9 @@ AASkill2 = class AASkill2 {
     this.skillImg = "";
     this.actionStartDelay = 10;
     this.reloadTime = 1.2;
-    // * По умолчанию выборка
-    if (Imported.PKD_AnimaX === true) {
-      this.animaXAction = "Attack";
-    } else {
-      this.weaponMotion = 1;
-    }
+    this.animaXAction = "Attack";
+    this.animaXPriority = 1;
+    this.weaponMotion = 1;
   }
 
 };
@@ -234,6 +240,8 @@ AASkill2 = class AASkill2 {
     this.weaponMotion = 0; // * 0 - нету, 1 - есть
     // * Только если weaponMotion > 0
     this.weaponMotionType = 0; //* 0 - оружие в руке (Actor), 1-X тип оружия из списка Types
+    // * Приоритет анимации ( 1 - в приоритете, 0 - нет. 2 - вместе)
+    this.animaXPriority = 1;
   };
   // * Параметры селектора на карте
   _._initSelector = function() {
