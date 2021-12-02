@@ -137,7 +137,7 @@ AA.UI = function() {};
     };
     // * Если открыто окно выбора навыка для слота, то оно закрывается сперва
     // * Если правой кнопкой по навыку, то открывается окно
-    return _._isSkillSelectorProcessHandler = function() {
+    _._isSkillSelectorProcessHandler = function() {
       var e, ref;
       if (!this.isValid()) {
         return false;
@@ -148,6 +148,21 @@ AA.UI = function() {};
         e = error;
         return AA.w(e);
       }
+    };
+    // * Символ элемента панели навыков под курсором
+    // * Используется для перетаскивания предметов из инвентаря на панель навыков
+    return _.getSkillSymbolUnderMouse = function() {
+      var e, item, ref;
+      try {
+        item = (ref = this.uiSet.getController("skills")) != null ? ref.getItemUnderMouse() : void 0;
+        if (item != null) {
+          return item.symbol;
+        }
+      } catch (error) {
+        e = error;
+        AA.w(e);
+      }
+      return null;
     };
   })();
   (function() {    // -----------------------------------------------------------------------

@@ -41,6 +41,8 @@ class UISkillsItemsController
         @_updateInput()
         return
 
+    getItemUnderMouse: -> @skillItems.find (item) -> item.isUnderMouse()
+
 #╒═════════════════════════════════════════════════════════════════════════╛
 # ■ PRIVATE.coffee
 #╒═════════════════════════════════════════════════════════════════════════╛

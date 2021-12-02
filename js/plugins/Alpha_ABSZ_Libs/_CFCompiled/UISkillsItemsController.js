@@ -72,6 +72,12 @@ UISkillsItemsController = class UISkillsItemsController {
     this._updateInput();
   }
 
+  getItemUnderMouse() {
+    return this.skillItems.find(function(item) {
+      return item.isUnderMouse();
+    });
+  }
+
 };
 
 (function() {  //╒═════════════════════════════════════════════════════════════════════════╛

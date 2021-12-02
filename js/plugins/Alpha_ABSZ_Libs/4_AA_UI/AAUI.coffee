@@ -109,6 +109,16 @@ do ->
             catch e
                 AA.w e
 
+        # * Символ элемента панели навыков под курсором
+        # * Используется для перетаскивания предметов из инвентаря на панель навыков
+        _.getSkillSymbolUnderMouse = () ->
+            try
+                item = @uiSet.getController("skills")?.getItemUnderMouse()
+                return item.symbol if item?
+            catch e
+                AA.w e
+            return null
+
     # -----------------------------------------------------------------------
 
     # * Выбор зоны применения навыка на карте

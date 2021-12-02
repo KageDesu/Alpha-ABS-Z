@@ -44,3 +44,36 @@ AA.extend ->
         return
     # ■ END PKD_MI.LIBS.MapUserChestController.coffee
     #---------------------------------------------------------------------------
+
+    #╒═════════════════════════════════════════════════════════════════════════╛
+    # ■ Spriteset_InvUI.coffee
+    #╒═════════════════════════════════════════════════════════════════════════╛
+    #---------------------------------------------------------------------------
+    do ->
+    
+        # * Возможность перетаскивания с инвентаря на панель навыков (только предметы)
+
+        #@[DEFINES]
+        _ = Spriteset_InvUI::
+    
+        return unless PKD_MI.isPro()
+
+        #@[ALIAS]
+        ALIAS___onReleaseDraggingCell = _._onRelaseDragginCell
+        _._onRelaseDragginCell = ->
+            symbol = AA.UI.getSkillSymbolUnderMouse()
+            if String.any(symbol)
+                if @_aaIsProperItemToPutInSkillPanelSlot()
+                    uAPI.setItemToPanel(@_dragItem.id, symbol)
+                else
+                    SoundManager.playBuzzer()
+                return
+            ALIAS___onReleaseDraggingCell.call(@)
+
+        #?[NEW]
+        _._aaIsProperItemToPutInSkillPanelSlot = () ->
+            DataManager.isItem(@_dragItem) && AA.Utils.isAAObject(@_dragItem)
+
+        return
+    # ■ END Spriteset_InvUI.coffee
+    #---------------------------------------------------------------------------

@@ -23,7 +23,7 @@ AA.extend(function() {
       AA.Utils.callDelayed($gameParty.pOnSomeItemBeenGained.bind($gameParty), 1);
     };
   })();
-  return (function() {    // ■ END PKD_MI.LIBS.MapChestController.coffee
+  (function() {    // ■ END PKD_MI.LIBS.MapChestController.coffee
     //---------------------------------------------------------------------------
 
     //╒═════════════════════════════════════════════════════════════════════════╛
@@ -42,7 +42,43 @@ AA.extend(function() {
       return AA.Utils.callDelayed($gameParty.pOnSomeItemBeenGained.bind($gameParty), 1);
     };
   })();
+  return (function() {    // ■ END PKD_MI.LIBS.MapUserChestController.coffee
+    //---------------------------------------------------------------------------
+
+    //╒═════════════════════════════════════════════════════════════════════════╛
+    // ■ Spriteset_InvUI.coffee
+    //╒═════════════════════════════════════════════════════════════════════════╛
+    //---------------------------------------------------------------------------
+    var ALIAS___onReleaseDraggingCell, _;
+    
+    // * Возможность перетаскивания с инвентаря на панель навыков (только предметы)
+
+    //@[DEFINES]
+    _ = Spriteset_InvUI.prototype;
+    if (!PKD_MI.isPro()) {
+      return;
+    }
+    //@[ALIAS]
+    ALIAS___onReleaseDraggingCell = _._onRelaseDragginCell;
+    _._onRelaseDragginCell = function() {
+      var symbol;
+      symbol = AA.UI.getSkillSymbolUnderMouse();
+      if (String.any(symbol)) {
+        if (this._aaIsProperItemToPutInSkillPanelSlot()) {
+          uAPI.setItemToPanel(this._dragItem.id, symbol);
+        } else {
+          SoundManager.playBuzzer();
+        }
+        return;
+      }
+      return ALIAS___onReleaseDraggingCell.call(this);
+    };
+    //?[NEW]
+    _._aaIsProperItemToPutInSkillPanelSlot = function() {
+      return DataManager.isItem(this._dragItem) && AA.Utils.isAAObject(this._dragItem);
+    };
+  })();
 });
 
-// ■ END PKD_MI.LIBS.MapUserChestController.coffee
+// ■ END Spriteset_InvUI.coffee
 //---------------------------------------------------------------------------
