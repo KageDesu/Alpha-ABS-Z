@@ -6,8 +6,8 @@ if(!Imported.Alpha_Core) {
     alert("Alpha ABSZ require Alpha_@Core plugin!");
 } else {
     try {
-        if(AA.Core.version < 0.4) {
-            alert("Alpha ABSZ require Alpha_@Core version 0.4 or above!");
+        if(AA.Core.version < 0.41) {
+            alert("Alpha ABSZ require Alpha_@Core version 0.4.1 or above!");
         }
     } catch (e) {
         console.warn("Something wrong with Alpha_@Core plugin");
@@ -16,7 +16,7 @@ if(!Imported.Alpha_Core) {
 }
 //? Символ AA определяется в Alpha_Core
 
-AA.Version = 30; // 0.3.0
+AA.Version = 40; // 0.3.0
 
 
 //TODO: Задавать версию необходимого NET и проверять
