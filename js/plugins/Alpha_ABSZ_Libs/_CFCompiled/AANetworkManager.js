@@ -213,23 +213,6 @@ AANetworkManager = function() {};
         return AA.w(e);
       }
     };
-    _.performBattleAction = function(subject, skill, targets) {
-      var e;
-      try {
-        if (!AA.Network.isNetworkGame()) {
-          return;
-        }
-        subject = AA.Network.packMapChar(subject);
-        skill = skill.idA;
-        targets = targets.map(function(t) {
-          return AA.Network.packMapChar(t);
-        });
-        return this.sendToServer("performBattleAction", {subject, skill, targets});
-      } catch (error) {
-        e = error;
-        return AA.w(e);
-      }
-    };
     return _.applyActionOnTarget = function(target, action) {
       var e, skill, subject;
       try {
@@ -516,28 +499,6 @@ AANetworkManager = function() {};
         ({character} = response.content);
         character = AA.Network.unpackMapChar(character);
         return character != null ? character.aaTurnTowardTarget() : void 0;
-      } catch (error) {
-        e = error;
-        return AA.w(e);
-      }
-    };
-    _.performBattleAction_RESP = function(response) {
-      var e, skill, subject, targets;
-      try {
-        if (!AA.Network.isOnSameMap(response)) {
-          return;
-        }
-        // * Только мастер карты может выполнить данное действие
-        if (!ANGameManager.isMapMaster()) {
-          return;
-        }
-        ({subject, skill, targets} = response.content);
-        subject = AA.Network.unpackMapChar(subject);
-        skill = AA.Utils.unpackAASkill(skill);
-        targets = targets.map(function(t) {
-          return AA.Network.unpackMapChar(t);
-        });
-        return AABattleActionsManager.performBattleAction(subject, skill, targets);
       } catch (error) {
         e = error;
         return AA.w(e);

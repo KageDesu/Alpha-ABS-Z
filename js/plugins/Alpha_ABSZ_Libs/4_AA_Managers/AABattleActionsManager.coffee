@@ -110,10 +110,6 @@ do ->
         try
             action = new AABattleAction(subject, skill)
             return unless action.isValid()
-            # * Если сетевая игра, то только МАСТЕР карты может выполнить действие
-            #if AA.Network.isNetworkGame() && !ANGameManager.isMapMaster()
-            #    AANetworkManager.performBattleAction(subject, skill, targets)
-            #else
             @_startAction(action, targets)
             @_endAction(action)
         catch e

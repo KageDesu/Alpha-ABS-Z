@@ -134,16 +134,6 @@ do ->
             catch e
                 AA.w e
 
-        _.performBattleAction = (subject, skill, targets) ->
-            try
-                return unless AA.Network.isNetworkGame()
-                subject = AA.Network.packMapChar(subject)
-                skill = skill.idA
-                targets = targets.map (t) -> AA.Network.packMapChar(t)
-                @sendToServer("performBattleAction", { subject, skill, targets })
-            catch e
-                AA.w e
-
         _.applyActionOnTarget = (target, action) ->
             try
                 return unless AA.Network.isNetworkGame()
@@ -315,21 +305,6 @@ do ->
                 { character } = response.content
                 character = AA.Network.unpackMapChar(character)
                 character?.aaTurnTowardTarget()
-            catch e
-                AA.w e
-
-        _.performBattleAction_RESP = (response) ->
-            try
-                return unless AA.Network.isOnSameMap(response)
-                # * Только мастер карты может выполнить данное действие
-                return unless ANGameManager.isMapMaster()
-                { subject, skill, targets } = response.content
-                subject = AA.Network.unpackMapChar(subject)
-                skill = AA.Utils.unpackAASkill(skill)
-                targets = targets.map (t) -> AA.Network.unpackMapChar(t)
-                AABattleActionsManager.performBattleAction(
-                    subject, skill, targets
-                )
             catch e
                 AA.w e
 

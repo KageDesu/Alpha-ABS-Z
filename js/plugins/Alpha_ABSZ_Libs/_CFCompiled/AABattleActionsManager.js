@@ -143,10 +143,6 @@ AABattleActionsManager = function() {};
       if (!action.isValid()) {
         return;
       }
-      // * Если сетевая игра, то только МАСТЕР карты может выполнить действие
-      //if AA.Network.isNetworkGame() && !ANGameManager.isMapMaster()
-      //    AANetworkManager.performBattleAction(subject, skill, targets)
-      //else
       this._startAction(action, targets);
       this._endAction(action);
     } catch (error) {
