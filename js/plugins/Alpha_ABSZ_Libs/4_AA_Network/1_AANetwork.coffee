@@ -97,6 +97,17 @@ do ->
             @aaFillNetworkDataObserver()
             return
 
+        # * Почему-то случается Game Crush при проигрывании анимаций по сети
+        # * Не нашёл причину и решение, так что просто игнорируем
+        _alias_SA_r = Sprite_Animation::_render
+        Sprite_Animation::_render = () ->
+            try
+                _alias_SA_r.call(@, ...arguments)
+            catch e
+                AA.w e
+                @_render = -> # * EMPTY
+            return
+
         return
 
 # ■ END IMPLEMENTATION.coffee

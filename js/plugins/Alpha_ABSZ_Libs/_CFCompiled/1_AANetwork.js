@@ -92,7 +92,7 @@ AA.Network = function() {};
     return null;
   };
   return _.loadExtensions = function() {
-    var __alias_ANPM_bar, _alias_GCB_fillNetworkObserver, _alias_nAPI_onCustomCommandABSZ;
+    var __alias_ANPM_bar, _alias_GCB_fillNetworkObserver, _alias_SA_r, _alias_nAPI_onCustomCommandABSZ;
     if (Imported.Alpha_NETZ !== true) {
       return;
     }
@@ -121,6 +121,19 @@ AA.Network = function() {};
     Game_CharacterBase.prototype._fillNetworkObserver = function() {
       _alias_GCB_fillNetworkObserver.call(this);
       this.aaFillNetworkDataObserver();
+    };
+    // * Почему-то случается Game Crush при проигрывании анимаций по сети
+    // * Не нашёл причину и решение, так что просто игнорируем
+    _alias_SA_r = Sprite_Animation.prototype._render;
+    Sprite_Animation.prototype._render = function() {
+      var e;
+      try {
+        _alias_SA_r.call(this, ...arguments);
+      } catch (error) {
+        e = error;
+        AA.w(e);
+        this._render = function() {}; // * EMPTY
+      }
     };
   };
 })();
