@@ -171,7 +171,6 @@ AASkill2 = class AASkill2 {
     this.direction = 0;
     this.speed = 0;
     this.noContact = 0;
-    this.reloadTime = 2;
     this.skillImg = "";
     this.actionStartDelay = 10;
     this.reloadTime = 1.2;

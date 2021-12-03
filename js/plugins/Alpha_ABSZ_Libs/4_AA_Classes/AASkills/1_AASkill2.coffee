@@ -115,7 +115,6 @@ class AASkill2
         @direction = 0
         @speed = 0
         @noContact = 0
-        @reloadTime = 2
         @skillImg = ""
         @actionStartDelay = 10
         @reloadTime = 1.2

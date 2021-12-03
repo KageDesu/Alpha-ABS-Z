@@ -112,10 +112,19 @@ do ->
         #@[ALIAS]
         ALIAS__erase = _.erase
         _.erase = ->
-            if Imported.PKD_AnimaX is true
-                @AASprite()?._destroyAnimaXParts()
+            @_aaEraseAnimaXPartsForEvent()
             ALIAS__erase.call(@)
             return
+
+        _._aaEraseAnimaXPartsForEvent = ->
+            try
+                return unless Imported.PKD_AnimaX is true
+                return unless @AASprite()?
+                spr = @AASprite()
+                if spr._animaXParts? # * Если есть части
+                    spr._destroyAnimaXParts()
+            catch e
+                AA.w e
 
         #@[ALIAS]
         ALIAS__aaOnDefeat = _.aaOnDefeat

@@ -128,13 +128,26 @@
     //@[ALIAS]
     ALIAS__erase = _.erase;
     _.erase = function() {
-      var ref;
-      if (Imported.PKD_AnimaX === true) {
-        if ((ref = this.AASprite()) != null) {
-          ref._destroyAnimaXParts();
-        }
-      }
+      this._aaEraseAnimaXPartsForEvent();
       ALIAS__erase.call(this);
+    };
+    _._aaEraseAnimaXPartsForEvent = function() {
+      var e, spr;
+      try {
+        if (Imported.PKD_AnimaX !== true) {
+          return;
+        }
+        if (this.AASprite() == null) {
+          return;
+        }
+        spr = this.AASprite();
+        if (spr._animaXParts != null) {
+          return spr._destroyAnimaXParts(); // * Если есть части
+        }
+      } catch (error) {
+        e = error;
+        return AA.w(e);
+      }
     };
     //@[ALIAS]
     ALIAS__aaOnDefeat = _.aaOnDefeat;

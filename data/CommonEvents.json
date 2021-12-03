@@ -3,5 +3,15 @@ null,
 {"id":1,"list":[{"code":101,"indent":0,"parameters":["",0,0,2,""]},{"code":401,"indent":0,"parameters":["Common Event called"]},{"code":355,"indent":0,"parameters":["console.log(this.eventId())"]},{"code":0,"indent":0,"parameters":[]}],"name":"Test","switchId":1,"trigger":0},
 {"id":2,"list":[{"code":108,"indent":0,"parameters":["This common event change enemy view radius"]},{"code":408,"indent":0,"parameters":["Called by SAction (see map SActions)"]},{"code":355,"indent":0,"parameters":["this.aaChangeAIParam(\"viewRadius\", 8)"]},{"code":0,"indent":0,"parameters":[]}],"name":"ChangeViewRadius","switchId":1,"trigger":0},
 {"id":3,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
-{"id":4,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0}
+{"id":4,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{"id":5,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{"id":6,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{"id":7,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{"id":8,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{"id":9,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{"id":10,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{"id":11,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{"id":12,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{"id":13,"list":[{"code":357,"indent":0,"parameters":["PKD_PocketEvents","PlacePocketEvent","Place Pocket Event",{"placementItemId":"1","gameItemId":"38"}]},{"code":657,"indent":0,"parameters":["Placement Item = 1"]},{"code":657,"indent":0,"parameters":["Consume Item = 38"]},{"code":0,"indent":0,"parameters":[]}],"name":"PE_BridgePlacement","switchId":1,"trigger":0},
+{"id":14,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0}
 ]
