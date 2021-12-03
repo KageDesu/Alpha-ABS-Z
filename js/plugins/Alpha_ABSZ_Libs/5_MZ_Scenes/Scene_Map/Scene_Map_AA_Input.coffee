@@ -63,7 +63,7 @@ do ->
         # TODO: Пока только события собирает
         _.aaGetABSEntityInPosition = (point) ->
             try
-                events = $gameMap.eventsXyAA(point.x, point.y)
+                events = $gameMap.eventsXyAAExt(point.x, point.y)
                 return events.first() if events.length > 0
             catch e
                 AA.w
