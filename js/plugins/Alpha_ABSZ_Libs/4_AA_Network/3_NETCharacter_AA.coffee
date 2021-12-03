@@ -35,6 +35,14 @@ AA.Network.SetupNETCharacter = ->
         @initABS()
         return
     
+    # * Переопределяем
+    #$[OVER]
+    _.aaGetExtendedHitBoxes = ->
+        if @isABS()
+            @actor().aaGetExtendedHitBoxes()
+        else
+            return null
+
     return
 # ■ END NETCharacter.coffee
 #---------------------------------------------------------------------------

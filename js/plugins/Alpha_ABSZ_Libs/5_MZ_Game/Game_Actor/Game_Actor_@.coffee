@@ -8,6 +8,12 @@ do ->
     _ = Game_Actor::
 
     #@[ALIAS]
+    ALIAS__setup = _.setup
+    _.setup = ->
+        ALIAS__setup.call(@, ...arguments)
+        @aaCheckAndParseExtendedHitBoxes()
+
+    #@[ALIAS]
     ALIAS__performDamage = _.performDamage
     _.performDamage = ->
         if AA.isABSMap()

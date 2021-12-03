@@ -33,6 +33,16 @@ AA.Network.SetupNETCharacter = function() {
     this.aaEntity = new AANetworkCharEntity(this.id);
     this.initABS();
   };
+  
+  // * Переопределяем
+  //$[OVER]
+  _.aaGetExtendedHitBoxes = function() {
+    if (this.isABS()) {
+      return this.actor().aaGetExtendedHitBoxes();
+    } else {
+      return null;
+    }
+  };
 };
 
 // ■ END NETCharacter.coffee

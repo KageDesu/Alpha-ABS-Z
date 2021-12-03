@@ -4,9 +4,15 @@
 //╒═════════════════════════════════════════════════════════════════════════╛
 //---------------------------------------------------------------------------
 (function() {
-  var ALIAS__changeEquip, ALIAS__forceChangeEquip, ALIAS__learnSkill, ALIAS__performDamage, _;
+  var ALIAS__changeEquip, ALIAS__forceChangeEquip, ALIAS__learnSkill, ALIAS__performDamage, ALIAS__setup, _;
   //@[DEFINES]
   _ = Game_Actor.prototype;
+  //@[ALIAS]
+  ALIAS__setup = _.setup;
+  _.setup = function() {
+    ALIAS__setup.call(this, ...arguments);
+    return this.aaCheckAndParseExtendedHitBoxes();
+  };
   //@[ALIAS]
   ALIAS__performDamage = _.performDamage;
   _.performDamage = function() {

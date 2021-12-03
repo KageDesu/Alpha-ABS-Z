@@ -222,6 +222,9 @@ do ->
     #$[OVER]
     _.aaInitNoPassFlagThread = -> #*EMPTY
 
+    #$[OVER]
+    _.aaGetExtendedHitBoxes = -> @_aaExtendedHitBox
+
     #TODO: СБРОС ЦЕЛИ
     #TODO: ОФФСЕТ ДЛЯ ВЫБОРА
     #TODO: МИНИ ХП БАР

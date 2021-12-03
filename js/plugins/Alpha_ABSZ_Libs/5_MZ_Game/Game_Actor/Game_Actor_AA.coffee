@@ -48,6 +48,20 @@ do ->
             AA.w
         return 0
 
+    _.aaCheckAndParseExtendedHitBoxes = ->
+        try
+            actor = @actor()
+            if actor? and actor.meta.extraHitBoxes?
+                @_aaExtendedHitBox =
+                    AA.Utils.Parser.convertArrayFromParameter(actor.meta.extraHitBoxes)
+                return
+        catch e
+            AA.w e
+        @_aaExtendedHitBox = null
+        return
+
+    _.aaGetExtendedHitBoxes = -> @_aaExtendedHitBox
+
     return
 # ■ END Game_Actor.coffee
 #---------------------------------------------------------------------------

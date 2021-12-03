@@ -154,6 +154,15 @@
       $gameTemp.aaResetMapScrollOnAction();
     };
   })();
+  // * Переопределяем
+  //$[OVER]
+  _.aaGetExtendedHitBoxes = function() {
+    if (this.isABS() && ($gameParty.leader() != null)) {
+      return $gameParty.leader().aaGetExtendedHitBoxes();
+    } else {
+      return null;
+    }
+  };
 })();
 
 // ■ END Game_Player.coffee

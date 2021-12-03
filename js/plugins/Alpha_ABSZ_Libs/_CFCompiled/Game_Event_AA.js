@@ -265,11 +265,15 @@
   // * Для оптимизации игры, алгоритмы проверки окружён ли персонаж отключены на событии
   //$[OVER]
   _.aaInitNoPassFlagThread = function() {}; //*EMPTY
+  
+  //$[OVER]
+  _.aaGetExtendedHitBoxes = function() {
+    return this._aaExtendedHitBox;
+  };
 })();
 
 // ■ END Game_Event.coffee
 //---------------------------------------------------------------------------
-
 //TODO: СБРОС ЦЕЛИ
 //TODO: ОФФСЕТ ДЛЯ ВЫБОРА
 //TODO: МИНИ ХП БАР

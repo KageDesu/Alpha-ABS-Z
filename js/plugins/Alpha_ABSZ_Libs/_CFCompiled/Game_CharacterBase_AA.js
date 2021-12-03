@@ -154,12 +154,13 @@
   // * Позиция с учётом расширенных HitBox
   // * Реализован отдельный метод, так как HitBox учитывается только при поражении навыками
   _.posExt = function(x, y) {
-    var d, l, r, u;
+    var d, extHitBoxes, l, r, u;
     if (this.aaIsHaveExtendedHitBoxes()) {
-      l = this.x - this._aaExtendedHitBox[3];
-      r = this.x + this._aaExtendedHitBox[1];
-      u = this.y - this._aaExtendedHitBox[0];
-      d = this.y + this._aaExtendedHitBox[2];
+      extHitBoxes = this.aaGetExtendedHitBoxes();
+      l = this.x - extHitBoxes[3];
+      r = this.x + extHitBoxes[1];
+      u = this.y - extHitBoxes[0];
+      d = this.y + extHitBoxes[2];
       return l <= x && x <= r && u <= y && y <= d;
     } else {
       return this.pos(x, y);
@@ -167,11 +168,12 @@
   };
   // * Позиции X на экране, с учётом расширенных HitBox
   _.screenXExt = function() {
-    var i, j, k, l, points, r, ref, ref1, tw, x;
+    var extHitBoxes, i, j, k, l, points, r, ref, ref1, tw, x;
     points = [this.screenX()]; // * базовая точка
     if (this.aaIsHaveExtendedHitBoxes()) {
-      r = this._aaExtendedHitBox[1];
-      l = this._aaExtendedHitBox[3];
+      extHitBoxes = this.aaGetExtendedHitBoxes();
+      r = extHitBoxes[1];
+      l = extHitBoxes[3];
       tw = $gameMap.tileWidth();
       // * Точка права (если есть)
       if (r > 0) {
@@ -194,11 +196,12 @@
   };
   // * Позиции Y на экране, с учётом расширенных HitBox
   _.screenYExt = function() {
-    var d, i, j, k, points, ref, ref1, th, u, y;
+    var d, extHitBoxes, i, j, k, points, ref, ref1, th, u, y;
     points = [this.screenY()]; // * базовая точка
     if (this.aaIsHaveExtendedHitBoxes()) {
-      u = this._aaExtendedHitBox[0];
-      d = this._aaExtendedHitBox[2];
+      extHitBoxes = this.aaGetExtendedHitBoxes();
+      u = extHitBoxes[0];
+      d = extHitBoxes[2];
       th = $gameMap.tileHeight();
       // * Точка снизу (если есть)
       if (d > 0) {
@@ -221,7 +224,11 @@
   };
   // * Есть ли у персонажа расширенные HitBox для АБС навыков
   _.aaIsHaveExtendedHitBoxes = function() {
-    return this._aaExtendedHitBox != null;
+    return this.aaGetExtendedHitBoxes() != null;
+  };
+  // * У событий и персонажей своя реализация
+  _.aaGetExtendedHitBoxes = function() {
+    return null;
   };
   _.aaUpdateABSAnimaX = function() {}; // * EMPTY (Переопределяется в Game_Character_AnimaX)
   

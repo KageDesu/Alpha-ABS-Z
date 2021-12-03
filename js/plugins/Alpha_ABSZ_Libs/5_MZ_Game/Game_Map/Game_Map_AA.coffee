@@ -66,10 +66,11 @@ do ->
                     y: char.y
                 }]
             if char.aaIsHaveExtendedHitBoxes()
-                l = char._aaExtendedHitBox[3]
-                r = char._aaExtendedHitBox[1]
-                u = char._aaExtendedHitBox[0]
-                d = char._aaExtendedHitBox[2]
+                extHitBoxes = char.aaGetExtendedHitBoxes()
+                l = extHitBoxes[3]
+                r = extHitBoxes[1]
+                u = extHitBoxes[0]
+                d = extHitBoxes[2]
                 positions.push({ x: char.x + i, y: char.y }) for i in [1..r] if r > 0
                 positions.push({ x: char.x - i, y: char.y }) for i in [1..l] if l > 0
                 positions.push({ x: char.x, y: char.y - i }) for i in [1..u] if u > 0

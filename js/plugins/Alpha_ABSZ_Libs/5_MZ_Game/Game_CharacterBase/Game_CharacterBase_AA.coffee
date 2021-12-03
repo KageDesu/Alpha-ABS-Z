@@ -119,10 +119,11 @@ do ->
     # * Реализован отдельный метод, так как HitBox учитывается только при поражении навыками
     _.posExt = (x, y) ->
         if @aaIsHaveExtendedHitBoxes()
-            l = @x - @_aaExtendedHitBox[3]
-            r = @x + @_aaExtendedHitBox[1]
-            u = @y - @_aaExtendedHitBox[0]
-            d = @y + @_aaExtendedHitBox[2]
+            extHitBoxes = @aaGetExtendedHitBoxes()
+            l = @x - extHitBoxes[3]
+            r = @x + extHitBoxes[1]
+            u = @y - extHitBoxes[0]
+            d = @y + extHitBoxes[2]
             return l <= x && x <= r && u <= y && y <= d
         else
             return @pos(x, y)
@@ -131,8 +132,9 @@ do ->
     _.screenXExt = () ->
         points = [@screenX()]  # * базовая точка
         if @aaIsHaveExtendedHitBoxes()
-            r = @_aaExtendedHitBox[1]
-            l = @_aaExtendedHitBox[3]
+            extHitBoxes = @aaGetExtendedHitBoxes()
+            r = extHitBoxes[1]
+            l = extHitBoxes[3]
             tw = $gameMap.tileWidth()
             # * Точка права (если есть)
             if r > 0
@@ -152,8 +154,9 @@ do ->
     _.screenYExt = () ->
         points = [@screenY()]  # * базовая точка
         if @aaIsHaveExtendedHitBoxes()
-            u = @_aaExtendedHitBox[0]
-            d = @_aaExtendedHitBox[2]
+            extHitBoxes = @aaGetExtendedHitBoxes()
+            u = extHitBoxes[0]
+            d = extHitBoxes[2]
             th = $gameMap.tileHeight()
             # * Точка снизу (если есть)
             if d > 0
@@ -170,7 +173,10 @@ do ->
         return points
 
     # * Есть ли у персонажа расширенные HitBox для АБС навыков
-    _.aaIsHaveExtendedHitBoxes = -> @_aaExtendedHitBox?
+    _.aaIsHaveExtendedHitBoxes = -> @aaGetExtendedHitBoxes()?
+
+    # * У событий и персонажей своя реализация
+    _.aaGetExtendedHitBoxes = -> null
 
     _.aaUpdateABSAnimaX = -> # * EMPTY (Переопределяется в Game_Character_AnimaX)
 

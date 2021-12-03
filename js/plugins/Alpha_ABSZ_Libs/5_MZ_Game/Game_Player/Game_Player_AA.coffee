@@ -143,7 +143,13 @@ do ->
             $gameTemp.aaResetMapScrollOnAction()
             return
 
-            
+    # * Переопределяем
+    #$[OVER]
+    _.aaGetExtendedHitBoxes = ->
+        if @isABS() and $gameParty.leader()?
+            $gameParty.leader().aaGetExtendedHitBoxes()
+        else
+            return null
 
     return
 # ■ END Game_Player.coffee

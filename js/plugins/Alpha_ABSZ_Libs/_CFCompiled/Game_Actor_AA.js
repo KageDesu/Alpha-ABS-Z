@@ -64,6 +64,23 @@
     }
     return 0;
   };
+  _.aaCheckAndParseExtendedHitBoxes = function() {
+    var actor, e;
+    try {
+      actor = this.actor();
+      if ((actor != null) && (actor.meta.extraHitBoxes != null)) {
+        this._aaExtendedHitBox = AA.Utils.Parser.convertArrayFromParameter(actor.meta.extraHitBoxes);
+        return;
+      }
+    } catch (error) {
+      e = error;
+      AA.w(e);
+    }
+    this._aaExtendedHitBox = null;
+  };
+  _.aaGetExtendedHitBoxes = function() {
+    return this._aaExtendedHitBox;
+  };
 })();
 
 // ■ END Game_Actor.coffee
