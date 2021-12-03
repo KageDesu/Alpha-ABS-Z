@@ -127,7 +127,12 @@ Sprite_AAMapSkill2Projectile = class Sprite_AAMapSkill2Projectile extends Sprite
         return this._onTimeEnded();
       }
     } else {
-      return this._framesBeforeStartFadeToEnd -= 1;
+      this._framesBeforeStartFadeToEnd -= 1;
+      // * Мнгновенно пропадает, если был "выключен" из сети
+      if (this.skill.forceEndFromNetwork === true) {
+        this.opacity = 0;
+        this._framesBeforeStartFadeToEnd = -1;
+      }
     }
   };
   _._onTimeEnded = function() {

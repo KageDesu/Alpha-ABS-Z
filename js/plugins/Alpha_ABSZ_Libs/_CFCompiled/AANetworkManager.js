@@ -258,7 +258,8 @@ AANetworkManager = function() {};
           subject,
           skill,
           targetPoint: {x, y},
-          uniqueId
+          uniqueId,
+          direction: subject.direction
         });
       } catch (error) {
         e = error;
@@ -555,7 +556,8 @@ AANetworkManager = function() {};
           return;
         }
         ({subject, skill, target} = response.content);
-        // * Мы брали запакованный Subject из Game_Action напрямую, а там он так упакован (через AA.Utils)
+        // * Мы брали запакованный Subject из Game_Action напрямую,
+        // а там он так упакован (через AA.Utils)
         subject = AA.Utils.unpackAAEntity(subject);
         if (subject == null) {
           return;
@@ -576,16 +578,17 @@ AANetworkManager = function() {};
       }
     };
     _.startAASkillOnMap_RESP = function(response) {
-      var e, skill, subject, targetPoint, uniqueId;
+      var direction, e, skill, subject, targetPoint, uniqueId;
       try {
         if (!AA.Network.isOnSameMap(response)) {
           return;
         }
-        ({subject, skill, targetPoint, uniqueId} = response.content);
+        ({subject, skill, targetPoint, uniqueId, direction} = response.content);
         subject = AA.Network.unpackMapChar(subject);
         if (subject == null) {
           return;
         }
+        subject.setDirection(direction);
         skill = AA.Utils.unpackAASkill(skill);
         if (skill == null) {
           return;
@@ -617,7 +620,8 @@ AANetworkManager = function() {};
           return;
         }
         // * Намеренно устанавливаем время в 0, чтобы удалился
-        return skill.totalFlyTime = 0;
+        skill.totalFlyTime = 0;
+        return skill.forceEndFromNetwork = true;
       } catch (error) {
         e = error;
         return AA.w(e);

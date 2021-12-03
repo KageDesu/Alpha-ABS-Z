@@ -11,7 +11,7 @@ class AASkill2MapAction
         @setSubject(subject)
         @setTargetPoint(point)
         # * Сгенерировать новый уникальный ID для сети
-        @setUniqueId() if AA.Network.isNetworkGame() and !@isPhantom()
+        @setUniqueId() if AA.Network.isNetworkGame()
         return
 
     setSubject: (subject) ->

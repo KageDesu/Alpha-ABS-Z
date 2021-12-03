@@ -14,7 +14,7 @@ AASkill2MapAction = class AASkill2MapAction {
     this.totalFlyTime = this._calculateFlyTime();
     this.setSubject(subject);
     this.setTargetPoint(point);
-    if (AA.Network.isNetworkGame() && !this.isPhantom()) {
+    if (AA.Network.isNetworkGame()) {
       // * Сгенерировать новый уникальный ID для сети
       this.setUniqueId();
     }

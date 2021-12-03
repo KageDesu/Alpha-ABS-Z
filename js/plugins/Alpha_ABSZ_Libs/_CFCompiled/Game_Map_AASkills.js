@@ -42,7 +42,7 @@
     this._aaMapSkills[index] = skill;
     // * Запоминаем последний навык (если это сетевая игра и навык внешний)
     // * чтобы установить в него уникальный ID от сервера
-    if (AA.Network.isNetworkGame() && skill.isPhantom()) {
+    if (AA.Network.isNetworkGame()) {
       $gameTemp.__lastAAMapSkill = skill;
     }
     "PROJECTILE REGISTRED ON MAP".p(index);

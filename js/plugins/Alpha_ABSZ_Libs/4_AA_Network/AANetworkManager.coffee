@@ -158,7 +158,10 @@ do ->
                 skill = skill.idA
                 { x, y } = targetPoint
                 @sendToServer("startAASkillOnMap", {
-                    subject, skill, targetPoint: { x, y } , uniqueId
+                        subject, skill,
+                        targetPoint: { x, y } ,
+                        uniqueId,
+                        direction: subject.direction
                     }
                 )
             catch e
@@ -337,7 +340,8 @@ do ->
             try
                 return unless AA.Network.isOnSameMap(response)
                 { subject, skill, target } = response.content
-                # * Мы брали запакованный Subject из Game_Action напрямую, а там он так упакован (через AA.Utils)
+                # * Мы брали запакованный Subject из Game_Action напрямую,
+                # а там он так упакован (через AA.Utils)
                 subject = AA.Utils.unpackAAEntity(subject)
                 return unless subject?
                 skill = AA.Utils.unpackAASkill(skill)
@@ -352,9 +356,10 @@ do ->
         _.startAASkillOnMap_RESP = (response) ->
             try
                 return unless AA.Network.isOnSameMap(response)
-                { subject, skill, targetPoint, uniqueId } = response.content
+                { subject, skill, targetPoint, uniqueId, direction } = response.content
                 subject = AA.Network.unpackMapChar(subject)
                 return unless subject?
+                subject.setDirection(direction)
                 skill = AA.Utils.unpackAASkill(skill)
                 return unless skill?
                 $gameMap.startAASkill(skill, subject, targetPoint)
@@ -375,6 +380,7 @@ do ->
                 return unless skill?
                 # * Намеренно устанавливаем время в 0, чтобы удалился
                 skill.totalFlyTime = 0
+                skill.forceEndFromNetwork = true
             catch e
                 AA.w e
 

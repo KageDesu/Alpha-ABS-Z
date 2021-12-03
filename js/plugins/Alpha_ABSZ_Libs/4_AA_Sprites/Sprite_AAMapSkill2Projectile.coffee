@@ -118,6 +118,11 @@ do ->
                 @_onTimeEnded()
         else
             @_framesBeforeStartFadeToEnd -= 1
+            # * Мнгновенно пропадает, если был "выключен" из сети
+            if @skill.forceEndFromNetwork is true
+                @opacity = 0
+                @_framesBeforeStartFadeToEnd = -1
+            return
 
     _._onTimeEnded = ->
         @_ended = true
