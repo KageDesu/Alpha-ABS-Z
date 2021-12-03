@@ -14,6 +14,7 @@ do ->
         # * Набор навыков с задержкой
         @aaDelayedSkillActions = []
         @aaClearCharacterEffects()
+        return
     
     #@[ALIAS]
     ALIAS__update = _.update
@@ -21,7 +22,9 @@ do ->
         ALIAS__update.call(@)
         if @isABS()
             @aaUpdateABSAnimaX() if Imported.PKD_AnimaX
-            @aaUpdateABS() if AA.isABSActive()
+            if AA.isABSActive()
+                @aaUpdateABS()
+                @aaUpdateNoPassFlag()
         return
 
         

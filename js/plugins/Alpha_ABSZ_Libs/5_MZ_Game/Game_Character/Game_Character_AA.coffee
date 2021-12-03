@@ -40,8 +40,6 @@ do ->
     do ->
         _.aaTurnTowardTouchInput = ->
             @turnTowardCharacter(TouchInput.toMapPoint())
-
-
     
     # -----------------------------------------------------------------------
 

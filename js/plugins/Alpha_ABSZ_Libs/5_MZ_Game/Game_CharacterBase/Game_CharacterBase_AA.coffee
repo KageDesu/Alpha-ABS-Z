@@ -19,6 +19,8 @@ do ->
         _.initABS = ->
             @aaEntity?.initABS()
             @AASprite()?.initABS()
+            @aaInitNoPassFlagThread()
+            return
 
         # * Деактивировать АБС режим
         _.stopABS = ->

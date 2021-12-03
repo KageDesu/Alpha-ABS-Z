@@ -89,6 +89,9 @@
       }
       // * Approach target
       this._moveType = 91;
+      // * Задержка перед следующим движением (для оптимизации)
+      // * Используется, когда вокруг цели (игрока, персонажа) нет места
+      this._aaLastMovingActionDelay = 0;
       params = this.AAModel().approachMoveData;
       if (this.distTo(this.AAEntity().getTarget()) >= params[0]) {
         this.setMoveFrequency(params[1]);

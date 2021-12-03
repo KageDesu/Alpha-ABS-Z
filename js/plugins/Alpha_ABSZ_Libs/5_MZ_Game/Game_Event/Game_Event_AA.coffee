@@ -79,6 +79,7 @@ do ->
             ALIAS__initABS.call(@)
             AA.EV.subscribeFor("PauseABS", @gev_onABSPaused.bind(@))
             @aaStoreMoveData()
+            @_aaLastMovingActionDelay = 0
             $gameTemp.aaRegisterAILogicThread(@eventId())
             return
 
@@ -216,6 +217,10 @@ do ->
 
         return
     # -----------------------------------------------------------------------
+
+    # * Для оптимизации игры, алгоритмы проверки окружён ли персонаж отключены на событии
+    #$[OVER]
+    _.aaInitNoPassFlagThread = -> #*EMPTY
 
     #TODO: СБРОС ЦЕЛИ
     #TODO: ОФФСЕТ ДЛЯ ВЫБОРА

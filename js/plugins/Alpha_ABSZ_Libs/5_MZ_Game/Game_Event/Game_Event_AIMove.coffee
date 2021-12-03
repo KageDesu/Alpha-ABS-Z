@@ -58,6 +58,9 @@ do ->
             return unless @AAEntity().inBattle()
             # * Approach target
             @_moveType = 91
+            # * Задержка перед следующим движением (для оптимизации)
+            # * Используется, когда вокруг цели (игрока, персонажа) нет места
+            @_aaLastMovingActionDelay = 0
             params = @AAModel().approachMoveData
             if @distTo(@AAEntity().getTarget()) >= params[0]
                 @setMoveFrequency(params[1])

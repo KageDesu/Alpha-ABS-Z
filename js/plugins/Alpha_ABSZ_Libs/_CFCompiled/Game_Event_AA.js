@@ -96,6 +96,7 @@
       ALIAS__initABS.call(this);
       AA.EV.subscribeFor("PauseABS", this.gev_onABSPaused.bind(this));
       this.aaStoreMoveData();
+      this._aaLastMovingActionDelay = 0;
       $gameTemp.aaRegisterAILogicThread(this.eventId());
     };
     //@[ALIAS]
@@ -259,11 +260,15 @@
       }
     };
   })();
+  // -----------------------------------------------------------------------
+
+  // * Для оптимизации игры, алгоритмы проверки окружён ли персонаж отключены на событии
+  //$[OVER]
+  _.aaInitNoPassFlagThread = function() {}; //*EMPTY
 })();
 
 // ■ END Game_Event.coffee
 //---------------------------------------------------------------------------
-// -----------------------------------------------------------------------
 
 //TODO: СБРОС ЦЕЛИ
 //TODO: ОФФСЕТ ДЛЯ ВЫБОРА

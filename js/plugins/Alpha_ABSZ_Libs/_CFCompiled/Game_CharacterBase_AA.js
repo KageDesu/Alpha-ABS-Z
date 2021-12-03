@@ -22,7 +22,10 @@
       if ((ref = this.aaEntity) != null) {
         ref.initABS();
       }
-      return (ref1 = this.AASprite()) != null ? ref1.initABS() : void 0;
+      if ((ref1 = this.AASprite()) != null) {
+        ref1.initABS();
+      }
+      this.aaInitNoPassFlagThread();
     };
     // * Деактивировать АБС режим
     _.stopABS = function() {

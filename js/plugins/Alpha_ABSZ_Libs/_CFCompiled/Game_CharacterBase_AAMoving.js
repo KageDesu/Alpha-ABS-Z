@@ -35,15 +35,33 @@
     var e, target;
     try {
       target = this.AAEntity().getTarget();
-      if (!this.aaIsNearThePoint(target)) {
-        return this.aaMoveTypeToPoint(target);
-      } else {
-        return this.aaTurnTowardTarget();
+      if (this.aaIsCanPerformNextMoveAction(target)) {
+        if (!this.aaIsNearThePoint(target)) {
+          this.aaMoveTypeToPoint(target);
+        } else {
+          this.aaTurnTowardTarget();
+        }
+        this.aaResetNextMoveActionTimer();
       }
+      return this._aaLastMovingActionDelay++;
     } catch (error) {
       e = error;
       return AA.w(e);
     }
+  };
+  // * Можно ли выполнить следующее движение (используется для оптимизации преследования)
+  _.aaIsCanPerformNextMoveAction = function(target) {
+    if ((target != null) && target.aaIsSurrounded()) {
+      // * Ждём секунду, если цель окружена (нет места подойти)
+      return this._aaLastMovingActionDelay >= 60;
+    } else {
+      return true; // * Не надо ждать
+    }
+  };
+  
+  // * Сбрасываем ожидание следующего движения
+  _.aaResetNextMoveActionTimer = function() {
+    return this._aaLastMovingActionDelay = 0;
   };
   // * ОСНОВНОЙ метод
   // * Движение к точке карты
@@ -235,6 +253,45 @@
       }
     }
     return 0;
+  };
+  
+  // * Данный персонаж окружён препятствиями (нельзя идти ни по одному из 4х направлений)
+  _.aaIsSurrounded = function() {
+    if (this._aaNoPassFlag != null) {
+      return this._aaNoPassFlag > 2;
+    } else {
+      return false;
+    }
+  };
+  //?DYNAMIC
+  _.aaUpdateNoPassFlag = function() {}; // * EMPTY
+  _.aaRefreshNoPassFlag = function() {
+    var noPass;
+    noPass = 0;
+    if (!this.canPass(this.x, this.y, 2)) {
+      noPass += 1;
+    }
+    if (!this.canPass(this.x, this.y, 4)) {
+      noPass += 1;
+    }
+    if (!this.canPass(this.x, this.y, 6)) {
+      noPass += 1;
+    }
+    if (noPass < 3) {
+      if (!this.canPass(this.x, this.y, 8)) {
+        noPass += 1;
+      }
+    }
+    this._aaNoPassFlag = noPass;
+  };
+  // * Проверка что клетки рядом с персонажем свободны
+  // * Используется для умного просчёта движения к цели для АИ
+  // * Чтобы не пытались искать путь, если всё занято вокруг персонажа цели
+  _.aaInitNoPassFlagThread = function() {
+    this._aaNoPassFlagThread = new KDCore.TimedUpdate(30, this.aaRefreshNoPassFlag.bind(this));
+    this.aaUpdateNoPassFlag = function() {
+      return this._aaNoPassFlagThread.update();
+    };
   };
 })();
 

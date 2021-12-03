@@ -25,12 +25,26 @@ do ->
     _.aaMoveTypeToTarget = ->
         try
             target = @AAEntity().getTarget()
-            unless @aaIsNearThePoint(target)
-                @aaMoveTypeToPoint(target)
-            else
-                @aaTurnTowardTarget()
+            if @aaIsCanPerformNextMoveAction(target)
+                unless @aaIsNearThePoint(target)
+                    @aaMoveTypeToPoint(target)
+                else
+                    @aaTurnTowardTarget()
+                @aaResetNextMoveActionTimer()
+            @_aaLastMovingActionDelay++
         catch e
             AA.w e
+
+    # * Можно ли выполнить следующее движение (используется для оптимизации преследования)
+    _.aaIsCanPerformNextMoveAction = (target) ->
+        if target? and target.aaIsSurrounded()
+            # * Ждём секунду, если цель окружена (нет места подойти)
+            return @_aaLastMovingActionDelay >= 60
+        else
+            return true # * Не надо ждать
+
+    # * Сбрасываем ожидание следующего движения
+    _.aaResetNextMoveActionTimer = () -> @_aaLastMovingActionDelay = 0
 
     # * ОСНОВНОЙ метод
     # * Движение к точке карты
@@ -192,6 +206,33 @@ do ->
             return if deltaY2 > 0 then 8 else 2
         return 0
     
+    # * Данный персонаж окружён препятствиями (нельзя идти ни по одному из 4х направлений)
+    _.aaIsSurrounded = ->
+        if @_aaNoPassFlag?
+            return @_aaNoPassFlag > 2
+        else
+            return false
+
+    #?DYNAMIC
+    _.aaUpdateNoPassFlag = -> # * EMPTY
+
+    _.aaRefreshNoPassFlag = ->
+        noPass = 0
+        noPass += 1 unless @canPass(@x, @y, 2)
+        noPass += 1 unless @canPass(@x, @y, 4)
+        noPass += 1 unless @canPass(@x, @y, 6)
+        noPass += 1 unless @canPass(@x, @y, 8) if noPass < 3
+        @_aaNoPassFlag = noPass
+        return
+
+    # * Проверка что клетки рядом с персонажем свободны
+    # * Используется для умного просчёта движения к цели для АИ
+    # * Чтобы не пытались искать путь, если всё занято вокруг персонажа цели
+    _.aaInitNoPassFlagThread = ->
+        @_aaNoPassFlagThread = new KDCore.TimedUpdate(30, @aaRefreshNoPassFlag.bind(@))
+        @aaUpdateNoPassFlag = -> @_aaNoPassFlagThread.update()
+        return
+
     return
 # ■ END Game_CharacterBase.coffee
 #---------------------------------------------------------------------------
