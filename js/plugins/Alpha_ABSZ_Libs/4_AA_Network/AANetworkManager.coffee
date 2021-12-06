@@ -154,6 +154,8 @@ do ->
                 return unless subject?
                 return unless skill?
                 return unless targetPoint?
+                direction = subject.direction
+                diagonalDir = subject._diagonalDir
                 subject = AA.Network.packMapChar(subject)
                 skill = skill.idA
                 { x, y } = targetPoint
@@ -161,7 +163,8 @@ do ->
                         subject, skill,
                         targetPoint: { x, y } ,
                         uniqueId,
-                        direction: subject.direction
+                        direction,
+                        diagonalDir
                     }
                 )
             catch e
@@ -356,10 +359,11 @@ do ->
         _.startAASkillOnMap_RESP = (response) ->
             try
                 return unless AA.Network.isOnSameMap(response)
-                { subject, skill, targetPoint, uniqueId, direction } = response.content
+                { subject, skill, targetPoint, uniqueId, direction, diagonalDir } = response.content
                 subject = AA.Network.unpackMapChar(subject)
                 return unless subject?
                 subject.setDirection(direction)
+                subject._diagonalDir = diagonalDir
                 skill = AA.Utils.unpackAASkill(skill)
                 return unless skill?
                 $gameMap.startAASkill(skill, subject, targetPoint)

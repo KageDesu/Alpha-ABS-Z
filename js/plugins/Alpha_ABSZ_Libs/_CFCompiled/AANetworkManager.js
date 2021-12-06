@@ -237,7 +237,7 @@ AANetworkManager = function() {};
     };
     // * Добавить MapSkill на карту (визуально, расчёт на мастере карты)
     _.startAASkillOnMap = function(skill, subject, targetPoint, uniqueId) {
-      var e, x, y;
+      var diagonalDir, direction, e, x, y;
       try {
         if (!AA.Network.isNetworkGame()) {
           return;
@@ -251,6 +251,8 @@ AANetworkManager = function() {};
         if (targetPoint == null) {
           return;
         }
+        direction = subject.direction;
+        diagonalDir = subject._diagonalDir;
         subject = AA.Network.packMapChar(subject);
         skill = skill.idA;
         ({x, y} = targetPoint);
@@ -259,7 +261,8 @@ AANetworkManager = function() {};
           skill,
           targetPoint: {x, y},
           uniqueId,
-          direction: subject.direction
+          direction,
+          diagonalDir
         });
       } catch (error) {
         e = error;
@@ -578,17 +581,18 @@ AANetworkManager = function() {};
       }
     };
     _.startAASkillOnMap_RESP = function(response) {
-      var direction, e, skill, subject, targetPoint, uniqueId;
+      var diagonalDir, direction, e, skill, subject, targetPoint, uniqueId;
       try {
         if (!AA.Network.isOnSameMap(response)) {
           return;
         }
-        ({subject, skill, targetPoint, uniqueId, direction} = response.content);
+        ({subject, skill, targetPoint, uniqueId, direction, diagonalDir} = response.content);
         subject = AA.Network.unpackMapChar(subject);
         if (subject == null) {
           return;
         }
         subject.setDirection(direction);
+        subject._diagonalDir = diagonalDir;
         skill = AA.Utils.unpackAASkill(skill);
         if (skill == null) {
           return;
