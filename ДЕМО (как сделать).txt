@@ -6,3 +6,7 @@
 Копируются настройки плагинов (plugins.js)
 AnimaX меняется на базовую версию
 XDEV меняется на PKD_DevOptions
+
+Удаляются плагины которые не нужны через .bat файлы
+(Map Inventory, Pocket Events и т.д.)
+

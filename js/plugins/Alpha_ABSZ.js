@@ -1,5 +1,5 @@
 /*:
- * @plugindesc (v.0.3)[PRO] New Active Battle System
+ * @plugindesc (v.0.4)[PRO] New Active Battle System
  * @author Pheonix KageDesu
  * @target MZ
  * @url https://kdworkshop.net/
