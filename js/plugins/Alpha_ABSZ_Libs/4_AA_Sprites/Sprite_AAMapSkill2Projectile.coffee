@@ -44,11 +44,18 @@ do ->
     _._initParams = ->
         @_framesBeforeStartFadeToEnd = 5
 
-        # * FROM START SUBJECT OFFSET ?
-        #TODO: С события можно считать (с врага), а с игрока как?
+        # * FROM START SUBJECT OFFSET
+        #TODO: С игрока не учитывается!
         @_yOffset = 0
-        # * Получается всегда, так как навыки могут только персонажи использовать
-        @_yOffsetChar = false #always? #@skill.isCharPoint
+        try
+            if @skill.isSubjectIsEvent()
+                subj = @skill.getSubject()
+                evOffset = subj._aaMapSkillVectorOffset
+                if evOffset? and evOffset != 0 and isFinite(evOffset)
+                    @_yOffset = evOffset
+        catch e
+            AA.w e
+            @_yOffset = 0
 
         @anchor.x = 0.5
         @anchor.y = 0.5
@@ -72,7 +79,6 @@ do ->
         return
 
     _._setupDirection = ->
-        #yo = if @_yOffset and @_yOffsetChar then @_yOffset / 48 else 0
         yo = 0
         eX = @skill.scX
         eY = @skill.scY

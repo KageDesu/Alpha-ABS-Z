@@ -55,12 +55,24 @@ Sprite_AAMapSkill2Projectile = class Sprite_AAMapSkill2Projectile extends Sprite
   //@[DEFINES]
   _ = Sprite_AAMapSkill2Projectile.prototype;
   _._initParams = function() {
+    var e, evOffset, subj;
     this._framesBeforeStartFadeToEnd = 5;
-    // * FROM START SUBJECT OFFSET ?
-    //TODO: С события можно считать (с врага), а с игрока как?
+    // * FROM START SUBJECT OFFSET
+    //TODO: С игрока не учитывается!
     this._yOffset = 0;
-    // * Получается всегда, так как навыки могут только персонажи использовать
-    this._yOffsetChar = false; //always? #@skill.isCharPoint
+    try {
+      if (this.skill.isSubjectIsEvent()) {
+        subj = this.skill.getSubject();
+        evOffset = subj._aaMapSkillVectorOffset;
+        if ((evOffset != null) && evOffset !== 0 && isFinite(evOffset)) {
+          this._yOffset = evOffset;
+        }
+      }
+    } catch (error) {
+      e = error;
+      AA.w(e);
+      this._yOffset = 0;
+    }
     this.anchor.x = 0.5;
     this.anchor.y = 0.5;
     this.z = this.skill.zLevel();
@@ -83,7 +95,6 @@ Sprite_AAMapSkill2Projectile = class Sprite_AAMapSkill2Projectile extends Sprite
   };
   _._setupDirection = function() {
     var eX, eY, sX, sY, yo;
-    //yo = if @_yOffset and @_yOffsetChar then @_yOffset / 48 else 0
     yo = 0;
     eX = this.skill.scX;
     eY = this.skill.scY;
